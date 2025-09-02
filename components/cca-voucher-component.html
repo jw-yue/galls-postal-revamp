@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CCA Voucher Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-cca__container {
+        width: 387px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        border: 1px solid var(--pri-btn-border, #000);
+      }
+
+      .p-chk-cca__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background-color: transparent;
+      }
+
+      .p-chk-cca__checkbox {
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        gap: 10px;
+        border-radius: 3px;
+        background-color: #fdfdfd;
+        border: 1px solid #8a8a8a;
+        cursor: pointer;
+      }
+
+      .p-chk-cca__checkbox[aria-checked="true"] {
+        background-color: #000000;
+        border-color: #000000;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .p-chk-cca__checkbox:hover {
+        border-color: #666666;
+      }
+
+      .p-chk-cca__checkbox[aria-checked="true"]:hover {
+        background-color: #333333;
+        border-color: #333333;
+      }
+
+      .p-chk-cca__checkbox-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        text-wrap: nowrap;
+      }
+
+      .p-chk-cca__checkbox-label .bold-text {
+        font-weight: 700;
+        margin-left: 5px;
+      }
+
+      /* CCA Card Styles with Enhanced Animation */
+      .p-chk-cca__card {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        margin-top: 0;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s,
+          margin-top 0.3s ease-in-out;
+      }
+
+      .p-chk-cca__card.expanded {
+        max-height: 1000px;
+        opacity: 1;
+        transform: translateY(0);
+        margin-top: 12px;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-in-out, transform 0.3s ease-in-out,
+          margin-top 0.3s ease-in-out;
+      }
+
+      .p-chk-cca__amount-container {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        border-radius: 12px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+      }
+
+      .p-chk-cca__dollar-sign {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 12px;
+        background-color: #f7f7f7;
+        border-right: 1px solid #e3e3e3;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+      }
+
+      .p-chk-cca__description {
+        width: 100%;
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-cca__form-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .p-chk-cca__form-fields {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .p-chk-cca__input-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        width: 100%;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        height: 50px;
+      }
+
+      .p-chk-cca__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        height: 100%;
+      }
+
+      .p-chk-cca__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-cca__upload-section {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        width: 100%;
+        gap: 12px;
+        border-radius: 6px;
+        border: 1px solid #e3e3e3;
+        background-color: #ffffff;
+      }
+
+      .p-chk-cca__upload-header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+      }
+
+      .p-chk-cca__upload-button-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .p-chk-cca__upload-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50px;
+        background-color: rgba(48, 48, 48, 0.05);
+        flex-shrink: 0;
+      }
+
+      .p-chk-cca__upload-icon img {
+        width: 14px;
+        height: 14px;
+      }
+
+      .p-chk-cca__upload-text-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        gap: 4px;
+      }
+
+      .p-chk-cca__upload-link {
+        color: #005dac;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .p-chk-cca__upload-link:hover {
+        text-decoration: underline;
+      }
+
+      .p-chk-cca__accepted-formats {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+      }
+
+      .p-chk-cca__file-name-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        width: 100%;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+      }
+
+      .p-chk-cca__file-allowance-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        flex: 1;
+        height: 100%;
+      }
+
+      .p-chk-cca__upload-voucher-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 9px 18px;
+        width: 100%;
+        height: 37px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #f2f2f2;
+        border: 1px solid #f2f2f2;
+        cursor: pointer;
+      }
+
+      .p-chk-cca__upload-voucher-button:hover {
+        background-color: #e8e8e8;
+      }
+
+      .p-chk-cca__upload-voucher-text {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      .p-chk-cca__disclaimer-container {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .p-chk-cca__disclaimer-row {
+        display: flex;
+        width: 100%;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .p-chk-cca__disclaimer-checkbox {
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        width: 18px;
+        height: 18px;
+        gap: 10px;
+        border-radius: 3px;
+        background-color: #fdfdfd;
+        border: 1px solid #8a8a8a;
+        cursor: pointer;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .p-chk-cca__disclaimer-checkbox.checked {
+        background-color: #000000;
+        border-color: #000000;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .p-chk-cca__disclaimer-label {
+        flex: 1;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      .p-chk-cca__submit-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 9px 18px;
+        width: 100%;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #808080;
+        border: 1px solid #808080;
+        cursor: not-allowed;
+        opacity: 1;
+      }
+
+      .p-chk-cca__submit-text {
+        color: #f7f7f7;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-cca__container {
+          max-width: 100%;
+          margin: 0 10px;
+          padding: 16px;
+        }
+
+        .p-chk-cca__checkbox-container {
+          width: 100%;
+        }
+
+        .p-chk-cca__checkbox-label {
+          width: calc(100% - 30px);
+        }
+
+        .p-chk-cca__card {
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-cca__container {
+          padding: 12px;
+        }
+
+        .p-chk-cca__checkbox-label {
+          font-size: 14px;
+          line-height: 17px;
+        }
+
+        .p-chk-cca__checkbox {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      /* Interactive States */
+      .p-chk-cca__checkbox-container:hover .p-chk-cca__checkbox-label {
+      }
+
+      .p-chk-cca__input-field:focus-within {
+      }
+
+      .p-chk-cca__file-name-field:focus-within {
+      }
+
+      .p-chk-cca__disclaimer-checkbox:hover {
+      }
+
+      .p-chk-cca__disclaimer-row:hover .p-chk-cca__disclaimer-label {
+      }
+
+      /* Accessibility */
+      .p-chk-cca__checkbox:focus {
+      }
+
+      .p-chk-cca__disclaimer-checkbox:focus {
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-cca__container">
+      <div class="p-chk-cca__checkbox-container">
+        <div
+          class="p-chk-cca__checkbox"
+          role="checkbox"
+          tabindex="0"
+          aria-checked="false"
+          data-chk-element="main-checkbox"
+        ></div>
+        <label class="p-chk-cca__checkbox-label" for="main-checkbox">
+          Use your <span class="bold-text">CCA Allowance Voucher</span>
+        </label>
+      </div>
+
+      <div class="p-chk-cca__card" data-chk-element="cca-card">
+        <div class="p-chk-cca__amount-container">
+          <div class="p-chk-cca__dollar-sign">$</div>
+          <div class="p-chk-cca__file-allowance-field">
+            <input
+              type="text"
+              class="p-chk-cca__input-text"
+              placeholder="104.97"
+              data-chk-element="file-name-input"
+            />
+          </div>
+        </div>
+
+        <div class="p-chk-cca__description">
+          We require a manager approved CCA voucher to process your order
+        </div>
+
+        <div class="p-chk-cca__form-container">
+          <div class="p-chk-cca__form-fields">
+            <div class="p-chk-cca__input-field">
+              <input
+                type="email"
+                class="p-chk-cca__input-text"
+                placeholder="Paying Supervisor Email"
+              />
+            </div>
+
+            <div class="p-chk-cca__input-field">
+              <input
+                type="tel"
+                class="p-chk-cca__input-text"
+                placeholder="Paying Supervisor Phone"
+              />
+            </div>
+
+            <div class="p-chk-cca__upload-section">
+              <div class="p-chk-cca__upload-header">
+                <div class="p-chk-cca__upload-button-row">
+                  <div class="p-chk-cca__upload-icon">
+                    <img
+                      src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6eedad85-5cdb-4a3c-8783-a6a922cac9e2"
+                      alt="Upload icon"
+                    />
+                  </div>
+                  <div class="p-chk-cca__upload-text-container">
+                    <a
+                      href="#"
+                      class="p-chk-cca__upload-link"
+                      data-chk-element="file-upload-link"
+                      >Choose a file to upload</a
+                    >
+                    <div class="p-chk-cca__accepted-formats">
+                      Accepted formats: JPEG, JPG, PNG, BMP, DOC, DOCX, PDF, TXT
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-chk-cca__file-name-field">
+                <input
+                  type="text"
+                  class="p-chk-cca__input-text"
+                  placeholder="Voucher_Upload.pdf"
+                  data-chk-element="file-name-input"
+                />
+              </div>
+
+              <button
+                class="p-chk-cca__upload-voucher-button"
+                data-chk-element="upload-button"
+              >
+                <span class="p-chk-cca__upload-voucher-text"
+                  >Upload Voucher</span
+                >
+              </button>
+            </div>
+
+            <div class="p-chk-cca__disclaimer-container">
+              <div class="p-chk-cca__disclaimer-row">
+                <div
+                  class="p-chk-cca__disclaimer-checkbox"
+                  role="checkbox"
+                  tabindex="0"
+                  aria-checked="false"
+                  data-chk-element="disclaimer-checkbox"
+                ></div>
+                <label
+                  class="p-chk-cca__disclaimer-label"
+                  for="disclaimer-checkbox"
+                >
+                  I do not wish to upload my voucher at this time. I acknowledge
+                  I am still required to provide my voucher for verification
+                  before my order will be processed
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button
+          class="p-chk-cca__submit-button"
+          disabled
+          data-chk-element="submit-button"
+        >
+          <span class="p-chk-cca__submit-text">Confirm & Submit</span>
+        </button>
+      </div>
+    </div>
+
+    <script>
+      // Main checkbox functionality with enhanced animation
+      const mainCheckbox = document.querySelector(
+        '[data-chk-element="main-checkbox"]'
+      );
+      const ccaCard = document.querySelector('[data-chk-element="cca-card"]');
+      const container = document.querySelector(".p-chk-cca__container");
+
+      function toggleMainCheckbox() {
+        const isChecked = mainCheckbox.getAttribute("aria-checked") === "true";
+        const newState = !isChecked;
+
+        mainCheckbox.setAttribute("aria-checked", newState);
+
+        if (newState) {
+          // Show the card with smooth animation
+          ccaCard.classList.add("expanded");
+        } else {
+          // Hide the card with smooth animation
+          ccaCard.classList.remove("expanded");
+        }
+      }
+
+      mainCheckbox.addEventListener("click", toggleMainCheckbox);
+      mainCheckbox.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleMainCheckbox();
+        }
+      });
+
+      // Disclaimer checkbox functionality
+      const disclaimerCheckbox = document.querySelector(
+        '[data-chk-element="disclaimer-checkbox"]'
+      );
+
+      function toggleDisclaimerCheckbox() {
+        const isChecked =
+          disclaimerCheckbox.getAttribute("aria-checked") === "true";
+        const newState = !isChecked;
+
+        disclaimerCheckbox.setAttribute("aria-checked", newState);
+
+        if (newState) {
+          disclaimerCheckbox.classList.add("checked");
+        } else {
+          disclaimerCheckbox.classList.remove("checked");
+        }
+      }
+
+      disclaimerCheckbox.addEventListener("click", toggleDisclaimerCheckbox);
+      disclaimerCheckbox.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          toggleDisclaimerCheckbox();
+        }
+      });
+
+      // File upload functionality
+      const fileUploadLink = document.querySelector(
+        '[data-chk-element="file-upload-link"]'
+      );
+      const fileNameInput = document.querySelector(
+        '[data-chk-element="file-name-input"]'
+      );
+
+      fileUploadLink.addEventListener("click", function (e) {
+        e.preventDefault();
+        const input = document.createElement("input");
+        input.type = "file";
+        input.accept = ".jpeg,.jpg,.png,.bmp,.doc,.docx,.pdf,.txt";
+        input.onchange = function (event) {
+          const file = event.target.files[0];
+          if (file) {
+            fileNameInput.value = file.name;
+          }
+        };
+        input.click();
+      });
+
+      // Upload button functionality
+      const uploadButton = document.querySelector(
+        '[data-chk-element="upload-button"]'
+      );
+      uploadButton.addEventListener("click", function (e) {
+        e.preventDefault();
+        if (fileNameInput.value.trim()) {
+          alert("Voucher uploaded successfully!");
+        } else {
+          alert("Please select a file first.");
+        }
+      });
+
+      // Label click handlers
+      document
+        .querySelector(".p-chk-cca__checkbox-label")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          toggleMainCheckbox();
+        });
+
+      document
+        .querySelector(".p-chk-cca__disclaimer-label")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          toggleDisclaimerCheckbox();
+        });
+
+      // Initialize with checkbox unchecked and card hidden
+      mainCheckbox.setAttribute("aria-checked", "false");
+      ccaCard.classList.remove("expanded");
+    </script>
+  </body>
+</html>

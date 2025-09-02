@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Product List Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-product__container {
+        width: 100%;
+        max-width: 400px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .p-chk-product__item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-product__item:hover {
+        background-color: #f8f9fa;
+        cursor: pointer;
+      }
+
+      .p-chk-product__image {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .p-chk-product__details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .p-chk-product__title {
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 1.2;
+        text-align: left;
+      }
+
+      .p-chk-product__badge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 12px;
+        border-radius: 20px;
+        width: fit-content;
+        border: 1px solid;
+      }
+
+      .p-chk-product__badge--postal {
+        background-color: #eaf4ff;
+        border-color: #a8d8ff;
+        color: #002133;
+      }
+
+      .p-chk-product__badge--personal {
+        background-color: #f1ebfa;
+        border-color: #e0c9f9;
+        color: #4a157d;
+      }
+
+      .p-chk-product__badge-text {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1;
+        text-align: center;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-product__container {
+          max-width: 100%;
+          margin: 0 10px;
+          padding: 16px;
+          gap: 20px;
+        }
+
+        .p-chk-product__item {
+          gap: 12px;
+          padding: 8px;
+        }
+
+        .p-chk-product__image {
+          width: 56px;
+          height: 56px;
+        }
+
+        .p-chk-product__title {
+          font-size: 15px;
+        }
+
+        .p-chk-product__badge-text {
+          font-size: 11px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-product__container {
+          gap: 16px;
+        }
+
+        .p-chk-product__item {
+          gap: 10px;
+        }
+
+        .p-chk-product__image {
+          width: 48px;
+          height: 48px;
+        }
+
+        .p-chk-product__title {
+          font-size: 14px;
+        }
+      }
+
+      /* Interactive States */
+      .p-chk-product__item:focus-within {
+        outline: 2px solid #0530ad;
+        outline-offset: 2px;
+      }
+
+      .p-chk-product__item:hover .p-chk-product__title {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-product__container">
+      <!-- Product Item 1 - Postal Card Eligible -->
+      <div
+        class="p-chk-product__item"
+        tabindex="0"
+        role="button"
+        aria-label="Mission Made Men's Long Sleeve Combat Shirt - Postal Card Eligible"
+      >
+        <img
+          src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+          alt="Mission Made Men's Long Sleeve Combat Shirt"
+          class="p-chk-product__image"
+        />
+        <div class="p-chk-product__details">
+          <h3 class="p-chk-product__title">
+            Mission Made Men's Long Sleeve Combat Shirt
+          </h3>
+          <div class="p-chk-product__badge p-chk-product__badge--postal">
+            <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Item 2 - Postal Card Eligible -->
+      <div
+        class="p-chk-product__item"
+        tabindex="0"
+        role="button"
+        aria-label="Mission Made Men's Long Sleeve Combat Shirt - Postal Card Eligible"
+      >
+        <img
+          src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+          alt="Mission Made Men's Long Sleeve Combat Shirt"
+          class="p-chk-product__image"
+        />
+        <div class="p-chk-product__details">
+          <h3 class="p-chk-product__title">
+            Mission Made Men's Long Sleeve Combat Shirt
+          </h3>
+          <div class="p-chk-product__badge p-chk-product__badge--postal">
+            <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Item 3 - Postal Card Eligible -->
+      <div
+        class="p-chk-product__item"
+        tabindex="0"
+        role="button"
+        aria-label="Mission Made Men's Long Sleeve Combat Shirt - Postal Card Eligible"
+      >
+        <img
+          src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+          alt="Mission Made Men's Long Sleeve Combat Shirt"
+          class="p-chk-product__image"
+        />
+        <div class="p-chk-product__details">
+          <h3 class="p-chk-product__title">
+            Mission Made Men's Long Sleeve Combat Shirt
+          </h3>
+          <div class="p-chk-product__badge p-chk-product__badge--postal">
+            <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Item 4 - Personal Card Only -->
+      <div
+        class="p-chk-product__item"
+        tabindex="0"
+        role="button"
+        aria-label="Mission Made Men's Long Sleeve Combat Shirt - Personal Card Only"
+      >
+        <img
+          src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+          alt="Mission Made Men's Long Sleeve Combat Shirt"
+          class="p-chk-product__image"
+        />
+        <div class="p-chk-product__details">
+          <h3 class="p-chk-product__title">
+            Mission Made Men's Long Sleeve Combat Shirt
+          </h3>
+          <div class="p-chk-product__badge p-chk-product__badge--personal">
+            <span class="p-chk-product__badge-text">Personal Card Only</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Item 5 - Personal Card Only -->
+      <div
+        class="p-chk-product__item"
+        tabindex="0"
+        role="button"
+        aria-label="Mission Made Men's Long Sleeve Combat Shirt - Personal Card Only"
+      >
+        <img
+          src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+          alt="Mission Made Men's Long Sleeve Combat Shirt"
+          class="p-chk-product__image"
+        />
+        <div class="p-chk-product__details">
+          <h3 class="p-chk-product__title">
+            Mission Made Men's Long Sleeve Combat Shirt
+          </h3>
+          <div class="p-chk-product__badge p-chk-product__badge--personal">
+            <span class="p-chk-product__badge-text">Personal Card Only</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Item 6 - Personal Card Only -->
+      <div
+        class="p-chk-product__item"
+        tabindex="0"
+        role="button"
+        aria-label="Mission Made Men's Long Sleeve Combat Shirt - Personal Card Only"
+      >
+        <img
+          src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+          alt="Mission Made Men's Long Sleeve Combat Shirt"
+          class="p-chk-product__image"
+        />
+        <div class="p-chk-product__details">
+          <h3 class="p-chk-product__title">
+            Mission Made Men's Long Sleeve Combat Shirt
+          </h3>
+          <div class="p-chk-product__badge p-chk-product__badge--personal">
+            <span class="p-chk-product__badge-text">Personal Card Only</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Product item interaction functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const productItems = document.querySelectorAll(".p-chk-product__item");
+
+        productItems.forEach((item, index) => {
+          // Click handler
+          item.addEventListener("click", function () {
+            console.log(`Product item ${index + 1} clicked`);
+            // In a real implementation, this would navigate to product details
+          });
+
+          // Keyboard navigation
+          item.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              this.click();
+            }
+          });
+
+          // Focus management for accessibility
+          item.addEventListener("focus", function () {
+            this.style.transform = "translateY(-1px)";
+            this.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+            this.style.transition = "transform 0.2s ease, box-shadow 0.2s ease";
+          });
+
+          item.addEventListener("blur", function () {
+            this.style.transform = "translateY(0)";
+            this.style.boxShadow = "none";
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

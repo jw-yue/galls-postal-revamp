@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Postal Card Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-pcard__container {
+        width: 100%;
+        max-width: 387px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+      }
+
+      .p-chk-pcard__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 0px 20px;
+        gap: 21px;
+      }
+
+      .p-chk-pcard__title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-pcard__toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-pcard__toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-pcard__toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .p-chk-pcard__toggle-button.expanded .p-chk-pcard__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-pcard__summary-bar {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 40px;
+        background-color: #f7f7f7;
+      }
+
+      .p-chk-pcard__summary-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 3px;
+      }
+
+      .p-chk-pcard__summary-label {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: left;
+      }
+
+      .p-chk-pcard__summary-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
+      }
+
+      .p-chk-pcard__content {
+        display: flex;
+        flex-direction: column;
+        padding: 0px 20px 20px 20px;
+        gap: 10px;
+      }
+
+      .p-chk-pcard__section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 76px;
+      }
+
+      .p-chk-pcard__section-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-pcard__charge-input {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .p-chk-pcard__dollar-prefix {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 64px;
+        height: 50px;
+        background-color: #eaf4ff;
+        border-right: 1px solid #e3e3e3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+      }
+
+      .p-chk-pcard__charge-text {
+        position: absolute;
+        left: 80px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+      }
+
+      .p-chk-pcard__form-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-pcard__form-section.expanded {
+        max-height: 500px;
+        opacity: 1;
+      }
+
+      .p-chk-pcard__form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-pcard__input-field {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+      }
+
+      .p-chk-pcard__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+      }
+
+      .p-chk-pcard__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-pcard__input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .p-chk-pcard__dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        cursor: pointer;
+        flex: 1;
+        transition: border-color 0.2s ease;
+        cursor: pointer;
+      }
+
+      .p-chk-pcard__dropdown:hover {
+        border-color: #999999;
+      }
+
+      .p-chk-pcard__dropdown-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-pcard__dropdown-text.selected {
+        color: #000000;
+      }
+
+      .p-chk-pcard__dropdown-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Dropdown toggle functionality */
+      .p-chk-pcard__dropdown-toggle {
+        display: none;
+      }
+
+      .p-chk-pcard__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .p-chk-pcard__dropdown-toggle:checked ~ .p-chk-pcard__dropdown-menu {
+        max-height: 200px;
+        opacity: 1;
+      }
+
+      .p-chk-pcard__dropdown-toggle:checked ~ .p-chk-pcard__dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-pcard__dropdown-option {
+        padding: 12px;
+        cursor: pointer;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-pcard__dropdown-option:hover {
+        background-color: #f5f5f5;
+      }
+
+      .p-chk-pcard__cvv-field {
+        flex: 1;
+      }
+
+      .p-chk-pcard__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .p-chk-pcard__checkbox {
+        width: 13px;
+        height: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-pcard__checkbox-label {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+      }
+
+      .p-chk-pcard__continue-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        height: 44px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-pcard__continue-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-pcard__continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-pcard__container {
+          max-width: 100%;
+          margin: 0 10px;
+        }
+
+        .p-chk-pcard__header {
+          padding: 10px 16px 0px 16px;
+        }
+
+        .p-chk-pcard__content {
+          padding: 0px 16px 16px 16px;
+        }
+
+        .p-chk-pcard__summary-bar {
+          padding: 8px;
+          gap: 20px;
+        }
+
+        /* Keep date inputs in horizontal row on mobile */
+        .p-chk-pcard__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 6px;
+        }
+
+        .p-chk-pcard__dropdown,
+        .p-chk-pcard__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        /* Ensure horizontal layout is maintained even on very small screens */
+        .p-chk-pcard__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+        }
+
+        .p-chk-pcard__dropdown,
+        .p-chk-pcard__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* Adjust dropdown text size for smaller screens if needed */
+        .p-chk-pcard__dropdown-text {
+          font-size: 14px;
+        }
+
+        .p-chk-pcard__input-text {
+          font-size: 14px;
+        }
+
+        .p-chk-pcard__summary-bar {
+          flex-direction: column;
+          gap: 12px;
+          align-items: stretch;
+        }
+      }
+
+      /* Interactive States */
+      .p-chk-pcard__input-field:focus-within {
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-pcard__charge-input:hover {
+        border-color: #999999;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-pcard__container">
+      <div class="p-chk-pcard__header">
+        <div class="p-chk-pcard__title">Add Postal Card</div>
+        <div class="p-chk-pcard__toggle-button" id="toggleButton">
+          <img
+            src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/bc2e33ea-2b9f-4032-83b4-1ff222318485"
+            alt="Toggle"
+            class="p-chk-pcard__toggle-icon"
+          />
+        </div>
+      </div>
+
+      <div class="p-chk-pcard__summary-bar">
+        <div class="p-chk-pcard__summary-item">
+          <div class="p-chk-pcard__summary-label">Postal Card Amount due</div>
+          <div class="p-chk-pcard__summary-value">$104.97</div>
+        </div>
+        <div class="p-chk-pcard__summary-item">
+          <div class="p-chk-pcard__summary-label">Remaining Allowance</div>
+          <div class="p-chk-pcard__summary-value">$100</div>
+        </div>
+      </div>
+
+      <div class="p-chk-pcard__content">
+        <div class="p-chk-pcard__section-header">
+          <div class="p-chk-pcard__section-title">Postal Card</div>
+        </div>
+
+        <div class="p-chk-pcard__charge-input" id="chargeInput">
+          <div class="p-chk-pcard__dollar-prefix">$</div>
+          <div class="p-chk-pcard__charge-text">Postal Card Charge</div>
+        </div>
+
+        <div class="p-chk-pcard__form-section" id="formSection">
+          <div class="p-chk-pcard__form-fields">
+            <div class="p-chk-pcard__input-field">
+              <input
+                type="text"
+                class="p-chk-pcard__input-text"
+                placeholder="Postal Card Number"
+              />
+            </div>
+
+            <div class="p-chk-pcard__input-row">
+              <!-- Month Dropdown -->
+              <div class="p-chk-pcard__dropdown">
+                <input
+                  type="checkbox"
+                  id="monthToggle"
+                  class="p-chk-pcard__dropdown-toggle"
+                />
+                <label for="monthToggle" class="p-chk-pcard__dropdown-text"
+                  >Month</label
+                >
+                <label for="monthToggle" class="p-chk-pcard__dropdown-icon">
+                  <img
+                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
+                    alt="Dropdown"
+                    style="width: 100%; height: 100%"
+                  />
+                </label>
+                <div class="p-chk-pcard__dropdown-menu">
+                  <div class="p-chk-pcard__dropdown-option" data-value="01">
+                    01 - January
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="02">
+                    02 - February
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="03">
+                    03 - March
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="04">
+                    04 - April
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="05">
+                    05 - May
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="06">
+                    06 - June
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="07">
+                    07 - July
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="08">
+                    08 - August
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="09">
+                    09 - September
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="10">
+                    10 - October
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="11">
+                    11 - November
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="12">
+                    12 - December
+                  </div>
+                </div>
+              </div>
+
+              <!-- Year Dropdown -->
+              <div class="p-chk-pcard__dropdown">
+                <input
+                  type="checkbox"
+                  id="yearToggle"
+                  class="p-chk-pcard__dropdown-toggle"
+                />
+                <label for="yearToggle" class="p-chk-pcard__dropdown-text"
+                  >Year</label
+                >
+                <label for="yearToggle" class="p-chk-pcard__dropdown-icon">
+                  <img
+                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
+                    alt="Dropdown"
+                    style="width: 100%; height: 100%"
+                  />
+                </label>
+                <div class="p-chk-pcard__dropdown-menu">
+                  <div class="p-chk-pcard__dropdown-option" data-value="2024">
+                    2024
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2025">
+                    2025
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2026">
+                    2026
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2027">
+                    2027
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2028">
+                    2028
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2029">
+                    2029
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2030">
+                    2030
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2031">
+                    2031
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2032">
+                    2032
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2033">
+                    2033
+                  </div>
+                  <div class="p-chk-pcard__dropdown-option" data-value="2034">
+                    2034
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-chk-pcard__input-field p-chk-pcard__cvv-field">
+                <input
+                  type="text"
+                  class="p-chk-pcard__input-text"
+                  placeholder="CVV"
+                  maxlength="4"
+                />
+              </div>
+            </div>
+
+            <div class="p-chk-pcard__input-field">
+              <input
+                type="text"
+                class="p-chk-pcard__input-text"
+                placeholder="Name on card"
+              />
+            </div>
+          </div>
+
+          <div class="p-chk-pcard__checkbox-container">
+            <img
+              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
+              alt="Checkbox"
+              class="p-chk-pcard__checkbox"
+              id="saveCheckbox"
+            />
+            <label class="p-chk-pcard__checkbox-label" for="saveCheckbox"
+              >Save Postal Card on File</label
+            >
+          </div>
+
+          <button class="p-chk-pcard__continue-button">
+            <span class="p-chk-pcard__continue-text">Continue</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Toggle functionality
+      const toggleButton = document.getElementById("toggleButton");
+      const formSection = document.getElementById("formSection");
+      const chargeInput = document.getElementById("chargeInput");
+      let isExpanded = false;
+
+      function toggleForm() {
+        isExpanded = !isExpanded;
+
+        if (isExpanded) {
+          toggleButton.classList.add("expanded");
+          formSection.classList.add("expanded");
+        } else {
+          toggleButton.classList.remove("expanded");
+          formSection.classList.remove("expanded");
+        }
+      }
+
+      toggleButton.addEventListener("click", toggleForm);
+      chargeInput.addEventListener("click", toggleForm);
+
+      // Dropdown option selection
+      document
+        .querySelectorAll(".p-chk-pcard__dropdown-option")
+        .forEach((option) => {
+          option.addEventListener("click", function () {
+            const dropdown = this.closest(".p-chk-pcard__dropdown");
+            const label = dropdown.querySelector(".p-chk-pcard__dropdown-text");
+            const toggle = dropdown.querySelector(
+              ".p-chk-pcard__dropdown-toggle"
+            );
+
+            label.textContent = this.textContent;
+            label.classList.add("selected");
+            toggle.checked = false; // Close dropdown
+          });
+        });
+
+      // Close dropdowns when clicking outside
+      document.addEventListener("click", function (e) {
+        if (!e.target.closest(".p-chk-pcard__dropdown")) {
+          document
+            .querySelectorAll(".p-chk-pcard__dropdown-toggle")
+            .forEach((toggle) => {
+              toggle.checked = false;
+            });
+        }
+      });
+
+      // Checkbox functionality
+      const saveCheckbox = document.getElementById("saveCheckbox");
+      let isChecked = false;
+
+      saveCheckbox.addEventListener("click", function () {
+        isChecked = !isChecked;
+        console.log("Checkbox toggled:", isChecked);
+      });
+
+      // Label click handler
+      document
+        .querySelector(".p-chk-pcard__checkbox-label")
+        .addEventListener("click", function (e) {
+          e.preventDefault();
+          saveCheckbox.click();
+        });
+
+      // Continue button functionality
+      document
+        .querySelector(".p-chk-pcard__continue-button")
+        .addEventListener("click", function () {
+          console.log("Continue button clicked");
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-contact-card__container {
+        width: 100%;
+        max-width: 860px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      .p-chk-contact-card__header {
+        width: 100%;
+        height: 27px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-contact-card__title {
+        width: 81px;
+        height: 27px;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-contact-card__edit-link {
+        width: 28px;
+        height: 19px;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        text-decoration: underline;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .p-chk-contact-card__edit-link:hover {
+        color: #041f7a;
+      }
+
+      .p-chk-contact-card__content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 6px;
+        gap: 6px;
+      }
+
+      .p-chk-contact-card__contact-info-item {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-contact-card__container {
+          max-width: 100%;
+          margin: 0 10px;
+          padding: 20px;
+        }
+
+        .p-chk-contact-card__header {
+          height: auto;
+          gap: 8px;
+        }
+
+        .p-chk-contact-card__title {
+          width: auto;
+        }
+
+        .p-chk-contact-card__edit-link {
+          width: auto;
+          align-self: flex-end;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-contact-card__container {
+          padding: 16px;
+        }
+
+        .p-chk-contact-card__title {
+          font-size: 20px;
+          line-height: 24px;
+        }
+
+        .p-chk-contact-card__contact-info-item {
+          font-size: 14px;
+          line-height: 17px;
+        }
+
+        .p-chk-contact-card__edit-link {
+          font-size: 14px;
+          line-height: 17px;
+        }
+      }
+
+      /* Interactive States can be added here if needed */
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-contact-card__container">
+      <div class="p-chk-contact-card__header">
+        <div class="p-chk-contact-card__title">Contact</div>
+        <div class="p-chk-contact-card__edit-link">Edit</div>
+      </div>
+
+      <div class="p-chk-contact-card__content">
+        <div class="p-chk-contact-card__contact-info-item">
+          hadfjda@gmail.com
+        </div>
+        <div class="p-chk-contact-card__contact-info-item">+1xxxxxxxxx</div>
+        <div class="p-chk-contact-card__contact-info-item">Letter Carrier</div>
+      </div>
+    </div>
+  </body>
+</html>

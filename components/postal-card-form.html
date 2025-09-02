@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Postal Card Form</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-postal-card__container {
+        background-color: #eaf4ff;
+        border-radius: 12px;
+        padding: 12px;
+        width: 100%;
+        max-width: 860px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .p-chk-postal-card__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        margin: 0;
+      }
+
+      .p-chk-postal-card__subtitle {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-postal-card__form {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-postal-card__field-wrapper {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+
+      .p-chk-postal-card__form-row {
+        display: flex;
+        gap: 6px;
+        flex: 1;
+      }
+
+      .p-chk-postal-card__input-field {
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-radius: 6px;
+        padding: 12px;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        flex: 1;
+      }
+
+      .p-chk-postal-card__dropdown-field {
+        position: relative;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        height: 50px;
+        padding: 12px;
+      }
+
+      .p-chk-postal-card__dropdown-field:first-child {
+        width: 100px;
+        flex-shrink: 0;
+      }
+
+      .p-chk-postal-card__dropdown-field:nth-child(2) {
+        width: 86px;
+        flex-shrink: 0;
+      }
+
+      .p-chk-postal-card__cvv-field {
+        width: 77px;
+        flex-shrink: 0;
+      }
+
+      .p-chk-postal-card__form-input {
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        width: 100%;
+      }
+
+      .p-chk-postal-card__form-input::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-postal-card__form-select {
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        width: 100%;
+        appearance: none;
+        cursor: pointer;
+      }
+
+      .p-chk-postal-card__form-select option {
+        color: #000000;
+      }
+
+      .p-chk-postal-card__dropdown-icon {
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+      }
+
+      /* Custom dropdown arrow using CSS */
+      .p-chk-postal-card__dropdown-field::after {
+        content: "";
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #616161;
+        pointer-events: none;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-postal-card__container {
+          max-width: 100%;
+          margin: 0 10px;
+          padding: 20px;
+        }
+
+        .p-chk-postal-card__field-wrapper {
+          flex-direction: column;
+        }
+
+        .p-chk-postal-card__dropdown-field:first-child,
+        .p-chk-postal-card__dropdown-field:nth-child(2),
+        .p-chk-postal-card__cvv-field {
+          width: 100%;
+          flex: 1;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-postal-card__title {
+          font-size: 20px;
+          line-height: 24px;
+        }
+
+        .p-chk-postal-card__subtitle {
+          font-size: 14px;
+          line-height: 17px;
+        }
+
+        .p-chk-postal-card__form-input,
+        .p-chk-postal-card__form-select {
+          font-size: 14px;
+        }
+      }
+
+      /* Interactive States */
+      .p-chk-postal-card__input-field:focus-within,
+      .p-chk-postal-card__dropdown-field:focus-within {
+      }
+
+      .p-chk-postal-card__form-input:focus,
+      .p-chk-postal-card__form-select:focus {
+      }
+
+      .p-chk-postal-card__dropdown-field:hover,
+      .p-chk-postal-card__input-field:hover {
+      }
+
+      .p-chk-postal-card__form-select:hover {
+      }
+
+      .p-chk-postal-card__dropdown-field:hover::after {
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-postal-card__container">
+      <h1 class="p-chk-postal-card__title">Postal Card</h1>
+      <p class="p-chk-postal-card__subtitle">
+        Enter postal card for a quicker checkout experience (optional)
+      </p>
+
+      <form class="p-chk-postal-card__form">
+        <div class="p-chk-postal-card__input-field">
+          <input
+            class="p-chk-postal-card__form-input"
+            type="text"
+            placeholder="Postal Card Number"
+            class="form-input"
+            id="postal-card-number"
+          />
+        </div>
+
+        <div class="p-chk-postal-card__field-wrapper">
+          <div class="p-chk-postal-card__form-row">
+            <div class="p-chk-postal-card__dropdown-field">
+              <select class="p-chk-postal-card__form-select" id="month">
+                <option value="" disabled selected>Month</option>
+                <option value="01">01 - January</option>
+                <option value="02">02 - February</option>
+                <option value="03">03 - March</option>
+                <option value="04">04 - April</option>
+                <option value="05">05 - May</option>
+                <option value="06">06 - June</option>
+                <option value="07">07 - July</option>
+                <option value="08">08 - August</option>
+                <option value="09">09 - September</option>
+                <option value="10">10 - October</option>
+                <option value="11">11 - November</option>
+                <option value="12">12 - December</option>
+              </select>
+            </div>
+
+            <div class="p-chk-postal-card__dropdown-field">
+              <select class="p-chk-postal-card__form-select" id="year">
+                <option value="" disabled selected>Year</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+                <option value="2031">2031</option>
+                <option value="2032">2032</option>
+                <option value="2033">2033</option>
+                <option value="2034">2034</option>
+              </select>
+            </div>
+
+            <div
+              class="p-chk-postal-card__input-field p-chk-postal-card__cvv-field"
+            >
+              <input
+                type="text"
+                placeholder="CVV"
+                class="p-chk-postal-card__form-input"
+                id="cvv"
+                maxlength="4"
+              />
+            </div>
+          </div>
+
+          <div class="p-chk-postal-card__input-field">
+            <input
+              type="text"
+              placeholder="Name on card"
+              class="p-chk-postal-card__form-input"
+              id="name-on-card"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

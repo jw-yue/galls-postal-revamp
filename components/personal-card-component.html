@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Card Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-user-card__container {
+        width: 387px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      /* Hidden toggle checkbox */
+      .p-chk-user-card__toggle-input {
+        display: none;
+      }
+
+      .p-chk-user-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 0px 20px;
+        gap: 21px;
+      }
+
+      .p-chk-user-card__title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-user-card__toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-user-card__toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-user-card__toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      /* Toggle icon rotation when expanded */
+      .p-chk-user-card__toggle-input:checked
+        ~ .p-chk-user-card__header
+        .p-chk-user-card__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-user-card__summary-bar {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 40px;
+        background-color: #f7f7f7;
+        margin-top: 10px;
+      }
+
+      .p-chk-user-card__summary-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 3px;
+      }
+
+      .p-chk-user-card__summary-label {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      .p-chk-user-card__summary-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
+      }
+
+      /* Collapsible content container - HIDDEN BY DEFAULT */
+      .p-chk-user-card__collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s;
+      }
+
+      /* Expanded state - VISIBLE WHEN CHECKBOX IS CHECKED */
+      .p-chk-user-card__toggle-input:checked
+        ~ .p-chk-user-card__collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
+        transform: translateY(0);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      }
+
+      .p-chk-user-card__content {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 20px 20px 20px;
+        gap: 10px;
+      }
+
+      .p-chk-user-card__section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 76px;
+      }
+
+      .p-chk-user-card__section-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-user-card__card-icons {
+        width: 136px;
+        height: 21px;
+      }
+
+      .p-chk-user-card__form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-user-card__input-field {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-user-card__input-field:focus-within {
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-user-card__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+      }
+
+      .p-chk-user-card__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-user-card__input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .p-chk-user-card__dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        cursor: pointer;
+        flex: 1;
+        transition: border-color 0.2s ease;
+        cursor: pointer;
+      }
+
+      .p-chk-user-card__dropdown:hover {
+        border-color: #999999;
+      }
+
+      .p-chk-user-card__dropdown-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-user-card__dropdown-text.selected {
+        color: #000000;
+      }
+
+      .p-chk-user-card__dropdown-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .p-chk-user-card__cvv-field {
+        flex: 1;
+      }
+
+      /* Dropdown toggle functionality */
+      .p-chk-user-card__dropdown-toggle {
+        display: none;
+      }
+
+      .p-chk-user-card__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .p-chk-user-card__dropdown-toggle:checked
+        ~ .p-chk-user-card__dropdown-menu {
+        max-height: 200px;
+        opacity: 1;
+      }
+
+      .p-chk-user-card__dropdown-toggle:checked
+        ~ .p-chk-user-card__dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-user-card__dropdown-option {
+        padding: 12px;
+        cursor: pointer;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-user-card__dropdown-option:hover {
+        background-color: #f5f5f5;
+      }
+
+      .p-chk-user-card__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      /* Checkbox toggle functionality */
+      .p-chk-user-card__checkbox-toggle {
+        display: none;
+      }
+
+      .p-chk-user-card__checkbox {
+        width: 13px;
+        height: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/b3329624-f6be-410f-bd26-0d873381be90");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .p-chk-user-card__checkbox.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/e253c68a-46c9-48e2-be70-3f64ddffcedc");
+      }
+
+      /* Checked state for save card checkbox */
+      .p-chk-user-card__checkbox-toggle:checked
+        ~ .p-chk-user-card__checkbox-container
+        .p-chk-user-card__checkbox {
+        background-color: #000000;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
+      }
+
+      .p-chk-user-card__checkbox-label {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+      }
+
+      .p-chk-user-card__checkbox-label.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .p-chk-user-card__note-text {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: left;
+        margin-top: 10px;
+      }
+
+      .p-chk-user-card__continue-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        height: 44px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-user-card__continue-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-user-card__continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-user-card__container {
+          max-width: 100%;
+          margin: 0 10px;
+        }
+
+        .p-chk-user-card__header {
+          padding: 10px 16px 0px 16px;
+        }
+
+        .p-chk-user-card__content {
+          padding: 0px 16px 16px 16px;
+        }
+
+        .p-chk-user-card__summary-bar {
+          padding: 8px;
+          gap: 20px;
+        }
+
+        /* Keep date inputs in horizontal row on mobile */
+        .p-chk-user-card__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 6px;
+        }
+
+        .p-chk-user-card__dropdown,
+        .p-chk-user-card__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        /* Ensure horizontal layout is maintained even on very small screens */
+        .p-chk-user-card__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+        }
+
+        .p-chk-user-card__dropdown,
+        .p-chk-user-card__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+
+        /* Adjust dropdown text size for smaller screens if needed */
+        .p-chk-user-card__dropdown-text {
+          font-size: 14px;
+        }
+
+        .p-chk-user-card__input-text {
+          font-size: 14px;
+        }
+
+        .p-chk-user-card__section-header {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-user-card__container">
+      <!-- Main toggle checkbox for collapsing/expanding the form - UNCHECKED BY DEFAULT -->
+      <input
+        type="checkbox"
+        id="mainToggle"
+        class="p-chk-user-card__toggle-input"
+      />
+
+      <div class="p-chk-user-card__header">
+        <div class="p-chk-user-card__title">Add Personal Debit/Credit Card</div>
+        <label for="mainToggle" class="p-chk-user-card__toggle-button">
+          <img
+            src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/5fcef30c-37ea-4111-8850-1378da964339"
+            alt="Toggle"
+            class="p-chk-user-card__toggle-icon"
+          />
+        </label>
+      </div>
+
+      <div class="p-chk-user-card__summary-bar">
+        <div class="p-chk-user-card__summary-item">
+          <div class="p-chk-user-card__summary-label">
+            Personal Card Amount Due
+          </div>
+          <div class="p-chk-user-card__summary-value">$114.97</div>
+        </div>
+      </div>
+
+      <!-- Collapsible content container - HIDDEN BY DEFAULT -->
+      <div class="p-chk-user-card__collapsible-content">
+        <div class="p-chk-user-card__content">
+          <div class="p-chk-user-card__section-header">
+            <div class="p-chk-user-card__section-title">Credit Card</div>
+            <img
+              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/67940f0e-235d-4d47-8392-bc78b92b0da6"
+              alt="Credit Card Icons"
+              class="p-chk-user-card__card-icons"
+            />
+          </div>
+
+          <div class="p-chk-user-card__form-fields">
+            <div class="p-chk-user-card__input-field">
+              <input
+                type="text"
+                class="p-chk-user-card__input-text"
+                placeholder="Enter Card Number"
+                maxlength="19"
+                id="cardNumber"
+              />
+            </div>
+
+            <div class="p-chk-user-card__input-row">
+              <!-- Month Dropdown -->
+              <div class="p-chk-user-card__dropdown">
+                <input
+                  type="checkbox"
+                  id="monthToggle"
+                  class="p-chk-user-card__dropdown-toggle"
+                />
+                <label for="monthToggle" class="p-chk-user-card__dropdown-text"
+                  >Month</label
+                >
+                <label for="monthToggle" class="p-chk-user-card__dropdown-icon">
+                  <img
+                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/aa38bbc7-09bf-4c8d-9bde-305b1d3fdcad"
+                    alt="Dropdown"
+                    style="width: 100%; height: 100%"
+                  />
+                </label>
+                <div class="p-chk-user-card__dropdown-menu">
+                  <div class="p-chk-user-card__dropdown-option" data-value="01">
+                    01 - January
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="02">
+                    02 - February
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="03">
+                    03 - March
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="04">
+                    04 - April
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="05">
+                    05 - May
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="06">
+                    06 - June
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="07">
+                    07 - July
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="08">
+                    08 - August
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="09">
+                    09 - September
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="10">
+                    10 - October
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="11">
+                    11 - November
+                  </div>
+                  <div class="p-chk-user-card__dropdown-option" data-value="12">
+                    12 - December
+                  </div>
+                </div>
+              </div>
+
+              <!-- Year Dropdown -->
+              <div class="p-chk-user-card__dropdown">
+                <input
+                  type="checkbox"
+                  id="yearToggle"
+                  class="p-chk-user-card__dropdown-toggle"
+                />
+                <label for="yearToggle" class="p-chk-user-card__dropdown-text"
+                  >Year</label
+                >
+                <label for="yearToggle" class="p-chk-user-card__dropdown-icon">
+                  <img
+                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c28177d3-b998-43b9-bf15-2301e7ebc81c"
+                    alt="Dropdown"
+                    style="width: 100%; height: 100%"
+                  />
+                </label>
+                <div class="p-chk-user-card__dropdown-menu">
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2024"
+                  >
+                    2024
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2025"
+                  >
+                    2025
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2026"
+                  >
+                    2026
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2027"
+                  >
+                    2027
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2028"
+                  >
+                    2028
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2029"
+                  >
+                    2029
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2030"
+                  >
+                    2030
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2031"
+                  >
+                    2031
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2032"
+                  >
+                    2032
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2033"
+                  >
+                    2033
+                  </div>
+                  <div
+                    class="p-chk-user-card__dropdown-option"
+                    data-value="2034"
+                  >
+                    2034
+                  </div>
+                </div>
+              </div>
+
+              <div
+                class="p-chk-user-card__input-field p-chk-user-card__cvv-field"
+              >
+                <input
+                  type="text"
+                  class="p-chk-user-card__input-text"
+                  placeholder="CVV"
+                  maxlength="4"
+                  id="cvv"
+                />
+              </div>
+            </div>
+
+            <div class="p-chk-user-card__input-field">
+              <input
+                type="text"
+                class="p-chk-user-card__input-text"
+                placeholder="Name on card"
+                id="cardName"
+              />
+            </div>
+          </div>
+
+          <!-- Pre-charge card checkbox (disabled) -->
+          <div class="p-chk-user-card__checkbox-container">
+            <div class="p-chk-user-card__checkbox disabled"></div>
+            <label class="p-chk-user-card__checkbox-label disabled"
+              >Pre-charge card</label
+            >
+          </div>
+
+          <div class="p-chk-user-card__note-text">
+            NOTE: Order contains items that are customized, shipped direct from
+            our supplier or in stock shipping direct from our supplier. The
+            order will be charged in full at the time the order is placed.
+            Please note that customized product sales are final and can only be
+            returned due to product defects.
+          </div>
+
+          <!-- Save card checkbox (functional) -->
+          <input
+            type="checkbox"
+            id="saveCardToggle"
+            class="p-chk-user-card__checkbox-toggle"
+          />
+          <div class="p-chk-user-card__checkbox-container">
+            <label
+              for="saveCardToggle"
+              class="p-chk-user-card__checkbox"
+            ></label>
+            <label for="saveCardToggle" class="p-chk-user-card__checkbox-label"
+              >Save Personal Card on File</label
+            >
+          </div>
+
+          <button class="p-chk-user-card__continue-button" type="button">
+            <span class="p-chk-user-card__continue-text">Continue</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Enhanced functionality with minimal JavaScript
+      document.addEventListener("DOMContentLoaded", function () {
+        // Card number formatting
+        const cardNumberInput = document.getElementById("cardNumber");
+        cardNumberInput.addEventListener("input", function (e) {
+          let value = e.target.value.replace(/\s/g, "").replace(/[^0-9]/gi, "");
+          let formattedValue = value.match(/.{1,4}/g)?.join(" ") || value;
+          if (formattedValue !== e.target.value) {
+            e.target.value = formattedValue;
+          }
+        });
+
+        // CVV input validation
+        const cvvInput = document.getElementById("cvv");
+        cvvInput.addEventListener("input", function (e) {
+          e.target.value = e.target.value.replace(/[^0-9]/g, "");
+        });
+
+        // Dropdown option selection
+        document
+          .querySelectorAll(".p-chk-user-card__dropdown-option")
+          .forEach((option) => {
+            option.addEventListener("click", function () {
+              const dropdown = this.closest(".p-chk-user-card__dropdown");
+              const label = dropdown.querySelector(
+                ".p-chk-user-card__dropdown-text"
+              );
+              const toggle = dropdown.querySelector(
+                ".p-chk-user-card__dropdown-toggle"
+              );
+
+              label.textContent = this.textContent;
+              label.classList.add("selected");
+              toggle.checked = false; // Close dropdown
+            });
+          });
+
+        // Continue button functionality
+        document
+          .querySelector(".p-chk-user-card__continue-button")
+          .addEventListener("click", function () {
+            console.log("Continue button clicked");
+            // Form processing logic would go here
+          });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", function (e) {
+          if (!e.target.closest(".p-chk-user-card__dropdown")) {
+            document
+              .querySelectorAll(".p-chk-user-card__dropdown-toggle")
+              .forEach((toggle) => {
+                toggle.checked = false;
+              });
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

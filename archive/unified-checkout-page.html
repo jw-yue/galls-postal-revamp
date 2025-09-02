@@ -1,0 +1,1412 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Checkout Page</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        line-height: 1.4;
+      }
+
+      .p-chk-combined__page {
+        max-width: 1200px;
+        margin: 0 auto;
+        .p-chk-combined__main {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        .p-chk-combined__sidebar {
+          display: flex;
+          flex-direction: column;
+          gap: 24px;
+        }
+
+        /* Contact Section Styles */
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-combined__contact-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        text-align: left;
+      }
+
+      .p-chk-combined__contact-edit-link {
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .p-chk-combined__contact-edit-link:hover {
+        color: #041f7a;
+      }
+
+      .p-chk-combined__contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-combined__contact-detail {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+      }
+
+      /* Product List Styles */
+      .p-chk-combined__product-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .p-chk-combined__product-item {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px;
+        border-radius: 8px;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-combined__product-item:hover {
+        background-color: #f8f9fa;
+        cursor: pointer;
+      }
+
+      .p-chk-combined__product-image {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      .p-chk-combined__product-details {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .p-chk-combined__product-title {
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 1.2;
+        text-align: left;
+      }
+
+      .p-chk-combined__product-badge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px 12px;
+        border-radius: 20px;
+        width: fit-content;
+        border: 1px solid;
+      }
+
+      .p-chk-combined__product-badge--postal {
+        background-color: #eaf4ff;
+        border-color: #a8d8ff;
+        color: #002133;
+      }
+
+      .p-chk-combined__product-badge--personal {
+        background-color: #f1ebfa;
+        border-color: #e0c9f9;
+        color: #4a157d;
+      }
+
+      .p-chk-combined__product-badge-text {
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 1;
+        text-align: center;
+      }
+
+      /* Payment Card Styles */
+      .p-chk-combined__payment-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      .p-chk-combined__payment-toggle-input {
+        display: none;
+      }
+
+      .p-chk-combined__payment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 21px;
+        background-color: #eaf4ff;
+      }
+
+      .p-chk-combined__payment-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-combined__payment-toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-combined__payment-toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-combined__payment-toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .p-chk-combined__payment-toggle-input:checked
+        ~ .p-chk-combined__payment-header
+        .p-chk-combined__payment-toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-combined__payment-summary-bar {
+        display: flex;
+        align-items: center;
+        padding: 9px;
+        gap: 40px;
+        background-color: #f7f7f7;
+      }
+
+      .p-chk-combined__payment-summary-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 3px;
+      }
+
+      .p-chk-combined__payment-summary-label {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      .p-chk-combined__payment-summary-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
+      }
+
+      .p-chk-combined__payment-collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-10px);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s;
+      }
+
+      .p-chk-combined__payment-toggle-input:checked
+        ~ .p-chk-combined__payment-collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
+        transform: translateY(0);
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+          opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+      }
+
+      .p-chk-combined__payment-content {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 20px 20px 20px;
+        gap: 10px;
+      }
+
+      .p-chk-combined__payment-section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 76px;
+      }
+
+      .p-chk-combined__payment-section-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-combined__payment-card-icons {
+        width: 136px;
+        height: 21px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      .p-chk-combined__payment-form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-combined__payment-input-field {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-combined__payment-input-field:focus-within {
+        border-color: #0530ad;
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-combined__payment-input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+      }
+
+      .p-chk-combined__payment-input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-combined__payment-input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .p-chk-combined__payment-dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        cursor: pointer;
+        flex: 1;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-combined__payment-dropdown:hover {
+        border-color: #999999;
+      }
+
+      .p-chk-combined__payment-dropdown-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-combined__payment-dropdown-text.selected {
+        color: #000000;
+      }
+
+      .p-chk-combined__payment-dropdown-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .p-chk-combined__payment-cvv-field {
+        flex: 1;
+      }
+
+      .p-chk-combined__payment-dropdown-toggle {
+        display: none;
+      }
+
+      .p-chk-combined__payment-dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .p-chk-combined__payment-dropdown-toggle:checked
+        ~ .p-chk-combined__payment-dropdown-menu {
+        max-height: 200px;
+        opacity: 1;
+      }
+
+      .p-chk-combined__payment-dropdown-toggle:checked
+        ~ .p-chk-combined__payment-dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-combined__payment-dropdown-option {
+        padding: 12px;
+        cursor: pointer;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-combined__payment-dropdown-option:hover {
+        background-color: #f5f5f5;
+      }
+
+      .p-chk-combined__payment-checkbox-container {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .p-chk-combined__payment-checkbox-toggle {
+        display: none;
+      }
+
+      .p-chk-combined__payment-checkbox {
+        width: 13px;
+        height: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        margin-top: 3px;
+      }
+
+      .p-chk-combined__payment-checkbox.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .p-chk-combined__payment-checkbox-toggle:checked
+        ~ .p-chk-combined__payment-checkbox-container
+        .p-chk-combined__payment-checkbox {
+        background-color: #000000;
+        border-color: #000000;
+        background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='white' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='m13.854 3.646-7.5 7.5a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6 10.293l7.146-7.147a.5.5 0 0 1 .708.708z'/%3e%3c/svg%3e");
+      }
+
+      .p-chk-combined__payment-checkbox-label {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+      }
+
+      .p-chk-combined__payment-checkbox-label.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .p-chk-combined__payment-note-text {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: left;
+        margin-top: 10px;
+        margin-left: 25px;
+      }
+
+      .p-chk-combined__payment-continue-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        height: 44px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        margin-top: 10px;
+      }
+
+      .p-chk-combined__payment-continue-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-combined__payment-continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Order Summary Styles */
+      .p-chk-combined__order-summary-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+      }
+
+      .p-chk-combined__order-summary-header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #e3e3e3;
+      }
+
+      .p-chk-combined__order-summary-title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        text-align: center;
+      }
+
+      .p-chk-combined__order-summary-content {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 24px;
+        background-color: #ffffff;
+      }
+
+      .p-chk-combined__order-summary-details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-radius: 12px;
+      }
+
+      .p-chk-combined__order-summary-line-items {
+        display: flex;
+        flex-direction: column;
+        padding: 0;
+        gap: 12px;
+      }
+
+      .p-chk-combined__order-summary-line-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 41px;
+      }
+
+      .p-chk-combined__order-summary-line-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+        flex: 1;
+      }
+
+      .p-chk-combined__order-summary-line-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .p-chk-combined__order-summary-divider {
+        width: 100%;
+        height: 1px;
+        background-color: #e3e3e3;
+        border: none;
+        margin: 12px 0;
+      }
+
+      .p-chk-combined__order-summary-total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 41px;
+      }
+
+      .p-chk-combined__order-summary-total-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 19px;
+        line-height: 22px;
+        text-align: left;
+        flex: 1;
+      }
+
+      .p-chk-combined__order-summary-total-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 19px;
+        line-height: 22px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .p-chk-combined__order-summary-place-order-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        width: 100%;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-combined__order-summary-place-order-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-combined__order-summary-place-order-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .p-chk-combined__page {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .p-chk-combined__sidebar {
+          order: -1;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .p-chk-combined__page {
+          gap: 16px;
+        }
+
+        .p-chk-combined__contact-container,
+        .p-chk-combined__product-container,
+        .p-chk-combined__payment-container,
+        .p-chk-combined__order-summary-container {
+          margin: 0;
+          padding: 16px;
+        }
+
+        .p-chk-combined__payment-input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 6px;
+        }
+
+        .p-chk-combined__payment-dropdown,
+        .p-chk-combined__payment-cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .p-chk-combined__product-item {
+          gap: 12px;
+          padding: 8px;
+        }
+
+        .p-chk-combined__product-image {
+          width: 56px;
+          height: 56px;
+        }
+
+        .p-chk-combined__product-title {
+          font-size: 15px;
+        }
+
+        .p-chk-combined__contact-header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 8px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-combined__payment-input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+        }
+
+        .p-chk-combined__payment-dropdown,
+        .p-chk-combined__payment-cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .p-chk-combined__payment-dropdown-text,
+        .p-chk-combined__payment-input-text {
+          font-size: 14px;
+        }
+
+        .p-chk-combined__product-image {
+          width: 48px;
+          height: 48px;
+        }
+
+        .p-chk-combined__product-title {
+          font-size: 14px;
+        }
+
+        .p-chk-combined__order-summary-title {
+          font-size: 20px;
+          line-height: 24px;
+        }
+
+        .p-chk-combined__contact-title {
+          font-size: 20px;
+          line-height: 24px;
+        }
+
+        .p-chk-combined__contact-detail {
+          font-size: 14px;
+          line-height: 17px;
+        }
+      }
+
+      /* Interactive States */
+      .p-chk-combined__product-item:focus-within,
+      .p-chk-combined__payment-toggle-button:focus,
+      .p-chk-combined__order-summary-place-order-button:focus,
+      .p-chk-combined__contact-edit-link:focus {
+        outline: 2px solid #0530ad;
+        outline-offset: 2px;
+      }
+      /* Additional Contact Section for editing */
+      .p-chk-combined__contact-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #ffffff;
+      }
+
+      .p-chk-combined__contact-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-combined__contact-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        text-align: left;
+      }
+
+      .p-chk-combined__contact-edit-link {
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+        text-decoration: underline;
+        cursor: pointer;
+        transition: color 0.2s ease;
+      }
+
+      .p-chk-combined__contact-edit-link:hover {
+        color: #041f7a;
+      }
+
+      .p-chk-combined__contact-details {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-combined__contact-detail {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-combined__page">
+      <div class="p-chk-combined__main">
+        <!-- Contact Section -->
+        <div class="p-chk-combined__contact-container">
+          <div class="p-chk-combined__contact-header">
+            <h2 class="p-chk-combined__contact-title">Contact</h2>
+            <a href="#" class="p-chk-combined__contact-edit-link">Edit</a>
+          </div>
+          <div class="p-chk-combined__contact-details">
+            <div class="p-chk-combined__contact-detail">hadfjda@gmail.com</div>
+            <div class="p-chk-combined__contact-detail">+1xxxxxxxxx</div>
+            <div class="p-chk-combined__contact-detail">Letter Carrier</div>
+          </div>
+        </div>
+
+        <!-- Product List Section -->
+        <div class="p-chk-combined__product-container">
+          <!-- Product Item 1 - Postal Card Eligible -->
+          <div
+            class="p-chk-combined__product-item"
+            tabindex="0"
+            role="button"
+            aria-label="Mission Made Men's Long Sleeve Combat Shirt - Postal Card Eligible"
+          >
+            <img
+              src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+              alt="Mission Made Men's Long Sleeve Combat Shirt"
+              class="p-chk-combined__product-image"
+            />
+            <div class="p-chk-combined__product-details">
+              <h3 class="p-chk-combined__product-title">
+                Mission Made Men's Long Sleeve Combat Shirt
+              </h3>
+              <div
+                class="p-chk-combined__product-badge p-chk-combined__product-badge--postal"
+              >
+                <span class="p-chk-combined__product-badge-text"
+                  >Postal Card Eligible</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Item 2 - Postal Card Eligible -->
+          <div
+            class="p-chk-combined__product-item"
+            tabindex="0"
+            role="button"
+            aria-label="Mission Made Men's Long Sleeve Combat Shirt - Postal Card Eligible"
+          >
+            <img
+              src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+              alt="Mission Made Men's Long Sleeve Combat Shirt"
+              class="p-chk-combined__product-image"
+            />
+            <div class="p-chk-combined__product-details">
+              <h3 class="p-chk-combined__product-title">
+                Mission Made Men's Long Sleeve Combat Shirt
+              </h3>
+              <div
+                class="p-chk-combined__product-badge p-chk-combined__product-badge--postal"
+              >
+                <span class="p-chk-combined__product-badge-text"
+                  >Postal Card Eligible</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Item 3 - Postal Card Eligible -->
+          <div
+            class="p-chk-combined__product-item"
+            tabindex="0"
+            role="button"
+            aria-label="Mission Made Men's Long Sleeve Combat Shirt - Postal Card Eligible"
+          >
+            <img
+              src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+              alt="Mission Made Men's Long Sleeve Combat Shirt"
+              class="p-chk-combined__product-image"
+            />
+            <div class="p-chk-combined__product-details">
+              <h3 class="p-chk-combined__product-title">
+                Mission Made Men's Long Sleeve Combat Shirt
+              </h3>
+              <div
+                class="p-chk-combined__product-badge p-chk-combined__product-badge--postal"
+              >
+                <span class="p-chk-combined__product-badge-text"
+                  >Postal Card Eligible</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Item 4 - Personal Card Only -->
+          <div
+            class="p-chk-combined__product-item"
+            tabindex="0"
+            role="button"
+            aria-label="Mission Made Men's Long Sleeve Combat Shirt - Personal Card Only"
+          >
+            <img
+              src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+              alt="Mission Made Men's Long Sleeve Combat Shirt"
+              class="p-chk-combined__product-image"
+            />
+            <div class="p-chk-combined__product-details">
+              <h3 class="p-chk-combined__product-title">
+                Mission Made Men's Long Sleeve Combat Shirt
+              </h3>
+              <div
+                class="p-chk-combined__product-badge p-chk-combined__product-badge--personal"
+              >
+                <span class="p-chk-combined__product-badge-text"
+                  >Personal Card Only</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Item 5 - Personal Card Only -->
+          <div
+            class="p-chk-combined__product-item"
+            tabindex="0"
+            role="button"
+            aria-label="Mission Made Men's Long Sleeve Combat Shirt - Personal Card Only"
+          >
+            <img
+              src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+              alt="Mission Made Men's Long Sleeve Combat Shirt"
+              class="p-chk-combined__product-image"
+            />
+            <div class="p-chk-combined__product-details">
+              <h3 class="p-chk-combined__product-title">
+                Mission Made Men's Long Sleeve Combat Shirt
+              </h3>
+              <div
+                class="p-chk-combined__product-badge p-chk-combined__product-badge--personal"
+              >
+                <span class="p-chk-combined__product-badge-text"
+                  >Personal Card Only</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Item 6 - Personal Card Only -->
+          <div
+            class="p-chk-combined__product-item"
+            tabindex="0"
+            role="button"
+            aria-label="Mission Made Men's Long Sleeve Combat Shirt - Personal Card Only"
+          >
+            <img
+              src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+              alt="Mission Made Men's Long Sleeve Combat Shirt"
+              class="p-chk-combined__product-image"
+            />
+            <div class="p-chk-combined__product-details">
+              <h3 class="p-chk-combined__product-title">
+                Mission Made Men's Long Sleeve Combat Shirt
+              </h3>
+              <div
+                class="p-chk-combined__product-badge p-chk-combined__product-badge--personal"
+              >
+                <span class="p-chk-combined__product-badge-text"
+                  >Personal Card Only</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Payment Card Section -->
+        <div class="p-chk-combined__payment-container">
+          <input
+            type="checkbox"
+            id="paymentToggle"
+            class="p-chk-combined__payment-toggle-input"
+          />
+
+          <div class="p-chk-combined__payment-header">
+            <div class="p-chk-combined__payment-title">
+              Add Personal Debit/Credit Card
+            </div>
+            <label
+              for="paymentToggle"
+              class="p-chk-combined__payment-toggle-button"
+            >
+              <svg
+                class="p-chk-combined__payment-toggle-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <polyline points="6,9 12,15 18,9"></polyline>
+              </svg>
+            </label>
+          </div>
+
+          <div class="p-chk-combined__payment-summary-bar">
+            <div class="p-chk-combined__payment-summary-item">
+              <div class="p-chk-combined__payment-summary-label">
+                Card Number
+              </div>
+              <div class="p-chk-combined__payment-summary-value">
+                •••• •••• •••• 1234
+              </div>
+            </div>
+            <div class="p-chk-combined__payment-summary-item">
+              <div class="p-chk-combined__payment-summary-label">
+                Expiration
+              </div>
+              <div class="p-chk-combined__payment-summary-value">12/25</div>
+            </div>
+          </div>
+
+          <div class="p-chk-combined__payment-collapsible-content">
+            <div class="p-chk-combined__payment-content">
+              <div class="p-chk-combined__payment-section-header">
+                <div class="p-chk-combined__payment-section-title">
+                  Card Information
+                </div>
+                <div class="p-chk-combined__payment-card-icons">
+                  <img
+                    src="https://placehold.co/136x21/ffffff/000000?text=Card+Icons"
+                    alt="Accepted payment cards"
+                  />
+                </div>
+              </div>
+
+              <div class="p-chk-combined__payment-form-fields">
+                <div class="p-chk-combined__payment-input-field">
+                  <input
+                    type="text"
+                    placeholder="Card Number"
+                    class="p-chk-combined__payment-input-text"
+                  />
+                </div>
+
+                <div class="p-chk-combined__payment-input-row">
+                  <div class="p-chk-combined__payment-dropdown">
+                    <input
+                      type="checkbox"
+                      id="monthDropdown"
+                      class="p-chk-combined__payment-dropdown-toggle"
+                    />
+                    <label
+                      for="monthDropdown"
+                      class="p-chk-combined__payment-dropdown-text"
+                      >Month</label
+                    >
+                    <label
+                      for="monthDropdown"
+                      class="p-chk-combined__payment-dropdown-icon"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        width="14"
+                        height="14"
+                      >
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                      </svg>
+                    </label>
+                    <div class="p-chk-combined__payment-dropdown-menu">
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        01
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        02
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        03
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        04
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        05
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="p-chk-combined__payment-dropdown">
+                    <input
+                      type="checkbox"
+                      id="yearDropdown"
+                      class="p-chk-combined__payment-dropdown-toggle"
+                    />
+                    <label
+                      for="yearDropdown"
+                      class="p-chk-combined__payment-dropdown-text"
+                      >Year</label
+                    >
+                    <label
+                      for="yearDropdown"
+                      class="p-chk-combined__payment-dropdown-icon"
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        width="14"
+                        height="14"
+                      >
+                        <polyline points="6,9 12,15 18,9"></polyline>
+                      </svg>
+                    </label>
+                    <div class="p-chk-combined__payment-dropdown-menu">
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        2023
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        2024
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        2025
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        2026
+                      </div>
+                      <div class="p-chk-combined__payment-dropdown-option">
+                        2027
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="p-chk-combined__payment-input-field p-chk-combined__payment-cvv-field"
+                  >
+                    <input
+                      type="text"
+                      placeholder="CVV"
+                      class="p-chk-combined__payment-input-text"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="p-chk-combined__payment-checkbox-container">
+                <input
+                  type="checkbox"
+                  id="saveCardCheckbox"
+                  class="p-chk-combined__payment-checkbox-toggle"
+                />
+                <label
+                  for="saveCardCheckbox"
+                  class="p-chk-combined__payment-checkbox"
+                ></label>
+                <label
+                  for="saveCardCheckbox"
+                  class="p-chk-combined__payment-checkbox-label"
+                >
+                  Save this card for future purchases
+                </label>
+              </div>
+
+              <div class="p-chk-combined__payment-checkbox-container">
+                <input
+                  type="checkbox"
+                  id="defaultCardCheckbox"
+                  class="p-chk-combined__payment-checkbox-toggle"
+                />
+                <label
+                  for="defaultCardCheckbox"
+                  class="p-chk-combined__payment-checkbox"
+                ></label>
+                <label
+                  for="defaultCardCheckbox"
+                  class="p-chk-combined__payment-checkbox-label"
+                >
+                  Make this my default payment method
+                </label>
+              </div>
+
+              <div class="p-chk-combined__payment-note-text">
+                By saving your card, you agree to our Terms of Service and
+                Privacy Policy.
+              </div>
+
+              <button class="p-chk-combined__payment-continue-button">
+                <span class="p-chk-combined__payment-continue-text"
+                  >Continue</span
+                >
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="p-chk-combined__sidebar">
+        <!-- Order Summary Section -->
+        <div class="p-chk-combined__order-summary-container">
+          <div class="p-chk-combined__order-summary-header">
+            <h2 class="p-chk-combined__order-summary-title">Order Summary</h2>
+          </div>
+          <div class="p-chk-combined__order-summary-content">
+            <div class="p-chk-combined__order-summary-details">
+              <div class="p-chk-combined__order-summary-line-items">
+                <div class="p-chk-combined__order-summary-line-item">
+                  <div class="p-chk-combined__order-summary-line-label">
+                    Subtotal
+                  </div>
+                  <div class="p-chk-combined__order-summary-line-value">
+                    $299.94
+                  </div>
+                </div>
+                <div class="p-chk-combined__order-summary-line-item">
+                  <div class="p-chk-combined__order-summary-line-label">
+                    Shipping
+                  </div>
+                  <div class="p-chk-combined__order-summary-line-value">
+                    $0.00
+                  </div>
+                </div>
+                <div class="p-chk-combined__order-summary-line-item">
+                  <div class="p-chk-combined__order-summary-line-label">
+                    Tax
+                  </div>
+                  <div class="p-chk-combined__order-summary-line-value">
+                    $24.00
+                  </div>
+                </div>
+              </div>
+              <hr class="p-chk-combined__order-summary-divider" />
+              <div class="p-chk-combined__order-summary-total-row">
+                <div class="p-chk-combined__order-summary-total-label">
+                  Total
+                </div>
+                <div class="p-chk-combined__order-summary-total-value">
+                  $323.94
+                </div>
+              </div>
+            </div>
+            <button class="p-chk-combined__order-summary-place-order-button">
+              <span class="p-chk-combined__order-summary-place-order-text"
+                >Place Order</span
+              >
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Product item interaction functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const productItems = document.querySelectorAll(
+          ".p-chk-combined__product-item"
+        );
+
+        productItems.forEach((item, index) => {
+          // Click handler
+          item.addEventListener("click", function () {
+            console.log(`Product item ${index + 1} clicked`);
+            // In a real implementation, this would navigate to product details
+          });
+
+          // Keyboard navigation
+          item.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              this.click();
+            }
+          });
+
+          // Focus management for accessibility
+          item.addEventListener("focus", function () {
+            this.style.transform = "translateY(-1px)";
+            this.style.boxShadow = "0 4px 12px rgba(0, 0, 0, 0.15)";
+            this.style.transition = "transform 0.2s ease, box-shadow 0.2s ease";
+          });
+
+          item.addEventListener("blur", function () {
+            this.style.transform = "translateY(0)";
+            this.style.boxShadow = "none";
+          });
+        });
+
+        // Contact edit link functionality
+        const contactEditLink = document.querySelector(
+          ".p-chk-combined__contact-edit-link"
+        );
+        if (contactEditLink) {
+          contactEditLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            console.log("Edit contact clicked");
+            // In a real implementation, this would open an edit form or modal
+          });
+        }
+
+        // Payment dropdown functionality
+        const dropdowns = document.querySelectorAll(
+          ".p-chk-combined__payment-dropdown"
+        );
+        dropdowns.forEach((dropdown) => {
+          const toggle = dropdown.querySelector(
+            ".p-chk-combined__payment-dropdown-toggle"
+          );
+          const options = dropdown.querySelectorAll(
+            ".p-chk-combined__payment-dropdown-option"
+          );
+          const text = dropdown.querySelector(
+            ".p-chk-combined__payment-dropdown-text"
+          );
+
+          options.forEach((option) => {
+            option.addEventListener("click", function () {
+              text.textContent = this.textContent;
+              text.classList.add("selected");
+              toggle.checked = false;
+            });
+          });
+
+          // Close dropdown when clicking outside
+          document.addEventListener("click", function (e) {
+            if (!dropdown.contains(e.target)) {
+              toggle.checked = false;
+            }
+          });
+        });
+
+        // Payment toggle functionality
+        const paymentToggle = document.getElementById("paymentToggle");
+        const paymentContainer = document.querySelector(
+          ".p-chk-combined__payment-container"
+        );
+
+        paymentToggle.addEventListener("change", function () {
+          if (this.checked) {
+            paymentContainer.classList.add("expanded");
+          } else {
+            paymentContainer.classList.remove("expanded");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

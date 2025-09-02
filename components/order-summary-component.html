@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Summary Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-order-summary__container {
+        width: 100%;
+        max-width: 405px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+      }
+
+      .p-chk-order-summary__header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 24px;
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #e3e3e3;
+      }
+
+      .p-chk-order-summary__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        text-align: center;
+      }
+
+      .p-chk-order-summary__content {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 24px;
+        background-color: #ffffff;
+      }
+
+      .p-chk-order-summary__details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-radius: 12px;
+      }
+
+      .p-chk-order-summary__line-items {
+        display: flex;
+        flex-direction: column;
+        padding: 24px 0px 12px 0px;
+        gap: 12px;
+      }
+
+      .p-chk-order-summary__line-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 41px;
+      }
+
+      .p-chk-order-summary__line-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+        flex: 1;
+      }
+
+      .p-chk-order-summary__line-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .p-chk-order-summary__divider {
+        width: 100%;
+        height: 1px;
+        background-color: #e3e3e3;
+        border: none;
+        margin: 0;
+      }
+
+      .p-chk-order-summary__total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 41px;
+      }
+
+      .p-chk-order-summary__total-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 19px;
+        line-height: 22px;
+        text-align: left;
+        flex: 1;
+      }
+
+      .p-chk-order-summary__total-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 19px;
+        line-height: 22px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .p-chk-order-summary__place-order-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        width: 100%;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-order-summary__place-order-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-order-summary__place-order-button:active {
+        background-color: #555555;
+      }
+
+      .p-chk-order-summary__place-order-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-order-summary__container {
+          max-width: 100%;
+          margin: 0 10px;
+        }
+
+        .p-chk-order-summary__header {
+          padding: 10px 16px;
+        }
+
+        .p-chk-order-summary__content {
+          padding: 16px;
+          gap: 16px;
+        }
+
+        .p-chk-order-summary__line-items {
+          padding: 16px 0px 8px 0px;
+          gap: 8px;
+        }
+
+        .p-chk-order-summary__line-item {
+          gap: 20px;
+        }
+
+        .p-chk-order-summary__total-row {
+          gap: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-order-summary__title {
+          font-size: 20px;
+          line-height: 24px;
+        }
+
+        .p-chk-order-summary__line-label,
+        .p-chk-order-summary__line-value {
+          font-size: 14px;
+          line-height: 17px;
+        }
+
+        .p-chk-order-summary__total-label,
+        .p-chk-order-summary__total-value {
+          font-size: 17px;
+          line-height: 20px;
+        }
+
+        .p-chk-order-summary__place-order-text {
+          font-size: 14px;
+          line-height: 17px;
+        }
+      }
+
+      /* Interactive States */
+      .p-chk-order-summary__place-order-button:focus {
+        outline: 2px solid #0530ad;
+        outline-offset: 2px;
+      }
+
+      .p-chk-order-summary__place-order-button:disabled {
+        background-color: #cccccc;
+        border-color: #cccccc;
+        cursor: not-allowed;
+        opacity: 0.6;
+      }
+
+      .p-chk-order-summary__place-order-button:disabled:hover {
+        background-color: #cccccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-order-summary__container">
+      <div class="p-chk-order-summary__header">
+        <h2 class="p-chk-order-summary__title">Order Summary</h2>
+      </div>
+
+      <div class="p-chk-order-summary__content">
+        <div class="p-chk-order-summary__details">
+          <div class="p-chk-order-summary__line-items">
+            <div class="p-chk-order-summary__line-item">
+              <span class="p-chk-order-summary__line-label">Subtotal</span>
+              <span class="p-chk-order-summary__line-value">$126.00</span>
+            </div>
+
+            <div class="p-chk-order-summary__line-item">
+              <span class="p-chk-order-summary__line-label">Savings</span>
+              <span class="p-chk-order-summary__line-value">$20.00</span>
+            </div>
+
+            <div class="p-chk-order-summary__line-item">
+              <span class="p-chk-order-summary__line-label">Shipping</span>
+              <span class="p-chk-order-summary__line-value">$0.00</span>
+            </div>
+
+            <div class="p-chk-order-summary__line-item">
+              <span class="p-chk-order-summary__line-label"
+                >Estimated Taxes</span
+              >
+              <span class="p-chk-order-summary__line-value">$6.93</span>
+            </div>
+
+            <hr class="p-chk-order-summary__divider" />
+
+            <div class="p-chk-order-summary__total-row">
+              <span class="p-chk-order-summary__total-label">Total</span>
+              <span class="p-chk-order-summary__total-value">$137.93</span>
+            </div>
+          </div>
+
+          <button class="p-chk-order-summary__place-order-button" type="button">
+            <span class="p-chk-order-summary__place-order-text"
+              >Place Order</span
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Place Order button functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const placeOrderButton = document.querySelector(
+          ".p-chk-order-summary__place-order-button"
+        );
+
+        placeOrderButton.addEventListener("click", function () {
+          console.log("Place Order button clicked");
+
+          // Simulate order processing
+          this.disabled = true;
+          this.querySelector(
+            ".p-chk-order-summary__place-order-text"
+          ).textContent = "Processing...";
+
+          // Re-enable after 2 seconds (for demo purposes)
+          setTimeout(() => {
+            this.disabled = false;
+            this.querySelector(
+              ".p-chk-order-summary__place-order-text"
+            ).textContent = "Place Order";
+          }, 2000);
+        });
+
+        // Add keyboard support
+        placeOrderButton.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            this.click();
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

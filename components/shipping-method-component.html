@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shipping Method Component</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #f5f5f5;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      .p-chk-shipping__container {
+        width: 100%;
+        max-width: 860px;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      .p-chk-shipping__header {
+        width: 100%;
+        max-width: 812px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-shipping__title {
+        width: 177px;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-shipping__content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .p-chk-shipping__method-text {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-shipping__method-price {
+        font-weight: 700;
+        margin-right: 5px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-shipping__container {
+          max-width: 100%;
+          margin: 0 10px;
+          padding: 20px;
+        }
+
+        .p-chk-shipping__header {
+          max-width: 100%;
+        }
+
+        .p-chk-shipping__title {
+          width: auto;
+        }
+
+        .p-chk-shipping__content {
+          width: 100%;
+        }
+
+        .p-chk-shipping__method-text {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-shipping__container {
+          padding: 16px;
+        }
+
+        .p-chk-shipping__title {
+          font-size: 20px;
+        }
+
+        .p-chk-shipping__method-text {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="p-chk-shipping__container">
+      <div class="p-chk-shipping__header">
+        <div class="p-chk-shipping__title">Shipping Method</div>
+      </div>
+
+      <div class="p-chk-shipping__content">
+        <div class="p-chk-shipping__method-text">
+          <span class="p-chk-shipping__method-price">FREE</span> USPS Standard
+          Shipping
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
