@@ -148,6 +148,23 @@
         gap: 24px;
       }
 
+      /* Payment Header */
+      .p-chk-payment-header {
+        background: #2287EF;
+        border: 1px solid #2287EF;
+        border-radius: 8px 8px 0 0;
+        padding: 12px 24px;
+        margin-bottom: -24px;
+        position: relative;
+      }
+
+      .p-chk-payment-header__title {
+        font-size: 18px;
+        color: #fff;
+        margin: 0;
+        text-align: left;
+      }
+
       .p-chk-main__sidebar {
         display: flex;
         flex-direction: column;
@@ -292,7 +309,6 @@
         font-size: 14px;
         line-height: 1.2;
         margin: 0;
-        white-space: pre-line;
       }
 
       /* Shipping Method Component Styles */
@@ -1259,7 +1275,6 @@
       @media (max-width: 768px) {
         .p-chk-user-card__container {
           max-width: 100%;
-          margin: 0 10px;
         }
 
         .p-chk-user-card__header {
@@ -1701,7 +1716,6 @@
       .p-chk-order-summary__header {
         display: flex;
         align-items: center;
-        justify-content: center;
         padding: 12px 24px;
         background-color: #f7f7f7;
         border-bottom: 1px solid #e3e3e3;
@@ -1857,7 +1871,6 @@
 
       .p-chk-product__item {
         display: flex;
-        align-items: center;
         gap: 16px;
         padding: 12px;
         border: 1px solid #e3e3e3;
@@ -1878,7 +1891,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        gap: 8px;
+        gap: 6px;
       }
 
       .p-chk-product__title {
@@ -1888,15 +1901,32 @@
         font-size: 14px;
         line-height: 16px;
         margin: 0;
+        color: #0530AD;
+      }
+
+      .p-chk-product__title-link {
+        color: #0530ad;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .p-chk-product__title-link:hover {
+        color: #0530ad;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .p-chk-product__title-link:visited {
+        color: #6f42c1;
       }
 
       .p-chk-product__badge {
         display: inline-block;
-        padding: 4px 8px;
-        border-radius: 4px;
+        padding: 5px 12px;
+        border-radius: 24px;
         font-family: "Roboto", sans-serif;
         font-weight: 500;
-        font-size: 12px;
+        font-size: 11px;
         line-height: 1;
         text-align: center;
         width: fit-content;
@@ -1915,11 +1945,55 @@
         color: #4a157d;
       }
 
+      .p-chk-product__info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .p-chk-product__attribute,
+      .p-chk-product__quantity,
+      .p-chk-product__price {
+        font-family: "Roboto", sans-serif;
+        font-size: 12px;
+        line-height: 14px;
+        color: #666;
+        margin: 0;
+      }
+
+      .p-chk-product__price {
+        color: #666;
+      }
+
+      .p-chk-product__postal-info {
+        margin-top: 2px;
+        background-color: #f8f9fa;
+      }
+
+      .p-chk-product__postal-title {
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 14px;
+        color: #002133;
+        margin: 0 0 4px 0;
+      }
+
+      .p-chk-product__postal-breakdown {
+        font-family: "Roboto", sans-serif;
+        font-size: 11px;
+        line-height: 13px;
+        color: #666;
+        font-style: italic;
+        margin: 0;
+      }
+
       /* Payment Section Layout Styles */
       .p-chk-payment-section {
         width: 100%;
         background-color: #fff;
-        border-radius: 12px;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
         border: 1px solid #e3e3e3;
         overflow: hidden;
         padding: 24px;
@@ -2019,6 +2093,11 @@
       .p-chk-postal-card__cvv-field {
         width: 77px;
         flex-shrink: 0;
+      }
+
+      .p-chk-postal-card__name-field {
+        min-width: 180px;
+        flex: 1;
       }
 
       .p-chk-postal-card__form-input {
@@ -2123,7 +2202,8 @@
 
         .p-chk-product__item {
           flex-direction: column;
-          text-align: center;
+          text-align: left;
+          align-items: flex-start;
         }
 
         .p-chk-product__image {
@@ -2137,6 +2217,7 @@
 
     <!-- Main Layout -->
     <div class="p-chk-main__container">
+
       <!-- Main Content - Left-->
       <div class="p-chk-main__content">
 
@@ -2205,7 +2286,7 @@
                 </div>
               </div>
 
-              <div class="p-chk-postal-card__input-field">
+              <div class="p-chk-postal-card__input-field p-chk-postal-card__name-field">
                 <input
                   type="text"
                   placeholder="Name on card"
@@ -2258,20 +2339,27 @@
         </div>
 
         <!-- Payment Section with Product List and Card Forms -->
+        <div class="p-chk-payment-header">
+          <h1 class="p-chk-payment-header__title">Payment</h1>
+        </div>
         <div class="p-chk-payment-section">
           <div class="p-chk-payment-section__layout">
             
             <!-- Left Side: Product List -->
             <div class="p-chk-payment-section__left">
               <div class="p-chk-product__container">
-                <div class="p-chk-product__header">
-                  <h3 class="p-chk-product__header-title">Items in Your Order</h3>
-                </div>
                 
                 <div class="p-chk-product__item">
                   <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
                   <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">Mission Made Men's Long Sleeve Combat Shirt</h4>
+                    <h4 class="p-chk-product__title">
+                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                    </h4>
+                    <div class="p-chk-product__info">
+                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                      <span class="p-chk-product__quantity">QTY: 1</span>
+                      <span class="p-chk-product__price">Price: $34.99</span>
+                    </div>
                     <div class="p-chk-product__badge p-chk-product__badge--postal">
                       <span class="p-chk-product__badge-text">Postal Card Eligible</span>
                     </div>
@@ -2279,9 +2367,54 @@
                 </div>
 
                 <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Boots" alt="Tactical Boots" class="p-chk-product__image">
+                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
                   <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">Professional Tactical Boots</h4>
+                    <h4 class="p-chk-product__title">
+                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-2" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                    </h4>
+                    <div class="p-chk-product__info">
+                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                      <span class="p-chk-product__quantity">QTY: 1</span>
+                      <span class="p-chk-product__price">Price: $34.99</span>
+                    </div>
+                    <div class="p-chk-product__badge p-chk-product__badge--postal">
+                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-chk-product__item">
+                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                  <div class="p-chk-product__details">
+                    <h4 class="p-chk-product__title">
+                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-3" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                    </h4>
+                    <div class="p-chk-product__info">
+                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                      <span class="p-chk-product__quantity">QTY: 1</span>
+                      <span class="p-chk-product__price">Price: $34.99</span>
+                    </div>
+                    <div class="p-chk-product__badge p-chk-product__badge--postal">
+                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                    </div>
+                    <div class="p-chk-product__postal-info">
+                      <div class="p-chk-product__postal-title">Partially covered by Postal Card</div>
+                      <div class="p-chk-product__postal-breakdown">$30.02 applied to Postal Card – $4.97 will be charged to your personal card.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="p-chk-product__item">
+                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                  <div class="p-chk-product__details">
+                    <h4 class="p-chk-product__title">
+                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-4" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                    </h4>
+                    <div class="p-chk-product__info">
+                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                      <span class="p-chk-product__quantity">QTY: 1</span>
+                      <span class="p-chk-product__price">Price: $34.99</span>
+                    </div>
                     <div class="p-chk-product__badge p-chk-product__badge--personal">
                       <span class="p-chk-product__badge-text">Personal Card Only</span>
                     </div>
@@ -2289,29 +2422,16 @@
                 </div>
 
                 <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Another Product" class="p-chk-product__image">
+                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
                   <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">Mission Made Men's Long Sleeve Combat Shirt</h4>
-                    <div class="p-chk-product__badge p-chk-product__badge--postal">
-                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                    <h4 class="p-chk-product__title">
+                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-5" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                    </h4>
+                    <div class="p-chk-product__info">
+                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                      <span class="p-chk-product__quantity">QTY: 1</span>
+                      <span class="p-chk-product__price">Price: $34.99</span>
                     </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Another Product" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">Mission Made Men's Long Sleeve Combat Shirt</h4>
-                    <div class="p-chk-product__badge p-chk-product__badge--postal">
-                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Boots" alt="Personal Boots" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">Mission Made Men's Long Sleeve Combat Shirt</h4>
                     <div class="p-chk-product__badge p-chk-product__badge--personal">
                       <span class="p-chk-product__badge-text">Personal Card Only</span>
                     </div>
@@ -2319,11 +2439,18 @@
                 </div>
 
                 <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Final Product" class="p-chk-product__image">
+                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
                   <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">Mission Made Men's Long Sleeve Combat Shirt</h4>
-                    <div class="p-chk-product__badge p-chk-product__badge--postal">
-                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                    <h4 class="p-chk-product__title">
+                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-6" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                    </h4>
+                    <div class="p-chk-product__info">
+                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                      <span class="p-chk-product__quantity">QTY: 1</span>
+                      <span class="p-chk-product__price">Price: $34.99</span>
+                    </div>
+                    <div class="p-chk-product__badge p-chk-product__badge--personal">
+                      <span class="p-chk-product__badge-text">Personal Card Only</span>
                     </div>
                   </div>
                 </div>
@@ -2846,24 +2973,29 @@
               <div class="p-chk-order-summary__line-items">
                 <div class="p-chk-order-summary__line-item">
                   <span class="p-chk-order-summary__line-label">Subtotal</span>
-                  <span class="p-chk-order-summary__line-value">$299.99</span>
+                  <span class="p-chk-order-summary__line-value">$126.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Savings</span>
+                  <span class="p-chk-order-summary__line-value">$20.00</span>
                 </div>
 
                 <div class="p-chk-order-summary__line-item">
                   <span class="p-chk-order-summary__line-label">Shipping</span>
-                  <span class="p-chk-order-summary__line-value">FREE</span>
+                  <span class="p-chk-order-summary__line-value">$0.00</span>
                 </div>
 
                 <div class="p-chk-order-summary__line-item">
-                  <span class="p-chk-order-summary__line-label">Tax</span>
-                  <span class="p-chk-order-summary__line-value">$24.00</span>
+                  <span class="p-chk-order-summary__line-label">Estimated Taxes</span>
+                  <span class="p-chk-order-summary__line-value">$6.93</span>
                 </div>
 
                 <hr class="p-chk-order-summary__divider" />
 
                 <div class="p-chk-order-summary__total-row">
                   <span class="p-chk-order-summary__total-label">Total</span>
-                  <span class="p-chk-order-summary__total-value">$323.99</span>
+                  <span class="p-chk-order-summary__total-value">$137.93</span>
                 </div>
               </div>
 
