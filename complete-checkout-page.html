@@ -134,7 +134,7 @@
 
       /* Main Layout */
       .p-chk-main__container {
-        max-width: 1200px;
+        max-width: 1400px;
         margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr 405px;
@@ -154,7 +154,6 @@
         border: 1px solid #2287EF;
         border-radius: 8px 8px 0 0;
         padding: 12px 24px;
-        margin-bottom: -24px;
         position: relative;
       }
 
@@ -1010,18 +1009,13 @@
         display: block;
         max-height: 0;
         overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
         opacity: 0;
-        transform: translateY(-10px);
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s;
       }
 
       .p-chk-user-card__toggle-input:checked ~ .p-chk-user-card__collapsible-content {
         max-height: 1000px;
         opacity: 1;
-        transform: translateY(0);
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
       }
 
       .p-chk-user-card__content {
@@ -1398,7 +1392,7 @@
         margin-left: 5px;
       }
 
-      /* CCA Card Styles with Enhanced Animation */
+      /* CCA Card Styles with Smooth Animation */
       .p-chk-cca__card {
         width: 100%;
         display: flex;
@@ -1407,22 +1401,13 @@
         gap: 16px;
         max-height: 0;
         overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
         opacity: 0;
-        transform: translateY(-10px);
-        margin-top: 0;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.3s ease-in-out 0.1s, transform 0.3s ease-in-out 0.1s,
-          margin-top 0.3s ease-in-out;
       }
 
       .p-chk-cca__card.expanded {
-        max-height: 1000px;
+        max-height: 800px;
         opacity: 1;
-        transform: translateY(0);
-        margin-top: 12px;
-        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-          opacity 0.3s ease-in-out, transform 0.3s ease-in-out,
-          margin-top 0.3s ease-in-out;
       }
 
       .p-chk-cca__amount-container {
@@ -1435,6 +1420,7 @@
         background-color: #ffffff;
         border: 1px solid #e3e3e3;
         overflow: hidden;
+        margin-top: 12px;
       }
 
       .p-chk-cca__dollar-sign {
@@ -2096,7 +2082,7 @@
       }
 
       .p-chk-postal-card__name-field {
-        min-width: 180px;
+        min-width: 200px;
         flex: 1;
       }
 
@@ -2339,623 +2325,625 @@
         </div>
 
         <!-- Payment Section with Product List and Card Forms -->
-        <div class="p-chk-payment-header">
-          <h1 class="p-chk-payment-header__title">Payment</h1>
-        </div>
-        <div class="p-chk-payment-section">
-          <div class="p-chk-payment-section__layout">
-            
-            <!-- Left Side: Product List -->
-            <div class="p-chk-payment-section__left">
-              <div class="p-chk-product__container">
-                
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">
-                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
-                    </h4>
-                    <div class="p-chk-product__info">
-                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
-                      <span class="p-chk-product__quantity">QTY: 1</span>
-                      <span class="p-chk-product__price">Price: $34.99</span>
-                    </div>
-                    <div class="p-chk-product__badge p-chk-product__badge--postal">
-                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">
-                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-2" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
-                    </h4>
-                    <div class="p-chk-product__info">
-                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
-                      <span class="p-chk-product__quantity">QTY: 1</span>
-                      <span class="p-chk-product__price">Price: $34.99</span>
-                    </div>
-                    <div class="p-chk-product__badge p-chk-product__badge--postal">
-                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">
-                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-3" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
-                    </h4>
-                    <div class="p-chk-product__info">
-                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
-                      <span class="p-chk-product__quantity">QTY: 1</span>
-                      <span class="p-chk-product__price">Price: $34.99</span>
-                    </div>
-                    <div class="p-chk-product__badge p-chk-product__badge--postal">
-                      <span class="p-chk-product__badge-text">Postal Card Eligible</span>
-                    </div>
-                    <div class="p-chk-product__postal-info">
-                      <div class="p-chk-product__postal-title">Partially covered by Postal Card</div>
-                      <div class="p-chk-product__postal-breakdown">$30.02 applied to Postal Card – $4.97 will be charged to your personal card.</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">
-                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-4" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
-                    </h4>
-                    <div class="p-chk-product__info">
-                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
-                      <span class="p-chk-product__quantity">QTY: 1</span>
-                      <span class="p-chk-product__price">Price: $34.99</span>
-                    </div>
-                    <div class="p-chk-product__badge p-chk-product__badge--personal">
-                      <span class="p-chk-product__badge-text">Personal Card Only</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">
-                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-5" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
-                    </h4>
-                    <div class="p-chk-product__info">
-                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
-                      <span class="p-chk-product__quantity">QTY: 1</span>
-                      <span class="p-chk-product__price">Price: $34.99</span>
-                    </div>
-                    <div class="p-chk-product__badge p-chk-product__badge--personal">
-                      <span class="p-chk-product__badge-text">Personal Card Only</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="p-chk-product__item">
-                  <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
-                  <div class="p-chk-product__details">
-                    <h4 class="p-chk-product__title">
-                      <a href="/products/mission-made-mens-long-sleeve-combat-shirt-6" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
-                    </h4>
-                    <div class="p-chk-product__info">
-                      <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
-                      <span class="p-chk-product__quantity">QTY: 1</span>
-                      <span class="p-chk-product__price">Price: $34.99</span>
-                    </div>
-                    <div class="p-chk-product__badge p-chk-product__badge--personal">
-                      <span class="p-chk-product__badge-text">Personal Card Only</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Right Side: Card Forms Stack -->
-            <div class="p-chk-payment-section__right">
-              
-              <!-- 1. CCA Voucher Form -->
-              <div class="p-chk-cca__container">
-                <div class="p-chk-cca__checkbox-container">
-                  <div class="p-chk-cca__checkbox" role="checkbox" aria-checked="false" tabindex="0" data-chk-element="cca-checkbox">
-                  </div>
-                  <label class="p-chk-cca__label" for="cca-checkbox">
-                    Use your <span class="bold-text">CCA Allowance Voucher</span>
-                  </label>
-                </div>
-                
-                <div class="p-chk-cca__card" data-chk-element="cca-card">
-                  <div class="p-chk-cca__amount-container">
-                    <div class="p-chk-cca__dollar-sign">$</div>
-                    <div class="p-chk-cca__file-allowance-field">
-                      <input type="text" class="p-chk-cca__input-text" placeholder="104.97" data-chk-element="allowance-amount-input" />
-                    </div>
-                  </div>
-
-                  <div class="p-chk-cca__description">
-                    We require a manager approved CCA voucher to process your order
-                  </div>
-
-                  <div class="p-chk-cca__form-container">
-                    <div class="p-chk-cca__form-fields">
-                      <div class="p-chk-cca__input-field">
-                        <input type="email" class="p-chk-cca__input-text" placeholder="Paying Supervisor Email" id="cca-supervisor-email"/>
-                      </div>
-
-                      <div class="p-chk-cca__input-field">
-                        <input type="tel" class="p-chk-cca__input-text" placeholder="Paying Supervisor Phone" id="cca-supervisor-phone"/>
-                      </div>
-
-                      <div class="p-chk-cca__upload-section">
-                        <div class="p-chk-cca__upload-header">
-                          <div class="p-chk-cca__upload-button-row">
-                            <div class="p-chk-cca__upload-icon">
-                              <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6eedad85-5cdb-4a3c-8783-a6a922cac9e2" alt="Upload icon" />
-                            </div>
-                            <div class="p-chk-cca__upload-text-container">
-                              <a href="#" class="p-chk-cca__upload-link" data-chk-element="file-upload-link">Choose a file to upload</a>
-                              <div class="p-chk-cca__accepted-formats">
-                                Accepted formats: JPEG, JPG, PNG, BMP, DOC, DOCX, PDF, TXT
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="p-chk-cca__file-name-field">
-                          <input type="text" class="p-chk-cca__input-text" placeholder="Voucher_Upload.pdf" data-chk-element="file-name-input" readonly/>
-                        </div>
-
-                        <button class="p-chk-cca__upload-voucher-button" data-chk-element="upload-button">
-                          <span class="p-chk-cca__upload-voucher-text">Upload Voucher</span>
-                        </button>
-                      </div>
-
-                      <div class="p-chk-cca__disclaimer-container">
-                        <div class="p-chk-cca__disclaimer-row">
-                          <div class="p-chk-cca__disclaimer-checkbox" role="checkbox" tabindex="0" aria-checked="false" data-chk-element="disclaimer-checkbox">
-                          </div>
-                          <label class="p-chk-cca__disclaimer-label" for="disclaimer-checkbox">
-                            I do not wish to upload my voucher at this time. I acknowledge I am still required to provide my voucher for verification before my order will be processed
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <button class="p-chk-cca__submit-button" disabled data-chk-element="submit-button">
-                    <span class="p-chk-cca__submit-text">Confirm & Submit</span>
-                  </button>
-                </div>
-              </div>
-
-              <!-- 2. Postal Card Form -->
-              <div class="p-chk-pcard__container">
-                <div class="p-chk-pcard__header">
-                  <div class="p-chk-pcard__title">Add Postal Card</div>
-                  <div class="p-chk-pcard__toggle-button" id="postalToggleButton" data-chk-element="postal-toggle-button">
-                    <img
-                      src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/bc2e33ea-2b9f-4032-83b4-1ff222318485"
-                      alt="Toggle"
-                      class="p-chk-pcard__toggle-icon"
-                    />
-                  </div>
-                </div>
-
-                <div class="p-chk-pcard__summary-bar">
-                  <div class="p-chk-pcard__summary-item">
-                    <div class="p-chk-pcard__summary-label">Postal Card Amount due</div>
-                    <div class="p-chk-pcard__summary-value">$104.97</div>
-                  </div>
-                  <div class="p-chk-pcard__summary-item">
-                    <div class="p-chk-pcard__summary-label">Remaining Allowance</div>
-                    <div class="p-chk-pcard__summary-value">$100</div>
-                  </div>
-                </div>
-
-                <div class="p-chk-pcard__content">
-                  <div class="p-chk-pcard__section-header">
-                    <div class="p-chk-pcard__section-title">Postal Card</div>
-                  </div>
-
-                  <div class="p-chk-pcard__charge-input" id="postalChargeInput" data-chk-element="postal-charge-input">
-                    <div class="p-chk-pcard__dollar-prefix">$</div>
-                    <div class="p-chk-pcard__charge-text">Postal Card Charge</div>
-                  </div>
-
-                  <div class="p-chk-pcard__form-section" id="postalFormSection" data-chk-element="postal-form-section">
-                    <div class="p-chk-pcard__form-fields">
-                      <div class="p-chk-pcard__input-field">
-                        <input
-                          type="text"
-                          class="p-chk-pcard__input-text"
-                          placeholder="Postal Card Number"
-                          id="postal-card-number-payment"
-                        />
-                      </div>
-
-                      <div class="p-chk-pcard__input-row">
-                        <!-- Month Dropdown -->
-                        <div class="p-chk-pcard__dropdown" data-chk-element="postal-month-dropdown">
-                          <input
-                            type="checkbox"
-                            id="postalMonthToggle"
-                            class="p-chk-pcard__dropdown-toggle"
-                          />
-                          <label for="postalMonthToggle" class="p-chk-pcard__dropdown-text"
-                            >Month</label
-                          >
-                          <label for="postalMonthToggle" class="p-chk-pcard__dropdown-icon">
-                            <img
-                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
-                              alt="Dropdown"
-                              style="width: 100%; height: 100%"
-                            />
-                          </label>
-                          <div class="p-chk-pcard__dropdown-menu">
-                            <div class="p-chk-pcard__dropdown-option" data-value="01">
-                              01 - January
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="02">
-                              02 - February
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="03">
-                              03 - March
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="04">
-                              04 - April
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="05">
-                              05 - May
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="06">
-                              06 - June
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="07">
-                              07 - July
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="08">
-                              08 - August
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="09">
-                              09 - September
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="10">
-                              10 - October
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="11">
-                              11 - November
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="12">
-                              12 - December
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Year Dropdown -->
-                        <div class="p-chk-pcard__dropdown" data-chk-element="postal-year-dropdown">
-                          <input
-                            type="checkbox"
-                            id="postalYearToggle"
-                            class="p-chk-pcard__dropdown-toggle"
-                          />
-                          <label for="postalYearToggle" class="p-chk-pcard__dropdown-text"
-                            >Year</label
-                          >
-                          <label for="postalYearToggle" class="p-chk-pcard__dropdown-icon">
-                            <img
-                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
-                              alt="Dropdown"
-                              style="width: 100%; height: 100%"
-                            />
-                          </label>
-                          <div class="p-chk-pcard__dropdown-menu">
-                            <div class="p-chk-pcard__dropdown-option" data-value="2024">
-                              2024
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2025">
-                              2025
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2026">
-                              2026
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2027">
-                              2027
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2028">
-                              2028
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2029">
-                              2029
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2030">
-                              2030
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2031">
-                              2031
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2032">
-                              2032
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2033">
-                              2033
-                            </div>
-                            <div class="p-chk-pcard__dropdown-option" data-value="2034">
-                              2034
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="p-chk-pcard__input-field p-chk-pcard__cvv-field">
-                          <input
-                            type="text"
-                            class="p-chk-pcard__input-text"
-                            placeholder="CVV"
-                            maxlength="4"
-                            id="postal-cvv-payment"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="p-chk-pcard__input-field">
-                        <input
-                          type="text"
-                          class="p-chk-pcard__input-text"
-                          placeholder="Name on card"
-                          id="postal-cardholder-payment"
-                        />
-                      </div>
-                    </div>
-
-                    <div class="p-chk-pcard__checkbox-container">
-                      <img
-                        src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
-                        alt="Checkbox"
-                        class="p-chk-pcard__checkbox"
-                        id="postalSaveCheckbox"
-                        data-chk-element="postal-save-checkbox"
-                        aria-checked="false"
-                        role="checkbox"
-                        tabindex="0"
-                      />
-                      <label class="p-chk-pcard__checkbox-label" for="postalSaveCheckbox"
-                        >Save Postal Card on File</label
-                      >
-                    </div>
-
-                    <button class="p-chk-pcard__continue-button" data-chk-element="postal-continue-button">
-                      <span class="p-chk-pcard__continue-text">Continue</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <!-- 3. Personal Card Form -->
-              <div class="p-chk-user-card__container">
-                <input type="checkbox" id="personalCardToggle" class="p-chk-user-card__toggle-input" />
-                
-                <div class="p-chk-user-card__header">
-                  <div class="p-chk-user-card__title">Add Personal Debit/Credit Card</div>
-                  <label for="personalCardToggle" class="p-chk-user-card__toggle-button">
-                    <img
-                      src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/5fcef30c-37ea-4111-8850-1378da964339"
-                      alt="Toggle"
-                      class="p-chk-user-card__toggle-icon"
-                    />
-                  </label>
-                </div>
-
-                <div class="p-chk-user-card__summary-bar">
-                  <div class="p-chk-user-card__summary-item">
-                    <div class="p-chk-user-card__summary-label">Personal Card Amount Due</div>
-                    <div class="p-chk-user-card__summary-value">$323.99</div>
-                  </div>
-                </div>
-
-                <div class="p-chk-user-card__collapsible-content">
-                  <div class="p-chk-user-card__content">
-                    <div class="p-chk-user-card__section-header">
-                      <div class="p-chk-user-card__section-title">Credit Card</div>
-                      <img
-                        src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/67940f0e-235d-4d47-8392-bc78b92b0da6"
-                        alt="Credit Card Icons"
-                        class="p-chk-user-card__card-icons"
-                      />
-                    </div>
-
-                    <div class="p-chk-user-card__form-fields">
-                      <div class="p-chk-user-card__input-field">
-                        <input
-                          type="text"
-                          class="p-chk-user-card__input-text"
-                          placeholder="Enter Card Number"
-                          maxlength="19"
-                          id="personal-card-number-payment"
-                          data-chk-element="personal-card-number"
-                        />
-                      </div>
-
-                      <div class="p-chk-user-card__input-row">
-                        <!-- Month Dropdown -->
-                        <div class="p-chk-user-card__dropdown" data-chk-element="personal-month-dropdown">
-                          <input
-                            type="checkbox"
-                            id="personalMonthToggle"
-                            class="p-chk-user-card__dropdown-toggle"
-                          />
-                          <label for="personalMonthToggle" class="p-chk-user-card__dropdown-text"
-                            >Month</label
-                          >
-                          <label for="personalMonthToggle" class="p-chk-user-card__dropdown-icon">
-                            <img
-                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/aa38bbc7-09bf-4c8d-9bde-305b1d3fdcad"
-                              alt="Dropdown"
-                              style="width: 100%; height: 100%"
-                            />
-                          </label>
-                          <div class="p-chk-user-card__dropdown-menu">
-                            <div class="p-chk-user-card__dropdown-option" data-value="01">
-                              01 - January
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="02">
-                              02 - February
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="03">
-                              03 - March
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="04">
-                              04 - April
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="05">
-                              05 - May
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="06">
-                              06 - June
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="07">
-                              07 - July
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="08">
-                              08 - August
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="09">
-                              09 - September
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="10">
-                              10 - October
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="11">
-                              11 - November
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="12">
-                              12 - December
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Year Dropdown -->
-                        <div class="p-chk-user-card__dropdown" data-chk-element="personal-year-dropdown">
-                          <input
-                            type="checkbox"
-                            id="personalYearToggle"
-                            class="p-chk-user-card__dropdown-toggle"
-                          />
-                          <label for="personalYearToggle" class="p-chk-user-card__dropdown-text"
-                            >Year</label
-                          >
-                          <label for="personalYearToggle" class="p-chk-user-card__dropdown-icon">
-                            <img
-                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c28177d3-b998-43b9-bf15-2301e7ebc81c"
-                              alt="Dropdown"
-                              style="width: 100%; height: 100%"
-                            />
-                          </label>
-                          <div class="p-chk-user-card__dropdown-menu">
-                            <div class="p-chk-user-card__dropdown-option" data-value="2024">
-                              2024
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2025">
-                              2025
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2026">
-                              2026
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2027">
-                              2027
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2028">
-                              2028
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2029">
-                              2029
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2030">
-                              2030
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2031">
-                              2031
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2032">
-                              2032
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2033">
-                              2033
-                            </div>
-                            <div class="p-chk-user-card__dropdown-option" data-value="2034">
-                              2034
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="p-chk-user-card__input-field p-chk-user-card__cvv-field">
-                          <input
-                            type="text"
-                            class="p-chk-user-card__input-text"
-                            placeholder="CVV"
-                            maxlength="4"
-                            id="personal-cvv-payment"
-                          />
-                        </div>
-                      </div>
-
-                      <div class="p-chk-user-card__input-field">
-                        <input
-                          type="text"
-                          class="p-chk-user-card__input-text"
-                          placeholder="Name on card"
-                          id="personal-cardholder-payment"
-                        />
-                      </div>
-                    </div>
-
-                    <!-- Pre-charge card checkbox (disabled) -->
-                    <div class="p-chk-user-card__checkbox-container">
-                      <div class="p-chk-user-card__checkbox disabled" data-chk-element="personal-precharge-checkbox"></div>
-                      <label class="p-chk-user-card__checkbox-label disabled"
-                        >Pre-charge card</label
-                      >
-                    </div>
-
-                    <div class="p-chk-user-card__note-text">
-                      NOTE: Order contains items that are customized, shipped direct from
-                      our supplier or in stock shipping direct from our supplier. The
-                      order will be charged in full at the time the order is placed.
-                      Please note that customized product sales are final and can only be
-                      returned due to product defects.
-                    </div>
-
-                    <!-- Save card checkbox (functional) -->
-                    <input
-                      type="checkbox"
-                      id="personalSaveCardToggle"
-                      class="p-chk-user-card__checkbox-toggle"
-                    />
-                    <div class="p-chk-user-card__checkbox-container">
-                      <label
-                        for="personalSaveCardToggle"
-                        class="p-chk-user-card__checkbox"
-                        data-chk-element="personal-save-checkbox"
-                      ></label>
-                      <label for="personalSaveCardToggle" class="p-chk-user-card__checkbox-label"
-                        >Save Personal Card on File</label
-                      >
-                    </div>
-
-                    <button class="p-chk-user-card__continue-button" type="button" data-chk-element="personal-continue-button">
-                      <span class="p-chk-user-card__continue-text">Continue</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              </div>
-            </div>
-
-          </div>
+         <div>
+           <div class="p-chk-payment-header">
+             <h1 class="p-chk-payment-header__title">Payment</h1>
+           </div>
+           <div class="p-chk-payment-section">
+             <div class="p-chk-payment-section__layout">
+               
+               <!-- Left Side: Product List -->
+               <div class="p-chk-payment-section__left">
+                 <div class="p-chk-product__container">
+                   
+                   <div class="p-chk-product__item">
+                     <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                     <div class="p-chk-product__details">
+                       <h4 class="p-chk-product__title">
+                         <a href="/products/mission-made-mens-long-sleeve-combat-shirt" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                       </h4>
+                       <div class="p-chk-product__info">
+                         <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                         <span class="p-chk-product__quantity">QTY: 1</span>
+                         <span class="p-chk-product__price">Price: $34.99</span>
+                       </div>
+                       <div class="p-chk-product__badge p-chk-product__badge--postal">
+                         <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                       </div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-product__item">
+                     <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                     <div class="p-chk-product__details">
+                       <h4 class="p-chk-product__title">
+                         <a href="/products/mission-made-mens-long-sleeve-combat-shirt-2" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                       </h4>
+                       <div class="p-chk-product__info">
+                         <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                         <span class="p-chk-product__quantity">QTY: 1</span>
+                         <span class="p-chk-product__price">Price: $34.99</span>
+                       </div>
+                       <div class="p-chk-product__badge p-chk-product__badge--postal">
+                         <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                       </div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-product__item">
+                     <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                     <div class="p-chk-product__details">
+                       <h4 class="p-chk-product__title">
+                         <a href="/products/mission-made-mens-long-sleeve-combat-shirt-3" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                       </h4>
+                       <div class="p-chk-product__info">
+                         <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                         <span class="p-chk-product__quantity">QTY: 1</span>
+                         <span class="p-chk-product__price">Price: $34.99</span>
+                       </div>
+                       <div class="p-chk-product__badge p-chk-product__badge--postal">
+                         <span class="p-chk-product__badge-text">Postal Card Eligible</span>
+                       </div>
+                       <div class="p-chk-product__postal-info">
+                         <div class="p-chk-product__postal-title">Partially covered by Postal Card</div>
+                         <div class="p-chk-product__postal-breakdown">$30.02 applied to Postal Card – $4.97 will be charged to your personal card.</div>
+                       </div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-product__item">
+                     <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                     <div class="p-chk-product__details">
+                       <h4 class="p-chk-product__title">
+                         <a href="/products/mission-made-mens-long-sleeve-combat-shirt-4" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                       </h4>
+                       <div class="p-chk-product__info">
+                         <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                         <span class="p-chk-product__quantity">QTY: 1</span>
+                         <span class="p-chk-product__price">Price: $34.99</span>
+                       </div>
+                       <div class="p-chk-product__badge p-chk-product__badge--personal">
+                         <span class="p-chk-product__badge-text">Personal Card Only</span>
+                       </div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-product__item">
+                     <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                     <div class="p-chk-product__details">
+                       <h4 class="p-chk-product__title">
+                         <a href="/products/mission-made-mens-long-sleeve-combat-shirt-5" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                       </h4>
+                       <div class="p-chk-product__info">
+                         <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                         <span class="p-chk-product__quantity">QTY: 1</span>
+                         <span class="p-chk-product__price">Price: $34.99</span>
+                       </div>
+                       <div class="p-chk-product__badge p-chk-product__badge--personal">
+                         <span class="p-chk-product__badge-text">Personal Card Only</span>
+                       </div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-product__item">
+                     <img src="https://placehold.co/64x64/333333/ffffff?text=Shirt" alt="Mission Made Men's Long Sleeve Combat Shirt" class="p-chk-product__image">
+                     <div class="p-chk-product__details">
+                       <h4 class="p-chk-product__title">
+                         <a href="/products/mission-made-mens-long-sleeve-combat-shirt-6" class="p-chk-product__title-link">Mission Made Men's Long Sleeve Combat Shirt</a>
+                       </h4>
+                       <div class="p-chk-product__info">
+                         <span class="p-chk-product__attribute">Color: Blue • Size: XL</span>
+                         <span class="p-chk-product__quantity">QTY: 1</span>
+                         <span class="p-chk-product__price">Price: $34.99</span>
+                       </div>
+                       <div class="p-chk-product__badge p-chk-product__badge--personal">
+                         <span class="p-chk-product__badge-text">Personal Card Only</span>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+               </div>
+   
+               <!-- Right Side: Card Forms Stack -->
+               <div class="p-chk-payment-section__right">
+                 
+                 <!-- 1. CCA Voucher Form -->
+                 <div class="p-chk-cca__container">
+                   <div class="p-chk-cca__checkbox-container">
+                     <div class="p-chk-cca__checkbox" role="checkbox" aria-checked="false" tabindex="0" data-chk-element="cca-checkbox">
+                     </div>
+                     <label class="p-chk-cca__label" for="cca-checkbox">
+                       Use your <span class="bold-text">CCA Allowance Voucher</span>
+                     </label>
+                   </div>
+                   
+                   <div class="p-chk-cca__card" data-chk-element="cca-card">
+                     <div class="p-chk-cca__amount-container">
+                       <div class="p-chk-cca__dollar-sign">$</div>
+                       <div class="p-chk-cca__file-allowance-field">
+                         <input type="text" class="p-chk-cca__input-text" placeholder="104.97" data-chk-element="allowance-amount-input" />
+                       </div>
+                     </div>
+   
+                     <div class="p-chk-cca__description">
+                       We require a manager approved CCA voucher to process your order
+                     </div>
+   
+                     <div class="p-chk-cca__form-container">
+                       <div class="p-chk-cca__form-fields">
+                         <div class="p-chk-cca__input-field">
+                           <input type="email" class="p-chk-cca__input-text" placeholder="Paying Supervisor Email" id="cca-supervisor-email"/>
+                         </div>
+   
+                         <div class="p-chk-cca__input-field">
+                           <input type="tel" class="p-chk-cca__input-text" placeholder="Paying Supervisor Phone" id="cca-supervisor-phone"/>
+                         </div>
+   
+                         <div class="p-chk-cca__upload-section">
+                           <div class="p-chk-cca__upload-header">
+                             <div class="p-chk-cca__upload-button-row">
+                               <div class="p-chk-cca__upload-icon">
+                                 <img src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6eedad85-5cdb-4a3c-8783-a6a922cac9e2" alt="Upload icon" />
+                               </div>
+                               <div class="p-chk-cca__upload-text-container">
+                                 <a href="#" class="p-chk-cca__upload-link" data-chk-element="file-upload-link">Choose a file to upload</a>
+                                 <div class="p-chk-cca__accepted-formats">
+                                   Accepted formats: JPEG, JPG, PNG, BMP, DOC, DOCX, PDF, TXT
+                                 </div>
+                               </div>
+                             </div>
+                           </div>
+   
+                           <div class="p-chk-cca__file-name-field">
+                             <input type="text" class="p-chk-cca__input-text" placeholder="Voucher_Upload.pdf" data-chk-element="file-name-input" readonly/>
+                           </div>
+   
+                           <button class="p-chk-cca__upload-voucher-button" data-chk-element="upload-button">
+                             <span class="p-chk-cca__upload-voucher-text">Upload Voucher</span>
+                           </button>
+                         </div>
+   
+                         <div class="p-chk-cca__disclaimer-container">
+                           <div class="p-chk-cca__disclaimer-row">
+                             <div class="p-chk-cca__disclaimer-checkbox" role="checkbox" tabindex="0" aria-checked="false" data-chk-element="disclaimer-checkbox">
+                             </div>
+                             <label class="p-chk-cca__disclaimer-label" for="disclaimer-checkbox">
+                               I do not wish to upload my voucher at this time. I acknowledge I am still required to provide my voucher for verification before my order will be processed
+                             </label>
+                           </div>
+                         </div>
+                       </div>
+                     </div>
+   
+                     <button class="p-chk-cca__submit-button" disabled data-chk-element="submit-button">
+                       <span class="p-chk-cca__submit-text">Confirm & Submit</span>
+                     </button>
+                   </div>
+                 </div>
+   
+                 <!-- 2. Postal Card Form -->
+                 <div class="p-chk-pcard__container">
+                   <div class="p-chk-pcard__header">
+                     <div class="p-chk-pcard__title">Add Postal Card</div>
+                     <div class="p-chk-pcard__toggle-button" id="postalToggleButton" data-chk-element="postal-toggle-button">
+                       <img
+                         src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/bc2e33ea-2b9f-4032-83b4-1ff222318485"
+                         alt="Toggle"
+                         class="p-chk-pcard__toggle-icon"
+                       />
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-pcard__summary-bar">
+                     <div class="p-chk-pcard__summary-item">
+                       <div class="p-chk-pcard__summary-label">Postal Card Amount due</div>
+                       <div class="p-chk-pcard__summary-value">$104.97</div>
+                     </div>
+                     <div class="p-chk-pcard__summary-item">
+                       <div class="p-chk-pcard__summary-label">Remaining Allowance</div>
+                       <div class="p-chk-pcard__summary-value">$100</div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-pcard__content">
+                     <div class="p-chk-pcard__section-header">
+                       <div class="p-chk-pcard__section-title">Postal Card</div>
+                     </div>
+   
+                     <div class="p-chk-pcard__charge-input" id="postalChargeInput" data-chk-element="postal-charge-input">
+                       <div class="p-chk-pcard__dollar-prefix">$</div>
+                       <div class="p-chk-pcard__charge-text">Postal Card Charge</div>
+                     </div>
+   
+                     <div class="p-chk-pcard__form-section" id="postalFormSection" data-chk-element="postal-form-section">
+                       <div class="p-chk-pcard__form-fields">
+                         <div class="p-chk-pcard__input-field">
+                           <input
+                             type="text"
+                             class="p-chk-pcard__input-text"
+                             placeholder="Postal Card Number"
+                             id="postal-card-number-payment"
+                           />
+                         </div>
+   
+                         <div class="p-chk-pcard__input-row">
+                           <!-- Month Dropdown -->
+                           <div class="p-chk-pcard__dropdown" data-chk-element="postal-month-dropdown">
+                             <input
+                               type="checkbox"
+                               id="postalMonthToggle"
+                               class="p-chk-pcard__dropdown-toggle"
+                             />
+                             <label for="postalMonthToggle" class="p-chk-pcard__dropdown-text"
+                               >Month</label
+                             >
+                             <label for="postalMonthToggle" class="p-chk-pcard__dropdown-icon">
+                               <img
+                                 src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
+                                 alt="Dropdown"
+                                 style="width: 100%; height: 100%"
+                               />
+                             </label>
+                             <div class="p-chk-pcard__dropdown-menu">
+                               <div class="p-chk-pcard__dropdown-option" data-value="01">
+                                 01 - January
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="02">
+                                 02 - February
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="03">
+                                 03 - March
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="04">
+                                 04 - April
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="05">
+                                 05 - May
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="06">
+                                 06 - June
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="07">
+                                 07 - July
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="08">
+                                 08 - August
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="09">
+                                 09 - September
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="10">
+                                 10 - October
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="11">
+                                 11 - November
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="12">
+                                 12 - December
+                               </div>
+                             </div>
+                           </div>
+   
+                           <!-- Year Dropdown -->
+                           <div class="p-chk-pcard__dropdown" data-chk-element="postal-year-dropdown">
+                             <input
+                               type="checkbox"
+                               id="postalYearToggle"
+                               class="p-chk-pcard__dropdown-toggle"
+                             />
+                             <label for="postalYearToggle" class="p-chk-pcard__dropdown-text"
+                               >Year</label
+                             >
+                             <label for="postalYearToggle" class="p-chk-pcard__dropdown-icon">
+                               <img
+                                 src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
+                                 alt="Dropdown"
+                                 style="width: 100%; height: 100%"
+                               />
+                             </label>
+                             <div class="p-chk-pcard__dropdown-menu">
+                               <div class="p-chk-pcard__dropdown-option" data-value="2024">
+                                 2024
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2025">
+                                 2025
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2026">
+                                 2026
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2027">
+                                 2027
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2028">
+                                 2028
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2029">
+                                 2029
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2030">
+                                 2030
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2031">
+                                 2031
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2032">
+                                 2032
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2033">
+                                 2033
+                               </div>
+                               <div class="p-chk-pcard__dropdown-option" data-value="2034">
+                                 2034
+                               </div>
+                             </div>
+                           </div>
+   
+                           <div class="p-chk-pcard__input-field p-chk-pcard__cvv-field">
+                             <input
+                               type="text"
+                               class="p-chk-pcard__input-text"
+                               placeholder="CVV"
+                               maxlength="4"
+                               id="postal-cvv-payment"
+                             />
+                           </div>
+                         </div>
+   
+                         <div class="p-chk-pcard__input-field">
+                           <input
+                             type="text"
+                             class="p-chk-pcard__input-text"
+                             placeholder="Name on card"
+                             id="postal-cardholder-payment"
+                           />
+                         </div>
+                       </div>
+   
+                       <div class="p-chk-pcard__checkbox-container">
+                         <img
+                           src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
+                           alt="Checkbox"
+                           class="p-chk-pcard__checkbox"
+                           id="postalSaveCheckbox"
+                           data-chk-element="postal-save-checkbox"
+                           aria-checked="false"
+                           role="checkbox"
+                           tabindex="0"
+                         />
+                         <label class="p-chk-pcard__checkbox-label" for="postalSaveCheckbox"
+                           >Save Postal Card on File</label
+                         >
+                       </div>
+   
+                       <button class="p-chk-pcard__continue-button" data-chk-element="postal-continue-button">
+                         <span class="p-chk-pcard__continue-text">Continue</span>
+                       </button>
+                     </div>
+                   </div>
+                 </div>
+   
+                 <!-- 3. Personal Card Form -->
+                 <div class="p-chk-user-card__container">
+                   <input type="checkbox" id="personalCardToggle" class="p-chk-user-card__toggle-input" />
+                   
+                   <div class="p-chk-user-card__header">
+                     <div class="p-chk-user-card__title">Add Personal Debit/Credit Card</div>
+                     <label for="personalCardToggle" class="p-chk-user-card__toggle-button">
+                       <img
+                         src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/5fcef30c-37ea-4111-8850-1378da964339"
+                         alt="Toggle"
+                         class="p-chk-user-card__toggle-icon"
+                       />
+                     </label>
+                   </div>
+   
+                   <div class="p-chk-user-card__summary-bar">
+                     <div class="p-chk-user-card__summary-item">
+                       <div class="p-chk-user-card__summary-label">Personal Card Amount Due</div>
+                       <div class="p-chk-user-card__summary-value">$323.99</div>
+                     </div>
+                   </div>
+   
+                   <div class="p-chk-user-card__collapsible-content">
+                     <div class="p-chk-user-card__content">
+                       <div class="p-chk-user-card__section-header">
+                         <div class="p-chk-user-card__section-title">Credit Card</div>
+                         <img
+                           src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/67940f0e-235d-4d47-8392-bc78b92b0da6"
+                           alt="Credit Card Icons"
+                           class="p-chk-user-card__card-icons"
+                         />
+                       </div>
+   
+                       <div class="p-chk-user-card__form-fields">
+                         <div class="p-chk-user-card__input-field">
+                           <input
+                             type="text"
+                             class="p-chk-user-card__input-text"
+                             placeholder="Enter Card Number"
+                             maxlength="19"
+                             id="personal-card-number-payment"
+                             data-chk-element="personal-card-number"
+                           />
+                         </div>
+   
+                         <div class="p-chk-user-card__input-row">
+                           <!-- Month Dropdown -->
+                           <div class="p-chk-user-card__dropdown" data-chk-element="personal-month-dropdown">
+                             <input
+                               type="checkbox"
+                               id="personalMonthToggle"
+                               class="p-chk-user-card__dropdown-toggle"
+                             />
+                             <label for="personalMonthToggle" class="p-chk-user-card__dropdown-text"
+                               >Month</label
+                             >
+                             <label for="personalMonthToggle" class="p-chk-user-card__dropdown-icon">
+                               <img
+                                 src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/aa38bbc7-09bf-4c8d-9bde-305b1d3fdcad"
+                                 alt="Dropdown"
+                                 style="width: 100%; height: 100%"
+                               />
+                             </label>
+                             <div class="p-chk-user-card__dropdown-menu">
+                               <div class="p-chk-user-card__dropdown-option" data-value="01">
+                                 01 - January
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="02">
+                                 02 - February
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="03">
+                                 03 - March
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="04">
+                                 04 - April
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="05">
+                                 05 - May
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="06">
+                                 06 - June
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="07">
+                                 07 - July
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="08">
+                                 08 - August
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="09">
+                                 09 - September
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="10">
+                                 10 - October
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="11">
+                                 11 - November
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="12">
+                                 12 - December
+                               </div>
+                             </div>
+                           </div>
+   
+                           <!-- Year Dropdown -->
+                           <div class="p-chk-user-card__dropdown" data-chk-element="personal-year-dropdown">
+                             <input
+                               type="checkbox"
+                               id="personalYearToggle"
+                               class="p-chk-user-card__dropdown-toggle"
+                             />
+                             <label for="personalYearToggle" class="p-chk-user-card__dropdown-text"
+                               >Year</label
+                             >
+                             <label for="personalYearToggle" class="p-chk-user-card__dropdown-icon">
+                               <img
+                                 src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c28177d3-b998-43b9-bf15-2301e7ebc81c"
+                                 alt="Dropdown"
+                                 style="width: 100%; height: 100%"
+                               />
+                             </label>
+                             <div class="p-chk-user-card__dropdown-menu">
+                               <div class="p-chk-user-card__dropdown-option" data-value="2024">
+                                 2024
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2025">
+                                 2025
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2026">
+                                 2026
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2027">
+                                 2027
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2028">
+                                 2028
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2029">
+                                 2029
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2030">
+                                 2030
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2031">
+                                 2031
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2032">
+                                 2032
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2033">
+                                 2033
+                               </div>
+                               <div class="p-chk-user-card__dropdown-option" data-value="2034">
+                                 2034
+                               </div>
+                             </div>
+                           </div>
+   
+                           <div class="p-chk-user-card__input-field p-chk-user-card__cvv-field">
+                             <input
+                               type="text"
+                               class="p-chk-user-card__input-text"
+                               placeholder="CVV"
+                               maxlength="4"
+                               id="personal-cvv-payment"
+                             />
+                           </div>
+                         </div>
+   
+                         <div class="p-chk-user-card__input-field">
+                           <input
+                             type="text"
+                             class="p-chk-user-card__input-text"
+                             placeholder="Name on card"
+                             id="personal-cardholder-payment"
+                           />
+                         </div>
+                       </div>
+   
+                       <!-- Pre-charge card checkbox (disabled) -->
+                       <div class="p-chk-user-card__checkbox-container">
+                         <div class="p-chk-user-card__checkbox disabled" data-chk-element="personal-precharge-checkbox"></div>
+                         <label class="p-chk-user-card__checkbox-label disabled"
+                           >Pre-charge card</label
+                         >
+                       </div>
+   
+                       <div class="p-chk-user-card__note-text">
+                         NOTE: Order contains items that are customized, shipped direct from
+                         our supplier or in stock shipping direct from our supplier. The
+                         order will be charged in full at the time the order is placed.
+                         Please note that customized product sales are final and can only be
+                         returned due to product defects.
+                       </div>
+   
+                       <!-- Save card checkbox (functional) -->
+                       <input
+                         type="checkbox"
+                         id="personalSaveCardToggle"
+                         class="p-chk-user-card__checkbox-toggle"
+                       />
+                       <div class="p-chk-user-card__checkbox-container">
+                         <label
+                           for="personalSaveCardToggle"
+                           class="p-chk-user-card__checkbox"
+                           data-chk-element="personal-save-checkbox"
+                         ></label>
+                         <label for="personalSaveCardToggle" class="p-chk-user-card__checkbox-label"
+                           >Save Personal Card on File</label
+                         >
+                       </div>
+   
+                       <button class="p-chk-user-card__continue-button" type="button" data-chk-element="personal-continue-button">
+                         <span class="p-chk-user-card__continue-text">Continue</span>
+                       </button>
+                     </div>
+                   </div>
+                 </div>
+                 </div>
+               </div>
+   
+           </div>
+         </div>
 
 
           
