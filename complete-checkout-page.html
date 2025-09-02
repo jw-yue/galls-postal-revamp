@@ -3807,10 +3807,23 @@
 
           ccaMainCheckbox.setAttribute("aria-checked", newState);
 
+          // Get postal card container
+          const postalCardContainer = document.querySelector(
+            ".p-chk-pcard__container"
+          );
+
           if (newState) {
             ccaCard.classList.add("expanded");
+            // Hide postal card form when CCA is checked
+            if (postalCardContainer) {
+              postalCardContainer.style.display = "none";
+            }
           } else {
             ccaCard.classList.remove("expanded");
+            // Show postal card form when CCA is unchecked
+            if (postalCardContainer) {
+              postalCardContainer.style.display = "flex";
+            }
             // Reset form when collapsed
             resetCCAForm();
           }
