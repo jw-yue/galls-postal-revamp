@@ -618,10 +618,14 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        gap: 10px;
         border-radius: 12px;
         background-color: #fff;
         border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      .p-chk-pcard__toggle-input {
+        display: none;
       }
 
       .p-chk-pcard__header {
@@ -665,7 +669,9 @@
         transition: transform 0.3s ease;
       }
 
-      .p-chk-pcard__toggle-button.expanded .p-chk-pcard__toggle-icon {
+      .p-chk-pcard__toggle-input:checked
+        ~ .p-chk-pcard__header
+        .p-chk-pcard__toggle-icon {
         transform: rotate(180deg);
       }
 
@@ -675,6 +681,20 @@
         padding: 12px 20px;
         gap: 40px;
         background-color: #f7f7f7;
+        margin-top: 10px;
+      }
+
+      .p-chk-pcard__collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-pcard__toggle-input:checked ~ .p-chk-pcard__collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
       }
 
       .p-chk-pcard__summary-item {
@@ -705,7 +725,7 @@
       .p-chk-pcard__content {
         display: flex;
         flex-direction: column;
-        padding: 0px 20px 20px 20px;
+        padding: 10px 20px 20px 20px;
         gap: 10px;
       }
 
@@ -985,7 +1005,7 @@
       .p-chk-pcard__collapsible-content {
         max-height: 0;
         overflow: hidden;
-        transition: max-height 0.3s ease-in-out;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
       }
 
       .p-chk-pcard__toggle-input:checked ~ .p-chk-pcard__collapsible-content {
@@ -3051,9 +3071,16 @@
 
                   <!-- 2. Postal Card Form -->
                   <div class="p-chk-pcard__container">
+                    <input
+                      type="checkbox"
+                      id="postalCardToggle"
+                      class="p-chk-pcard__toggle-input"
+                    />
+
                     <div class="p-chk-pcard__header">
                       <div class="p-chk-pcard__title">Add Postal Card</div>
-                      <div
+                      <label
+                        for="postalCardToggle"
                         class="p-chk-pcard__toggle-button"
                         id="postalToggleButton"
                         data-chk-element="postal-toggle-button"
@@ -3063,7 +3090,7 @@
                           alt="Toggle"
                           class="p-chk-pcard__toggle-icon"
                         />
-                      </div>
+                      </label>
                     </div>
 
                     <div class="p-chk-pcard__summary-bar">
@@ -3081,285 +3108,287 @@
                       </div>
                     </div>
 
-                    <div class="p-chk-pcard__content">
-                      <div class="p-chk-pcard__section-header">
-                        <div class="p-chk-pcard__section-title">
-                          Postal Card
-                        </div>
-                      </div>
-
-                      <div
-                        class="p-chk-pcard__charge-input"
-                        id="postalChargeInput"
-                        data-chk-element="postal-charge-input"
-                      >
-                        <div class="p-chk-pcard__dollar-prefix">$</div>
-                        <div class="p-chk-pcard__charge-text">
-                          Postal Card Charge
-                        </div>
-                      </div>
-
-                      <div
-                        class="p-chk-pcard__form-section"
-                        id="postalFormSection"
-                        data-chk-element="postal-form-section"
-                      >
-                        <div class="p-chk-pcard__form-fields">
-                          <div class="p-chk-pcard__input-field">
-                            <input
-                              type="text"
-                              class="p-chk-pcard__input-text"
-                              placeholder="Postal Card Number"
-                              id="postal-card-number-payment"
-                            />
+                    <div class="p-chk-pcard__collapsible-content">
+                      <div class="p-chk-pcard__content">
+                        <div class="p-chk-pcard__section-header">
+                          <div class="p-chk-pcard__section-title">
+                            Postal Card
                           </div>
+                        </div>
 
-                          <div class="p-chk-pcard__input-row">
-                            <!-- Month Dropdown -->
-                            <div
-                              class="p-chk-pcard__dropdown"
-                              data-chk-element="postal-month-dropdown"
-                            >
-                              <input
-                                type="checkbox"
-                                id="postalMonthToggle"
-                                class="p-chk-pcard__dropdown-toggle"
-                              />
-                              <label
-                                for="postalMonthToggle"
-                                class="p-chk-pcard__dropdown-text"
-                                >Month</label
-                              >
-                              <label
-                                for="postalMonthToggle"
-                                class="p-chk-pcard__dropdown-icon"
-                              >
-                                <img
-                                  src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
-                                  alt="Dropdown"
-                                  style="width: 100%; height: 100%"
-                                />
-                              </label>
-                              <div class="p-chk-pcard__dropdown-menu">
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="01"
-                                >
-                                  01 - January
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="02"
-                                >
-                                  02 - February
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="03"
-                                >
-                                  03 - March
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="04"
-                                >
-                                  04 - April
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="05"
-                                >
-                                  05 - May
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="06"
-                                >
-                                  06 - June
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="07"
-                                >
-                                  07 - July
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="08"
-                                >
-                                  08 - August
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="09"
-                                >
-                                  09 - September
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="10"
-                                >
-                                  10 - October
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="11"
-                                >
-                                  11 - November
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="12"
-                                >
-                                  12 - December
-                                </div>
-                              </div>
-                            </div>
+                        <div
+                          class="p-chk-pcard__charge-input"
+                          id="postalChargeInput"
+                          data-chk-element="postal-charge-input"
+                        >
+                          <div class="p-chk-pcard__dollar-prefix">$</div>
+                          <div class="p-chk-pcard__charge-text">
+                            Postal Card Charge
+                          </div>
+                        </div>
 
-                            <!-- Year Dropdown -->
-                            <div
-                              class="p-chk-pcard__dropdown"
-                              data-chk-element="postal-year-dropdown"
-                            >
-                              <input
-                                type="checkbox"
-                                id="postalYearToggle"
-                                class="p-chk-pcard__dropdown-toggle"
-                              />
-                              <label
-                                for="postalYearToggle"
-                                class="p-chk-pcard__dropdown-text"
-                                >Year</label
-                              >
-                              <label
-                                for="postalYearToggle"
-                                class="p-chk-pcard__dropdown-icon"
-                              >
-                                <img
-                                  src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
-                                  alt="Dropdown"
-                                  style="width: 100%; height: 100%"
-                                />
-                              </label>
-                              <div class="p-chk-pcard__dropdown-menu">
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2024"
-                                >
-                                  2024
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2025"
-                                >
-                                  2025
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2026"
-                                >
-                                  2026
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2027"
-                                >
-                                  2027
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2028"
-                                >
-                                  2028
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2029"
-                                >
-                                  2029
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2030"
-                                >
-                                  2030
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2031"
-                                >
-                                  2031
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2032"
-                                >
-                                  2032
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2033"
-                                >
-                                  2033
-                                </div>
-                                <div
-                                  class="p-chk-pcard__dropdown-option"
-                                  data-value="2034"
-                                >
-                                  2034
-                                </div>
-                              </div>
-                            </div>
-
-                            <div
-                              class="p-chk-pcard__input-field p-chk-pcard__cvv-field"
-                            >
+                        <div
+                          class="p-chk-pcard__form-section"
+                          id="postalFormSection"
+                          data-chk-element="postal-form-section"
+                        >
+                          <div class="p-chk-pcard__form-fields">
+                            <div class="p-chk-pcard__input-field">
                               <input
                                 type="text"
                                 class="p-chk-pcard__input-text"
-                                placeholder="CVV"
-                                maxlength="4"
-                                id="postal-cvv-payment"
+                                placeholder="Postal Card Number"
+                                id="postal-card-number-payment"
+                              />
+                            </div>
+
+                            <div class="p-chk-pcard__input-row">
+                              <!-- Month Dropdown -->
+                              <div
+                                class="p-chk-pcard__dropdown"
+                                data-chk-element="postal-month-dropdown"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-toggle"
+                                />
+                                <label
+                                  for="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-text"
+                                  >Month</label
+                                >
+                                <label
+                                  for="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-icon"
+                                >
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
+                                    alt="Dropdown"
+                                    style="width: 100%; height: 100%"
+                                  />
+                                </label>
+                                <div class="p-chk-pcard__dropdown-menu">
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="01"
+                                  >
+                                    01 - January
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="02"
+                                  >
+                                    02 - February
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="03"
+                                  >
+                                    03 - March
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="04"
+                                  >
+                                    04 - April
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="05"
+                                  >
+                                    05 - May
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="06"
+                                  >
+                                    06 - June
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="07"
+                                  >
+                                    07 - July
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="08"
+                                  >
+                                    08 - August
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="09"
+                                  >
+                                    09 - September
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="10"
+                                  >
+                                    10 - October
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="11"
+                                  >
+                                    11 - November
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="12"
+                                  >
+                                    12 - December
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- Year Dropdown -->
+                              <div
+                                class="p-chk-pcard__dropdown"
+                                data-chk-element="postal-year-dropdown"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-toggle"
+                                />
+                                <label
+                                  for="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-text"
+                                  >Year</label
+                                >
+                                <label
+                                  for="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-icon"
+                                >
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
+                                    alt="Dropdown"
+                                    style="width: 100%; height: 100%"
+                                  />
+                                </label>
+                                <div class="p-chk-pcard__dropdown-menu">
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2024"
+                                  >
+                                    2024
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2025"
+                                  >
+                                    2025
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2026"
+                                  >
+                                    2026
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2027"
+                                  >
+                                    2027
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2028"
+                                  >
+                                    2028
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2029"
+                                  >
+                                    2029
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2030"
+                                  >
+                                    2030
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2031"
+                                  >
+                                    2031
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2032"
+                                  >
+                                    2032
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2033"
+                                  >
+                                    2033
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2034"
+                                  >
+                                    2034
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div
+                                class="p-chk-pcard__input-field p-chk-pcard__cvv-field"
+                              >
+                                <input
+                                  type="text"
+                                  class="p-chk-pcard__input-text"
+                                  placeholder="CVV"
+                                  maxlength="4"
+                                  id="postal-cvv-payment"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="p-chk-pcard__input-field">
+                              <input
+                                type="text"
+                                class="p-chk-pcard__input-text"
+                                placeholder="Name on card"
+                                id="postal-cardholder-payment"
                               />
                             </div>
                           </div>
 
-                          <div class="p-chk-pcard__input-field">
-                            <input
-                              type="text"
-                              class="p-chk-pcard__input-text"
-                              placeholder="Name on card"
-                              id="postal-cardholder-payment"
+                          <div class="p-chk-pcard__checkbox-container">
+                            <img
+                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
+                              alt="Checkbox"
+                              class="p-chk-pcard__checkbox"
+                              id="postalSaveCheckbox"
+                              data-chk-element="postal-save-checkbox"
+                              aria-checked="false"
+                              role="checkbox"
+                              tabindex="0"
                             />
+                            <label
+                              class="p-chk-pcard__checkbox-label"
+                              for="postalSaveCheckbox"
+                              >Save Postal Card on File</label
+                            >
                           </div>
-                        </div>
 
-                        <div class="p-chk-pcard__checkbox-container">
-                          <img
-                            src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
-                            alt="Checkbox"
-                            class="p-chk-pcard__checkbox"
-                            id="postalSaveCheckbox"
-                            data-chk-element="postal-save-checkbox"
-                            aria-checked="false"
-                            role="checkbox"
-                            tabindex="0"
-                          />
-                          <label
-                            class="p-chk-pcard__checkbox-label"
-                            for="postalSaveCheckbox"
-                            >Save Postal Card on File</label
+                          <button
+                            class="p-chk-pcard__continue-button"
+                            data-chk-element="postal-continue-button"
                           >
+                            <span class="p-chk-pcard__continue-text"
+                              >Continue</span
+                            >
+                          </button>
                         </div>
-
-                        <button
-                          class="p-chk-pcard__continue-button"
-                          data-chk-element="postal-continue-button"
-                        >
-                          <span class="p-chk-pcard__continue-text"
-                            >Continue</span
-                          >
-                        </button>
                       </div>
                     </div>
                   </div>
