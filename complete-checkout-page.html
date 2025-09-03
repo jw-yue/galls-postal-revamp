@@ -223,6 +223,16 @@
         gap: 4px;
       }
 
+      .p-chk-contact-card__empty-description {
+        color: #666;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+        padding: 0;
+      }
+
       .p-chk-contact-card__email {
         color: #333;
         font-family: "Roboto", sans-serif;
@@ -2505,16 +2515,16 @@
                 class="p-chk-contact-card__edit-button"
                 data-edit-button="contact"
               >
-                Edit
+                Add
               </button>
             </div>
             <div
               class="p-chk-contact-card__content"
               data-display-content="contact"
             >
-              <p class="p-chk-contact-card__email">john.doe@example.com</p>
-              <p class="p-chk-contact-card__phone">+1 (555) 123-4567</p>
-              <p class="p-chk-contact-card__job-title">Police Officer</p>
+              <p class="p-chk-contact-card__empty-description">
+                Add your contact information
+              </p>
             </div>
 
             <!-- Contact Edit Form (Initially Hidden) -->
@@ -2525,7 +2535,7 @@
                   <input
                     type="email"
                     class="p-chk-user-card__input-text"
-                    value="john.doe@example.com"
+                    value=""
                     placeholder="Enter email"
                   />
                 </div>
@@ -2536,7 +2546,7 @@
                   <input
                     type="tel"
                     class="p-chk-user-card__input-text"
-                    value="+1 (555) 123-4567"
+                    value=""
                     placeholder="Enter phone number"
                   />
                 </div>
@@ -2544,8 +2554,8 @@
               <div class="p-chk-contact-edit__field">
                 <label class="p-chk-contact-edit__label">Profession</label>
                 <div class="p-chk-user-card__dropdown">
-                  <span class="p-chk-user-card__dropdown-text selected"
-                    >Police Officer</span
+                  <span class="p-chk-user-card__dropdown-text"
+                    >Select profession</span
                   >
                   <span class="p-chk-user-card__dropdown-icon">▼</span>
                 </div>
@@ -4556,6 +4566,11 @@
           regularHeader.classList.remove("editing");
         }
 
+        // Update display content with form data for contact sections
+        if (sectionType === "contact") {
+          updateContactDisplay(sectionType);
+        }
+
         // Hide edit form
         if (sectionType === "contact" || sectionType === "delivery") {
           const editForm = document.querySelector(
@@ -4569,17 +4584,152 @@
         currentEditingSection = null;
       }
 
-      // Click outside to complete editing
-      document.addEventListener("click", function (e) {
+      function updateContactDisplay(sectionType) {
+        const editForm = document.querySelector(
+          `[data-edit-form="${sectionType}"]`
+        );
+        const displayContent = document.querySelector(
+          `[data-display-content="${sectionType}"]`
+        );
+
+        if (!editForm || !displayContent) return;
+
+        // Get form values
+        const emailInput = editForm.querySelector('input[type="email"]');
+        const phoneInput = editForm.querySelector('input[type="tel"]');
+        const professionDropdown = editForm.querySelector(
+          ".p-chk-user-card__dropdown-text"
+        );
+
+        const email = emailInput ? emailInput.value.trim() : "";
+        const phone = phoneInput ? phoneInput.value.trim() : "";
+        const profession = professionDropdown
+          ? professionDropdown.textContent.trim()
+          : "";
+
+        // Update display content
         if (
-          currentEditingSection &&
-          !e.target.closest(
-            `[data-editable-section="${currentEditingSection}"]`
-          ) &&
-          !e.target.closest("[data-edit-button]")
+          email ||
+          phone ||
+          (profession && profession !== "Select profession")
         ) {
-          completeEditing(currentEditingSection);
+          // For the empty state section, transform it to populated state
+          if (sectionType === "contact") {
+            // Remove the empty state description
+            const emptyDescription = displayContent.querySelector(
+              ".p-chk-contact-card__empty-description"
+            );
+            if (emptyDescription) {
+              emptyDescription.remove();
+            }
+
+            // Create content elements if they don't exist
+            let emailElement = displayContent.querySelector(
+              ".p-chk-contact-card__email"
+            );
+            let phoneElement = displayContent.querySelector(
+              ".p-chk-contact-card__phone"
+            );
+            let jobElement = displayContent.querySelector(
+              ".p-chk-contact-card__job-title"
+            );
+
+            if (!emailElement) {
+              emailElement = document.createElement("p");
+              emailElement.className = "p-chk-contact-card__email";
+              displayContent.appendChild(emailElement);
+            }
+
+            if (!phoneElement) {
+              phoneElement = document.createElement("p");
+              phoneElement.className = "p-chk-contact-card__phone";
+              displayContent.appendChild(phoneElement);
+            }
+
+            if (!jobElement) {
+              jobElement = document.createElement("p");
+              jobElement.className = "p-chk-contact-card__job-title";
+              displayContent.appendChild(jobElement);
+            }
+
+            // Update the button text from "Add" to "Edit"
+            const editButton = document.querySelector(
+              `[data-edit-button="${sectionType}"]`
+            );
+            if (editButton) {
+              editButton.textContent = "Edit";
+            }
+          }
+
+          // Update the content
+          const emailElement = displayContent.querySelector(
+            ".p-chk-contact-card__email"
+          );
+          const phoneElement = displayContent.querySelector(
+            ".p-chk-contact-card__phone"
+          );
+          const jobElement = displayContent.querySelector(
+            ".p-chk-contact-card__job-title"
+          );
+
+          if (emailElement && email) emailElement.textContent = email;
+          if (phoneElement && phone) phoneElement.textContent = phone;
+          if (jobElement && profession && profession !== "Select profession") {
+            jobElement.textContent = profession;
+          }
+        } else {
+          // If no data is provided, ensure empty state is maintained for contact section
+          if (sectionType === "contact") {
+            // Remove any populated content elements
+            const emailElement = displayContent.querySelector(
+              ".p-chk-contact-card__email"
+            );
+            const phoneElement = displayContent.querySelector(
+              ".p-chk-contact-card__phone"
+            );
+            const jobElement = displayContent.querySelector(
+              ".p-chk-contact-card__job-title"
+            );
+
+            if (emailElement) emailElement.remove();
+            if (phoneElement) phoneElement.remove();
+            if (jobElement) jobElement.remove();
+
+            // Ensure the empty description exists
+            let emptyDescription = displayContent.querySelector(
+              ".p-chk-contact-card__empty-description"
+            );
+            if (!emptyDescription) {
+              emptyDescription = document.createElement("p");
+              emptyDescription.className =
+                "p-chk-contact-card__empty-description";
+              emptyDescription.textContent = "Add your contact information";
+              displayContent.appendChild(emptyDescription);
+            }
+
+            // Reset button text to "Add"
+            const editButton = document.querySelector(
+              `[data-edit-button="${sectionType}"]`
+            );
+            if (editButton) {
+              editButton.textContent = "Add";
+            }
+          }
         }
+      }
+
+      // Click outside to complete editing - DISABLED
+      // Sections now stay open when clicking outside
+      document.addEventListener("click", function (e) {
+        // if (
+        //   currentEditingSection &&
+        //   !e.target.closest(
+        //     `[data-editable-section="${currentEditingSection}"]`
+        //   ) &&
+        //   !e.target.closest("[data-edit-button]")
+        // ) {
+        //   completeEditing(currentEditingSection);
+        // }
       });
 
       // Payment section click handler - clicking anywhere inside triggers edit mode
