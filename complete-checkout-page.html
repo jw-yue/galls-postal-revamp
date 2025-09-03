@@ -242,15 +242,6 @@
         margin: 0;
       }
 
-      .p-chk-contact-card__phone {
-        color: #333;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-        margin: 0;
-      }
-
       .p-chk-contact-card__job-title {
         color: #666;
         font-family: "Roboto", sans-serif;
@@ -2523,7 +2514,6 @@
               data-display-content="contact"
             >
               <p class="p-chk-contact-card__email">john.doe@example.com</p>
-              <p class="p-chk-contact-card__phone">+1 (555) 123-4567</p>
               <p class="p-chk-contact-card__job-title">Police Officer</p>
             </div>
 
@@ -2537,17 +2527,6 @@
                     class="p-chk-user-card__input-text"
                     value=""
                     placeholder="Enter email"
-                  />
-                </div>
-              </div>
-              <div class="p-chk-contact-edit__field">
-                <label class="p-chk-contact-edit__label">Phone</label>
-                <div class="p-chk-user-card__input-field">
-                  <input
-                    type="tel"
-                    class="p-chk-user-card__input-text"
-                    value=""
-                    placeholder="Enter phone number"
                   />
                 </div>
               </div>
@@ -4132,8 +4111,6 @@
           }
         });
 
-        // Personal Card toggle functionality (keeping existing functionality)
-
         // Personal Card Component functionality with enhanced features
         const personalCardToggle =
           document.getElementById("personalCardToggle");
@@ -4598,23 +4575,17 @@
 
         // Get form values
         const emailInput = editForm.querySelector('input[type="email"]');
-        const phoneInput = editForm.querySelector('input[type="tel"]');
         const professionDropdown = editForm.querySelector(
           ".p-chk-user-card__dropdown-text"
         );
 
         const email = emailInput ? emailInput.value.trim() : "";
-        const phone = phoneInput ? phoneInput.value.trim() : "";
         const profession = professionDropdown
           ? professionDropdown.textContent.trim()
           : "";
 
         // Update display content
-        if (
-          email ||
-          phone ||
-          (profession && profession !== "Select profession")
-        ) {
+        if (email || (profession && profession !== "Select profession")) {
           // For the empty state section, transform it to populated state
           if (sectionType === "contact") {
             // Remove the empty state description
@@ -4629,9 +4600,6 @@
             let emailElement = displayContent.querySelector(
               ".p-chk-contact-card__email"
             );
-            let phoneElement = displayContent.querySelector(
-              ".p-chk-contact-card__phone"
-            );
             let jobElement = displayContent.querySelector(
               ".p-chk-contact-card__job-title"
             );
@@ -4640,12 +4608,6 @@
               emailElement = document.createElement("p");
               emailElement.className = "p-chk-contact-card__email";
               displayContent.appendChild(emailElement);
-            }
-
-            if (!phoneElement) {
-              phoneElement = document.createElement("p");
-              phoneElement.className = "p-chk-contact-card__phone";
-              displayContent.appendChild(phoneElement);
             }
 
             if (!jobElement) {
@@ -4667,15 +4629,11 @@
           const emailElement = displayContent.querySelector(
             ".p-chk-contact-card__email"
           );
-          const phoneElement = displayContent.querySelector(
-            ".p-chk-contact-card__phone"
-          );
           const jobElement = displayContent.querySelector(
             ".p-chk-contact-card__job-title"
           );
 
           if (emailElement && email) emailElement.textContent = email;
-          if (phoneElement && phone) phoneElement.textContent = phone;
           if (jobElement && profession && profession !== "Select profession") {
             jobElement.textContent = profession;
           }
@@ -4686,15 +4644,11 @@
             const emailElement = displayContent.querySelector(
               ".p-chk-contact-card__email"
             );
-            const phoneElement = displayContent.querySelector(
-              ".p-chk-contact-card__phone"
-            );
             const jobElement = displayContent.querySelector(
               ".p-chk-contact-card__job-title"
             );
 
             if (emailElement) emailElement.remove();
-            if (phoneElement) phoneElement.remove();
             if (jobElement) jobElement.remove();
 
             // Ensure the empty description exists
