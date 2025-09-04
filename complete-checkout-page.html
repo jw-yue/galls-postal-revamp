@@ -45,6 +45,188 @@
         border-color: #dc3545;
       }
 
+      /* Shared Card Container Styles */
+      .p-chk-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      .p-chk-card__toggle-input {
+        display: none;
+      }
+
+      .p-chk-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 0px 20px;
+        gap: 21px;
+      }
+
+      .p-chk-card__title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-card__toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-card__toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-card__toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .p-chk-card__toggle-input:checked
+        ~ .p-chk-card__header
+        .p-chk-card__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-card__collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-card__toggle-input:checked ~ .p-chk-card__collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
+      }
+
+      .p-chk-card__input-field {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-card__input-field:focus-within {
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-card__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+      }
+
+      .p-chk-card__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-card__input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .p-chk-card__continue-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 6px 12px;
+        height: 44px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #000000;
+        border: 1px solid #000000;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-card__continue-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-card__continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Shared Info Card Container Styles */
+      .p-chk-info-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      .p-chk-info-card__header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-info-card__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-info-card__edit-button {
+        background: none;
+        border: none;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0;
+      }
+
       .p-chk-global__select {
         width: 100%;
         padding: 12px 16px;
@@ -807,17 +989,6 @@
         gap: 6px;
       }
 
-      .p-chk-pcard__input-field {
-        display: flex;
-        align-items: center;
-        padding: 12px;
-        height: 50px;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #ffffff;
-        border: 1px solid #bbbbbb;
-      }
-
       .p-chk-pcard__input-text {
         color: #616161;
         font-family: "Roboto", sans-serif;
@@ -969,24 +1140,6 @@
         cursor: pointer;
       }
 
-      .p-chk-pcard__continue-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 6px 12px;
-        height: 44px;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #000000;
-        border: 1px solid #000000;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .p-chk-pcard__continue-button:hover {
-        background-color: #333333;
-      }
-
       .p-chk-pcard__continue-text {
         color: #ffffff;
         font-family: "Roboto", sans-serif;
@@ -1010,11 +1163,6 @@
 
       .p-chk-pcard__toggle-input:checked ~ .p-chk-pcard__collapsible-content {
         max-height: 600px;
-      }
-
-      /* Interactive States */
-      .p-chk-pcard__input-field:focus-within {
-        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
       }
 
       .p-chk-pcard__charge-input:hover {
@@ -1226,22 +1374,6 @@
         gap: 6px;
       }
 
-      .p-chk-user-card__input-field {
-        display: flex;
-        align-items: center;
-        padding: 12px;
-        height: 50px;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #ffffff;
-        border: 1px solid #bbbbbb;
-        transition: border-color 0.2s ease;
-      }
-
-      .p-chk-user-card__input-field:focus-within {
-        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
-      }
-
       .p-chk-user-card__input-text {
         color: #616161;
         font-family: "Roboto", sans-serif;
@@ -1415,24 +1547,6 @@
         line-height: 14px;
         text-align: left;
         margin-top: 10px;
-      }
-
-      .p-chk-user-card__continue-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 6px 12px;
-        height: 44px;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #000000;
-        border: 1px solid #000000;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .p-chk-user-card__continue-button:hover {
-        background-color: #333333;
       }
 
       .p-chk-user-card__continue-text {
@@ -2519,11 +2633,11 @@
           >
             <h1 class="p-chk-payment-header__title">Contact Information</h1>
           </div>
-          <div class="p-chk-contact-card__container">
-            <div class="p-chk-contact-card__header">
-              <h2 class="p-chk-contact-card__title">Contact Information</h2>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Contact Information</h2>
               <button
-                class="p-chk-contact-card__edit-button"
+                class="p-chk-info-card__edit-button"
                 data-edit-button="contact"
               >
                 Edit
@@ -2541,7 +2655,7 @@
             <div class="p-chk-contact-edit__form" data-edit-form="contact">
               <div class="p-chk-contact-edit__field">
                 <label class="p-chk-contact-edit__label">Email</label>
-                <div class="p-chk-user-card__input-field">
+                <div class="p-chk-card__input-field">
                   <input
                     type="email"
                     class="p-chk-user-card__input-text"
@@ -2561,7 +2675,7 @@
               </div>
               <div class="p-chk-contact-edit__actions">
                 <button
-                  class="p-chk-user-card__continue-button"
+                  class="p-chk-card__continue-button"
                   data-complete-edit="contact"
                 >
                   <span class="p-chk-user-card__continue-text">Complete</span>
@@ -2582,11 +2696,11 @@
           >
             <h1 class="p-chk-payment-header__title">Delivery Address</h1>
           </div>
-          <div class="p-chk-address-card__container">
-            <div class="p-chk-address-card__header">
-              <h2 class="p-chk-address-card__title">Delivery Address</h2>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Delivery Address</h2>
               <button
-                class="p-chk-address-card__edit-button"
+                class="p-chk-info-card__edit-button"
                 data-edit-button="delivery"
               >
                 Edit
@@ -2606,7 +2720,7 @@
             <div class="p-chk-address-edit__form" data-edit-form="delivery">
               <div class="p-chk-address-edit__field">
                 <label class="p-chk-address-edit__label">Full Name</label>
-                <div class="p-chk-user-card__input-field">
+                <div class="p-chk-card__input-field">
                   <input
                     type="text"
                     class="p-chk-user-card__input-text"
@@ -2617,7 +2731,7 @@
               </div>
               <div class="p-chk-address-edit__field">
                 <label class="p-chk-address-edit__label">Street Address</label>
-                <div class="p-chk-user-card__input-field">
+                <div class="p-chk-card__input-field">
                   <input
                     type="text"
                     class="p-chk-user-card__input-text"
@@ -2628,7 +2742,7 @@
               </div>
               <div class="p-chk-address-edit__field">
                 <label class="p-chk-address-edit__label">Apartment/Suite</label>
-                <div class="p-chk-user-card__input-field">
+                <div class="p-chk-card__input-field">
                   <input
                     type="text"
                     class="p-chk-user-card__input-text"
@@ -2642,7 +2756,7 @@
                   class="p-chk-address-edit__field p-chk-address-edit__field--half"
                 >
                   <label class="p-chk-address-edit__label">City</label>
-                  <div class="p-chk-user-card__input-field">
+                  <div class="p-chk-card__input-field">
                     <input
                       type="text"
                       class="p-chk-user-card__input-text"
@@ -2666,7 +2780,7 @@
                   class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
                 >
                   <label class="p-chk-address-edit__label">ZIP Code</label>
-                  <div class="p-chk-user-card__input-field">
+                  <div class="p-chk-card__input-field">
                     <input
                       type="text"
                       class="p-chk-user-card__input-text"
@@ -2678,7 +2792,7 @@
               </div>
               <div class="p-chk-address-edit__actions">
                 <button
-                  class="p-chk-user-card__continue-button"
+                  class="p-chk-card__continue-button"
                   data-complete-edit="delivery"
                 >
                   <span class="p-chk-user-card__continue-text">Complete</span>
@@ -3070,25 +3184,25 @@
                   </div>
 
                   <!-- 2. Postal Card Form -->
-                  <div class="p-chk-pcard__container">
+                  <div class="p-chk-card__container">
                     <input
                       type="checkbox"
                       id="postalCardToggle"
-                      class="p-chk-pcard__toggle-input"
+                      class="p-chk-card__toggle-input"
                     />
 
-                    <div class="p-chk-pcard__header">
-                      <div class="p-chk-pcard__title">Add Postal Card</div>
+                    <div class="p-chk-card__header">
+                      <div class="p-chk-card__title">Add Postal Card</div>
                       <label
                         for="postalCardToggle"
-                        class="p-chk-pcard__toggle-button"
+                        class="p-chk-card__toggle-button"
                         id="postalToggleButton"
                         data-chk-element="postal-toggle-button"
                       >
                         <img
                           src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/bc2e33ea-2b9f-4032-83b4-1ff222318485"
                           alt="Toggle"
-                          class="p-chk-pcard__toggle-icon"
+                          class="p-chk-card__toggle-icon"
                         />
                       </label>
                     </div>
@@ -3108,7 +3222,7 @@
                       </div>
                     </div>
 
-                    <div class="p-chk-pcard__collapsible-content">
+                    <div class="p-chk-card__collapsible-content">
                       <div class="p-chk-pcard__content">
                         <div class="p-chk-pcard__section-header">
                           <div class="p-chk-pcard__section-title">
@@ -3133,7 +3247,7 @@
                           data-chk-element="postal-form-section"
                         >
                           <div class="p-chk-pcard__form-fields">
-                            <div class="p-chk-pcard__input-field">
+                            <div class="p-chk-card__input-field">
                               <input
                                 type="text"
                                 class="p-chk-pcard__input-text"
@@ -3340,7 +3454,7 @@
                               </div>
 
                               <div
-                                class="p-chk-pcard__input-field p-chk-pcard__cvv-field"
+                                class="p-chk-card__input-field p-chk-pcard__cvv-field"
                               >
                                 <input
                                   type="text"
@@ -3352,7 +3466,7 @@
                               </div>
                             </div>
 
-                            <div class="p-chk-pcard__input-field">
+                            <div class="p-chk-card__input-field">
                               <input
                                 type="text"
                                 class="p-chk-pcard__input-text"
@@ -3381,7 +3495,7 @@
                           </div>
 
                           <button
-                            class="p-chk-pcard__continue-button"
+                            class="p-chk-card__continue-button"
                             data-chk-element="postal-continue-button"
                           >
                             <span class="p-chk-pcard__continue-text"
@@ -3442,7 +3556,7 @@
                         </div>
 
                         <div class="p-chk-user-card__form-fields">
-                          <div class="p-chk-user-card__input-field">
+                          <div class="p-chk-card__input-field">
                             <input
                               type="text"
                               class="p-chk-user-card__input-text"
@@ -3651,7 +3765,7 @@
                             </div>
 
                             <div
-                              class="p-chk-user-card__input-field p-chk-user-card__cvv-field"
+                              class="p-chk-card__input-field p-chk-user-card__cvv-field"
                             >
                               <input
                                 type="text"
@@ -3663,7 +3777,7 @@
                             </div>
                           </div>
 
-                          <div class="p-chk-user-card__input-field">
+                          <div class="p-chk-card__input-field">
                             <input
                               type="text"
                               class="p-chk-user-card__input-text"
@@ -3714,7 +3828,7 @@
                         </div>
 
                         <button
-                          class="p-chk-user-card__continue-button"
+                          class="p-chk-card__continue-button"
                           type="button"
                           data-chk-element="personal-continue-button"
                         >
@@ -3732,7 +3846,7 @@
             <!-- Payment Complete Button -->
             <div class="p-chk-payment-complete__actions">
               <button
-                class="p-chk-user-card__continue-button"
+                class="p-chk-card__continue-button"
                 data-complete-edit="payment"
               >
                 <span class="p-chk-user-card__continue-text">Complete</span>
