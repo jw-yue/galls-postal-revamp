@@ -192,7 +192,8 @@
         align-items: stretch;
         padding: 24px;
         gap: 12px;
-        border-radius: 12px;
+        border-bottom-right-radius: 12px;
+        border-bottom-left-radius: 12px;
         border: 1px solid #e3e3e3;
         background-color: #fff;
       }
@@ -2301,142 +2302,6 @@
         gap: 24px;
       }
 
-      .p-chk-postal-card__container {
-        background-color: #eaf4ff;
-        border-radius: 12px;
-        padding: 12px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-      }
-
-      .p-chk-postal-card__title {
-        color: #002133;
-        font-family: "Roboto", sans-serif;
-        font-weight: 700;
-        font-size: 23px;
-        line-height: 27px;
-        margin: 0;
-      }
-
-      .p-chk-postal-card__subtitle {
-        color: #002133;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        margin: 0;
-      }
-
-      .p-chk-postal-card__form {
-        display: flex;
-        flex-direction: row;
-        gap: 6px;
-      }
-
-      .p-chk-postal-card__field-wrapper {
-        display: flex;
-        gap: 6px;
-        flex: 1;
-      }
-
-      .p-chk-postal-card__form-row {
-        display: flex;
-        gap: 6px;
-        flex: 1;
-      }
-
-      .p-chk-postal-card__input-field {
-        background-color: #ffffff;
-        border: 1px solid #bbbbbb;
-        border-radius: 6px;
-        padding: 12px;
-        display: flex;
-        align-items: center;
-        height: 50px;
-        flex: 1;
-      }
-
-      .p-chk-postal-card__dropdown-field {
-        position: relative;
-        background-color: #ffffff;
-        border: 1px solid #bbbbbb;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        height: 50px;
-        padding: 12px;
-      }
-
-      .p-chk-postal-card__dropdown-field:first-child {
-        width: 100px;
-        flex-shrink: 0;
-      }
-
-      .p-chk-postal-card__dropdown-field:nth-child(2) {
-        width: 86px;
-        flex-shrink: 0;
-      }
-
-      .p-chk-postal-card__cvv-field {
-        width: 77px;
-        flex-shrink: 0;
-      }
-
-      .p-chk-postal-card__name-field {
-        min-width: 200px;
-        flex: 1;
-      }
-
-      .p-chk-postal-card__form-input {
-        border: none;
-        outline: none;
-        background: transparent;
-        color: #616161;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        width: 100%;
-      }
-
-      .p-chk-postal-card__form-input::placeholder {
-        color: #616161;
-      }
-
-      .p-chk-postal-card__form-select {
-        border: none;
-        outline: none;
-        background: transparent;
-        color: #000000;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        width: 100%;
-        appearance: none;
-        cursor: pointer;
-      }
-
-      .p-chk-postal-card__form-select option {
-        color: #000000;
-      }
-
-      .p-chk-postal-card__dropdown-field::after {
-        content: "";
-        position: absolute;
-        right: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 0;
-        height: 0;
-        border-left: 5px solid transparent;
-        border-right: 5px solid transparent;
-        border-top: 5px solid #616161;
-        pointer-events: none;
-      }
-
       /* Responsive Design */
       @media (max-width: 1200px) {
         .p-chk-payment-section__layout {
@@ -2474,21 +2339,6 @@
           padding: 12px;
         }
 
-        .p-chk-postal-card__form {
-          flex-direction: column;
-        }
-
-        .p-chk-postal-card__field-wrapper {
-          flex-direction: column;
-        }
-
-        .p-chk-postal-card__dropdown-field:first-child,
-        .p-chk-postal-card__dropdown-field:nth-child(2),
-        .p-chk-postal-card__cvv-field {
-          width: 100%;
-          flex: 1;
-        }
-
         .p-chk-product__item {
           flex-direction: column;
           text-align: left;
@@ -2507,95 +2357,6 @@
     <div class="p-chk-main__container">
       <!-- Main Content - Left-->
       <div class="p-chk-main__content">
-        <!-- Postal Card Form -->
-        <div class="p-chk-postal-card__container">
-          <h1 class="p-chk-postal-card__title">Postal Card</h1>
-          <p class="p-chk-postal-card__subtitle">
-            Enter postal card for a quicker checkout experience (optional)
-          </p>
-
-          <form class="p-chk-postal-card__form">
-            <div class="p-chk-postal-card__input-field">
-              <input
-                class="p-chk-postal-card__form-input"
-                type="text"
-                placeholder="Postal Card Number"
-                id="postal-card-number-top"
-              />
-            </div>
-
-            <div class="p-chk-postal-card__field-wrapper">
-              <div class="p-chk-postal-card__form-row">
-                <div class="p-chk-postal-card__dropdown-field">
-                  <select
-                    class="p-chk-postal-card__form-select"
-                    id="postal-month-top"
-                    title="Select expiration month"
-                  >
-                    <option value="" disabled selected>Month</option>
-                    <option value="01">01 - January</option>
-                    <option value="02">02 - February</option>
-                    <option value="03">03 - March</option>
-                    <option value="04">04 - April</option>
-                    <option value="05">05 - May</option>
-                    <option value="06">06 - June</option>
-                    <option value="07">07 - July</option>
-                    <option value="08">08 - August</option>
-                    <option value="09">09 - September</option>
-                    <option value="10">10 - October</option>
-                    <option value="11">11 - November</option>
-                    <option value="12">12 - December</option>
-                  </select>
-                </div>
-
-                <div class="p-chk-postal-card__dropdown-field">
-                  <select
-                    class="p-chk-postal-card__form-select"
-                    id="postal-year-top"
-                    title="Select expiration year"
-                  >
-                    <option value="" disabled selected>Year</option>
-                    <option value="2024">2024</option>
-                    <option value="2025">2025</option>
-                    <option value="2026">2026</option>
-                    <option value="2027">2027</option>
-                    <option value="2028">2028</option>
-                    <option value="2029">2029</option>
-                    <option value="2030">2030</option>
-                    <option value="2031">2031</option>
-                    <option value="2032">2032</option>
-                    <option value="2033">2033</option>
-                    <option value="2034">2034</option>
-                  </select>
-                </div>
-
-                <div
-                  class="p-chk-postal-card__input-field p-chk-postal-card__cvv-field"
-                >
-                  <input
-                    type="text"
-                    placeholder="CVV"
-                    class="p-chk-postal-card__form-input"
-                    id="postal-cvv-top"
-                    maxlength="4"
-                  />
-                </div>
-              </div>
-
-              <div
-                class="p-chk-postal-card__input-field p-chk-postal-card__name-field"
-              >
-                <input
-                  type="text"
-                  placeholder="Name on card"
-                  class="p-chk-postal-card__form-input"
-                  id="postal-name-top"
-                />
-              </div>
-            </div>
-          </form>
-        </div>
-
         <!-- Contact Information -->
         <div data-editable-section="contact">
           <div
@@ -3179,12 +2940,6 @@
                           Postal Card Amount due
                         </div>
                         <div class="p-chk-pcard__summary-value">$104.97</div>
-                      </div>
-                      <div class="p-chk-pcard__summary-item">
-                        <div class="p-chk-pcard__summary-label">
-                          Remaining Allowance
-                        </div>
-                        <div class="p-chk-pcard__summary-value">$100</div>
                       </div>
                     </div>
 
@@ -4444,7 +4199,7 @@
 
         // Apply card number formatting to all card number inputs
         const cardNumberInputs = document.querySelectorAll(
-          "#postal-card-number-top, #postal-card-number-payment, #personal-card-number-payment"
+          "#postal-card-number-payment, #personal-card-number-payment"
         );
         cardNumberInputs.forEach((input) => {
           input.addEventListener("input", () => formatCardNumber(input));
@@ -4452,7 +4207,7 @@
 
         // CVV validation
         const cvvInputs = document.querySelectorAll(
-          "#postal-cvv-top, #postal-cvv-payment, #personal-cvv-payment"
+          "#postal-cvv-payment, #personal-cvv-payment"
         );
         cvvInputs.forEach((input) => {
           input.addEventListener("input", function () {
@@ -4479,11 +4234,8 @@
             const personalCardNumber = document.getElementById(
               "personal-card-number-payment"
             )?.value;
-            const topPostalCard = document.getElementById(
-              "postal-card-number-top"
-            )?.value;
 
-            if (postalCardNumber || personalCardNumber || topPostalCard) {
+            if (postalCardNumber || personalCardNumber) {
               alert("Order completed successfully!");
             } else {
               alert("Please fill in payment information.");
@@ -4500,11 +4252,8 @@
             const personalCardNumber = document.getElementById(
               "personal-card-number-payment"
             )?.value;
-            const topPostalCard = document.getElementById(
-              "postal-card-number-top"
-            )?.value;
 
-            if (postalCardNumber || personalCardNumber || topPostalCard) {
+            if (postalCardNumber || personalCardNumber) {
               // Simulate order processing
               this.disabled = true;
               this.querySelector(
