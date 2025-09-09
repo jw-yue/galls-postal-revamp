@@ -319,16 +319,23 @@
       .p-chk-main__container {
         max-width: 1400px;
         margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 405px;
+        display: flex;
         gap: 24px;
-        align-items: start;
+        align-items: flex-start;
       }
 
       .p-chk-main__content {
         display: flex;
         flex-direction: column;
         gap: 24px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .p-chk-main__sidebar {
+        position: relative;
+        width: 405px;
+        flex-shrink: 0;
       }
 
       /* Payment Header */
@@ -1973,6 +1980,11 @@
         background-color: #ffffff;
         border: 1px solid #e3e3e3;
         overflow: hidden;
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        z-index: 10;
       }
 
       .p-chk-order-summary__header {
@@ -1999,6 +2011,8 @@
         padding: 24px;
         gap: 24px;
         background-color: #ffffff;
+        overflow-y: auto;
+        flex: 1;
       }
 
       .p-chk-order-summary__details {
@@ -2311,17 +2325,22 @@
 
       @media (max-width: 1024px) {
         .p-chk-main__container {
-          grid-template-columns: 1fr;
+          flex-direction: column;
           gap: 20px;
         }
 
         .p-chk-main__sidebar {
-          position: static;
+          width: 100%;
           order: -1;
         }
 
         .p-chk-payment-section__left {
           border-right: none;
+        }
+
+        .p-chk-order-summary__container {
+          position: static;
+          max-height: none;
         }
 
         .p-chk-user-card__container,
@@ -3568,7 +3587,7 @@
       </div>
 
       <!-- Order Summary - Right-->
-      <div>
+      <div class="p-chk-main__sidebar">
         <!-- Order Summary -->
         <div class="p-chk-order-summary__container">
           <div class="p-chk-order-summary__header">
