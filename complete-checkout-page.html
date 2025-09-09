@@ -578,23 +578,6 @@
         padding-top: 8px;
       }
 
-      /* Payment Complete Button Styles */
-      .p-chk-payment-complete__actions {
-        display: flex;
-        justify-content: flex-end;
-        padding: 16px 24px 8px 24px;
-        opacity: 0;
-        max-height: 0;
-        overflow: hidden;
-        transition: opacity 0.3s ease, max-height 0.3s ease;
-      }
-
-      [data-editable-section="payment"].editing
-        .p-chk-payment-complete__actions {
-        opacity: 1;
-        max-height: 100px;
-      }
-
       /* Edit State Styles */
       [data-editable-section] {
         transition: border 0.3s ease, box-shadow 0.3s ease;
@@ -2296,19 +2279,6 @@
         margin: 0;
       }
 
-      .p-chk-payment-card__edit-button {
-        background: none;
-        border: none;
-        color: #0530ad;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-        cursor: pointer;
-        text-decoration: underline;
-        padding: 0;
-      }
-
       /* Payment Section Layout Styles */
       .p-chk-payment-section {
         width: 100%;
@@ -2560,6 +2530,7 @@
                   <select
                     class="p-chk-postal-card__form-select"
                     id="postal-month-top"
+                    title="Select expiration month"
                   >
                     <option value="" disabled selected>Month</option>
                     <option value="01">01 - January</option>
@@ -2581,6 +2552,7 @@
                   <select
                     class="p-chk-postal-card__form-select"
                     id="postal-year-top"
+                    title="Select expiration year"
                   >
                     <option value="" disabled selected>Year</option>
                     <option value="2024">2024</option>
@@ -2827,12 +2799,6 @@
           <div class="p-chk-payment-container">
             <div class="p-chk-payment-card__header">
               <h2 class="p-chk-payment-card__title">Payment</h2>
-              <button
-                class="p-chk-payment-card__edit-button"
-                data-edit-button="payment"
-              >
-                Edit
-              </button>
             </div>
             <div class="p-chk-payment-section" data-display-content="payment">
               <div class="p-chk-payment-section__layout">
@@ -3841,16 +3807,6 @@
                   </div>
                 </div>
               </div>
-            </div>
-
-            <!-- Payment Complete Button -->
-            <div class="p-chk-payment-complete__actions">
-              <button
-                class="p-chk-card__continue-button"
-                data-complete-edit="payment"
-              >
-                <span class="p-chk-user-card__continue-text">Complete</span>
-              </button>
             </div>
           </div>
         </div>
