@@ -2299,7 +2299,7 @@
         display: flex;
         flex-direction: column;
         align-items: stretch;
-        border-radius: 12px;
+        border-radius: 0 0 12px 12px; /* No top radius - payment header is always above */
         border: 1px solid #e3e3e3;
         background-color: #fff;
         overflow: hidden;
@@ -3798,7 +3798,7 @@
               if (emailDisplay) emailDisplay.textContent = email;
               if (professionDisplay) professionDisplay.textContent = profession;
 
-              // **UPDATED: Use the same pattern as delivery sections**
+              // Use the same pattern as delivery sections
               // Set the contact section as currently being edited
               currentEditingSection = "contact";
 
@@ -3814,8 +3814,7 @@
           '[data-edit-button="new-contact"]'
         );
         if (newContactEditBtn) {
-          // **REMOVED: Custom handler - now uses the general edit button system**
-          // The general edit button handler will call startEditing("new-contact")
+          // Handler uses the general edit button system
           // We just need to ensure the new customer form is shown when that happens
         }
 
@@ -4012,7 +4011,7 @@
             if (!this.disabled) {
               alert("CCA Voucher submitted successfully!");
 
-              // **NEW: Close the CCA form after successful submission**
+              // Close the CCA form after successful submission
               const ccaCard = document.querySelector(
                 '[data-chk-element="cca-card"]'
               );
@@ -4025,7 +4024,7 @@
                 ccaMainCheckbox.setAttribute("aria-checked", "false");
               }
 
-              // **NEW: Check if all payment methods are completed**
+              // Check if all payment methods are completed
               checkPaymentCompletion();
             }
           });
@@ -4072,44 +4071,19 @@
         }
         resetCCAForm();
 
-        // **NEW: Payment form interaction handlers - show blue header when user interacts with forms**
+        // Payment form interaction handlers - show blue header when user interacts with forms
+        // Consolidated payment form interaction handlers
+        const paymentFormSelectors = [
+          ".p-chk-cca__card input, .p-chk-cca__card select, .p-chk-cca__card textarea",
+          ".p-chk-pcard__container input, .p-chk-pcard__container select, .p-chk-pcard__dropdown",
+          ".p-chk-user-card__container input, .p-chk-user-card__container select, .p-chk-user-card__dropdown",
+        ];
 
-        // CCA Form interaction
-        const ccaFormInputs = document.querySelectorAll(
-          ".p-chk-cca__card input, .p-chk-cca__card select, .p-chk-cca__card textarea"
-        );
-        ccaFormInputs.forEach((input) => {
-          input.addEventListener("focus", function () {
-            startEditing("payment");
-          });
-          input.addEventListener("click", function () {
-            startEditing("payment");
-          });
-        });
-
-        // Postal Card Form interaction
-        const postalFormInputs = document.querySelectorAll(
-          ".p-chk-pcard__container input, .p-chk-pcard__container select, .p-chk-pcard__dropdown"
-        );
-        postalFormInputs.forEach((element) => {
-          element.addEventListener("focus", function () {
-            startEditing("payment");
-          });
-          element.addEventListener("click", function () {
-            startEditing("payment");
-          });
-        });
-
-        // Credit Card Form interaction
-        const creditCardInputs = document.querySelectorAll(
-          ".p-chk-user-card__container input, .p-chk-user-card__container select, .p-chk-user-card__dropdown"
-        );
-        creditCardInputs.forEach((element) => {
-          element.addEventListener("focus", function () {
-            startEditing("payment");
-          });
-          element.addEventListener("click", function () {
-            startEditing("payment");
+        paymentFormSelectors.forEach((selector) => {
+          document.querySelectorAll(selector).forEach((element) => {
+            ["focus", "click"].forEach((event) => {
+              element.addEventListener(event, () => startEditing("payment"));
+            });
           });
         });
 
@@ -4177,10 +4151,6 @@
           postalSaveCheckbox.addEventListener("click", function () {
             isPostalCheckboxChecked = !isPostalCheckboxChecked;
             this.setAttribute("aria-checked", isPostalCheckboxChecked);
-            console.log(
-              "Postal save checkbox toggled:",
-              isPostalCheckboxChecked
-            );
           });
 
           // Label click handler
@@ -4198,10 +4168,9 @@
         // Continue button functionality
         if (postalContinueButton) {
           postalContinueButton.addEventListener("click", function () {
-            console.log("Postal continue button clicked");
             alert("Postal card information saved successfully!");
 
-            // **NEW: Close the postal card form after successful submission**
+            // Close the postal card form after successful submission
             const postalCardContainer = this.closest(".p-chk-pcard__container");
             if (postalCardContainer) {
               // Collapse the postal card form
@@ -4224,7 +4193,7 @@
               }
             }
 
-            // **NEW: Check if all payment methods are completed**
+            // Check if all payment methods are completed
             checkPaymentCompletion();
           });
         }
@@ -4275,7 +4244,6 @@
 
         if (personalCardToggle) {
           personalCardToggle.addEventListener("change", function () {
-            console.log("Personal card toggle changed:", this.checked);
             // Additional fallback to ensure content expands
             const collapsibleContent = document.querySelector(
               ".p-chk-user-card__collapsible-content"
@@ -4312,12 +4280,10 @@
 
         // Save card checkbox functionality
         if (personalSaveCardToggle) {
-          personalSaveCardToggle.addEventListener("change", function () {
-            console.log("Personal save card checkbox toggled:", this.checked);
-          });
+          personalSaveCardToggle.addEventListener("change", function () {});
         }
 
-        // **NEW: Personal card form validation function**
+        // Personal card form validation function
         function validatePersonalCardForm(
           cardNumber,
           expiryMonth,
@@ -4370,8 +4336,6 @@
         // Continue button functionality
         if (personalContinueButton) {
           personalContinueButton.addEventListener("click", function () {
-            console.log("Personal continue button clicked");
-
             // **NEW: Validate form fields before closing**
             const personalCardContainer = this.closest(
               ".p-chk-user-card__container"
@@ -4431,58 +4395,40 @@
               }
             }
 
-            // **NEW: Check if all payment methods are completed**
+            // Check if all payment methods are completed
             checkPaymentCompletion();
           });
         }
 
-        // **NEW: Function to check if payment section should be completed**
+        // Function to check if payment section should be completed
         function checkPaymentCompletion() {
-          // Check if at least one payment method is completed
-          const ccaCard = document.querySelector(
-            '[data-chk-element="cca-card"]'
-          );
-          const postalForm = document.querySelector(
-            '[data-chk-element="postal-form-section"]'
-          );
-          const personalForm = document.querySelector(
-            ".p-chk-user-card__collapsible-content"
-          );
+          // **REFACTORED: Simplified completion check**
+          const completionChecks = [
+            {
+              selector: '[data-chk-element="cca-card"]',
+              condition: (el) => el && el.style.display === "none",
+            },
+            {
+              selector: '[data-chk-element="postal-form-section"]',
+              condition: (el) => el && el.style.display === "none",
+            },
+            {
+              selector: ".p-chk-user-card__collapsible-content",
+              condition: (el) => el && el.style.display === "none",
+            },
+          ];
 
-          const isCCACompleted = ccaCard && ccaCard.style.display === "none";
-          const isPostalCompleted =
-            postalForm && postalForm.style.display === "none";
-          const isPersonalCompleted =
-            personalForm && personalForm.style.display === "none";
+          const isAnyCompleted = completionChecks.some((check) => {
+            const element = document.querySelector(check.selector);
+            return check.condition(element);
+          });
 
-          // If any payment method is completed, restore normal payment header
-          if (isCCACompleted || isPostalCompleted || isPersonalCompleted) {
+          if (isAnyCompleted) {
             setTimeout(() => {
-              // Hide the blue payment header
-              const paymentHeader = document.querySelector(
-                '[data-section-header="payment"]'
-              );
-              if (paymentHeader) {
-                paymentHeader.classList.remove("active");
-                paymentHeader.style.display = "none";
-              }
-
-              // Show the normal payment header
-              const mainPaymentHeader = document.querySelector(
-                ".p-chk-payment-card__header"
-              );
-              if (mainPaymentHeader) {
-                mainPaymentHeader.style.display = "block";
-              }
-
-              // Restore border radius when blue header is hidden
-              const paymentContainer = document.querySelector(
-                ".p-chk-payment-container"
-              );
-              if (paymentContainer) {
-                paymentContainer.classList.remove("no-top-radius");
-              }
-            }, 500); // Small delay after form completion
+              // Use unified header and border radius management
+              SectionManager.manageHeaders("payment", "hide-blue");
+              SectionManager.manageBorderRadius("payment", "restore");
+            }, 500);
           }
         }
 
@@ -4732,6 +4678,106 @@
       // Section Edit Functionality
       let currentEditingSection = null;
 
+      // **REFACTORED: Utility functions for common operations**
+      const SectionManager = {
+        // Cache DOM queries for performance
+        getSection: (sectionType) =>
+          document.querySelector(`[data-editable-section="${sectionType}"]`),
+        getSectionHeader: (sectionType) =>
+          document.querySelector(`[data-section-header="${sectionType}"]`),
+        getDisplayContent: (sectionType) =>
+          document.querySelector(`[data-display-content="${sectionType}"]`),
+
+        // Unified header management
+        manageHeaders: (sectionType, action) => {
+          const isPayment = sectionType === "payment";
+          const paymentCardHeader = document.querySelector(
+            ".p-chk-payment-card__header"
+          );
+          const sectionHeader = SectionManager.getSectionHeader(sectionType);
+
+          if (action === "show-blue") {
+            // Hide all blue headers first
+            document.querySelectorAll("[data-section-header]").forEach((h) => {
+              h.classList.remove("active");
+              h.style.display = "none";
+            });
+
+            // Show specific blue header
+            if (sectionHeader) {
+              sectionHeader.classList.add("active");
+              sectionHeader.style.display = "block";
+            }
+
+            // Payment header management
+            if (isPayment && paymentCardHeader) {
+              // Hide payment card header when editing payment
+              paymentCardHeader.style.display = "none";
+            } else if (!isPayment && paymentCardHeader) {
+              // Show payment card header when editing other sections (restore if hidden)
+              paymentCardHeader.style.display = "block";
+            }
+          } else if (action === "hide-blue") {
+            // Hide blue header
+            if (sectionHeader) {
+              sectionHeader.classList.remove("active");
+              sectionHeader.style.display = "none";
+            }
+
+            // Show payment card header if completing payment
+            if (isPayment && paymentCardHeader) {
+              paymentCardHeader.style.display = "block";
+            }
+          }
+        },
+
+        // Unified border radius management
+        manageBorderRadius: (sectionType, action) => {
+          const section = SectionManager.getSection(sectionType);
+          if (!section) return;
+
+          const containers = [
+            section.querySelector(".p-chk-info-card__container"),
+            section.querySelector(".p-chk-new-contact-form__container"),
+            section.querySelector(".p-chk-payment-container"),
+          ].filter(Boolean);
+
+          containers.forEach((container) => {
+            if (action === "remove-top") {
+              container.classList.add("no-top-radius");
+            } else if (action === "restore") {
+              container.classList.remove("no-top-radius");
+            }
+          });
+        },
+
+        // Unified section state management
+        setSectionState: (sectionType, isEditing) => {
+          const section = SectionManager.getSection(sectionType);
+          if (!section) return;
+
+          // Section editing class
+          section.classList.toggle("editing", isEditing);
+
+          // Regular header editing class
+          const regularHeader = section.querySelector(
+            ".p-chk-contact-card__header, .p-chk-address-card__header, .p-chk-payment-card__header, .p-chk-info-card__header"
+          );
+          if (regularHeader) {
+            regularHeader.classList.toggle("editing", isEditing);
+          }
+
+          // Display content visibility (except payment)
+          if (sectionType !== "payment") {
+            const displayContent =
+              SectionManager.getDisplayContent(sectionType);
+            if (displayContent) {
+              displayContent.classList.toggle("hidden", isEditing);
+            }
+          }
+        },
+      };
+
       // Edit button click handlers
       document.querySelectorAll("[data-edit-button]").forEach((button) => {
         button.addEventListener("click", function () {
@@ -4749,7 +4795,9 @@
       });
 
       function startEditing(sectionType) {
-        // **NEW: Handle new-contact as contact for consistency**
+        // **REFACTORED: Simplified with utility functions**
+
+        // Handle new-contact as contact for consistency
         if (sectionType === "new-contact") {
           sectionType = "contact";
         }
@@ -4761,81 +4809,14 @@
 
         currentEditingSection = sectionType;
 
-        // Hide the main Payment header only when editing payment section
-        if (sectionType === "payment") {
-          const mainPaymentHeader = document.querySelector(
-            ".p-chk-payment-card__header"
-          );
-          if (mainPaymentHeader) {
-            mainPaymentHeader.style.display = "none";
-          }
-        }
+        // Use unified header management
+        SectionManager.manageHeaders(sectionType, "show-blue");
 
-        // Hide ALL section headers first
-        document.querySelectorAll("[data-section-header]").forEach((header) => {
-          header.classList.remove("active");
-          header.style.display = "none";
-        });
+        // Use unified section state management
+        SectionManager.setSectionState(sectionType, true);
 
-        // Show the section-specific blue header
-        const sectionHeader = document.querySelector(
-          `[data-section-header="${sectionType}"]`
-        );
-        if (sectionHeader) {
-          sectionHeader.classList.add("active");
-          sectionHeader.style.display = "block";
-        }
-
-        // Add editing class to section
-        const section = document.querySelector(
-          `[data-editable-section="${sectionType}"]`
-        );
-        section.classList.add("editing");
-
-        // Hide display content (except for payment section)
-        if (sectionType !== "payment") {
-          const displayContent = document.querySelector(
-            `[data-display-content="${sectionType}"]`
-          );
-          if (displayContent) {
-            displayContent.classList.add("hidden");
-          }
-        }
-
-        // Hide regular header
-        const regularHeader = section.querySelector(
-          ".p-chk-contact-card__header, .p-chk-address-card__header, .p-chk-payment-card__header, .p-chk-info-card__header"
-        );
-        if (regularHeader) {
-          regularHeader.classList.add("editing");
-        }
-
-        // Manage border radius for info card containers
-        const infoCardContainer = section.querySelector(
-          ".p-chk-info-card__container"
-        );
-        if (infoCardContainer && sectionHeader) {
-          // When header is visible, remove top border radius
-          infoCardContainer.classList.add("no-top-radius");
-        }
-
-        // Manage border radius for contact form container
-        const newContactContainer = section.querySelector(
-          ".p-chk-new-contact-form__container"
-        );
-        if (newContactContainer && sectionHeader) {
-          // When header is visible, remove top border radius
-          newContactContainer.classList.add("no-top-radius");
-        }
-
-        // Manage border radius for payment container
-        const paymentContainer = section.querySelector(
-          ".p-chk-payment-container"
-        );
-        if (paymentContainer && sectionHeader) {
-          // When header is visible, remove top border radius
-          paymentContainer.classList.add("no-top-radius");
-        }
+        // Use unified border radius management
+        SectionManager.manageBorderRadius(sectionType, "remove-top");
 
         // Show edit form for contact and delivery sections
         if (sectionType === "contact" || sectionType === "delivery") {
@@ -4846,7 +4827,7 @@
             editForm.classList.add("expanded");
           }
 
-          // **NEW: Special handling for contact section new customer form**
+          // Special handling for contact section new customer form
           if (sectionType === "contact") {
             const newContactContainer = document.querySelector(
               ".p-chk-new-contact-form__container"
@@ -4855,14 +4836,11 @@
               "new-contact-summary"
             );
 
-            // Check if we're in new customer flow (form container exists)
             if (newContactContainer) {
-              // Always hide the summary when editing and show the form
               if (newContactSummary) {
                 newContactSummary.style.display = "none";
                 newContactSummary.classList.remove("no-top-radius");
               }
-              // Always show the form container when editing
               newContactContainer.style.display = "block";
             }
           }
@@ -4870,81 +4848,22 @@
       }
 
       function completeEditing(sectionType) {
-        // Show the main Payment header only when completing payment section editing
-        if (sectionType === "payment") {
-          const mainPaymentHeader = document.querySelector(
-            ".p-chk-payment-card__header"
-          );
-          if (mainPaymentHeader) {
-            mainPaymentHeader.style.display = "block";
-          }
-        }
+        // **REFACTORED: Simplified with utility functions**
 
-        // Hide the section-specific blue header
-        const sectionHeader = document.querySelector(
-          `[data-section-header="${sectionType}"]`
-        );
-        if (sectionHeader) {
-          sectionHeader.classList.remove("active");
-          sectionHeader.style.display = "none";
-        }
+        // Use unified header management
+        SectionManager.manageHeaders(sectionType, "hide-blue");
 
-        // Remove editing class from section
-        const section = document.querySelector(
-          `[data-editable-section="${sectionType}"]`
-        );
-        section.classList.remove("editing");
+        // Use unified section state management
+        SectionManager.setSectionState(sectionType, false);
 
-        // Show display content (except for payment section which was never hidden)
-        if (sectionType !== "payment") {
-          const displayContent = document.querySelector(
-            `[data-display-content="${sectionType}"]`
-          );
-          if (displayContent) {
-            displayContent.classList.remove("hidden");
-          }
-        }
-
-        // Show regular header
-        const regularHeader = section.querySelector(
-          ".p-chk-contact-card__header, .p-chk-address-card__header, .p-chk-payment-card__header, .p-chk-info-card__header"
-        );
-        if (regularHeader) {
-          regularHeader.classList.remove("editing");
-        }
-
-        // Manage border radius for info card containers
-        const infoCardContainer = section.querySelector(
-          ".p-chk-info-card__container"
-        );
-        if (infoCardContainer) {
-          // When header is hidden, restore full border radius
-          infoCardContainer.classList.remove("no-top-radius");
-        }
-
-        // Manage border radius for contact form container
-        const newContactContainer = section.querySelector(
-          ".p-chk-new-contact-form__container"
-        );
-        if (newContactContainer) {
-          // When header is hidden, restore full border radius
-          newContactContainer.classList.remove("no-top-radius");
-        }
-
-        // Manage border radius for payment container
-        const paymentContainer = section.querySelector(
-          ".p-chk-payment-container"
-        );
-        if (paymentContainer) {
-          // When header is hidden, restore full border radius
-          paymentContainer.classList.remove("no-top-radius");
-        }
+        // Use unified border radius management
+        SectionManager.manageBorderRadius(sectionType, "restore");
 
         // Update display content with form data for contact sections
         if (sectionType === "contact") {
           updateContactDisplay(sectionType);
 
-          // **NEW: Handle new customer form closure**
+          // Handle new customer form closure
           const newContactContainer = document.querySelector(
             ".p-chk-new-contact-form__container"
           );
@@ -4956,10 +4875,7 @@
             newContactContainer &&
             newContactContainer.style.display !== "none"
           ) {
-            // This is a new customer form completion - hide the form container
             newContactContainer.style.display = "none";
-
-            // Ensure the summary is visible and properly styled
             if (newContactSummary) {
               newContactSummary.style.display = "block";
               newContactSummary.classList.remove("no-top-radius");
@@ -4979,8 +4895,7 @@
 
         currentEditingSection = null;
 
-        // **NEW: Automatic progression flow**
-        // When contact section is completed, automatically open delivery section
+        // Automatic progression flow
         if (sectionType === "contact") {
           // Show delivery edit button once contact is completed
           const deliveryEditButton =
@@ -4990,43 +4905,20 @@
           }
 
           setTimeout(() => {
-            // Only auto-progress if we're not already editing another section
             if (currentEditingSection !== "payment") {
               startEditing("delivery");
             }
-          }, 300); // Small delay for smooth transition
+          }, 300);
         }
         // When delivery section is completed, automatically highlight payment section
         else if (sectionType === "delivery") {
           setTimeout(() => {
-            // Only highlight payment if we're not currently editing another section
             if (!currentEditingSection) {
-              // Show payment section header in blue to indicate it's the next step
-              const paymentHeader = document.querySelector(
-                '[data-section-header="payment"]'
-              );
-              if (paymentHeader) {
-                paymentHeader.classList.add("active");
-                paymentHeader.style.display = "block";
-
-                // Hide the main payment header when showing the blue one
-                const mainPaymentHeader = document.querySelector(
-                  ".p-chk-payment-card__header"
-                );
-                if (mainPaymentHeader) {
-                  mainPaymentHeader.style.display = "none";
-                }
-
-                // Apply border radius management for smooth header-body connection
-                const paymentContainer = document.querySelector(
-                  ".p-chk-payment-container"
-                );
-                if (paymentContainer) {
-                  paymentContainer.classList.add("no-top-radius");
-                }
-              }
+              // Use unified approach for payment highlighting
+              SectionManager.manageHeaders("payment", "show-blue");
+              SectionManager.manageBorderRadius("payment", "remove-top");
             }
-          }, 300); // Small delay for smooth transition
+          }, 300);
         }
       }
 
@@ -5140,20 +5032,6 @@
           }
         }
       }
-
-      // Click outside to complete editing - DISABLED
-      // Sections now stay open when clicking outside
-      document.addEventListener("click", function (e) {
-        // if (
-        //   currentEditingSection &&
-        //   !e.target.closest(
-        //     `[data-editable-section="${currentEditingSection}"]`
-        //   ) &&
-        //   !e.target.closest("[data-edit-button]")
-        // ) {
-        //   completeEditing(currentEditingSection);
-        // }
-      });
 
       // Payment section click handler - clicking anywhere inside triggers edit mode
       const paymentSection = document.querySelector(
