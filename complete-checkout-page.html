@@ -45,6 +45,101 @@
         border-color: #dc3545;
       }
 
+      /* Primary Button Style for this page - Blue Continue Buttons */
+      .p-chk-primary-button {
+        background-color: #2287ef;
+        border: 1px solid #2287ef;
+        border-radius: 6px;
+        padding: 12px 24px;
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        outline: none;
+      }
+
+      .p-chk-primary-button:hover {
+        background-color: #1a73cc;
+      }
+
+      .p-chk-primary-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(34, 135, 239, 0.3);
+      }
+
+      /* Disabled state for primary button */
+      .p-chk-primary-button:disabled {
+        background-color: #808080 !important;
+        border-color: #808080 !important;
+        cursor: not-allowed !important;
+        opacity: 1;
+      }
+
+      .p-chk-primary-button:disabled:hover {
+        background-color: #808080 !important;
+      }
+
+      /* Universal Form Field Styles */
+      .p-chk-form__input-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        width: 100%;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        height: 50px;
+      }
+
+      .p-chk-form__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        height: 100%;
+      }
+
+      .p-chk-form__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-form__select {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0 center;
+        background-size: 16px;
+        padding-right: 20px;
+      }
+
+      .p-chk-form__input-field:focus-within {
+        border-color: #0530ad;
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
       /* Shared Card Container Styles */
       .p-chk-card__container {
         width: 100%;
@@ -158,32 +253,6 @@
         gap: 6px;
       }
 
-      .p-chk-card__continue-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 6px 12px;
-        height: 44px;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #000000;
-        border: 1px solid #000000;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .p-chk-card__continue-button:hover {
-        background-color: #333333;
-      }
-
-      .p-chk-card__continue-text {
-        color: #ffffff;
-        font-family: "Roboto", sans-serif;
-        font-weight: 700;
-        font-size: 14px;
-        line-height: 16px;
-      }
-
       /* Shared Info Card Container Styles */
       .p-chk-info-card__container {
         width: 100%;
@@ -192,10 +261,15 @@
         align-items: stretch;
         padding: 24px;
         gap: 12px;
-        border-bottom-right-radius: 12px;
-        border-bottom-left-radius: 12px;
+        border-radius: 12px;
         border: 1px solid #e3e3e3;
         background-color: #fff;
+      }
+
+      /* When used with payment header, remove top border radius */
+      .p-chk-info-card__container.no-top-radius {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
       }
 
       .p-chk-info-card__header {
@@ -340,8 +414,8 @@
 
       /* Payment Header */
       .p-chk-payment-header {
-        background: #2287ef;
-        border: 1px solid #2287ef;
+        background: rgba(34, 135, 239, 0.1);
+        border: 1px solid rgba(34, 135, 239, 0.1);
         border-radius: 8px 8px 0 0;
         padding: 12px 24px;
         position: relative;
@@ -349,7 +423,7 @@
 
       .p-chk-payment-header__title {
         font-size: 18px;
-        color: #fff;
+        color: #000;
         margin: 0;
         text-align: left;
       }
@@ -471,6 +545,67 @@
         font-weight: 500;
         font-size: 14px;
         line-height: 16px;
+      }
+
+      /* New Contact Form Styles (Scenario 1) */
+      .p-chk-new-contact-form__container {
+        width: 100%;
+        border: 1px solid #e3e3e3;
+        border-radius: 0 0 12px 12px;
+        background-color: #fff;
+        overflow: hidden;
+      }
+
+      .p-chk-new-contact-form__login-link {
+        color: #666666;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        padding: 12px 24px;
+        border-bottom: 1px solid #e3e3e3;
+      }
+
+      .p-chk-new-contact-form__link {
+        color: #0530ad;
+        text-decoration: underline;
+      }
+
+      .p-chk-new-contact-form__link:hover {
+        color: #041f7a;
+      }
+
+      .p-chk-new-contact-form__form {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .p-chk-new-contact-form__field {
+        display: flex;
+        flex-direction: column;
+      }
+
+      .p-chk-new-contact-form__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .p-chk-new-contact-form__checkbox {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+
+      .p-chk-new-contact-form__checkbox-label {
+        color: #333333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
       }
 
       /* Delivery Component Styles */
@@ -980,22 +1115,6 @@
         gap: 6px;
       }
 
-      .p-chk-pcard__input-text {
-        color: #616161;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        border: none;
-        outline: none;
-        background: transparent;
-        width: 100%;
-      }
-
-      .p-chk-pcard__input-text::placeholder {
-        color: #616161;
-      }
-
       .p-chk-pcard__input-row {
         display: flex;
         gap: 6px;
@@ -1196,14 +1315,15 @@
           font-size: 14px;
         }
 
-        .p-chk-pcard__input-text {
-          font-size: 14px;
-        }
-
         .p-chk-pcard__summary-bar {
           flex-direction: column;
           gap: 12px;
           align-items: stretch;
+        }
+
+        .p-chk-form__input-text,
+        .p-chk-form__select {
+          font-size: 14px;
         }
       }
 
@@ -1363,22 +1483,6 @@
         display: flex;
         flex-direction: column;
         gap: 6px;
-      }
-
-      .p-chk-user-card__input-text {
-        color: #616161;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 19px;
-        border: none;
-        outline: none;
-        background: transparent;
-        width: 100%;
-      }
-
-      .p-chk-user-card__input-text::placeholder {
-        color: #616161;
       }
 
       .p-chk-user-card__input-row {
@@ -1597,10 +1701,6 @@
           font-size: 14px;
         }
 
-        .p-chk-user-card__input-text {
-          font-size: 14px;
-        }
-
         .p-chk-user-card__section-header {
           flex-direction: column;
           gap: 10px;
@@ -1742,34 +1842,6 @@
         display: flex;
         flex-direction: column;
         gap: 10px;
-      }
-
-      .p-chk-cca__input-field {
-        display: flex;
-        align-items: center;
-        padding: 0 12px;
-        width: 100%;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #ffffff;
-        border: 1px solid #e3e3e3;
-        height: 50px;
-      }
-
-      .p-chk-cca__input-text {
-        color: #616161;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 16px;
-        border: none;
-        outline: none;
-        background: transparent;
-        width: 100%;
-        height: 100%;
-      }
-
-      .p-chk-cca__input-text::placeholder {
-        color: #616161;
       }
 
       .p-chk-cca__upload-section {
@@ -1935,28 +2007,6 @@
         cursor: pointer;
       }
 
-      .p-chk-cca__submit-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 9px 18px;
-        width: 100%;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #808080;
-        border: 1px solid #808080;
-        cursor: not-allowed;
-        opacity: 1;
-      }
-
-      .p-chk-cca__submit-text {
-        color: #f7f7f7;
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 16px;
-      }
-
       /* Legacy styles for backward compatibility */
       .p-chk-cca__content {
         max-height: 0;
@@ -2089,34 +2139,6 @@
         line-height: 22px;
         text-align: right;
         flex-shrink: 0;
-      }
-
-      .p-chk-order-summary__place-order-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 6px 12px;
-        width: 100%;
-        height: 50px;
-        gap: 10px;
-        border-radius: 6px;
-        background-color: #000000;
-        border: 1px solid #000000;
-        cursor: pointer;
-        transition: background-color 0.2s ease;
-      }
-
-      .p-chk-order-summary__place-order-button:hover {
-        background-color: #333333;
-      }
-
-      .p-chk-order-summary__place-order-text {
-        color: #ffffff;
-        font-family: "Roboto", sans-serif;
-        font-weight: 500;
-        font-size: 16px;
-        line-height: 19px;
-        text-align: center;
       }
 
       /* Product List Styles */
@@ -2381,11 +2403,76 @@
           <div
             class="p-chk-payment-header"
             data-section-header="contact"
-            style="display: none"
+            style="display: block"
           >
             <h1 class="p-chk-payment-header__title">Contact Information</h1>
           </div>
-          <div class="p-chk-info-card__container">
+
+          <!-- New Customer Contact Form (Scenario 1) -->
+          <div class="p-chk-new-contact-form__container">
+            <div class="p-chk-new-contact-form__login-link">
+              Have an account?
+              <a href="#" class="p-chk-new-contact-form__link">Log In</a>
+            </div>
+
+            <form class="p-chk-new-contact-form__form">
+              <div class="p-chk-new-contact-form__field">
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="email"
+                    class="p-chk-form__input-text"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="p-chk-new-contact-form__checkbox-container">
+                <input
+                  type="checkbox"
+                  id="emailNewsOffers"
+                  class="p-chk-new-contact-form__checkbox"
+                />
+                <label
+                  for="emailNewsOffers"
+                  class="p-chk-new-contact-form__checkbox-label"
+                >
+                  Email me with news and offers
+                </label>
+              </div>
+
+              <div class="p-chk-new-contact-form__field">
+                <label for="contactProfessionSelect" class="visually-hidden"
+                  >Profession</label
+                >
+                <div class="p-chk-form__input-field">
+                  <select
+                    id="contactProfessionSelect"
+                    class="p-chk-form__select"
+                    required
+                    title="Profession"
+                  >
+                    <option value="" disabled selected>
+                      Select Your Craft
+                    </option>
+                    <option value="police">Police Officer</option>
+                    <option value="firefighter">Firefighter</option>
+                    <option value="ems">EMS/Paramedic</option>
+                    <option value="security">Security Guard</option>
+                    <option value="corrections">Corrections Officer</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="p-chk-primary-button">
+                Continue
+              </button>
+            </form>
+          </div>
+
+          <!-- Returning Customer Info Card (Scenario 2 & 3) - Hidden by default -->
+          <div class="p-chk-info-card__container" style="display: none">
             <div class="p-chk-info-card__header">
               <h2 class="p-chk-info-card__title">Contact Information</h2>
               <button
@@ -2407,10 +2494,10 @@
             <div class="p-chk-contact-edit__form" data-edit-form="contact">
               <div class="p-chk-contact-edit__field">
                 <label class="p-chk-contact-edit__label">Email</label>
-                <div class="p-chk-card__input-field">
+                <div class="p-chk-form__input-field">
                   <input
                     type="email"
-                    class="p-chk-user-card__input-text"
+                    class="p-chk-form__input-text"
                     value=""
                     placeholder="Enter email"
                   />
@@ -2418,21 +2505,55 @@
               </div>
               <div class="p-chk-contact-edit__field">
                 <label class="p-chk-contact-edit__label">Profession</label>
-                <div class="p-chk-user-card__dropdown">
-                  <span class="p-chk-user-card__dropdown-text"
-                    >Select profession</span
-                  >
-                  <span class="p-chk-user-card__dropdown-icon">▼</span>
+                <div class="p-chk-form__input-field">
+                  <select class="p-chk-form__select">
+                    <option value="" disabled selected>
+                      Select profession
+                    </option>
+                    <option value="police">Police Officer</option>
+                    <option value="firefighter">Firefighter</option>
+                    <option value="ems">EMS/Paramedic</option>
+                    <option value="security">Security Guard</option>
+                    <option value="corrections">Corrections Officer</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
               </div>
               <div class="p-chk-contact-edit__actions">
                 <button
-                  class="p-chk-card__continue-button"
+                  class="p-chk-primary-button"
                   data-complete-edit="contact"
                 >
-                  <span class="p-chk-user-card__continue-text">Complete</span>
+                  Complete
                 </button>
               </div>
+            </div>
+          </div>
+
+          <!-- Summary View for New Customer (Initially Hidden) -->
+          <div
+            class="p-chk-info-card__container"
+            style="display: none"
+            id="new-contact-summary"
+          >
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Contact Information</h2>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="new-contact"
+              >
+                Edit
+              </button>
+            </div>
+            <div class="p-chk-contact-card__content">
+              <p
+                class="p-chk-contact-card__email"
+                id="new-contact-email-display"
+              ></p>
+              <p
+                class="p-chk-contact-card__job-title"
+                id="new-contact-profession-display"
+              ></p>
             </div>
           </div>
         </div>
@@ -2472,10 +2593,10 @@
             <div class="p-chk-address-edit__form" data-edit-form="delivery">
               <div class="p-chk-address-edit__field">
                 <label class="p-chk-address-edit__label">Full Name</label>
-                <div class="p-chk-card__input-field">
+                <div class="p-chk-form__input-field">
                   <input
                     type="text"
-                    class="p-chk-user-card__input-text"
+                    class="p-chk-form__input-text"
                     value="John Doe"
                     placeholder="Enter full name"
                   />
@@ -2483,10 +2604,10 @@
               </div>
               <div class="p-chk-address-edit__field">
                 <label class="p-chk-address-edit__label">Street Address</label>
-                <div class="p-chk-card__input-field">
+                <div class="p-chk-form__input-field">
                   <input
                     type="text"
-                    class="p-chk-user-card__input-text"
+                    class="p-chk-form__input-text"
                     value="123 Main Street"
                     placeholder="Enter street address"
                   />
@@ -2494,10 +2615,10 @@
               </div>
               <div class="p-chk-address-edit__field">
                 <label class="p-chk-address-edit__label">Apartment/Suite</label>
-                <div class="p-chk-card__input-field">
+                <div class="p-chk-form__input-field">
                   <input
                     type="text"
-                    class="p-chk-user-card__input-text"
+                    class="p-chk-form__input-text"
                     value="Apt 4B"
                     placeholder="Apartment, suite, etc. (optional)"
                   />
@@ -2508,10 +2629,10 @@
                   class="p-chk-address-edit__field p-chk-address-edit__field--half"
                 >
                   <label class="p-chk-address-edit__label">City</label>
-                  <div class="p-chk-card__input-field">
+                  <div class="p-chk-form__input-field">
                     <input
                       type="text"
-                      class="p-chk-user-card__input-text"
+                      class="p-chk-form__input-text"
                       value="New York"
                       placeholder="Enter city"
                     />
@@ -2521,21 +2642,24 @@
                   class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
                 >
                   <label class="p-chk-address-edit__label">State</label>
-                  <div class="p-chk-user-card__dropdown">
-                    <span class="p-chk-user-card__dropdown-text selected"
-                      >NY</span
-                    >
-                    <span class="p-chk-user-card__dropdown-icon">▼</span>
+                  <div class="p-chk-form__input-field">
+                    <select class="p-chk-form__select" title="State">
+                      <option value="NY" selected>NY</option>
+                      <option value="CA">CA</option>
+                      <option value="TX">TX</option>
+                      <option value="FL">FL</option>
+                      <!-- Add more states as needed -->
+                    </select>
                   </div>
                 </div>
                 <div
                   class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
                 >
                   <label class="p-chk-address-edit__label">ZIP Code</label>
-                  <div class="p-chk-card__input-field">
+                  <div class="p-chk-form__input-field">
                     <input
                       type="text"
-                      class="p-chk-user-card__input-text"
+                      class="p-chk-form__input-text"
                       value="10001"
                       placeholder="ZIP"
                     />
@@ -2544,10 +2668,10 @@
               </div>
               <div class="p-chk-address-edit__actions">
                 <button
-                  class="p-chk-card__continue-button"
+                  class="p-chk-primary-button"
                   data-complete-edit="delivery"
                 >
-                  <span class="p-chk-user-card__continue-text">Complete</span>
+                  Complete
                 </button>
               </div>
             </div>
@@ -2818,7 +2942,7 @@
                         <div class="p-chk-cca__file-allowance-field">
                           <input
                             type="text"
-                            class="p-chk-cca__input-text"
+                            class="p-chk-form__input-text"
                             placeholder="104.97"
                             data-chk-element="allowance-amount-input"
                           />
@@ -2832,19 +2956,19 @@
 
                       <div class="p-chk-cca__form-container">
                         <div class="p-chk-cca__form-fields">
-                          <div class="p-chk-cca__input-field">
+                          <div class="p-chk-form__input-field">
                             <input
                               type="email"
-                              class="p-chk-cca__input-text"
+                              class="p-chk-form__input-text"
                               placeholder="Paying Supervisor Email"
                               id="cca-supervisor-email"
                             />
                           </div>
 
-                          <div class="p-chk-cca__input-field">
+                          <div class="p-chk-form__input-field">
                             <input
                               type="tel"
-                              class="p-chk-cca__input-text"
+                              class="p-chk-form__input-text"
                               placeholder="Paying Supervisor Phone"
                               id="cca-supervisor-phone"
                             />
@@ -2877,7 +3001,7 @@
                             <div class="p-chk-cca__file-name-field">
                               <input
                                 type="text"
-                                class="p-chk-cca__input-text"
+                                class="p-chk-form__input-text"
                                 placeholder="Voucher_Upload.pdf"
                                 data-chk-element="file-name-input"
                                 readonly
@@ -2918,13 +3042,11 @@
                       </div>
 
                       <button
-                        class="p-chk-cca__submit-button"
+                        class="p-chk-primary-button"
                         disabled
                         data-chk-element="submit-button"
                       >
-                        <span class="p-chk-cca__submit-text"
-                          >Confirm & Submit</span
-                        >
+                        Confirm & Submit
                       </button>
                     </div>
                   </div>
@@ -2987,10 +3109,10 @@
                           data-chk-element="postal-form-section"
                         >
                           <div class="p-chk-pcard__form-fields">
-                            <div class="p-chk-card__input-field">
+                            <div class="p-chk-form__input-field">
                               <input
                                 type="text"
-                                class="p-chk-pcard__input-text"
+                                class="p-chk-form__input-text"
                                 placeholder="Postal Card Number"
                                 id="postal-card-number-payment"
                               />
@@ -3194,11 +3316,11 @@
                               </div>
 
                               <div
-                                class="p-chk-card__input-field p-chk-pcard__cvv-field"
+                                class="p-chk-form__input-field p-chk-pcard__cvv-field"
                               >
                                 <input
                                   type="text"
-                                  class="p-chk-pcard__input-text"
+                                  class="p-chk-form__input-text"
                                   placeholder="CVV"
                                   maxlength="4"
                                   id="postal-cvv-payment"
@@ -3206,10 +3328,10 @@
                               </div>
                             </div>
 
-                            <div class="p-chk-card__input-field">
+                            <div class="p-chk-form__input-field">
                               <input
                                 type="text"
-                                class="p-chk-pcard__input-text"
+                                class="p-chk-form__input-text"
                                 placeholder="Name on card"
                                 id="postal-cardholder-payment"
                               />
@@ -3235,12 +3357,10 @@
                           </div>
 
                           <button
-                            class="p-chk-card__continue-button"
+                            class="p-chk-primary-button"
                             data-chk-element="postal-continue-button"
                           >
-                            <span class="p-chk-pcard__continue-text"
-                              >Continue</span
-                            >
+                            Continue
                           </button>
                         </div>
                       </div>
@@ -3296,10 +3416,10 @@
                         </div>
 
                         <div class="p-chk-user-card__form-fields">
-                          <div class="p-chk-card__input-field">
+                          <div class="p-chk-form__input-field">
                             <input
                               type="text"
-                              class="p-chk-user-card__input-text"
+                              class="p-chk-form__input-text"
                               placeholder="Enter Card Number"
                               maxlength="19"
                               id="personal-card-number-payment"
@@ -3505,11 +3625,11 @@
                             </div>
 
                             <div
-                              class="p-chk-card__input-field p-chk-user-card__cvv-field"
+                              class="p-chk-form__input-field p-chk-user-card__cvv-field"
                             >
                               <input
                                 type="text"
-                                class="p-chk-user-card__input-text"
+                                class="p-chk-form__input-text"
                                 placeholder="CVV"
                                 maxlength="4"
                                 id="personal-cvv-payment"
@@ -3517,10 +3637,10 @@
                             </div>
                           </div>
 
-                          <div class="p-chk-card__input-field">
+                          <div class="p-chk-form__input-field">
                             <input
                               type="text"
-                              class="p-chk-user-card__input-text"
+                              class="p-chk-form__input-text"
                               placeholder="Name on card"
                               id="personal-cardholder-payment"
                             />
@@ -3568,13 +3688,11 @@
                         </div>
 
                         <button
-                          class="p-chk-card__continue-button"
+                          class="p-chk-primary-button"
                           type="button"
                           data-chk-element="personal-continue-button"
                         >
-                          <span class="p-chk-user-card__continue-text"
-                            >Continue</span
-                          >
+                          Continue
                         </button>
                       </div>
                     </div>
@@ -3626,13 +3744,8 @@
                 </div>
               </div>
 
-              <button
-                class="p-chk-order-summary__place-order-button"
-                type="button"
-              >
-                <span class="p-chk-order-summary__place-order-text"
-                  >Place Order</span
-                >
+              <button class="p-chk-primary-button" type="button">
+                Place Order
               </button>
             </div>
           </div>
@@ -3642,6 +3755,67 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // New Contact Form functionality
+        const newContactForm = document.querySelector(
+          ".p-chk-new-contact-form__form"
+        );
+        const newContactContainer = document.querySelector(
+          ".p-chk-new-contact-form__container"
+        );
+        const newContactSummary = document.getElementById(
+          "new-contact-summary"
+        );
+        const paymentHeader = document.querySelector(
+          '[data-section-header="contact"]'
+        );
+
+        if (newContactForm) {
+          newContactForm.addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // Get form values
+            const email = this.querySelector(".p-chk-form__input-text").value;
+            const profession = this.querySelector(".p-chk-form__select").value;
+
+            if (email && profession) {
+              // Update summary display
+              const emailDisplay = document.getElementById(
+                "new-contact-email-display"
+              );
+              const professionDisplay = document.getElementById(
+                "new-contact-profession-display"
+              );
+
+              if (emailDisplay) emailDisplay.textContent = email;
+              if (professionDisplay) professionDisplay.textContent = profession;
+
+              // Hide form and payment header, show summary
+              newContactContainer.style.display = "none";
+              if (paymentHeader) paymentHeader.style.display = "none";
+              newContactSummary.style.display = "block";
+
+              // Use unified border radius management - when header is hidden, restore full border radius
+              newContactSummary.classList.remove("no-top-radius");
+            }
+          });
+        }
+
+        // Handle edit button for new contact summary
+        const newContactEditBtn = document.querySelector(
+          '[data-edit-button="new-contact"]'
+        );
+        if (newContactEditBtn) {
+          newContactEditBtn.addEventListener("click", function () {
+            // Show form and payment header, hide summary
+            newContactContainer.style.display = "block";
+            if (paymentHeader) paymentHeader.style.display = "block";
+            newContactSummary.style.display = "none";
+
+            // Use unified border radius management - when header is visible, remove top border radius
+            newContactSummary.classList.add("no-top-radius");
+          });
+        }
+
         // CCA Voucher functionality with enhanced features
         const ccaMainCheckbox = document.querySelector(
           '[data-chk-element="cca-checkbox"]'
@@ -3708,9 +3882,6 @@
           // Reset submit button
           if (submitButton) {
             submitButton.disabled = true;
-            submitButton.style.backgroundColor = "#808080";
-            submitButton.style.borderColor = "#808080";
-            submitButton.style.cursor = "not-allowed";
           }
         }
 
@@ -3785,17 +3956,8 @@
             supervisorEmail &&
             supervisorPhone;
 
-          if (canSubmit) {
-            submitButton.disabled = false;
-            submitButton.style.backgroundColor = "#000000";
-            submitButton.style.borderColor = "#000000";
-            submitButton.style.cursor = "pointer";
-          } else {
-            submitButton.disabled = true;
-            submitButton.style.backgroundColor = "#808080";
-            submitButton.style.borderColor = "#808080";
-            submitButton.style.cursor = "not-allowed";
-          }
+          // The CSS handles the visual state automatically based on disabled attribute
+          submitButton.disabled = !canSubmit;
         }
 
         // Event listeners
@@ -4334,6 +4496,7 @@
         );
         if (sectionHeader) {
           sectionHeader.classList.add("active");
+          sectionHeader.style.display = "block";
         }
 
         // Add editing class to section
@@ -4358,6 +4521,15 @@
         );
         if (regularHeader) {
           regularHeader.classList.add("editing");
+        }
+
+        // Manage border radius for info card containers
+        const infoCardContainer = section.querySelector(
+          ".p-chk-info-card__container"
+        );
+        if (infoCardContainer && sectionHeader) {
+          // When header is visible, remove top border radius
+          infoCardContainer.classList.add("no-top-radius");
         }
 
         // Show edit form for contact and delivery sections
@@ -4386,6 +4558,7 @@
         );
         if (sectionHeader) {
           sectionHeader.classList.remove("active");
+          sectionHeader.style.display = "none";
         }
 
         // Remove editing class from section
@@ -4410,6 +4583,15 @@
         );
         if (regularHeader) {
           regularHeader.classList.remove("editing");
+        }
+
+        // Manage border radius for info card containers
+        const infoCardContainer = section.querySelector(
+          ".p-chk-info-card__container"
+        );
+        if (infoCardContainer) {
+          // When header is hidden, restore full border radius
+          infoCardContainer.classList.remove("no-top-radius");
         }
 
         // Update display content with form data for contact sections
