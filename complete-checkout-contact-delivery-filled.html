@@ -2413,7 +2413,6 @@
                 class="p-chk-info-card__edit-button"
                 data-edit-button="contact"
                 id="contactEditButton"
-                style="display: none"
               >
                 Edit
               </button>
@@ -2499,7 +2498,6 @@
                 class="p-chk-info-card__edit-button"
                 data-edit-button="delivery"
                 id="deliveryEditButton"
-                style="display: none"
               >
                 Edit
               </button>
@@ -2619,13 +2617,12 @@
         <!-- Payment Section with Product List and Card Forms -->
         <section data-editable-section="payment">
           <div
-            class="p-chk-payment-header"
+            class="p-chk-payment-header active"
             data-section-header="payment"
-            style="display: none"
           >
             <h1 class="p-chk-payment-header__title">Payment</h1>
           </div>
-          <div class="p-chk-payment-container">
+          <div class="p-chk-payment-container no-top-radius">
             <div class="p-chk-payment-card__header">
               <h2 class="p-chk-payment-card__title">Payment</h2>
             </div>
@@ -3680,6 +3677,9 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Initialize button states based on content
+        initializeButtonStates();
+
         // Contact Form functionality
         // Handle complete button for contact section
         const contactCompleteBtn = document.querySelector(
@@ -3696,12 +3696,6 @@
             // Complete the editing
             completeEditing("contact");
           });
-        }
-
-        // Show Edit button for contact section after page load
-        const contactEditButton = document.getElementById("contactEditButton");
-        if (contactEditButton) {
-          contactEditButton.style.display = "block";
         }
 
         // CCA Voucher functionality with enhanced features
@@ -4663,6 +4657,118 @@
         },
       };
 
+      // Initialize button states and forms based on content
+      function initializeButtonStates() {
+        // Check contact section state
+        const contactSection = document.querySelector(
+          '[data-editable-section="contact"]'
+        );
+        const contactEditButton = document.getElementById("contactEditButton");
+        const contactDisplayContent = document.querySelector(
+          '[data-display-content="contact"]'
+        );
+        const contactForm = document.querySelector(
+          '[data-edit-form="contact"]'
+        );
+
+        if (contactSection && contactEditButton) {
+          // Check if contact has content by looking for filled display content
+          const contactEmail = contactDisplayContent?.querySelector(
+            ".p-chk-contact-card__email"
+          );
+          const contactJob = contactDisplayContent?.querySelector(
+            ".p-chk-contact-card__job-title"
+          );
+          const hasContactContent =
+            (contactEmail && contactEmail.textContent.trim()) ||
+            (contactJob && contactJob.textContent.trim());
+
+          if (hasContactContent) {
+            // Content exists - show Edit button
+            contactEditButton.textContent = "Edit";
+            contactEditButton.style.display = "block";
+          } else {
+            // No content - check if form is expanded (new user scenario)
+            if (contactForm && contactForm.classList.contains("expanded")) {
+              // Form is open for new user - hide button
+              contactEditButton.style.display = "none";
+              startEditing("contact"); // Start editing for new users
+            } else {
+              // Form closed, no content - show Add button
+              contactEditButton.textContent = "Add";
+              contactEditButton.style.display = "block";
+            }
+          }
+        }
+
+        // Check delivery section state
+        const deliverySection = document.querySelector(
+          '[data-editable-section="delivery"]'
+        );
+        const deliveryEditButton =
+          document.getElementById("deliveryEditButton");
+        const deliveryDisplayContent = document.querySelector(
+          '[data-display-content="delivery"]'
+        );
+        const deliveryForm = document.querySelector(
+          '[data-edit-form="delivery"]'
+        );
+
+        if (deliverySection && deliveryEditButton) {
+          // Check if delivery has content
+          const deliveryAddress = deliveryDisplayContent?.querySelector(
+            ".p-chk-address-card__address"
+          );
+          const hasDeliveryContent =
+            deliveryAddress &&
+            deliveryAddress.textContent.trim() &&
+            !deliveryAddress.textContent.includes("Add your delivery address");
+
+          if (hasDeliveryContent) {
+            // Content exists - show Edit button
+            deliveryEditButton.textContent = "Edit";
+            deliveryEditButton.style.display = "block";
+          } else {
+            // No content - check if form is expanded (contact-filled scenario)
+            if (deliveryForm && deliveryForm.classList.contains("expanded")) {
+              // Form is open - hide button, user needs to complete first
+              deliveryEditButton.style.display = "none";
+              startEditing("delivery"); // Start editing for contact-filled scenario
+            } else {
+              // Form closed, no content - show Add button
+              deliveryEditButton.textContent = "Add";
+              deliveryEditButton.style.display = "block";
+            }
+          }
+        }
+
+        // Check if payment section should be highlighted (scenario 3)
+        const paymentSection = document.querySelector(
+          '[data-editable-section="payment"]'
+        );
+        if (paymentSection) {
+          // If both contact and delivery have content, highlight payment
+          const contactHasContent = contactDisplayContent
+            ?.querySelector(".p-chk-contact-card__email")
+            ?.textContent.trim();
+          const deliveryHasContent = deliveryDisplayContent
+            ?.querySelector(".p-chk-address-card__address")
+            ?.textContent.trim();
+
+          if (
+            contactHasContent &&
+            deliveryHasContent &&
+            !deliveryHasContent.includes("Add your delivery address")
+          ) {
+            // Both sections complete - highlight payment (scenario 3)
+            setTimeout(() => {
+              SectionManager.manageHeaders("payment", "show-blue");
+              SectionManager.manageBorderRadius("payment", "remove-top");
+            }, 100);
+          }
+        }
+      }
+
       // Edit button click handlers
       document.querySelectorAll("[data-edit-button]").forEach((button) => {
         button.addEventListener("click", function () {
@@ -4717,6 +4823,7 @@
       }
 
       function completeEditing(sectionType) {
+        console.log("completeEditing called with:", sectionType);
         // **REFACTORED: Simplified with utility functions**
 
         // Use unified header management
@@ -4728,9 +4835,12 @@
         // Use unified border radius management
         SectionManager.manageBorderRadius(sectionType, "restore");
 
-        // Update display content with form data for contact sections
+        // Update display content with form data for contact and delivery sections
         if (sectionType === "contact") {
           updateContactDisplay(sectionType);
+        } else if (sectionType === "delivery") {
+          console.log("Calling updateDeliveryDisplay...");
+          updateDeliveryDisplay(sectionType);
         }
 
         // Hide edit form
@@ -4754,11 +4864,8 @@
             deliveryEditButton.style.display = "block";
           }
 
-          setTimeout(() => {
-            if (currentEditingSection !== "payment") {
-              startEditing("delivery");
-            }
-          }, 300);
+          // In this version, both contact and delivery are already filled
+          // so we don't automatically start editing
         }
         // When delivery section is completed, automatically highlight payment section
         else if (sectionType === "delivery") {
@@ -4812,6 +4919,143 @@
         }
       }
 
+      function updateDeliveryDisplay(sectionType) {
+        console.log("updateDeliveryDisplay called with:", sectionType);
+        if (sectionType !== "delivery") return;
+
+        const editForm = document.querySelector(
+          `[data-edit-form="${sectionType}"]`
+        );
+        const displayContent = document.querySelector(
+          `[data-display-content="${sectionType}"]`
+        );
+
+        console.log("Edit form found:", editForm);
+        console.log("Display content found:", displayContent);
+
+        if (!editForm || !displayContent) return;
+
+        // Get form values using more robust selectors
+        const inputFields = editForm.querySelectorAll('input[type="text"]');
+        const stateSelect = editForm.querySelector("select");
+
+        console.log("Input fields found:", inputFields.length);
+        console.log("State select found:", stateSelect);
+
+        if (inputFields.length < 5 || !stateSelect) return;
+
+        // Map inputs by their order in the form
+        const nameInput = inputFields[0]; // Full Name
+        const streetInput = inputFields[1]; // Street Address
+        const aptInput = inputFields[2]; // Apartment/Suite
+        const cityInput = inputFields[3]; // City
+        const zipInput = inputFields[4]; // ZIP Code
+
+        const name = nameInput.value.trim();
+        const street = streetInput.value.trim();
+        const apt = aptInput.value.trim();
+        const city = cityInput.value.trim();
+        const state = stateSelect.value;
+        const zip = zipInput.value.trim();
+
+        console.log("Form values:", { name, street, apt, city, state, zip });
+
+        // Build address display text - show partial information as it's filled
+        let addressText = "";
+        let hasAnyContent = name || street || apt || city || state || zip;
+
+        if (hasAnyContent) {
+          if (name) {
+            addressText += name + "<br />";
+          }
+          if (street) {
+            addressText += street + "<br />";
+          }
+          if (apt) {
+            addressText += apt + "<br />";
+          }
+
+          // Build city/state/zip line if any of them exist
+          let locationLine = "";
+          if (city) {
+            locationLine += city;
+          }
+          if (state) {
+            locationLine += (city ? ", " : "") + state;
+          }
+          if (zip) {
+            locationLine += (city || state ? " " : "") + zip;
+          }
+
+          if (locationLine) {
+            addressText += locationLine + "<br />";
+          }
+
+          // Always add country if we have any address content
+          if (addressText) {
+            addressText += "United States";
+          }
+        }
+
+        console.log("Address text built:", addressText);
+
+        // Handle display content update
+        const addressElement = displayContent.querySelector(
+          ".p-chk-address-card__address"
+        );
+        const emptyDescription = displayContent.querySelector(
+          ".p-chk-address-card__empty-description"
+        );
+
+        console.log("Address element found:", addressElement);
+        console.log("Empty description found:", emptyDescription);
+
+        if (addressText) {
+          // Hide empty description and show/update address
+          if (emptyDescription) {
+            emptyDescription.style.display = "none";
+          }
+
+          if (addressElement) {
+            addressElement.innerHTML = addressText;
+            addressElement.style.display = "block";
+            console.log("Address display updated successfully");
+          } else {
+            // Create address element if it doesn't exist
+            const newAddressElement = document.createElement("p");
+            newAddressElement.className = "p-chk-address-card__address";
+            newAddressElement.innerHTML = addressText;
+            displayContent.appendChild(newAddressElement);
+            console.log("Address element created and added");
+          }
+
+          // Change button text from "Add" to "Edit" and show edit button
+          const deliveryEditButton =
+            document.getElementById("deliveryEditButton");
+          if (deliveryEditButton) {
+            deliveryEditButton.textContent = "Edit";
+            deliveryEditButton.style.display = "block";
+            console.log("Button changed to Edit");
+          }
+        } else {
+          // No content - show empty state
+          if (addressElement) {
+            addressElement.style.display = "none";
+          }
+          if (emptyDescription) {
+            emptyDescription.style.display = "block";
+          }
+
+          // Change button text back to "Add"
+          const deliveryEditButton =
+            document.getElementById("deliveryEditButton");
+          if (deliveryEditButton) {
+            deliveryEditButton.textContent = "Add";
+            console.log("Button changed to Add");
+          }
+        }
+      }
+
       // Payment section click handler - clicking anywhere inside triggers edit mode
       const paymentSection = document.querySelector(
         '[data-editable-section="payment"]'
@@ -4836,18 +5080,6 @@
           // Trigger edit mode for payment section
           startEditing("payment");
         });
-      }
-
-      // Initialize: Start contact editing for new customers on page load
-      // Check if new contact form is visible (indicating new customer scenario)
-      const newContactForm = document.querySelector(
-        ".p-chk-new-contact-form__container"
-      );
-      if (
-        newContactForm &&
-        window.getComputedStyle(newContactForm).display !== "none"
-      ) {
-        startEditing("contact");
       }
     </script>
   </body>

@@ -1,0 +1,5010 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galls Checkout - Complete Your Order</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Global Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        background-color: #fff;
+        padding: 20px;
+        line-height: 1.4;
+      }
+
+      /* Global Checkout Styles */
+      .p-chk-global__input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-global__input:focus {
+        outline: none;
+        border-color: #0530ad;
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-global__input--error {
+        border-color: #dc3545;
+      }
+
+      /* Primary Button Style for this page - Black with Blue Hover */
+      .p-chk-primary-button {
+        border: 1px solid #2287ef;
+        background: #2287ef;
+        border-radius: 6px;
+        padding: 12px 24px;
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        outline: none;
+      }
+
+      .p-chk-primary-button:hover {
+        background-color: #2791fc;
+        border-color: #2791fc;
+      }
+
+      .p-chk-primary-button:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Disabled state for primary button */
+      .p-chk-primary-button:disabled {
+        background-color: #808080 !important;
+        border-color: #808080 !important;
+        cursor: not-allowed !important;
+        opacity: 1;
+      }
+
+      .p-chk-primary-button:disabled:hover {
+        background-color: #808080 !important;
+      }
+
+      /* Universal Form Field Styles */
+      .p-chk-form__input-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        width: 100%;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        height: 50px;
+      }
+
+      .p-chk-form__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        height: 100%;
+      }
+
+      .p-chk-form__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-form__select {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 0 center;
+        background-size: 16px;
+        padding-right: 20px;
+      }
+
+      .p-chk-form__input-field:focus-within {
+        border-color: #0530ad;
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      /* Shared Card Container Styles */
+      .p-chk-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      .p-chk-card__toggle-input {
+        display: none;
+      }
+
+      .p-chk-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 0px 20px;
+        gap: 21px;
+      }
+
+      .p-chk-card__title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-card__toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-card__toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-card__toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .p-chk-card__toggle-input:checked
+        ~ .p-chk-card__header
+        .p-chk-card__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-card__collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-card__toggle-input:checked ~ .p-chk-card__collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
+      }
+
+      .p-chk-card__input-field {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-card__input-field:focus-within {
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-card__input-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        border: none;
+        outline: none;
+        background: transparent;
+        width: 100%;
+      }
+
+      .p-chk-card__input-text::placeholder {
+        color: #616161;
+      }
+
+      .p-chk-card__input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      /* Shared Info Card Container Styles */
+      .p-chk-info-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      /* When used with payment header, remove top border radius */
+      .p-chk-info-card__container.no-top-radius {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      .p-chk-new-contact-form__container.no-top-radius {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+
+      .p-chk-info-card__header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-info-card__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-info-card__edit-button {
+        background: none;
+        border: none;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0;
+      }
+
+      .p-chk-global__select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+        background-color: #fff;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right 12px center;
+        background-size: 16px;
+        appearance: none;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-global__select:focus {
+        outline: none;
+        border-color: #0530ad;
+        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      }
+
+      .p-chk-global__button {
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .p-chk-global__button--primary {
+        background-color: #0530ad;
+        color: #fff;
+      }
+
+      .p-chk-global__button--primary:hover {
+        background-color: #042187;
+      }
+
+      .p-chk-global__button--secondary {
+        background-color: transparent;
+        color: #0530ad;
+        border: 1px solid #0530ad;
+      }
+
+      .p-chk-global__button--secondary:hover {
+        background-color: #0530ad;
+        color: #fff;
+      }
+
+      .p-chk-global__card {
+        background-color: #fff;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+      }
+
+      .p-chk-global__card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px;
+        gap: 12px;
+      }
+
+      .p-chk-global__card-title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-global__card-content {
+        padding: 0 24px 24px;
+      }
+
+      /* Main Layout */
+      .p-chk-main__container {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        gap: 24px;
+        align-items: flex-start;
+      }
+
+      .p-chk-main__content {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        flex: 1;
+        min-width: 0;
+      }
+
+      .p-chk-main__sidebar {
+        position: relative;
+        width: 405px;
+        flex-shrink: 0;
+      }
+
+      /* Payment Header */
+      .p-chk-payment-header {
+        background: rgba(34, 135, 239, 0.1);
+        border: 1px solid rgba(34, 135, 239, 0.1);
+        border-radius: 8px 8px 0 0;
+        padding: 12px 24px;
+        position: relative;
+      }
+
+      .p-chk-payment-header__title {
+        font-size: 18px;
+        color: #000;
+        margin: 0;
+        text-align: left;
+      }
+
+      .p-chk-main__sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        position: sticky;
+        top: 20px;
+      }
+
+      /* Contact Component Styles */
+      .p-chk-contact-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      .p-chk-contact-card__header {
+        width: 100%;
+        height: 27px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-contact-card__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-contact-card__edit-button {
+        background: none;
+        border: none;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0;
+      }
+
+      .p-chk-contact-card__content {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .p-chk-contact-card__empty-description {
+        color: #666;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+        padding: 0;
+      }
+
+      .p-chk-contact-card__email {
+        color: #333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+      }
+
+      .p-chk-contact-card__job-title {
+        color: #666;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        margin: 0;
+      }
+
+      /* Contact Edit Form Styles */
+      .p-chk-contact-edit__form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        padding: 0 20px;
+      }
+
+      .p-chk-contact-edit__form.expanded {
+        max-height: 400px;
+        opacity: 1;
+        padding: 20px;
+      }
+
+      .p-chk-contact-edit__field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .p-chk-contact-edit__label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Contact Edit Form Styles */
+      .p-chk-contact-edit__form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        padding: 0 20px;
+      }
+
+      .p-chk-contact-edit__form.expanded {
+        max-height: 500px;
+        opacity: 1;
+        padding: 20px;
+      }
+
+      .p-chk-contact-edit__field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .p-chk-contact-edit__label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      .p-chk-contact-edit__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .p-chk-contact-edit__checkbox {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+      }
+
+      .p-chk-contact-edit__checkbox-label {
+        color: #333333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
+      }
+
+      /* Delivery Component Styles */
+      .p-chk-address-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      .p-chk-address-card__header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-address-card__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-address-card__edit-button {
+        background: none;
+        border: none;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
+        text-decoration: underline;
+        padding: 0;
+      }
+
+      .p-chk-address-card__content {
+        width: 100%;
+        max-width: 812px;
+        display: flex;
+        flex-direction: column;
+        gap: 0px;
+      }
+
+      .p-chk-address-card__address {
+        color: #333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 1.2;
+        margin: 0;
+      }
+
+      /* Address Edit Form Styles */
+      .p-chk-address-edit__form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        padding: 0 20px;
+      }
+
+      .p-chk-address-edit__form.expanded {
+        max-height: 500px;
+        opacity: 1;
+        padding: 20px;
+      }
+
+      .p-chk-address-edit__field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .p-chk-address-edit__field--half {
+        flex: 1;
+      }
+
+      .p-chk-address-edit__field--quarter {
+        flex: 0 0 30%;
+      }
+
+      .p-chk-address-edit__row {
+        display: flex;
+        gap: 12px;
+        align-items: end;
+      }
+
+      .p-chk-address-edit__label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      .p-chk-contact-edit__actions,
+      .p-chk-address-edit__actions {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 8px;
+      }
+
+      /* Edit State Styles */
+      [data-editable-section] {
+        transition: border 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      [data-editable-section].editing {
+      }
+
+      /* Change border radius when editing */
+      [data-editable-section].editing .p-chk-contact-card__container,
+      [data-editable-section].editing .p-chk-address-card__container,
+      [data-editable-section].editing .p-chk-payment-container {
+        border-radius: 0 0 12px 12px;
+      }
+
+      /* Hide content when editing */
+      [data-display-content] {
+        transition: opacity 0.3s ease;
+      }
+
+      [data-display-content].hidden {
+        display: none;
+      }
+
+      /* Show blue header when editing */
+      [data-section-header] {
+        transition: all 0.3s ease;
+      }
+
+      [data-section-header].active {
+        display: block !important;
+      }
+
+      /* Hide regular header when editing */
+      .p-chk-contact-card__header.editing,
+      .p-chk-address-card__header.editing,
+      .p-chk-payment-card__header.editing,
+      .p-chk-info-card__header.editing {
+        display: none;
+      }
+
+      /* Edit button states */
+      [data-edit-button] {
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      /* Shipping Method Component Styles */
+      .p-chk-shipping__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 24px;
+        gap: 12px;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+      }
+
+      .p-chk-shipping__header {
+        width: 100%;
+        max-width: 812px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .p-chk-shipping__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+        flex: 1;
+      }
+
+      .p-chk-shipping__content {
+        width: 100%;
+        max-width: 812px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .p-chk-shipping__method {
+        color: #333;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+      }
+
+      .p-chk-shipping__price {
+        color: #00a651;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+      }
+
+      /* Payment Method Selection */
+      .p-chk-payment__container {
+        background-color: #fff;
+        border-radius: 12px;
+        border: 1px solid #e3e3e3;
+        padding: 24px;
+      }
+
+      .p-chk-payment__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0 0 16px 0;
+      }
+
+      .p-chk-payment__methods {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .p-chk-payment__method {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 16px;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-payment__method:hover {
+        border-color: #0530ad;
+        background-color: #f8f9ff;
+      }
+
+      .p-chk-payment__method--selected {
+        border-color: #0530ad;
+        background-color: #f8f9ff;
+      }
+
+      .p-chk-payment__radio {
+        width: 18px;
+        height: 18px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        position: relative;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-payment__method--selected .p-chk-payment__radio {
+        border-color: #0530ad;
+      }
+
+      .p-chk-payment__radio::after {
+        content: "";
+        width: 8px;
+        height: 8px;
+        background-color: #0530ad;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .p-chk-payment__method--selected .p-chk-payment__radio::after {
+        opacity: 1;
+      }
+
+      .p-chk-payment__method-info {
+        flex: 1;
+      }
+
+      .p-chk-payment__method-title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0 0 4px 0;
+      }
+
+      .p-chk-payment__method-description {
+        color: #666;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        margin: 0;
+      }
+
+      /* Postal Card Component Styles */
+      .p-chk-pcard__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      .p-chk-pcard__toggle-input {
+        display: none;
+      }
+
+      .p-chk-pcard__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 0px 20px;
+        gap: 21px;
+      }
+
+      .p-chk-pcard__title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-pcard__toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-pcard__toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-pcard__toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .p-chk-pcard__toggle-input:checked
+        ~ .p-chk-pcard__header
+        .p-chk-pcard__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-pcard__summary-bar {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 40px;
+        background-color: #f7f7f7;
+        margin-top: 10px;
+      }
+
+      .p-chk-pcard__collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-pcard__toggle-input:checked ~ .p-chk-pcard__collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
+      }
+
+      .p-chk-pcard__summary-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 3px;
+      }
+
+      .p-chk-pcard__summary-label {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: left;
+      }
+
+      .p-chk-pcard__summary-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
+      }
+
+      .p-chk-pcard__content {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 20px 20px 20px;
+        gap: 10px;
+      }
+
+      .p-chk-pcard__section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 76px;
+      }
+
+      .p-chk-pcard__section-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-pcard__charge-input {
+        position: relative;
+        width: 100%;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+        cursor: pointer;
+      }
+
+      .p-chk-pcard__dollar-prefix {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 64px;
+        height: 50px;
+        background-color: #eaf4ff;
+        border-right: 1px solid #e3e3e3;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+      }
+
+      .p-chk-pcard__charge-text {
+        position: absolute;
+        left: 80px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+      }
+
+      .p-chk-pcard__form-section {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-pcard__form-section.expanded {
+        max-height: 500px;
+        opacity: 1;
+      }
+
+      .p-chk-pcard__form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-pcard__input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .p-chk-pcard__dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        cursor: pointer;
+        flex: 1;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-pcard__dropdown:hover {
+        border-color: #999999;
+      }
+
+      .p-chk-pcard__dropdown-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-pcard__dropdown-text.selected {
+        color: #000000;
+      }
+
+      .p-chk-pcard__dropdown-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .p-chk-pcard__dropdown-toggle {
+        display: none;
+      }
+
+      .p-chk-pcard__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .p-chk-pcard__dropdown-toggle:checked
+        + .p-chk-pcard__dropdown-text
+        + .p-chk-pcard__dropdown-icon
+        + .p-chk-pcard__dropdown-menu {
+        max-height: 200px;
+        opacity: 1;
+      }
+
+      .p-chk-pcard__dropdown-option {
+        padding: 8px 12px;
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-pcard__dropdown-option:hover {
+        background-color: #f7f7f7;
+      }
+
+      .p-chk-pcard__cvv-field {
+        flex: 0 0 100px;
+      }
+
+      .p-chk-pcard__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 0;
+      }
+
+      .p-chk-pcard__checkbox {
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid #ccc;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-color: #fff;
+      }
+
+      .p-chk-pcard__checkbox[aria-checked="true"] {
+        border-color: #0530ad;
+        background-color: #0530ad;
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='white'%3e%3cpath d='M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 12px;
+      }
+
+      .p-chk-pcard__checkbox-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        cursor: pointer;
+      }
+
+      .p-chk-pcard__continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      /* Toggle input hidden */
+      .p-chk-pcard__toggle-input {
+        display: none;
+      }
+
+      /* Collapsible content styles */
+      .p-chk-pcard__collapsible-content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .p-chk-pcard__toggle-input:checked ~ .p-chk-pcard__collapsible-content {
+        max-height: 600px;
+      }
+
+      .p-chk-pcard__charge-input:hover {
+        border-color: #999999;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-pcard__container {
+          max-width: 100%;
+        }
+
+        .p-chk-pcard__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 6px;
+        }
+
+        .p-chk-pcard__dropdown,
+        .p-chk-pcard__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-pcard__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+        }
+
+        .p-chk-pcard__dropdown,
+        .p-chk-pcard__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .p-chk-pcard__dropdown-text {
+          font-size: 14px;
+        }
+
+        .p-chk-pcard__summary-bar {
+          flex-direction: column;
+          gap: 12px;
+          align-items: stretch;
+        }
+
+        .p-chk-form__input-text,
+        .p-chk-form__select {
+          font-size: 14px;
+        }
+      }
+
+      .p-chk-pcard__continue-button:hover {
+        background-color: #333333;
+      }
+
+      .p-chk-pcard__continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Personal Card Component Styles */
+      .p-chk-user-card__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #fff;
+        border: 1px solid #000000;
+        overflow: hidden;
+      }
+
+      .p-chk-user-card__toggle-input {
+        display: none;
+      }
+
+      .p-chk-user-card__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px 0px 20px;
+        gap: 21px;
+      }
+
+      .p-chk-user-card__title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-user-card__toggle-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 24px;
+        background-color: rgba(48, 48, 48, 0.05);
+        border: 1px solid #303030;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .p-chk-user-card__toggle-button:hover {
+        background-color: rgba(48, 48, 48, 0.1);
+      }
+
+      .p-chk-user-card__toggle-icon {
+        width: 14px;
+        height: 14px;
+        transition: transform 0.3s ease;
+      }
+
+      .p-chk-user-card__toggle-input:checked
+        ~ .p-chk-user-card__header
+        .p-chk-user-card__toggle-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-user-card__summary-bar {
+        display: flex;
+        align-items: center;
+        padding: 12px 20px;
+        gap: 40px;
+        background-color: #f7f7f7;
+        margin-top: 10px;
+      }
+
+      .p-chk-user-card__summary-item {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        gap: 3px;
+      }
+
+      .p-chk-user-card__summary-label {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 13px;
+        text-align: left;
+        text-transform: uppercase;
+      }
+
+      .p-chk-user-card__summary-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 16px;
+        text-align: left;
+      }
+
+      .p-chk-user-card__collapsible-content {
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-user-card__toggle-input:checked
+        ~ .p-chk-user-card__collapsible-content {
+        max-height: 1000px;
+        opacity: 1;
+      }
+
+      .p-chk-user-card__content {
+        display: flex;
+        flex-direction: column;
+        padding: 10px 20px 20px 20px;
+        gap: 10px;
+      }
+
+      .p-chk-user-card__section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 76px;
+      }
+
+      .p-chk-user-card__section-title {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: center;
+      }
+
+      .p-chk-user-card__card-icons {
+        width: 136px;
+        height: 21px;
+      }
+
+      .p-chk-user-card__form-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-user-card__input-row {
+        display: flex;
+        gap: 6px;
+      }
+
+      .p-chk-user-card__dropdown {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px;
+        height: 50px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        cursor: pointer;
+        flex: 1;
+        transition: border-color 0.2s ease;
+      }
+
+      .p-chk-user-card__dropdown:hover {
+        border-color: #999999;
+      }
+
+      .p-chk-user-card__dropdown-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        flex: 1;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-user-card__dropdown-text.selected {
+        color: #000000;
+      }
+
+      .p-chk-user-card__dropdown-icon {
+        width: 20px;
+        height: 20px;
+        flex-shrink: 0;
+        transition: transform 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .p-chk-user-card__cvv-field {
+        flex: 1;
+      }
+
+      .p-chk-user-card__dropdown-toggle {
+        display: none;
+      }
+
+      .p-chk-user-card__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        border: 1px solid #bbbbbb;
+        border-top: none;
+        border-radius: 0 0 6px 6px;
+        display: block;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        z-index: 10;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+      }
+
+      .p-chk-user-card__dropdown-toggle:checked
+        ~ .p-chk-user-card__dropdown-menu {
+        max-height: 200px;
+        opacity: 1;
+      }
+
+      .p-chk-user-card__dropdown-toggle:checked
+        ~ .p-chk-user-card__dropdown-icon {
+        transform: rotate(180deg);
+      }
+
+      .p-chk-user-card__dropdown-option {
+        padding: 12px;
+        cursor: pointer;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-user-card__dropdown-option:hover {
+        background-color: #f5f5f5;
+      }
+
+      .p-chk-user-card__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .p-chk-user-card__checkbox-toggle {
+        display: none;
+      }
+
+      .p-chk-user-card__checkbox {
+        width: 13px;
+        height: 13px;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/b3329624-f6be-410f-bd26-0d873381be90");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .p-chk-user-card__checkbox.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/e253c68a-46c9-48e2-be70-3f64ddffcedc");
+      }
+
+      .p-chk-user-card__checkbox-toggle:checked
+        ~ .p-chk-user-card__checkbox-container
+        .p-chk-user-card__checkbox {
+        background-color: #000000;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
+      }
+
+      .p-chk-user-card__checkbox-label {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        line-height: 19px;
+        cursor: pointer;
+      }
+
+      .p-chk-user-card__checkbox-label.disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      .p-chk-user-card__note-text {
+        color: #303030;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        text-align: left;
+        margin-top: 10px;
+      }
+
+      .p-chk-user-card__continue-text {
+        color: #ffffff;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .p-chk-user-card__container {
+          max-width: 100%;
+        }
+
+        .p-chk-user-card__header {
+          padding: 10px 16px 0px 16px;
+        }
+
+        .p-chk-user-card__content {
+          padding: 0px 16px 16px 16px;
+        }
+
+        .p-chk-user-card__summary-bar {
+          padding: 8px;
+          gap: 20px;
+        }
+
+        .p-chk-user-card__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 6px;
+        }
+
+        .p-chk-user-card__dropdown,
+        .p-chk-user-card__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .p-chk-user-card__input-row {
+          display: flex;
+          flex-direction: row;
+          gap: 4px;
+        }
+
+        .p-chk-user-card__dropdown,
+        .p-chk-user-card__cvv-field {
+          flex: 1;
+          min-width: 0;
+        }
+
+        .p-chk-user-card__dropdown-text {
+          font-size: 14px;
+        }
+
+        .p-chk-user-card__section-header {
+          flex-direction: column;
+          gap: 10px;
+          align-items: flex-start;
+        }
+      }
+
+      /* CCA Voucher Styles */
+      .p-chk-cca__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        border: 1px solid #000;
+      }
+
+      .p-chk-cca__checkbox-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background-color: transparent;
+      }
+
+      .p-chk-cca__checkbox {
+        width: 18px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        gap: 10px;
+        border-radius: 3px;
+        background-color: #fdfdfd;
+        border: 1px solid #8a8a8a;
+        cursor: pointer;
+      }
+
+      .p-chk-cca__checkbox[aria-checked="true"] {
+        background-color: #000000;
+        border-color: #000000;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .p-chk-cca__checkbox:hover {
+        border-color: #666666;
+      }
+
+      .p-chk-cca__checkbox[aria-checked="true"]:hover {
+        background-color: #333333;
+        border-color: #333333;
+      }
+
+      .p-chk-cca__label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+        text-align: left;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        text-wrap: nowrap;
+      }
+
+      .p-chk-cca__label .bold-text {
+        font-weight: 700;
+        margin-left: 5px;
+      }
+
+      /* CCA Card Styles with Smooth Animation */
+      .p-chk-cca__card {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 16px;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        opacity: 0;
+      }
+
+      .p-chk-cca__card.expanded {
+        max-height: 800px;
+        opacity: 1;
+      }
+
+      .p-chk-cca__amount-container {
+        width: 100%;
+        height: 50px;
+        display: flex;
+        align-items: stretch;
+        gap: 0;
+        border-radius: 12px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+        margin-top: 12px;
+      }
+
+      .p-chk-cca__dollar-sign {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 15px 12px;
+        background-color: #f7f7f7;
+        border-right: 1px solid #e3e3e3;
+        color: #0530ad;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+      }
+
+      .p-chk-cca__description {
+        width: 100%;
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+      }
+
+      .p-chk-cca__form-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .p-chk-cca__form-fields {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .p-chk-cca__upload-section {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        width: 100%;
+        gap: 12px;
+        border-radius: 6px;
+        border: 1px solid #e3e3e3;
+        background-color: #ffffff;
+      }
+
+      .p-chk-cca__upload-header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+      }
+
+      .p-chk-cca__upload-button-row {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .p-chk-cca__upload-icon {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+        width: 30px;
+        height: 30px;
+        border-radius: 50px;
+        background-color: rgba(48, 48, 48, 0.05);
+        flex-shrink: 0;
+      }
+
+      .p-chk-cca__upload-icon img {
+        width: 14px;
+        height: 14px;
+      }
+
+      .p-chk-cca__upload-text-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        flex: 1;
+        gap: 4px;
+      }
+
+      .p-chk-cca__upload-link {
+        color: #005dac;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .p-chk-cca__upload-link:hover {
+        text-decoration: underline;
+      }
+
+      .p-chk-cca__accepted-formats {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 12px;
+      }
+
+      .p-chk-cca__file-name-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        width: 100%;
+        height: 50px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+      }
+
+      .p-chk-cca__file-allowance-field {
+        display: flex;
+        align-items: center;
+        padding: 0 12px;
+        flex: 1;
+        height: 100%;
+      }
+
+      .p-chk-cca__upload-voucher-button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 9px 18px;
+        width: 100%;
+        height: 37px;
+        gap: 10px;
+        border-radius: 6px;
+        background-color: #f2f2f2;
+        border: 1px solid #f2f2f2;
+        cursor: pointer;
+      }
+
+      .p-chk-cca__upload-voucher-button:hover {
+        background-color: #e8e8e8;
+      }
+
+      .p-chk-cca__upload-voucher-text {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+      }
+
+      .p-chk-cca__disclaimer-container {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0;
+        width: 100%;
+        gap: 10px;
+      }
+
+      .p-chk-cca__disclaimer-row {
+        display: flex;
+        width: 100%;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .p-chk-cca__disclaimer-checkbox {
+        display: flex;
+        align-items: center;
+        padding: 2px;
+        width: 18px;
+        height: 18px;
+        gap: 10px;
+        border-radius: 3px;
+        background-color: #fdfdfd;
+        border: 1px solid #8a8a8a;
+        cursor: pointer;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+
+      .p-chk-cca__disclaimer-checkbox.checked {
+        background-color: #000000;
+        border-color: #000000;
+        background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .p-chk-cca__disclaimer-label {
+        flex: 1;
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        cursor: pointer;
+      }
+
+      /* Legacy styles for backward compatibility */
+      .p-chk-cca__content {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease, padding 0.3s ease;
+        padding: 0;
+      }
+
+      .p-chk-cca__content--expanded {
+        max-height: 400px;
+        padding: 16px 0 0;
+      }
+
+      /* Order Summary Styles */
+      .p-chk-order-summary__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 12px;
+        background-color: #ffffff;
+        border: 1px solid #e3e3e3;
+        overflow: hidden;
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        top: 20px;
+        max-height: calc(100vh - 40px);
+        z-index: 10;
+      }
+
+      .p-chk-order-summary__header {
+        display: flex;
+        align-items: center;
+        padding: 12px 24px;
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #e3e3e3;
+      }
+
+      .p-chk-order-summary__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 23px;
+        line-height: 27px;
+        text-align: center;
+        margin: 0;
+      }
+
+      .p-chk-order-summary__content {
+        display: flex;
+        flex-direction: column;
+        padding: 24px;
+        gap: 24px;
+        background-color: #ffffff;
+        overflow-y: auto;
+        flex: 1;
+      }
+
+      .p-chk-order-summary__details {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border-radius: 12px;
+      }
+
+      .p-chk-order-summary__line-items {
+        display: flex;
+        flex-direction: column;
+        padding: 24px 0px 12px 0px;
+        gap: 12px;
+      }
+
+      .p-chk-order-summary__line-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 41px;
+      }
+
+      .p-chk-order-summary__line-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: left;
+        flex: 1;
+      }
+
+      .p-chk-order-summary__line-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 19px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      .p-chk-order-summary__divider {
+        width: 100%;
+        height: 1px;
+        background-color: #e3e3e3;
+        border: none;
+        margin: 0;
+      }
+
+      .p-chk-order-summary__total-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 41px;
+      }
+
+      .p-chk-order-summary__total-label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 19px;
+        line-height: 22px;
+        text-align: left;
+        flex: 1;
+      }
+
+      .p-chk-order-summary__total-value {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 19px;
+        line-height: 22px;
+        text-align: right;
+        flex-shrink: 0;
+      }
+
+      /* Product List Styles */
+      .p-chk-product__container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        background-color: #fff;
+        border-radius: 12px;
+      }
+
+      .p-chk-product__header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+      }
+
+      .p-chk-product__header-title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 19px;
+        margin: 0;
+      }
+
+      .p-chk-product__item {
+        display: flex;
+        gap: 16px;
+        padding: 12px;
+        border: 1px solid #e3e3e3;
+        border-radius: 8px;
+        background-color: #f9f9f9;
+        transition: background-color 0.2s ease;
+      }
+
+      .p-chk-product__image {
+        width: 64px;
+        height: 64px;
+        border-radius: 8px;
+        object-fit: cover;
+        background-color: #f0f0f0;
+      }
+
+      .p-chk-product__details {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .p-chk-product__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0;
+        color: #0530ad;
+      }
+
+      .p-chk-product__title-link {
+        color: #0530ad;
+        text-decoration: none;
+        transition: color 0.2s ease;
+      }
+
+      .p-chk-product__title-link:hover {
+        color: #0530ad;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+      }
+
+      .p-chk-product__title-link:visited {
+        color: #6f42c1;
+      }
+
+      .p-chk-product__badge {
+        display: inline-block;
+        padding: 5px 12px;
+        border-radius: 24px;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 11px;
+        line-height: 1;
+        text-align: center;
+        width: fit-content;
+        border: 1px solid;
+      }
+
+      .p-chk-product__badge--postal {
+        background-color: #eaf4ff;
+        border-color: #a8d8ff;
+        color: #002133;
+      }
+
+      .p-chk-product__badge--personal {
+        background-color: #f1ebfa;
+        border-color: #e0c9f9;
+        color: #4a157d;
+      }
+
+      .p-chk-product__info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .p-chk-product__attribute,
+      .p-chk-product__quantity,
+      .p-chk-product__price {
+        font-family: "Roboto", sans-serif;
+        font-size: 12px;
+        line-height: 14px;
+        color: #666;
+        margin: 0;
+      }
+
+      .p-chk-product__price {
+        color: #666;
+      }
+
+      .p-chk-product__postal-info {
+        margin-top: 2px;
+        background-color: #f8f9fa;
+      }
+
+      .p-chk-product__postal-title {
+        font-family: "Roboto", sans-serif;
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 14px;
+        color: #002133;
+        margin: 0 0 4px 0;
+      }
+
+      .p-chk-product__postal-breakdown {
+        font-family: "Roboto", sans-serif;
+        font-size: 11px;
+        line-height: 13px;
+        color: #666;
+        font-style: italic;
+        margin: 0;
+      }
+
+      /* Payment Card Header Styles */
+      .p-chk-payment-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 0 0 12px 12px; /* No top radius - payment header is always above */
+        border: 1px solid #e3e3e3;
+        background-color: #fff;
+        overflow: hidden;
+      }
+
+      .p-chk-payment-card__header {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 24px 24px 12px 24px;
+      }
+
+      .p-chk-payment-card__title {
+        color: #002133;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 23px;
+        margin: 0;
+      }
+
+      /* Payment Section Layout Styles */
+      .p-chk-payment-section {
+        width: 100%;
+        background-color: #fff;
+        border: none;
+        overflow: hidden;
+        padding: 12px 24px 24px 24px;
+      }
+
+      .p-chk-payment-section__layout {
+        display: grid;
+        grid-template-columns: 1fr 387px;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .p-chk-payment-section__right {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1200px) {
+        .p-chk-payment-section__layout {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 1024px) {
+        .p-chk-main__container {
+          flex-direction: column-reverse;
+          gap: 20px;
+        }
+
+        .p-chk-main__sidebar {
+          width: 100%;
+          order: -1;
+        }
+
+        .p-chk-payment-section__left {
+          border-right: none;
+        }
+
+        .p-chk-order-summary__container {
+          position: static;
+          max-height: none;
+        }
+
+        .p-chk-user-card__container,
+        .p-chk-cca__container {
+          width: 100%;
+        }
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 16px;
+        }
+
+        .p-chk-payment-section {
+          padding: 12px;
+        }
+
+        .p-chk-product__item {
+          flex-direction: column;
+          text-align: left;
+          align-items: flex-start;
+        }
+
+        .p-chk-product__image {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main Layout -->
+    <div class="p-chk-main__container">
+      <!-- Main Content - Left-->
+      <div class="p-chk-main__content">
+        <!-- Contact Information -->
+        <section data-editable-section="contact">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="contact"
+            style="display: none"
+          >
+            <h1 class="p-chk-payment-header__title">Contact Information</h1>
+          </div>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Contact Information</h2>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="contact"
+                id="contactEditButton"
+                style="display: none"
+              >
+                Edit
+              </button>
+            </div>
+            <div
+              class="p-chk-contact-card__content"
+              data-display-content="contact"
+            >
+              <p class="p-chk-contact-card__empty-description">
+                Add your contact information
+              </p>
+              <p class="p-chk-contact-card__email" style="display: none"></p>
+              <p
+                class="p-chk-contact-card__job-title"
+                style="display: none"
+              ></p>
+            </div>
+
+            <!-- Contact Edit Form -->
+            <div class="p-chk-contact-edit__form" data-edit-form="contact">
+              <div class="p-chk-contact-edit__field">
+                <label class="p-chk-contact-edit__label">Email</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="email"
+                    class="p-chk-form__input-text"
+                    value=""
+                    placeholder="Enter email"
+                  />
+                </div>
+              </div>
+
+              <div class="p-chk-contact-edit__field">
+                <label class="p-chk-contact-edit__label">Craft</label>
+                <div class="p-chk-form__input-field">
+                  <select class="p-chk-form__select" title="Craft">
+                    <option value="" disabled selected>Select craft</option>
+                    <option value="police">Police Officer</option>
+                    <option value="firefighter">Firefighter</option>
+                    <option value="ems">EMS/Paramedic</option>
+                    <option value="security">Security Guard</option>
+                    <option value="corrections">Corrections Officer</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-chk-contact-edit__checkbox-container">
+                <input
+                  type="checkbox"
+                  id="emailNewsOffers"
+                  class="p-chk-contact-edit__checkbox"
+                />
+                <label
+                  for="emailNewsOffers"
+                  class="p-chk-contact-edit__checkbox-label"
+                >
+                  Email me with news and offers
+                </label>
+              </div>
+
+              <div class="p-chk-contact-edit__actions">
+                <button
+                  class="p-chk-primary-button"
+                  data-complete-edit="contact"
+                >
+                  Complete
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact - Login Modal -->
+
+        <!-- Delivery Address -->
+        <section data-editable-section="delivery">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="delivery"
+            style="display: none"
+          >
+            <h1 class="p-chk-payment-header__title">Delivery Address</h1>
+          </div>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Delivery Address</h2>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="delivery"
+                id="deliveryEditButton"
+              >
+                Add
+              </button>
+            </div>
+            <div
+              class="p-chk-address-card__content"
+              data-display-content="delivery"
+            >
+              <p class="p-chk-address-card__empty-description">
+                Add your delivery address
+              </p>
+            </div>
+
+            <!-- Delivery Edit Form (Initially Hidden) -->
+            <div class="p-chk-address-edit__form" data-edit-form="delivery">
+              <div class="p-chk-address-edit__field">
+                <label class="p-chk-address-edit__label">Full Name</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    value=""
+                    placeholder="Enter full name"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-address-edit__field">
+                <label class="p-chk-address-edit__label">Street Address</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    value=""
+                    placeholder="Enter street address"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-address-edit__field">
+                <label class="p-chk-address-edit__label">Apartment/Suite</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    value=""
+                    placeholder="Apartment, suite, etc. (optional)"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-address-edit__row">
+                <div
+                  class="p-chk-address-edit__field p-chk-address-edit__field--half"
+                >
+                  <label class="p-chk-address-edit__label">City</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      value=""
+                      placeholder="Enter city"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                >
+                  <label class="p-chk-address-edit__label">State</label>
+                  <div class="p-chk-form__input-field">
+                    <select class="p-chk-form__select" title="State">
+                      <option value="" disabled selected>Select state</option>
+                      <option value="NY">NY</option>
+                      <option value="CA">CA</option>
+                      <option value="TX">TX</option>
+                      <option value="FL">FL</option>
+                      <!-- Add more states as needed -->
+                    </select>
+                  </div>
+                </div>
+                <div
+                  class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                >
+                  <label class="p-chk-address-edit__label">ZIP Code</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      value=""
+                      placeholder="ZIP"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="p-chk-address-edit__actions">
+                <button
+                  class="p-chk-primary-button"
+                  data-complete-edit="delivery"
+                >
+                  Complete
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Shipping Method -->
+        <section class="p-chk-shipping__container">
+          <div class="p-chk-shipping__header">
+            <h2 class="p-chk-shipping__title">Shipping Method</h2>
+          </div>
+          <div class="p-chk-shipping__content">
+            <p class="p-chk-shipping__method">
+              Standard Shipping (5-7 business days)
+            </p>
+            <p class="p-chk-shipping__price">FREE</p>
+          </div>
+        </section>
+
+        <!-- Payment Section with Product List and Card Forms -->
+        <section data-editable-section="payment">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="payment"
+            style="display: none"
+          >
+            <h1 class="p-chk-payment-header__title">Payment</h1>
+          </div>
+          <div class="p-chk-payment-container">
+            <div class="p-chk-payment-card__header">
+              <h2 class="p-chk-payment-card__title">Payment</h2>
+            </div>
+            <div class="p-chk-payment-section" data-display-content="payment">
+              <div class="p-chk-payment-section__layout">
+                <!-- Left Side: Product List -->
+                <div class="p-chk-payment-section__left">
+                  <div class="p-chk-product__container">
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--postal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Postal Card Eligible</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-2"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--postal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Postal Card Eligible</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-3"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--postal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Postal Card Eligible</span
+                          >
+                        </div>
+                        <div class="p-chk-product__postal-info">
+                          <div class="p-chk-product__postal-title">
+                            Partially covered by Postal Card
+                          </div>
+                          <div class="p-chk-product__postal-breakdown">
+                            $30.02 applied to Postal Card – $4.97 will be
+                            charged to your personal card.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-4"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--personal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Personal Card Only</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-5"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--personal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Personal Card Only</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-6"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--personal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Personal Card Only</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Side: Card Forms Stack -->
+                <div class="p-chk-payment-section__right">
+                  <!-- 1. CCA Voucher Form -->
+                  <div class="p-chk-cca__container">
+                    <div class="p-chk-cca__checkbox-container">
+                      <div
+                        class="p-chk-cca__checkbox"
+                        role="checkbox"
+                        aria-checked="false"
+                        tabindex="0"
+                        data-chk-element="cca-checkbox"
+                      ></div>
+                      <label class="p-chk-cca__label" for="cca-checkbox">
+                        Use your
+                        <span class="bold-text">CCA Allowance Voucher</span>
+                      </label>
+                    </div>
+
+                    <div class="p-chk-cca__card" data-chk-element="cca-card">
+                      <div class="p-chk-cca__amount-container">
+                        <div class="p-chk-cca__dollar-sign">$</div>
+                        <div class="p-chk-cca__file-allowance-field">
+                          <input
+                            type="text"
+                            class="p-chk-form__input-text"
+                            placeholder="104.97"
+                            data-chk-element="allowance-amount-input"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="p-chk-cca__description">
+                        We require a manager approved CCA voucher to process
+                        your order
+                      </div>
+
+                      <div class="p-chk-cca__form-container">
+                        <div class="p-chk-cca__form-fields">
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="email"
+                              class="p-chk-form__input-text"
+                              placeholder="Paying Supervisor Email"
+                              id="cca-supervisor-email"
+                            />
+                          </div>
+
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="tel"
+                              class="p-chk-form__input-text"
+                              placeholder="Paying Supervisor Phone"
+                              id="cca-supervisor-phone"
+                            />
+                          </div>
+
+                          <div class="p-chk-cca__upload-section">
+                            <div class="p-chk-cca__upload-header">
+                              <div class="p-chk-cca__upload-button-row">
+                                <div class="p-chk-cca__upload-icon">
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6eedad85-5cdb-4a3c-8783-a6a922cac9e2"
+                                    alt="Upload icon"
+                                  />
+                                </div>
+                                <div class="p-chk-cca__upload-text-container">
+                                  <a
+                                    href="#"
+                                    class="p-chk-cca__upload-link"
+                                    data-chk-element="file-upload-link"
+                                    >Choose a file to upload</a
+                                  >
+                                  <div class="p-chk-cca__accepted-formats">
+                                    Accepted formats: JPEG, JPG, PNG, BMP, DOC,
+                                    DOCX, PDF, TXT
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="p-chk-cca__file-name-field">
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="Voucher_Upload.pdf"
+                                data-chk-element="file-name-input"
+                                readonly
+                              />
+                            </div>
+
+                            <button
+                              class="p-chk-cca__upload-voucher-button"
+                              data-chk-element="upload-button"
+                            >
+                              <span class="p-chk-cca__upload-voucher-text"
+                                >Upload Voucher</span
+                              >
+                            </button>
+                          </div>
+
+                          <div class="p-chk-cca__disclaimer-container">
+                            <div class="p-chk-cca__disclaimer-row">
+                              <div
+                                class="p-chk-cca__disclaimer-checkbox"
+                                role="checkbox"
+                                tabindex="0"
+                                aria-checked="false"
+                                data-chk-element="disclaimer-checkbox"
+                              ></div>
+                              <label
+                                class="p-chk-cca__disclaimer-label"
+                                for="disclaimer-checkbox"
+                              >
+                                I do not wish to upload my voucher at this time.
+                                I acknowledge I am still required to provide my
+                                voucher for verification before my order will be
+                                processed
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        class="p-chk-primary-button"
+                        disabled
+                        data-chk-element="submit-button"
+                      >
+                        Confirm & Submit
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- 2. Postal Card Form -->
+                  <div class="p-chk-card__container">
+                    <input
+                      type="checkbox"
+                      id="postalCardToggle"
+                      class="p-chk-card__toggle-input"
+                    />
+
+                    <div class="p-chk-card__header">
+                      <div class="p-chk-card__title">Add Postal Card</div>
+                      <label
+                        for="postalCardToggle"
+                        class="p-chk-card__toggle-button"
+                        id="postalToggleButton"
+                        data-chk-element="postal-toggle-button"
+                      >
+                        <img
+                          src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/bc2e33ea-2b9f-4032-83b4-1ff222318485"
+                          alt="Toggle"
+                          class="p-chk-card__toggle-icon"
+                        />
+                      </label>
+                    </div>
+
+                    <div class="p-chk-pcard__summary-bar">
+                      <div class="p-chk-pcard__summary-item">
+                        <div class="p-chk-pcard__summary-label">
+                          Postal Card Amount due
+                        </div>
+                        <div class="p-chk-pcard__summary-value">$104.97</div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-card__collapsible-content">
+                      <div class="p-chk-pcard__content">
+                        <div class="p-chk-pcard__section-header">
+                          <div class="p-chk-pcard__section-title">
+                            Postal Card
+                          </div>
+                        </div>
+
+                        <div
+                          class="p-chk-pcard__charge-input"
+                          id="postalChargeInput"
+                          data-chk-element="postal-charge-input"
+                        >
+                          <div class="p-chk-pcard__dollar-prefix">$</div>
+                          <div class="p-chk-pcard__charge-text">
+                            Postal Card Charge
+                          </div>
+                        </div>
+
+                        <div
+                          class="p-chk-pcard__form-section"
+                          id="postalFormSection"
+                          data-chk-element="postal-form-section"
+                        >
+                          <div class="p-chk-pcard__form-fields">
+                            <div class="p-chk-form__input-field">
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="Postal Card Number"
+                                id="postal-card-number-payment"
+                              />
+                            </div>
+
+                            <div class="p-chk-pcard__input-row">
+                              <!-- Month Dropdown -->
+                              <div
+                                class="p-chk-pcard__dropdown"
+                                data-chk-element="postal-month-dropdown"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-toggle"
+                                />
+                                <label
+                                  for="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-text"
+                                  >Month</label
+                                >
+                                <label
+                                  for="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-icon"
+                                >
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
+                                    alt="Dropdown"
+                                    style="width: 100%; height: 100%"
+                                  />
+                                </label>
+                                <div class="p-chk-pcard__dropdown-menu">
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="01"
+                                  >
+                                    01 - January
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="02"
+                                  >
+                                    02 - February
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="03"
+                                  >
+                                    03 - March
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="04"
+                                  >
+                                    04 - April
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="05"
+                                  >
+                                    05 - May
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="06"
+                                  >
+                                    06 - June
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="07"
+                                  >
+                                    07 - July
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="08"
+                                  >
+                                    08 - August
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="09"
+                                  >
+                                    09 - September
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="10"
+                                  >
+                                    10 - October
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="11"
+                                  >
+                                    11 - November
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="12"
+                                  >
+                                    12 - December
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- Year Dropdown -->
+                              <div
+                                class="p-chk-pcard__dropdown"
+                                data-chk-element="postal-year-dropdown"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-toggle"
+                                />
+                                <label
+                                  for="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-text"
+                                  >Year</label
+                                >
+                                <label
+                                  for="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-icon"
+                                >
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
+                                    alt="Dropdown"
+                                    style="width: 100%; height: 100%"
+                                  />
+                                </label>
+                                <div class="p-chk-pcard__dropdown-menu">
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2024"
+                                  >
+                                    2024
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2025"
+                                  >
+                                    2025
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2026"
+                                  >
+                                    2026
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2027"
+                                  >
+                                    2027
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2028"
+                                  >
+                                    2028
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2029"
+                                  >
+                                    2029
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2030"
+                                  >
+                                    2030
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2031"
+                                  >
+                                    2031
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2032"
+                                  >
+                                    2032
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2033"
+                                  >
+                                    2033
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2034"
+                                  >
+                                    2034
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div
+                                class="p-chk-form__input-field p-chk-pcard__cvv-field"
+                              >
+                                <input
+                                  type="text"
+                                  class="p-chk-form__input-text"
+                                  placeholder="CVV"
+                                  maxlength="4"
+                                  id="postal-cvv-payment"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="p-chk-form__input-field">
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="Name on card"
+                                id="postal-cardholder-payment"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="p-chk-pcard__checkbox-container">
+                            <img
+                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
+                              alt="Checkbox"
+                              class="p-chk-pcard__checkbox"
+                              id="postalSaveCheckbox"
+                              data-chk-element="postal-save-checkbox"
+                              aria-checked="false"
+                              role="checkbox"
+                              tabindex="0"
+                            />
+                            <label
+                              class="p-chk-pcard__checkbox-label"
+                              for="postalSaveCheckbox"
+                              >Save Postal Card on File</label
+                            >
+                          </div>
+
+                          <button
+                            class="p-chk-primary-button"
+                            data-chk-element="postal-continue-button"
+                          >
+                            Continue
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. Personal Card Form -->
+                  <div class="p-chk-user-card__container">
+                    <input
+                      type="checkbox"
+                      id="personalCardToggle"
+                      class="p-chk-user-card__toggle-input"
+                    />
+
+                    <div class="p-chk-user-card__header">
+                      <div class="p-chk-user-card__title">
+                        Add Personal Debit/Credit Card
+                      </div>
+                      <label
+                        for="personalCardToggle"
+                        class="p-chk-user-card__toggle-button"
+                      >
+                        <img
+                          src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/5fcef30c-37ea-4111-8850-1378da964339"
+                          alt="Toggle"
+                          class="p-chk-user-card__toggle-icon"
+                        />
+                      </label>
+                    </div>
+
+                    <div class="p-chk-user-card__summary-bar">
+                      <div class="p-chk-user-card__summary-item">
+                        <div class="p-chk-user-card__summary-label">
+                          Personal Card Amount Due
+                        </div>
+                        <div class="p-chk-user-card__summary-value">
+                          $323.99
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-user-card__collapsible-content">
+                      <div class="p-chk-user-card__content">
+                        <div class="p-chk-user-card__section-header">
+                          <div class="p-chk-user-card__section-title">
+                            Credit Card
+                          </div>
+                          <img
+                            src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/67940f0e-235d-4d47-8392-bc78b92b0da6"
+                            alt="Credit Card Icons"
+                            class="p-chk-user-card__card-icons"
+                          />
+                        </div>
+
+                        <div class="p-chk-user-card__form-fields">
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              placeholder="Enter Card Number"
+                              maxlength="19"
+                              id="personal-card-number-payment"
+                              data-chk-element="personal-card-number"
+                            />
+                          </div>
+
+                          <div class="p-chk-user-card__input-row">
+                            <!-- Month Dropdown -->
+                            <div
+                              class="p-chk-user-card__dropdown"
+                              data-chk-element="personal-month-dropdown"
+                            >
+                              <input
+                                type="checkbox"
+                                id="personalMonthToggle"
+                                class="p-chk-user-card__dropdown-toggle"
+                              />
+                              <label
+                                for="personalMonthToggle"
+                                class="p-chk-user-card__dropdown-text"
+                                >Month</label
+                              >
+                              <label
+                                for="personalMonthToggle"
+                                class="p-chk-user-card__dropdown-icon"
+                              >
+                                <img
+                                  src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/aa38bbc7-09bf-4c8d-9bde-305b1d3fdcad"
+                                  alt="Dropdown"
+                                  style="width: 100%; height: 100%"
+                                />
+                              </label>
+                              <div class="p-chk-user-card__dropdown-menu">
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="01"
+                                >
+                                  01 - January
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="02"
+                                >
+                                  02 - February
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="03"
+                                >
+                                  03 - March
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="04"
+                                >
+                                  04 - April
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="05"
+                                >
+                                  05 - May
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="06"
+                                >
+                                  06 - June
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="07"
+                                >
+                                  07 - July
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="08"
+                                >
+                                  08 - August
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="09"
+                                >
+                                  09 - September
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="10"
+                                >
+                                  10 - October
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="11"
+                                >
+                                  11 - November
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="12"
+                                >
+                                  12 - December
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Year Dropdown -->
+                            <div
+                              class="p-chk-user-card__dropdown"
+                              data-chk-element="personal-year-dropdown"
+                            >
+                              <input
+                                type="checkbox"
+                                id="personalYearToggle"
+                                class="p-chk-user-card__dropdown-toggle"
+                              />
+                              <label
+                                for="personalYearToggle"
+                                class="p-chk-user-card__dropdown-text"
+                                >Year</label
+                              >
+                              <label
+                                for="personalYearToggle"
+                                class="p-chk-user-card__dropdown-icon"
+                              >
+                                <img
+                                  src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c28177d3-b998-43b9-bf15-2301e7ebc81c"
+                                  alt="Dropdown"
+                                  style="width: 100%; height: 100%"
+                                />
+                              </label>
+                              <div class="p-chk-user-card__dropdown-menu">
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2024"
+                                >
+                                  2024
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2025"
+                                >
+                                  2025
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2026"
+                                >
+                                  2026
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2027"
+                                >
+                                  2027
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2028"
+                                >
+                                  2028
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2029"
+                                >
+                                  2029
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2030"
+                                >
+                                  2030
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2031"
+                                >
+                                  2031
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2032"
+                                >
+                                  2032
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2033"
+                                >
+                                  2033
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2034"
+                                >
+                                  2034
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              class="p-chk-form__input-field p-chk-user-card__cvv-field"
+                            >
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="CVV"
+                                maxlength="4"
+                                id="personal-cvv-payment"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              placeholder="Name on card"
+                              id="personal-cardholder-payment"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Pre-charge card checkbox (disabled) -->
+                        <div class="p-chk-user-card__checkbox-container">
+                          <div
+                            class="p-chk-user-card__checkbox disabled"
+                            data-chk-element="personal-precharge-checkbox"
+                          ></div>
+                          <label
+                            class="p-chk-user-card__checkbox-label disabled"
+                            >Pre-charge card</label
+                          >
+                        </div>
+
+                        <div class="p-chk-user-card__note-text">
+                          NOTE: Order contains items that are customized,
+                          shipped direct from our supplier or in stock shipping
+                          direct from our supplier. The order will be charged in
+                          full at the time the order is placed. Please note that
+                          customized product sales are final and can only be
+                          returned due to product defects.
+                        </div>
+
+                        <!-- Save card checkbox (functional) -->
+                        <input
+                          type="checkbox"
+                          id="personalSaveCardToggle"
+                          class="p-chk-user-card__checkbox-toggle"
+                        />
+                        <div class="p-chk-user-card__checkbox-container">
+                          <label
+                            for="personalSaveCardToggle"
+                            class="p-chk-user-card__checkbox"
+                            data-chk-element="personal-save-checkbox"
+                          ></label>
+                          <label
+                            for="personalSaveCardToggle"
+                            class="p-chk-user-card__checkbox-label"
+                            >Save Personal Card on File</label
+                          >
+                        </div>
+
+                        <button
+                          class="p-chk-primary-button"
+                          type="button"
+                          data-chk-element="personal-continue-button"
+                        >
+                          Continue
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Order Summary - Right-->
+      <div class="p-chk-main__sidebar">
+        <!-- Order Summary -->
+        <section class="p-chk-order-summary__container">
+          <div class="p-chk-order-summary__header">
+            <h2 class="p-chk-order-summary__title">Order Summary</h2>
+          </div>
+          <div class="p-chk-order-summary__content">
+            <div class="p-chk-order-summary__details">
+              <div class="p-chk-order-summary__line-items">
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Subtotal</span>
+                  <span class="p-chk-order-summary__line-value">$126.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Savings</span>
+                  <span class="p-chk-order-summary__line-value">$20.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Shipping</span>
+                  <span class="p-chk-order-summary__line-value">$0.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label"
+                    >Estimated Taxes</span
+                  >
+                  <span class="p-chk-order-summary__line-value">$6.93</span>
+                </div>
+
+                <hr class="p-chk-order-summary__divider" />
+
+                <div class="p-chk-order-summary__total-row">
+                  <span class="p-chk-order-summary__total-label">Total</span>
+                  <span class="p-chk-order-summary__total-value">$137.93</span>
+                </div>
+              </div>
+
+              <button class="p-chk-primary-button" type="button">
+                Place Order
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Contact Form functionality
+        // Handle complete button for contact section
+        const contactCompleteBtn = document.querySelector(
+          '[data-complete-edit="contact"]'
+        );
+
+        if (contactCompleteBtn) {
+          contactCompleteBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Set the contact section as currently being edited
+            currentEditingSection = "contact";
+
+            // Complete the editing
+            completeEditing("contact");
+          });
+        }
+
+        // For new user, automatically start editing the contact section
+        setTimeout(() => {
+          if (!currentEditingSection) {
+            startEditing("contact");
+          }
+        }, 300);
+
+        // CCA Voucher functionality with enhanced features
+        const ccaMainCheckbox = document.querySelector(
+          '[data-chk-element="cca-checkbox"]'
+        );
+        const ccaCard = document.querySelector('[data-chk-element="cca-card"]');
+        const disclaimerCheckbox = document.querySelector(
+          '[data-chk-element="disclaimer-checkbox"]'
+        );
+        const fileUploadLink = document.querySelector(
+          '[data-chk-element="file-upload-link"]'
+        );
+        const fileNameInput = document.querySelector(
+          '[data-chk-element="file-name-input"]'
+        );
+        const uploadButton = document.querySelector(
+          '[data-chk-element="upload-button"]'
+        );
+        const submitButton = document.querySelector(
+          '[data-chk-element="submit-button"]'
+        );
+
+        // Main CCA checkbox toggle functionality
+        function toggleCCAMain() {
+          const isChecked =
+            ccaMainCheckbox.getAttribute("aria-checked") === "true";
+          const newState = !isChecked;
+
+          ccaMainCheckbox.setAttribute("aria-checked", newState);
+
+          // Get postal card container
+          const postalCardContainer = document
+            .querySelector("#postalCardToggle")
+            ?.closest(".p-chk-card__container");
+
+          if (newState) {
+            ccaCard.classList.add("expanded");
+            // Hide postal card form when CCA is checked
+            if (postalCardContainer) {
+              postalCardContainer.style.display = "none";
+            }
+          } else {
+            ccaCard.classList.remove("expanded");
+            // Show postal card form when CCA is unchecked
+            if (postalCardContainer) {
+              postalCardContainer.style.display = "flex";
+            }
+            // Reset form when collapsed
+            resetCCAForm();
+          }
+        }
+
+        function resetCCAForm() {
+          // Reset disclaimer checkbox
+          if (disclaimerCheckbox) {
+            disclaimerCheckbox.setAttribute("aria-checked", "false");
+            disclaimerCheckbox.classList.remove("checked");
+          }
+
+          // Reset file input
+          if (fileNameInput) {
+            fileNameInput.value = "Voucher_Upload.pdf";
+          }
+
+          // Reset submit button
+          if (submitButton) {
+            submitButton.disabled = true;
+          }
+        }
+
+        // Disclaimer checkbox functionality
+        function toggleDisclaimerCheckbox() {
+          const isChecked =
+            disclaimerCheckbox.getAttribute("aria-checked") === "true";
+          const newState = !isChecked;
+
+          disclaimerCheckbox.setAttribute("aria-checked", newState);
+
+          if (newState) {
+            disclaimerCheckbox.classList.add("checked");
+          } else {
+            disclaimerCheckbox.classList.remove("checked");
+          }
+
+          // Update submit button state
+          updateSubmitButtonState();
+        }
+
+        // File upload functionality
+        function handleFileUpload() {
+          const input = document.createElement("input");
+          input.type = "file";
+          input.accept = ".jpeg,.jpg,.png,.bmp,.doc,.docx,.pdf,.txt";
+          input.onchange = function (event) {
+            const file = event.target.files[0];
+            if (file) {
+              fileNameInput.value = file.name;
+              updateSubmitButtonState();
+            }
+          };
+          input.click();
+        }
+
+        // Upload button functionality
+        function handleVoucherUpload() {
+          if (
+            fileNameInput &&
+            fileNameInput.value.trim() &&
+            fileNameInput.value !== "Voucher_Upload.pdf"
+          ) {
+            alert("Voucher uploaded successfully!");
+            updateSubmitButtonState();
+          } else {
+            alert("Please select a file first.");
+          }
+        }
+
+        // Update submit button state based on form completion
+        function updateSubmitButtonState() {
+          if (!submitButton) return;
+
+          const hasFile =
+            fileNameInput &&
+            fileNameInput.value.trim() &&
+            fileNameInput.value !== "Voucher_Upload.pdf";
+          const disclaimerChecked =
+            disclaimerCheckbox &&
+            disclaimerCheckbox.getAttribute("aria-checked") === "true";
+          const supervisorEmail = document
+            .getElementById("cca-supervisor-email")
+            ?.value.trim();
+          const supervisorPhone = document
+            .getElementById("cca-supervisor-phone")
+            ?.value.trim();
+
+          // Enable submit if either file is uploaded OR disclaimer is checked, AND supervisor info is provided
+          const canSubmit =
+            (hasFile || disclaimerChecked) &&
+            supervisorEmail &&
+            supervisorPhone;
+
+          // The CSS handles the visual state automatically based on disabled attribute
+          submitButton.disabled = !canSubmit;
+        }
+
+        // Event listeners
+        if (ccaMainCheckbox) {
+          ccaMainCheckbox.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleCCAMain();
+          });
+          ccaMainCheckbox.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleCCAMain();
+            }
+          });
+        }
+
+        if (disclaimerCheckbox) {
+          disclaimerCheckbox.addEventListener(
+            "click",
+            toggleDisclaimerCheckbox
+          );
+          disclaimerCheckbox.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              toggleDisclaimerCheckbox();
+            }
+          });
+        }
+
+        if (fileUploadLink) {
+          fileUploadLink.addEventListener("click", function (e) {
+            e.preventDefault();
+            handleFileUpload();
+          });
+        }
+
+        if (uploadButton) {
+          uploadButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            handleVoucherUpload();
+          });
+        }
+
+        if (submitButton) {
+          submitButton.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (!this.disabled) {
+              alert("CCA Voucher submitted successfully!");
+
+              // Close the CCA form after successful submission
+              const ccaCard = document.querySelector(
+                '[data-chk-element="cca-card"]'
+              );
+              if (ccaCard) {
+                ccaCard.style.display = "none";
+              }
+
+              // Reset the CCA checkbox to unchecked state
+              if (ccaMainCheckbox) {
+                ccaMainCheckbox.setAttribute("aria-checked", "false");
+              }
+
+              // Check if all payment methods are completed
+              checkPaymentCompletion();
+            }
+          });
+        }
+
+        // Add event listeners for supervisor fields to update submit button state
+        const supervisorEmail = document.getElementById("cca-supervisor-email");
+        const supervisorPhone = document.getElementById("cca-supervisor-phone");
+
+        if (supervisorEmail) {
+          supervisorEmail.addEventListener("input", updateSubmitButtonState);
+        }
+
+        if (supervisorPhone) {
+          supervisorPhone.addEventListener("input", updateSubmitButtonState);
+        }
+
+        // Label click handlers
+        const ccaLabel = document.querySelector(".p-chk-cca__label");
+        const disclaimerLabel = document.querySelector(
+          ".p-chk-cca__disclaimer-label"
+        );
+
+        if (ccaLabel) {
+          ccaLabel.addEventListener("click", function (e) {
+            e.preventDefault();
+            toggleCCAMain();
+          });
+        }
+
+        if (disclaimerLabel) {
+          disclaimerLabel.addEventListener("click", function (e) {
+            e.preventDefault();
+            toggleDisclaimerCheckbox();
+          });
+        }
+
+        // Initialize form state
+        if (ccaMainCheckbox) {
+          ccaMainCheckbox.setAttribute("aria-checked", "false");
+        }
+        if (ccaCard) {
+          ccaCard.classList.remove("expanded");
+        }
+        resetCCAForm();
+
+        // Payment form interaction handlers - show blue header when user interacts with forms
+        // Consolidated payment form interaction handlers
+        const paymentFormSelectors = [
+          ".p-chk-cca__card input, .p-chk-cca__card select, .p-chk-cca__card textarea",
+          ".p-chk-pcard__container input, .p-chk-pcard__container select, .p-chk-pcard__dropdown",
+          ".p-chk-user-card__container input, .p-chk-user-card__container select, .p-chk-user-card__dropdown",
+        ];
+
+        paymentFormSelectors.forEach((selector) => {
+          document.querySelectorAll(selector).forEach((element) => {
+            ["focus", "click"].forEach((event) => {
+              element.addEventListener(event, () => startEditing("payment"));
+            });
+          });
+        });
+
+        // Also trigger on toggle/checkbox clicks for postal and credit cards
+        const postalToggle = document.querySelector(
+          ".p-chk-pcard__summary-toggle"
+        );
+        if (postalToggle) {
+          postalToggle.addEventListener("change", function () {
+            if (this.checked) {
+              startEditing("payment");
+            }
+          });
+        }
+
+        const creditCardToggle = document.querySelector(
+          ".p-chk-user-card__summary-toggle"
+        );
+        if (creditCardToggle) {
+          creditCardToggle.addEventListener("change", function () {
+            if (this.checked) {
+              startEditing("payment");
+            }
+          });
+        }
+
+        // Postal Card Component functionality with enhanced features
+        const postalToggleButton =
+          document.getElementById("postalToggleButton");
+        const postalFormSection = document.getElementById("postalFormSection");
+        const postalChargeInput = document.getElementById("postalChargeInput");
+        const postalSaveCheckbox =
+          document.getElementById("postalSaveCheckbox");
+        const postalContinueButton = document.querySelector(
+          '[data-chk-element="postal-continue-button"]'
+        );
+        let isPostalExpanded = false;
+
+        // Main postal toggle functionality
+        function togglePostalForm() {
+          isPostalExpanded = !isPostalExpanded;
+
+          if (isPostalExpanded) {
+            postalToggleButton.classList.add("expanded");
+            postalFormSection.classList.add("expanded");
+          } else {
+            postalToggleButton.classList.remove("expanded");
+            postalFormSection.classList.remove("expanded");
+          }
+        }
+
+        // Event listeners for postal toggle
+        if (postalToggleButton) {
+          postalToggleButton.addEventListener("click", togglePostalForm);
+        }
+
+        if (postalChargeInput) {
+          postalChargeInput.addEventListener("click", togglePostalForm);
+        }
+
+        // Postal card checkbox functionality
+        let isPostalCheckboxChecked = false;
+
+        if (postalSaveCheckbox) {
+          postalSaveCheckbox.addEventListener("click", function () {
+            isPostalCheckboxChecked = !isPostalCheckboxChecked;
+            this.setAttribute("aria-checked", isPostalCheckboxChecked);
+          });
+
+          // Label click handler
+          const postalCheckboxLabel = document.querySelector(
+            ".p-chk-pcard__checkbox-label"
+          );
+          if (postalCheckboxLabel) {
+            postalCheckboxLabel.addEventListener("click", function (e) {
+              e.preventDefault();
+              postalSaveCheckbox.click();
+            });
+          }
+        }
+
+        // Continue button functionality
+        if (postalContinueButton) {
+          postalContinueButton.addEventListener("click", function () {
+            alert("Postal card information saved successfully!");
+
+            // Close the postal card form after successful submission
+            const postalCardContainer = this.closest(".p-chk-pcard__container");
+            if (postalCardContainer) {
+              // Collapse the postal card form
+              postalCardContainer.classList.remove("expanded");
+
+              // Hide the form content but keep the summary visible
+              const formSection = postalCardContainer.querySelector(
+                '[data-chk-element="postal-form-section"]'
+              );
+              if (formSection) {
+                formSection.style.display = "none";
+              }
+
+              // Show a completed state message or summary
+              const summarySection = postalCardContainer.querySelector(
+                ".p-chk-pcard__summary-section"
+              );
+              if (summarySection) {
+                summarySection.style.display = "block";
+              }
+            }
+
+            // Check if all payment methods are completed
+            checkPaymentCompletion();
+          });
+        }
+
+        // Postal Card dropdown functionality
+        document
+          .querySelectorAll(".p-chk-pcard__dropdown-option")
+          .forEach((option) => {
+            option.addEventListener("click", function () {
+              const dropdown = this.closest(".p-chk-pcard__dropdown");
+              const label = dropdown.querySelector(
+                ".p-chk-pcard__dropdown-text"
+              );
+              const toggle = dropdown.querySelector(
+                ".p-chk-pcard__dropdown-toggle"
+              );
+
+              label.textContent = this.textContent;
+              label.classList.add("selected");
+              toggle.checked = false; // Close dropdown
+            });
+          });
+
+        // Close postal dropdowns when clicking outside
+        document.addEventListener("click", function (e) {
+          if (!e.target.closest(".p-chk-pcard__dropdown")) {
+            document
+              .querySelectorAll(".p-chk-pcard__dropdown-toggle")
+              .forEach((toggle) => {
+                toggle.checked = false;
+              });
+          }
+        });
+
+        // Personal Card Component functionality with enhanced features
+        const personalCardToggle =
+          document.getElementById("personalCardToggle");
+        const personalCardNumber = document.getElementById(
+          "personal-card-number-payment"
+        );
+        const personalCvv = document.getElementById("personal-cvv-payment");
+        const personalSaveCardToggle = document.getElementById(
+          "personalSaveCardToggle"
+        );
+        const personalContinueButton = document.querySelector(
+          '[data-chk-element="personal-continue-button"]'
+        );
+
+        if (personalCardToggle) {
+          personalCardToggle.addEventListener("change", function () {
+            // Additional fallback to ensure content expands
+            const collapsibleContent = document.querySelector(
+              ".p-chk-user-card__collapsible-content"
+            );
+            if (collapsibleContent) {
+              if (this.checked) {
+                collapsibleContent.style.maxHeight = "1000px";
+              } else {
+                collapsibleContent.style.maxHeight = "0";
+              }
+            }
+          });
+        }
+
+        // Card number formatting
+        if (personalCardNumber) {
+          personalCardNumber.addEventListener("input", function (e) {
+            let value = e.target.value
+              .replace(/\s/g, "")
+              .replace(/[^0-9]/gi, "");
+            let formattedValue = value.match(/.{1,4}/g)?.join(" ") || value;
+            if (formattedValue !== e.target.value) {
+              e.target.value = formattedValue;
+            }
+          });
+        }
+
+        // CVV input validation
+        if (personalCvv) {
+          personalCvv.addEventListener("input", function (e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, "");
+          });
+        }
+
+        // Save card checkbox functionality
+        if (personalSaveCardToggle) {
+          personalSaveCardToggle.addEventListener("change", function () {});
+        }
+
+        // Personal card form validation function
+        function validatePersonalCardForm(
+          cardNumber,
+          expiryMonth,
+          expiryYear,
+          cvv,
+          cardholderName,
+          container
+        ) {
+          // Check if card number is filled and valid length (13-19 digits)
+          if (
+            !cardNumber ||
+            !cardNumber.value.trim() ||
+            cardNumber.value.replace(/\s/g, "").length < 13
+          ) {
+            cardNumber?.focus();
+            return false;
+          }
+
+          // Check if expiry month is selected (look for dropdown label change)
+          const monthLabel = container.querySelector(
+            '[data-chk-element="personal-month-dropdown"] .p-chk-user-card__dropdown-text'
+          );
+          if (!monthLabel || monthLabel.textContent.trim() === "Month") {
+            return false;
+          }
+
+          // Check if expiry year is selected (look for dropdown label change)
+          const yearLabel = container.querySelector(
+            '[data-chk-element="personal-year-dropdown"] .p-chk-user-card__dropdown-text'
+          );
+          if (!yearLabel || yearLabel.textContent.trim() === "Year") {
+            return false;
+          }
+
+          // Check if CVV is filled (3-4 digits)
+          if (!cvv || !cvv.value.trim() || cvv.value.length < 3) {
+            cvv?.focus();
+            return false;
+          }
+
+          // Check if cardholder name is filled
+          if (!cardholderName || !cardholderName.value.trim()) {
+            cardholderName?.focus();
+            return false;
+          }
+
+          return true;
+        }
+
+        // Continue button functionality
+        if (personalContinueButton) {
+          personalContinueButton.addEventListener("click", function () {
+            // **NEW: Validate form fields before closing**
+            const personalCardContainer = this.closest(
+              ".p-chk-user-card__container"
+            );
+            if (personalCardContainer) {
+              // Get form fields with correct selectors
+              const cardNumber = personalCardContainer.querySelector(
+                "#personal-card-number-payment"
+              );
+              const cvv = personalCardContainer.querySelector(
+                "#personal-cvv-payment"
+              );
+              const cardholderName = personalCardContainer.querySelector(
+                "#personal-cardholder-payment"
+              );
+
+              // Validate required fields
+              const isValid = validatePersonalCardForm(
+                cardNumber,
+                null,
+                null,
+                cvv,
+                cardholderName,
+                personalCardContainer
+              );
+
+              if (!isValid) {
+                // Don't close the form if validation fails
+                alert(
+                  "Please fill in all required card information before continuing."
+                );
+                return;
+              }
+            }
+
+            alert("Personal card information saved successfully!");
+
+            // **MOVED: Only close form after successful validation**
+            if (personalCardContainer) {
+              // Collapse the personal card form
+              personalCardContainer.classList.remove("expanded");
+
+              // Hide the collapsible content (the form)
+              const collapsibleContent = personalCardContainer.querySelector(
+                ".p-chk-user-card__collapsible-content"
+              );
+              if (collapsibleContent) {
+                collapsibleContent.style.display = "none";
+              }
+
+              // Reset the toggle state
+              const summaryToggle = personalCardContainer.querySelector(
+                ".p-chk-user-card__summary-toggle"
+              );
+              if (summaryToggle) {
+                summaryToggle.checked = false;
+              }
+            }
+
+            // Check if all payment methods are completed
+            checkPaymentCompletion();
+          });
+        }
+
+        // Function to check if payment section should be completed
+        function checkPaymentCompletion() {
+          // **REFACTORED: Simplified completion check**
+          const completionChecks = [
+            {
+              selector: '[data-chk-element="cca-card"]',
+              condition: (el) => el && el.style.display === "none",
+            },
+            {
+              selector: '[data-chk-element="postal-form-section"]',
+              condition: (el) => el && el.style.display === "none",
+            },
+            {
+              selector: ".p-chk-user-card__collapsible-content",
+              condition: (el) => el && el.style.display === "none",
+            },
+          ];
+
+          const isAnyCompleted = completionChecks.some((check) => {
+            const element = document.querySelector(check.selector);
+            return check.condition(element);
+          });
+
+          if (isAnyCompleted) {
+            setTimeout(() => {
+              // Use unified header and border radius management
+              SectionManager.manageHeaders("payment", "hide-blue");
+              SectionManager.manageBorderRadius("payment", "restore");
+            }, 500);
+          }
+        }
+
+        // Personal Card dropdown functionality
+        document
+          .querySelectorAll(".p-chk-user-card__dropdown-option")
+          .forEach((option) => {
+            option.addEventListener("click", function () {
+              const dropdown = this.closest(".p-chk-user-card__dropdown");
+              const label = dropdown.querySelector(
+                ".p-chk-user-card__dropdown-text"
+              );
+              const toggle = dropdown.querySelector(
+                ".p-chk-user-card__dropdown-toggle"
+              );
+
+              label.textContent = this.textContent;
+              label.classList.add("selected");
+              toggle.checked = false; // Close dropdown
+            });
+          });
+
+        // Close personal dropdowns when clicking outside
+        document.addEventListener("click", function (e) {
+          if (!e.target.closest(".p-chk-user-card__dropdown")) {
+            document
+              .querySelectorAll(".p-chk-user-card__dropdown-toggle")
+              .forEach((toggle) => {
+                toggle.checked = false;
+              });
+          }
+        });
+
+        // Personal Card form dropdown functionality (legacy support)
+        const personalDropdowns = document.querySelectorAll(
+          ".p-chk-user-card__dropdown"
+        );
+        const personalDropdownData = {
+          "personal-month": [
+            { value: "01", text: "01 - January" },
+            { value: "02", text: "02 - February" },
+            { value: "03", text: "03 - March" },
+            { value: "04", text: "04 - April" },
+            { value: "05", text: "05 - May" },
+            { value: "06", text: "06 - June" },
+            { value: "07", text: "07 - July" },
+            { value: "08", text: "08 - August" },
+            { value: "09", text: "09 - September" },
+            { value: "10", text: "10 - October" },
+            { value: "11", text: "11 - November" },
+            { value: "12", text: "12 - December" },
+          ],
+          "personal-year": [
+            { value: "2024", text: "2024" },
+            { value: "2025", text: "2025" },
+            { value: "2026", text: "2026" },
+            { value: "2027", text: "2027" },
+            { value: "2028", text: "2028" },
+            { value: "2029", text: "2029" },
+            { value: "2030", text: "2030" },
+            { value: "2031", text: "2031" },
+            { value: "2032", text: "2032" },
+            { value: "2033", text: "2033" },
+            { value: "2034", text: "2034" },
+          ],
+        };
+
+        // Initialize personal dropdown functionality
+        function initializeDropdown(dropdown, dropdownData) {
+          const dropdownType = dropdown.getAttribute("data-dropdown");
+          const dropdownText = dropdown.querySelector(
+            ".p-chk-user-card__dropdown-text"
+          );
+          const options = dropdownData[dropdownType];
+
+          if (!options) return;
+
+          // Create dropdown menu
+          const menu = document.createElement("div");
+          menu.className = dropdown.classList.contains("p-chk-pcard__dropdown")
+            ? "p-chk-pcard__dropdown-menu"
+            : "p-chk-user-card__dropdown-menu";
+          menu.style.position = "absolute";
+          menu.style.top = "100%";
+          menu.style.left = "0";
+          menu.style.right = "0";
+          menu.style.backgroundColor = "#ffffff";
+          menu.style.border = "1px solid #bbbbbb";
+          menu.style.borderTop = "none";
+          menu.style.borderRadius = "0 0 6px 6px";
+          menu.style.display = "none";
+          menu.style.zIndex = "10";
+          menu.style.maxHeight = "200px";
+          menu.style.overflowY = "auto";
+
+          options.forEach((option) => {
+            const optionDiv = document.createElement("div");
+            optionDiv.textContent = option.text;
+            optionDiv.style.padding = "12px";
+            optionDiv.style.cursor = "pointer";
+            optionDiv.style.borderBottom = "1px solid #f0f0f0";
+            optionDiv.style.fontSize = "16px";
+            optionDiv.style.fontFamily = "Roboto, sans-serif";
+
+            optionDiv.addEventListener("mouseenter", () => {
+              optionDiv.style.backgroundColor = "#f5f5f5";
+            });
+
+            optionDiv.addEventListener("mouseleave", () => {
+              optionDiv.style.backgroundColor = "transparent";
+            });
+
+            optionDiv.addEventListener("click", () => {
+              dropdownText.textContent = option.text;
+              dropdownText.classList.add("selected");
+              dropdown.setAttribute("data-value", option.value);
+              menu.style.display = "none";
+            });
+
+            menu.appendChild(optionDiv);
+          });
+
+          dropdown.appendChild(menu);
+
+          dropdown.addEventListener("click", (e) => {
+            e.stopPropagation();
+            // Close all other dropdowns
+            document
+              .querySelectorAll(
+                ".p-chk-pcard__dropdown-menu, .p-chk-user-card__dropdown-menu"
+              )
+              .forEach((m) => {
+                if (m !== menu) m.style.display = "none";
+              });
+
+            menu.style.display =
+              menu.style.display === "none" ? "block" : "none";
+          });
+        }
+
+        // Initialize all dropdowns
+        postalDropdowns.forEach((dropdown) =>
+          initializeDropdown(dropdown, postalDropdownData)
+        );
+        personalDropdowns.forEach((dropdown) =>
+          initializeDropdown(dropdown, personalDropdownData)
+        );
+
+        // Close dropdowns when clicking outside
+        document.addEventListener("click", () => {
+          document
+            .querySelectorAll(
+              ".p-chk-pcard__dropdown-menu, .p-chk-user-card__dropdown-menu"
+            )
+            .forEach((menu) => {
+              menu.style.display = "none";
+            });
+        });
+
+        // Card number formatting
+        function formatCardNumber(input) {
+          let value = input.value.replace(/\s/g, "");
+          let formattedValue = value.replace(/(.{4})/g, "$1 ");
+          if (formattedValue.endsWith(" ")) {
+            formattedValue = formattedValue.slice(0, -1);
+          }
+          input.value = formattedValue;
+        }
+
+        // Apply card number formatting to all card number inputs
+        const cardNumberInputs = document.querySelectorAll(
+          "#postal-card-number-payment, #personal-card-number-payment"
+        );
+        cardNumberInputs.forEach((input) => {
+          input.addEventListener("input", () => formatCardNumber(input));
+        });
+
+        // CVV validation
+        const cvvInputs = document.querySelectorAll(
+          "#postal-cvv-payment, #personal-cvv-payment"
+        );
+        cvvInputs.forEach((input) => {
+          input.addEventListener("input", function () {
+            this.value = this.value.replace(/\D/g, "");
+          });
+        });
+
+        // Complete order button
+        const completeOrderBtn = document.querySelector(
+          ".p-chk-global__button--primary"
+        );
+
+        // Place Order button from Order Summary
+        const placeOrderBtn = document.querySelector(
+          ".p-chk-order-summary__place-order-button"
+        );
+
+        if (completeOrderBtn) {
+          completeOrderBtn.addEventListener("click", function () {
+            // Basic validation - check if at least one form has data
+            const postalCardNumber = document.getElementById(
+              "postal-card-number-payment"
+            )?.value;
+            const personalCardNumber = document.getElementById(
+              "personal-card-number-payment"
+            )?.value;
+
+            if (postalCardNumber || personalCardNumber) {
+              alert("Order completed successfully!");
+            } else {
+              alert("Please fill in payment information.");
+            }
+          });
+        }
+
+        if (placeOrderBtn) {
+          placeOrderBtn.addEventListener("click", function () {
+            // Basic validation - check if at least one form has data
+            const postalCardNumber = document.getElementById(
+              "postal-card-number-payment"
+            )?.value;
+            const personalCardNumber = document.getElementById(
+              "personal-card-number-payment"
+            )?.value;
+
+            if (postalCardNumber || personalCardNumber) {
+              // Simulate order processing
+              this.disabled = true;
+              this.querySelector(
+                ".p-chk-order-summary__place-order-text"
+              ).textContent = "Processing...";
+
+              setTimeout(() => {
+                alert("Order placed successfully!");
+                this.disabled = false;
+                this.querySelector(
+                  ".p-chk-order-summary__place-order-text"
+                ).textContent = "Place Order";
+              }, 2000);
+            } else {
+              alert("Please fill in payment information.");
+            }
+          });
+        }
+      });
+
+      // Section Edit Functionality
+      let currentEditingSection = null;
+
+      // **REFACTORED: Utility functions for common operations**
+      const SectionManager = {
+        // Cache DOM queries for performance
+        getSection: (sectionType) =>
+          document.querySelector(`[data-editable-section="${sectionType}"]`),
+        getSectionHeader: (sectionType) =>
+          document.querySelector(`[data-section-header="${sectionType}"]`),
+        getDisplayContent: (sectionType) =>
+          document.querySelector(`[data-display-content="${sectionType}"]`),
+
+        // Unified header management
+        manageHeaders: (sectionType, action) => {
+          const isPayment = sectionType === "payment";
+          const paymentCardHeader = document.querySelector(
+            ".p-chk-payment-card__header"
+          );
+          const sectionHeader = SectionManager.getSectionHeader(sectionType);
+
+          if (action === "show-blue") {
+            // Hide all blue headers first
+            document.querySelectorAll("[data-section-header]").forEach((h) => {
+              h.classList.remove("active");
+              h.style.display = "none";
+            });
+
+            // Show specific blue header
+            if (sectionHeader) {
+              sectionHeader.classList.add("active");
+              sectionHeader.style.display = "block";
+            }
+
+            // Payment header management
+            if (isPayment && paymentCardHeader) {
+              // Hide payment card header when editing payment
+              paymentCardHeader.style.display = "none";
+            } else if (!isPayment && paymentCardHeader) {
+              // Show payment card header when editing other sections (restore if hidden)
+              paymentCardHeader.style.display = "block";
+            }
+          } else if (action === "hide-blue") {
+            // Hide blue header
+            if (sectionHeader) {
+              sectionHeader.classList.remove("active");
+              sectionHeader.style.display = "none";
+            }
+
+            // Show payment card header if completing payment
+            if (isPayment && paymentCardHeader) {
+              paymentCardHeader.style.display = "block";
+            }
+          }
+        },
+
+        // Unified border radius management
+        manageBorderRadius: (sectionType, action) => {
+          const section = SectionManager.getSection(sectionType);
+          if (!section) return;
+
+          const containers = [
+            section.querySelector(".p-chk-info-card__container"),
+            section.querySelector(".p-chk-payment-container"),
+          ].filter(Boolean);
+
+          containers.forEach((container) => {
+            if (action === "remove-top") {
+              container.classList.add("no-top-radius");
+            } else if (action === "restore") {
+              container.classList.remove("no-top-radius");
+            }
+          });
+        },
+
+        // Unified section state management
+        setSectionState: (sectionType, isEditing) => {
+          const section = SectionManager.getSection(sectionType);
+          if (!section) return;
+
+          // Section editing class
+          section.classList.toggle("editing", isEditing);
+
+          // Regular header editing class
+          const regularHeader = section.querySelector(
+            ".p-chk-contact-card__header, .p-chk-address-card__header, .p-chk-payment-card__header, .p-chk-info-card__header"
+          );
+          if (regularHeader) {
+            regularHeader.classList.toggle("editing", isEditing);
+          }
+
+          // Display content visibility (except payment)
+          if (sectionType !== "payment") {
+            const displayContent =
+              SectionManager.getDisplayContent(sectionType);
+            if (displayContent) {
+              displayContent.classList.toggle("hidden", isEditing);
+            }
+          }
+        },
+      };
+
+      // Edit button click handlers
+      document.querySelectorAll("[data-edit-button]").forEach((button) => {
+        button.addEventListener("click", function () {
+          const sectionType = this.getAttribute("data-edit-button");
+          startEditing(sectionType);
+        });
+      });
+
+      // Complete button click handlers
+      document.querySelectorAll("[data-complete-edit]").forEach((button) => {
+        button.addEventListener("click", function () {
+          const sectionType = this.getAttribute("data-complete-edit");
+          completeEditing(sectionType);
+        });
+      });
+
+      function startEditing(sectionType) {
+        // **REFACTORED: Simplified with utility functions**
+
+        // Handle new-contact as contact for consistency
+        if (sectionType === "new-contact") {
+          sectionType = "contact";
+        }
+
+        // Clear any existing editing state
+        if (currentEditingSection) {
+          completeEditing(currentEditingSection);
+        }
+
+        currentEditingSection = sectionType;
+
+        // Use unified header management
+        SectionManager.manageHeaders(sectionType, "show-blue");
+
+        // Use unified section state management
+        SectionManager.setSectionState(sectionType, true);
+
+        // Use unified border radius management
+        SectionManager.manageBorderRadius(sectionType, "remove-top");
+
+        // Show edit form for contact and delivery sections
+        if (sectionType === "contact" || sectionType === "delivery") {
+          const editForm = document.querySelector(
+            `[data-edit-form="${sectionType}"]`
+          );
+          if (editForm) {
+            editForm.classList.add("expanded");
+          }
+
+          // No special handling needed for contact section anymore
+        }
+      }
+
+      function completeEditing(sectionType) {
+        // **REFACTORED: Simplified with utility functions**
+
+        // Use unified header management
+        SectionManager.manageHeaders(sectionType, "hide-blue");
+
+        // Use unified section state management
+        SectionManager.setSectionState(sectionType, false);
+
+        // Use unified border radius management
+        SectionManager.manageBorderRadius(sectionType, "restore");
+
+        // Update display content with form data for contact and delivery sections
+        if (sectionType === "contact") {
+          updateContactDisplay(sectionType);
+        } else if (sectionType === "delivery") {
+          updateDeliveryDisplay(sectionType);
+        }
+
+        // Hide edit form
+        if (sectionType === "contact" || sectionType === "delivery") {
+          const editForm = document.querySelector(
+            `[data-edit-form="${sectionType}"]`
+          );
+          if (editForm) {
+            editForm.classList.remove("expanded");
+          }
+        }
+
+        currentEditingSection = null;
+
+        // Automatic progression flow
+        if (sectionType === "contact") {
+          // Show delivery edit button once contact is completed
+          const deliveryEditButton =
+            document.getElementById("deliveryEditButton");
+          if (deliveryEditButton) {
+            deliveryEditButton.style.display = "block";
+          }
+
+          setTimeout(() => {
+            if (currentEditingSection !== "payment") {
+              startEditing("delivery");
+            }
+          }, 300);
+        }
+        // When delivery section is completed, automatically highlight payment section
+        else if (sectionType === "delivery") {
+          setTimeout(() => {
+            if (!currentEditingSection) {
+              // Use unified approach for payment highlighting
+              SectionManager.manageHeaders("payment", "show-blue");
+              SectionManager.manageBorderRadius("payment", "remove-top");
+            }
+          }, 300);
+        }
+      }
+
+      function updateContactDisplay(sectionType) {
+        if (sectionType !== "contact") return;
+
+        const editForm = document.querySelector(
+          `[data-edit-form="${sectionType}"]`
+        );
+        const displayContent = document.querySelector(
+          `[data-display-content="${sectionType}"]`
+        );
+
+        if (!editForm || !displayContent) return;
+
+        // Get form values
+        const emailInput = editForm.querySelector('input[type="email"]');
+        const craftSelect = editForm.querySelector("select");
+
+        if (!emailInput || !craftSelect) return;
+
+        const email = emailInput.value.trim();
+        const craftIndex = craftSelect.selectedIndex;
+        const craftText =
+          craftIndex > 0 ? craftSelect.options[craftIndex].text : "";
+
+        // Update display content
+        const emptyDescription = displayContent.querySelector(
+          ".p-chk-contact-card__empty-description"
+        );
+        const emailElement = displayContent.querySelector(
+          ".p-chk-contact-card__email"
+        );
+        const jobElement = displayContent.querySelector(
+          ".p-chk-contact-card__job-title"
+        );
+
+        // Hide the empty description if we have data
+        if (emptyDescription && (email || craftText)) {
+          emptyDescription.style.display = "none";
+        }
+
+        if (emailElement && email) {
+          emailElement.textContent = email;
+          emailElement.style.display = "block";
+        }
+
+        if (jobElement && craftText) {
+          jobElement.textContent = craftText;
+          jobElement.style.display = "block";
+        }
+
+        // Show the edit button after completing the contact form
+        const contactEditButton = document.getElementById("contactEditButton");
+        if (contactEditButton) {
+          contactEditButton.style.display = "block";
+        }
+      }
+
+      function updateDeliveryDisplay(sectionType) {
+        if (sectionType !== "delivery") return;
+
+        const editForm = document.querySelector(
+          `[data-edit-form="${sectionType}"]`
+        );
+        const displayContent = document.querySelector(
+          `[data-display-content="${sectionType}"]`
+        );
+
+        if (!editForm || !displayContent) return;
+
+        // Get form values using more robust selectors
+        const inputFields = editForm.querySelectorAll('input[type="text"]');
+        const stateSelect = editForm.querySelector("select");
+
+        if (inputFields.length < 5 || !stateSelect) return;
+
+        // Map inputs by their order in the form
+        const nameInput = inputFields[0]; // Full Name
+        const streetInput = inputFields[1]; // Street Address
+        const aptInput = inputFields[2]; // Apartment/Suite
+        const cityInput = inputFields[3]; // City
+        const zipInput = inputFields[4]; // ZIP Code
+
+        const name = nameInput.value.trim();
+        const street = streetInput.value.trim();
+        const apt = aptInput.value.trim();
+        const city = cityInput.value.trim();
+        const state = stateSelect.value;
+        const zip = zipInput.value.trim();
+
+        // Build address display text - show partial information as it's filled
+        let addressText = "";
+        let hasAnyContent = name || street || apt || city || state || zip;
+
+        if (hasAnyContent) {
+          if (name) {
+            addressText += name + "<br />";
+          }
+          if (street) {
+            addressText += street + "<br />";
+          }
+          if (apt) {
+            addressText += apt + "<br />";
+          }
+
+          // Build city/state/zip line if any of them exist
+          let locationLine = "";
+          if (city) {
+            locationLine += city;
+          }
+          if (state) {
+            locationLine += (city ? ", " : "") + state;
+          }
+          if (zip) {
+            locationLine += (city || state ? " " : "") + zip;
+          }
+
+          if (locationLine) {
+            addressText += locationLine + "<br />";
+          }
+
+          // Always add country if we have any address content
+          if (addressText) {
+            addressText += "United States";
+          }
+        }
+
+        // Handle display content update
+        const addressElement = displayContent.querySelector(
+          ".p-chk-address-card__address"
+        );
+        const emptyDescription = displayContent.querySelector(
+          ".p-chk-address-card__empty-description"
+        );
+
+        if (addressText) {
+          // Hide empty description and show/update address
+          if (emptyDescription) {
+            emptyDescription.style.display = "none";
+          }
+
+          if (addressElement) {
+            addressElement.innerHTML = addressText;
+            addressElement.style.display = "block";
+          } else {
+            // Create address element if it doesn't exist
+            const newAddressElement = document.createElement("p");
+            newAddressElement.className = "p-chk-address-card__address";
+            newAddressElement.innerHTML = addressText;
+            displayContent.appendChild(newAddressElement);
+          }
+
+          // Change button text from "Add" to "Edit" and show edit button
+          const deliveryEditButton =
+            document.getElementById("deliveryEditButton");
+          if (deliveryEditButton) {
+            deliveryEditButton.textContent = "Edit";
+            deliveryEditButton.style.display = "block";
+          }
+        } else {
+          // No content - show empty state
+          if (addressElement) {
+            addressElement.style.display = "none";
+          }
+          if (emptyDescription) {
+            emptyDescription.style.display = "block";
+          }
+
+          // Change button text back to "Add"
+          const deliveryEditButton =
+            document.getElementById("deliveryEditButton");
+          if (deliveryEditButton) {
+            deliveryEditButton.textContent = "Add";
+          }
+        }
+      }
+
+      // Payment section click handler - clicking anywhere inside triggers edit mode
+      const paymentSection = document.querySelector(
+        '[data-editable-section="payment"]'
+      );
+      if (paymentSection) {
+        paymentSection.addEventListener("click", function (e) {
+          // Don't trigger if already editing payment section
+          if (currentEditingSection === "payment") {
+            return;
+          }
+
+          // Don't trigger if clicking edit button (already handled above)
+          if (e.target.closest('[data-edit-button="payment"]')) {
+            return;
+          }
+
+          // Don't trigger if clicking complete button
+          if (e.target.closest('[data-complete-edit="payment"]')) {
+            return;
+          }
+
+          // Trigger edit mode for payment section
+          startEditing("payment");
+        });
+      }
+
+      // Initialize: Start contact editing for new customers on page load
+      startEditing("contact");
+
+      // Add event listener to delivery edit button to switch from contact to delivery
+      const deliveryEditButton = document.getElementById("deliveryEditButton");
+      if (deliveryEditButton) {
+        deliveryEditButton.addEventListener("click", function (e) {
+          e.preventDefault();
+
+          // Close the contact form if it's open
+          if (currentEditingSection === "contact") {
+            SectionManager.setSectionState("contact", false);
+            const contactEditForm = document.querySelector(
+              '[data-edit-form="contact"]'
+            );
+            if (contactEditForm) {
+              contactEditForm.classList.remove("expanded");
+            }
+          }
+
+          // Open the delivery form
+          startEditing("delivery");
+        });
+      }
+    </script>
+  </body>
+</html>
