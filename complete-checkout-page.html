@@ -2449,15 +2449,15 @@
               </div>
 
               <div class="p-chk-new-contact-form__field">
-                <label for="contactProfessionSelect" class="visually-hidden"
-                  >Profession</label
+                <label for="contactCraftSelect" class="visually-hidden"
+                  >Craft</label
                 >
                 <div class="p-chk-form__input-field">
                   <select
-                    id="contactProfessionSelect"
+                    id="contactCraftSelect"
                     class="p-chk-form__select"
                     required
-                    title="Profession"
+                    title="Craft"
                   >
                     <option value="" disabled selected>
                       Select Your Craft
@@ -2511,12 +2511,10 @@
                 </div>
               </div>
               <div class="p-chk-contact-edit__field">
-                <label class="p-chk-contact-edit__label">Profession</label>
+                <label class="p-chk-contact-edit__label">Craft</label>
                 <div class="p-chk-form__input-field">
                   <select class="p-chk-form__select">
-                    <option value="" disabled selected>
-                      Select profession
-                    </option>
+                    <option value="" disabled selected>Select craft</option>
                     <option value="police">Police Officer</option>
                     <option value="firefighter">Firefighter</option>
                     <option value="ems">EMS/Paramedic</option>
@@ -2559,7 +2557,7 @@
               ></p>
               <p
                 class="p-chk-contact-card__job-title"
-                id="new-contact-profession-display"
+                id="new-contact-craft-display"
               ></p>
             </div>
           </div>
@@ -3784,19 +3782,26 @@
 
             // Get form values
             const email = this.querySelector(".p-chk-form__input-text").value;
-            const profession = this.querySelector(".p-chk-form__select").value;
+            const craft = this.querySelector(".p-chk-form__select").value;
 
-            if (email && profession) {
+            if (email && craft) {
               // Update summary display
               const emailDisplay = document.getElementById(
                 "new-contact-email-display"
               );
-              const professionDisplay = document.getElementById(
-                "new-contact-profession-display"
+              const craftDisplay = document.getElementById(
+                "new-contact-craft-display"
               );
 
               if (emailDisplay) emailDisplay.textContent = email;
-              if (professionDisplay) professionDisplay.textContent = profession;
+              if (craftDisplay) craftDisplay.textContent = craft;
+
+              // Use the same pattern as delivery sections
+              // Set the contact section as currently being edited
+              currentEditingSection = "contact";
+
+              if (emailDisplay) emailDisplay.textContent = email;
+              if (craftDisplay) craftDisplay.textContent = craft;
 
               // Use the same pattern as delivery sections
               // Set the contact section as currently being edited
@@ -4934,17 +4939,15 @@
 
         // Get form values
         const emailInput = editForm.querySelector('input[type="email"]');
-        const professionDropdown = editForm.querySelector(
+        const craftDropdown = editForm.querySelector(
           ".p-chk-user-card__dropdown-text"
         );
 
         const email = emailInput ? emailInput.value.trim() : "";
-        const profession = professionDropdown
-          ? professionDropdown.textContent.trim()
-          : "";
+        const craft = craftDropdown ? craftDropdown.textContent.trim() : "";
 
         // Update display content
-        if (email || (profession && profession !== "Select profession")) {
+        if (email || (craft && craft !== "Select craft")) {
           // For the empty state section, transform it to populated state
           if (sectionType === "contact") {
             // Remove the empty state description
@@ -4993,8 +4996,8 @@
           );
 
           if (emailElement && email) emailElement.textContent = email;
-          if (jobElement && profession && profession !== "Select profession") {
-            jobElement.textContent = profession;
+          if (jobElement && craft && craft !== "Select craft") {
+            jobElement.textContent = craft;
           }
         } else {
           // If no data is provided, ensure empty state is maintained for contact section
