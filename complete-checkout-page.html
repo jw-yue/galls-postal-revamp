@@ -553,59 +553,51 @@
         line-height: 16px;
       }
 
-      /* New Contact Form Styles (Scenario 1) */
-      .p-chk-new-contact-form__container {
-        width: 100%;
-        border: 1px solid #e3e3e3;
-        border-radius: 0 0 12px 12px;
-        background-color: #fff;
-        overflow: hidden;
-      }
-
-      .p-chk-new-contact-form__login-link {
-        color: #666666;
-        font-family: "Roboto", sans-serif;
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 16px;
-        padding: 12px 24px;
-        border-bottom: 1px solid #e3e3e3;
-      }
-
-      .p-chk-new-contact-form__link {
-        color: #0530ad;
-        text-decoration: underline;
-      }
-
-      .p-chk-new-contact-form__link:hover {
-        color: #041f7a;
-      }
-
-      .p-chk-new-contact-form__form {
-        padding: 24px;
+      /* Contact Edit Form Styles */
+      .p-chk-contact-edit__form {
         display: flex;
         flex-direction: column;
         gap: 16px;
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        padding: 0 20px;
       }
 
-      .p-chk-new-contact-form__field {
+      .p-chk-contact-edit__form.expanded {
+        max-height: 500px;
+        opacity: 1;
+        padding: 20px;
+      }
+
+      .p-chk-contact-edit__field {
         display: flex;
         flex-direction: column;
+        gap: 8px;
       }
 
-      .p-chk-new-contact-form__checkbox-container {
+      .p-chk-contact-edit__label {
+        color: #000000;
+        font-family: "Roboto", sans-serif;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+      }
+
+      .p-chk-contact-edit__checkbox-container {
         display: flex;
         align-items: center;
         gap: 8px;
       }
 
-      .p-chk-new-contact-form__checkbox {
+      .p-chk-contact-edit__checkbox {
         width: 16px;
         height: 16px;
         cursor: pointer;
       }
 
-      .p-chk-new-contact-form__checkbox-label {
+      .p-chk-contact-edit__checkbox-label {
         color: #333333;
         font-family: "Roboto", sans-serif;
         font-weight: 400;
@@ -2414,77 +2406,14 @@
           >
             <h1 class="p-chk-payment-header__title">Contact Information</h1>
           </div>
-
-          <!-- New Customer Contact Form (Scenario 1) -->
-          <div class="p-chk-new-contact-form__container">
-            <div class="p-chk-new-contact-form__login-link">
-              Have an account?
-              <a href="#" class="p-chk-new-contact-form__link">Log In</a>
-            </div>
-
-            <form class="p-chk-new-contact-form__form">
-              <div class="p-chk-new-contact-form__field">
-                <div class="p-chk-form__input-field">
-                  <input
-                    type="email"
-                    class="p-chk-form__input-text"
-                    placeholder="Email"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div class="p-chk-new-contact-form__checkbox-container">
-                <input
-                  type="checkbox"
-                  id="emailNewsOffers"
-                  class="p-chk-new-contact-form__checkbox"
-                />
-                <label
-                  for="emailNewsOffers"
-                  class="p-chk-new-contact-form__checkbox-label"
-                >
-                  Email me with news and offers
-                </label>
-              </div>
-
-              <div class="p-chk-new-contact-form__field">
-                <label for="contactCraftSelect" class="visually-hidden"
-                  >Craft</label
-                >
-                <div class="p-chk-form__input-field">
-                  <select
-                    id="contactCraftSelect"
-                    class="p-chk-form__select"
-                    required
-                    title="Craft"
-                  >
-                    <option value="" disabled selected>
-                      Select Your Craft
-                    </option>
-                    <option value="police">Police Officer</option>
-                    <option value="firefighter">Firefighter</option>
-                    <option value="ems">EMS/Paramedic</option>
-                    <option value="security">Security Guard</option>
-                    <option value="corrections">Corrections Officer</option>
-                    <option value="other">Other</option>
-                  </select>
-                </div>
-              </div>
-
-              <button type="submit" class="p-chk-primary-button">
-                Continue
-              </button>
-            </form>
-          </div>
-
-          <!-- Returning Customer Info Card (Scenario 2 & 3) - Hidden by default -->
-          <div class="p-chk-info-card__container" style="display: none">
+          <div class="p-chk-info-card__container">
             <div class="p-chk-info-card__header">
               <h2 class="p-chk-info-card__title">Contact Information</h2>
               <button
                 class="p-chk-info-card__edit-button"
                 data-edit-button="contact"
+                id="contactEditButton"
+                style="display: none"
               >
                 Edit
               </button>
@@ -2493,8 +2422,8 @@
               class="p-chk-contact-card__content"
               data-display-content="contact"
             >
-              <p class="p-chk-contact-card__email">john.doe@example.com</p>
-              <p class="p-chk-contact-card__job-title">Police Officer</p>
+              <p class="p-chk-contact-card__email">example@test.com</p>
+              <p class="p-chk-contact-card__job-title">Firefighter</p>
             </div>
 
             <!-- Contact Edit Form -->
@@ -2505,18 +2434,19 @@
                   <input
                     type="email"
                     class="p-chk-form__input-text"
-                    value=""
+                    value="example@test.com"
                     placeholder="Enter email"
                   />
                 </div>
               </div>
+
               <div class="p-chk-contact-edit__field">
                 <label class="p-chk-contact-edit__label">Craft</label>
                 <div class="p-chk-form__input-field">
-                  <select class="p-chk-form__select">
-                    <option value="" disabled selected>Select craft</option>
+                  <select class="p-chk-form__select" title="Craft">
+                    <option value="" disabled>Select craft</option>
                     <option value="police">Police Officer</option>
-                    <option value="firefighter">Firefighter</option>
+                    <option value="firefighter" selected>Firefighter</option>
                     <option value="ems">EMS/Paramedic</option>
                     <option value="security">Security Guard</option>
                     <option value="corrections">Corrections Officer</option>
@@ -2524,6 +2454,21 @@
                   </select>
                 </div>
               </div>
+
+              <div class="p-chk-contact-edit__checkbox-container">
+                <input
+                  type="checkbox"
+                  id="emailNewsOffers"
+                  class="p-chk-contact-edit__checkbox"
+                />
+                <label
+                  for="emailNewsOffers"
+                  class="p-chk-contact-edit__checkbox-label"
+                >
+                  Email me with news and offers
+                </label>
+              </div>
+
               <div class="p-chk-contact-edit__actions">
                 <button
                   class="p-chk-primary-button"
@@ -2532,33 +2477,6 @@
                   Complete
                 </button>
               </div>
-            </div>
-          </div>
-
-          <!-- Summary View for New Customer (Initially Hidden) -->
-          <div
-            class="p-chk-info-card__container"
-            style="display: none"
-            id="new-contact-summary"
-          >
-            <div class="p-chk-info-card__header">
-              <h2 class="p-chk-info-card__title">Contact Information</h2>
-              <button
-                class="p-chk-info-card__edit-button"
-                data-edit-button="new-contact"
-              >
-                Edit
-              </button>
-            </div>
-            <div class="p-chk-contact-card__content">
-              <p
-                class="p-chk-contact-card__email"
-                id="new-contact-email-display"
-              ></p>
-              <p
-                class="p-chk-contact-card__job-title"
-                id="new-contact-craft-display"
-              ></p>
             </div>
           </div>
         </section>
@@ -3762,65 +3680,28 @@
 
     <script>
       document.addEventListener("DOMContentLoaded", function () {
-        // New Contact Form functionality
-        const newContactForm = document.querySelector(
-          ".p-chk-new-contact-form__form"
-        );
-        const newContactContainer = document.querySelector(
-          ".p-chk-new-contact-form__container"
-        );
-        const newContactSummary = document.getElementById(
-          "new-contact-summary"
-        );
-        const paymentHeader = document.querySelector(
-          '[data-section-header="contact"]'
+        // Contact Form functionality
+        // Handle complete button for contact section
+        const contactCompleteBtn = document.querySelector(
+          '[data-complete-edit="contact"]'
         );
 
-        if (newContactForm) {
-          newContactForm.addEventListener("submit", function (e) {
+        if (contactCompleteBtn) {
+          contactCompleteBtn.addEventListener("click", function (e) {
             e.preventDefault();
 
-            // Get form values
-            const email = this.querySelector(".p-chk-form__input-text").value;
-            const craft = this.querySelector(".p-chk-form__select").value;
+            // Set the contact section as currently being edited
+            currentEditingSection = "contact";
 
-            if (email && craft) {
-              // Update summary display
-              const emailDisplay = document.getElementById(
-                "new-contact-email-display"
-              );
-              const craftDisplay = document.getElementById(
-                "new-contact-craft-display"
-              );
-
-              if (emailDisplay) emailDisplay.textContent = email;
-              if (craftDisplay) craftDisplay.textContent = craft;
-
-              // Use the same pattern as delivery sections
-              // Set the contact section as currently being edited
-              currentEditingSection = "contact";
-
-              if (emailDisplay) emailDisplay.textContent = email;
-              if (craftDisplay) craftDisplay.textContent = craft;
-
-              // Use the same pattern as delivery sections
-              // Set the contact section as currently being edited
-              currentEditingSection = "contact";
-
-              // Directly call completeEditing like other sections do
-              // This will handle showing the summary and smooth closing
-              completeEditing("contact");
-            }
+            // Complete the editing
+            completeEditing("contact");
           });
         }
 
-        // Handle edit button for new contact summary
-        const newContactEditBtn = document.querySelector(
-          '[data-edit-button="new-contact"]'
-        );
-        if (newContactEditBtn) {
-          // Handler uses the general edit button system
-          // We just need to ensure the new customer form is shown when that happens
+        // Show Edit button for contact section after page load
+        const contactEditButton = document.getElementById("contactEditButton");
+        if (contactEditButton) {
+          contactEditButton.style.display = "block";
         }
 
         // CCA Voucher functionality with enhanced features
@@ -4743,7 +4624,6 @@
 
           const containers = [
             section.querySelector(".p-chk-info-card__container"),
-            section.querySelector(".p-chk-new-contact-form__container"),
             section.querySelector(".p-chk-payment-container"),
           ].filter(Boolean);
 
@@ -4832,23 +4712,7 @@
             editForm.classList.add("expanded");
           }
 
-          // Special handling for contact section new customer form
-          if (sectionType === "contact") {
-            const newContactContainer = document.querySelector(
-              ".p-chk-new-contact-form__container"
-            );
-            const newContactSummary = document.getElementById(
-              "new-contact-summary"
-            );
-
-            if (newContactContainer) {
-              if (newContactSummary) {
-                newContactSummary.style.display = "none";
-                newContactSummary.classList.remove("no-top-radius");
-              }
-              newContactContainer.style.display = "block";
-            }
-          }
+          // No special handling needed for contact section anymore
         }
       }
 
@@ -4867,25 +4731,6 @@
         // Update display content with form data for contact sections
         if (sectionType === "contact") {
           updateContactDisplay(sectionType);
-
-          // Handle new customer form closure
-          const newContactContainer = document.querySelector(
-            ".p-chk-new-contact-form__container"
-          );
-          const newContactSummary = document.getElementById(
-            "new-contact-summary"
-          );
-
-          if (
-            newContactContainer &&
-            newContactContainer.style.display !== "none"
-          ) {
-            newContactContainer.style.display = "none";
-            if (newContactSummary) {
-              newContactSummary.style.display = "block";
-              newContactSummary.classList.remove("no-top-radius");
-            }
-          }
         }
 
         // Hide edit form
@@ -4928,6 +4773,8 @@
       }
 
       function updateContactDisplay(sectionType) {
+        if (sectionType !== "contact") return;
+
         const editForm = document.querySelector(
           `[data-edit-form="${sectionType}"]`
         );
@@ -4939,100 +4786,29 @@
 
         // Get form values
         const emailInput = editForm.querySelector('input[type="email"]');
-        const craftDropdown = editForm.querySelector(
-          ".p-chk-user-card__dropdown-text"
-        );
+        const craftSelect = editForm.querySelector("select");
 
-        const email = emailInput ? emailInput.value.trim() : "";
-        const craft = craftDropdown ? craftDropdown.textContent.trim() : "";
+        if (!emailInput || !craftSelect) return;
+
+        const email = emailInput.value.trim();
+        const craftIndex = craftSelect.selectedIndex;
+        const craftText =
+          craftIndex > 0 ? craftSelect.options[craftIndex].text : "";
 
         // Update display content
-        if (email || (craft && craft !== "Select craft")) {
-          // For the empty state section, transform it to populated state
-          if (sectionType === "contact") {
-            // Remove the empty state description
-            const emptyDescription = displayContent.querySelector(
-              ".p-chk-contact-card__empty-description"
-            );
-            if (emptyDescription) {
-              emptyDescription.remove();
-            }
+        const emailElement = displayContent.querySelector(
+          ".p-chk-contact-card__email"
+        );
+        const jobElement = displayContent.querySelector(
+          ".p-chk-contact-card__job-title"
+        );
 
-            // Create content elements if they don't exist
-            let emailElement = displayContent.querySelector(
-              ".p-chk-contact-card__email"
-            );
-            let jobElement = displayContent.querySelector(
-              ".p-chk-contact-card__job-title"
-            );
+        if (emailElement && email) {
+          emailElement.textContent = email;
+        }
 
-            if (!emailElement) {
-              emailElement = document.createElement("p");
-              emailElement.className = "p-chk-contact-card__email";
-              displayContent.appendChild(emailElement);
-            }
-
-            if (!jobElement) {
-              jobElement = document.createElement("p");
-              jobElement.className = "p-chk-contact-card__job-title";
-              displayContent.appendChild(jobElement);
-            }
-
-            // Update the button text from "Add" to "Edit"
-            const editButton = document.querySelector(
-              `[data-edit-button="${sectionType}"]`
-            );
-            if (editButton) {
-              editButton.textContent = "Edit";
-            }
-          }
-
-          // Update the content
-          const emailElement = displayContent.querySelector(
-            ".p-chk-contact-card__email"
-          );
-          const jobElement = displayContent.querySelector(
-            ".p-chk-contact-card__job-title"
-          );
-
-          if (emailElement && email) emailElement.textContent = email;
-          if (jobElement && craft && craft !== "Select craft") {
-            jobElement.textContent = craft;
-          }
-        } else {
-          // If no data is provided, ensure empty state is maintained for contact section
-          if (sectionType === "contact") {
-            // Remove any populated content elements
-            const emailElement = displayContent.querySelector(
-              ".p-chk-contact-card__email"
-            );
-            const jobElement = displayContent.querySelector(
-              ".p-chk-contact-card__job-title"
-            );
-
-            if (emailElement) emailElement.remove();
-            if (jobElement) jobElement.remove();
-
-            // Ensure the empty description exists
-            let emptyDescription = displayContent.querySelector(
-              ".p-chk-contact-card__empty-description"
-            );
-            if (!emptyDescription) {
-              emptyDescription = document.createElement("p");
-              emptyDescription.className =
-                "p-chk-contact-card__empty-description";
-              emptyDescription.textContent = "Add your contact information";
-              displayContent.appendChild(emptyDescription);
-            }
-
-            // Reset button text to "Add"
-            const editButton = document.querySelector(
-              `[data-edit-button="${sectionType}"]`
-            );
-            if (editButton) {
-              editButton.textContent = "Add";
-            }
-          }
+        if (jobElement && craftText) {
+          jobElement.textContent = craftText;
         }
       }
 
