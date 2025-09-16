@@ -5440,6 +5440,13 @@
         if (jobElement && craftText) {
           jobElement.textContent = craftText;
         }
+
+        // Update contact button text based on content
+        const contactEditButton = document.getElementById("contactEditButton");
+        if (contactEditButton) {
+          const hasContactContent = email || craftText;
+          contactEditButton.textContent = hasContactContent ? "Edit" : "Add";
+        }
       }
 
       function updateDeliveryDisplay(sectionType) {
