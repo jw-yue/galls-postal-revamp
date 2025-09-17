@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galls Checkout - Complete Your Order</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/forms.css" />
+    <link rel="stylesheet" href="css/components.css" />
+  </head>
+  <body>
+    <!-- State Switching Controls for Testing -->
+    <div class="test-states-panel">
+      <div class="test-states-title">Test States:</div>
+      <button onclick="window.changeStateWithMockData('contact')" class="test-state-btn">
+        Contact
+      </button>
+      <button onclick="window.changeStateWithMockData('delivery')" class="test-state-btn">
+        Delivery
+      </button>
+      <button onclick="window.changeStateWithMockData('payment')" class="test-state-btn">
+        Payment
+      </button>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="p-chk-main__container">
+      <!-- Main Content - Left-->
+      <div class="p-chk-main__content" data-chk-state="payment">
+        <!-- Contact Information -->
+        <section data-editable-section="contact">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="contact"
+            style="display: none"
+          >
+            <h1 class="p-chk-payment-header__title">Contact Information</h1>
+          </div>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Contact Information</h2>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="contact"
+                id="contactEditButton"
+                style="display: block"
+              >
+                Edit
+              </button>
+            </div>
+            <!-- Contact Display Content -->
+            <div data-display-content="contact" class="">
+              <div class="p-chk-contact-card__content">
+                <p class="p-chk-contact-card__email">example@test.com</p>
+                <p class="p-chk-contact-card__job-title">Firefighter</p>
+              </div>
+            </div>
+            <!-- Contact Edit Form -->
+            <form data-edit-form="contact" class="" style="display: none">
+              <div class="p-chk-form__field">
+                <label class="p-chk-form__label">Email</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="email"
+                    class="p-chk-form__input-text"
+                    placeholder="Enter email"
+                    id="contact-email"
+                    value="example@test.com"
+                    onchange="saveCheckoutForm('CONTACT', this)"
+                    onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-form__field">
+                <label class="p-chk-form__label">Craft</label>
+                <div class="p-chk-form__input-field">
+                  <select
+                    class="p-chk-form__select"
+                    title="Craft"
+                    id="contact-craft"
+                    onchange="saveCheckoutForm('CONTACT', this)"
+                    onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                  >
+                    <option value="" disabled>Select craft</option>
+                    <option value="firefighter" selected>Firefighter</option>
+                    <option value="police">Police Officer</option>
+                    <option value="ems">EMS/Paramedic</option>
+                    <option value="security">Security</option>
+                    <option value="corrections">Corrections</option>
+                  </select>
+                </div>
+              </div>
+              <div class="p-chk-form__checkbox-field">
+                <input type="checkbox" id="contact-newsletter" />
+                <label for="contact-newsletter">Email me with news and offers</label>
+              </div>
+              <button
+                type="button"
+                class="p-chk-primary-button"
+                data-complete-edit="contact"
+              >
+                Complete
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Delivery Address -->
+        <section data-editable-section="delivery">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="delivery"
+            style="display: none"
+          >
+            <h1 class="p-chk-payment-header__title">Delivery Address</h1>
+          </div>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Delivery Address</h2>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="delivery"
+                id="deliveryEditButton"
+                style="display: block"
+              >
+                Edit
+              </button>
+            </div>
+            <!-- Delivery Display Content -->
+            <div data-display-content="delivery" class="">
+              <div class="p-chk-address-card__content">
+                <p class="p-chk-address-card__address" style="display: block">
+                  John Doe<br />
+                  123 Main Street<br />
+                  Apt 4B<br />
+                  New York, NY 10001<br />
+                  United States
+                </p>
+                <p class="p-chk-address-card__empty-description" style="display: none">
+                  Add your delivery address
+                </p>
+              </div>
+            </div>
+            <!-- Delivery Edit Form -->
+            <form data-edit-form="delivery" class="" style="display: none">
+              <div class="p-chk-form__field">
+                <label class="p-chk-form__label">Full Name</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    placeholder="Full Name"
+                    id="delivery-fullname"
+                    value="John Doe"
+                    onchange="saveCheckoutForm('DELIVERY', this)"
+                    onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-form__field">
+                <label class="p-chk-form__label">Street Address</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    placeholder="Street Address"
+                    id="delivery-street"
+                    value="123 Main Street"
+                    onchange="saveCheckoutForm('DELIVERY', this)"
+                    onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-form__field">
+                <label class="p-chk-form__label">Apartment/Suite</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    placeholder="Apartment/Suite"
+                    id="delivery-apartment"
+                    value="Apt 4B"
+                    onchange="saveCheckoutForm('DELIVERY', this)"
+                    onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-form__row">
+                <div class="p-chk-form__field p-chk-form__field--city">
+                  <label class="p-chk-form__label">City</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      placeholder="City"
+                      id="delivery-city"
+                      value="New York"
+                      onchange="saveCheckoutForm('DELIVERY', this)"
+                      onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                    />
+                  </div>
+                </div>
+                <div class="p-chk-form__field p-chk-form__field--state">
+                  <label class="p-chk-form__label">State</label>
+                  <div class="p-chk-form__input-field">
+                    <select
+                      class="p-chk-form__select"
+                      id="delivery-state"
+                      onchange="saveCheckoutForm('DELIVERY', this)"
+                      onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                    >
+                      <option value="" disabled>Select state</option>
+                      <option value="NY" selected>New York</option>
+                      <option value="CA">California</option>
+                      <option value="TX">Texas</option>
+                      <option value="FL">Florida</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="p-chk-form__field p-chk-form__field--zip">
+                  <label class="p-chk-form__label">ZIP Code</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      placeholder="ZIP Code"
+                      id="delivery-zip"
+                      value="10001"
+                      onchange="saveCheckoutForm('DELIVERY', this)"
+                      onkeyup="if (typeof CF !== 'undefined' && CF.chl_opt) CF.chl_opt.cOgUHash = location.hash;"
+                    />
+                  </div>
+                </div>
+              </div>
+              <button
+                type="button"
+                class="p-chk-primary-button"
+                data-complete-edit="delivery"
+              >
+                Complete
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- Payment Section -->
+        <section data-editable-section="payment">
+          <div
+            class="p-chk-payment-header active"
+            data-section-header="payment"
+            style="display: block"
+          >
+            <h1 class="p-chk-payment-header__title">Payment</h1>
+          </div>
+          <div class="p-chk-payment-container no-top-radius">
+            <div class="p-chk-payment-card__header" style="display: none">
+              <h2 class="p-chk-payment-card__title">Payment</h2>
+            </div>
+            
+            <!-- Payment content would go here -->
+            <div class="p-chk-payment__placeholder">
+              <h3>Payment Methods</h3>
+              <p>Payment forms would be implemented here</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Order Summary - Right Side -->
+      <aside class="p-chk-order-summary">
+        <h2 class="p-chk-order-summary__title">Order Summary</h2>
+        <div class="p-chk-order-summary__content">
+          <div class="p-chk-order-summary__line">
+            <span>Subtotal</span>
+            <span>$126.00</span>
+          </div>
+          <div class="p-chk-order-summary__line">
+            <span>Savings</span>
+            <span>-$20.00</span>
+          </div>
+          <div class="p-chk-order-summary__line">
+            <span>Shipping</span>
+            <span>$0.00</span>
+          </div>
+          <div class="p-chk-order-summary__line">
+            <span>Estimated Taxes</span>
+            <span>$6.93</span>
+          </div>
+          <div class="p-chk-order-summary__total">
+            <span>Total</span>
+            <span>$137.93</span>
+          </div>
+          <button class="p-chk-order-summary__place-order-button">
+            Place Order
+          </button>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Hidden field for validation errors -->
+    <input type="hidden" id="SIERR2" value="" />
+
+    <!-- JavaScript Modules -->
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
