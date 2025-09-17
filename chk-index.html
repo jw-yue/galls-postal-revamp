@@ -24,114 +24,90 @@
     
     <!-- External CSS -->
     <link rel="stylesheet" href="chk-styles.css" />
+    
+    <!-- Development Test Utilities CSS -->
+    <link rel="stylesheet" href="test-utils/test-styles.css" />
   </head>
 
-    <!-- Main checkout content -->
-    <!-- State Switching Controls for Testing -->
-    <div
-      id="testStatesPanel"
-      style="
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        z-index: 1000;
-        background: white;
-        padding: 10px;
-        border: 2px solid #ccc;
-        border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s ease;
-      "
-    >
-      <div style="margin-bottom: 8px; font-weight: bold; font-size: 14px">
-        Test States:
-        <button
-          id="hideTestStates"
+  <body>
+    <!-- Development Test Utilities Panel -->
+    <!-- Test States Control Panel -->
+    <div class="p-chk-test-states" id="testStatesPanel">
+      <div class="p-chk-test-states__header">
+        <h4>Test States</h4>
+        <button 
+          type="button" 
+          class="p-chk-test-states__toggle" 
           onclick="toggleTestStates()"
-          style="
-            float: right;
-            background: #dc3545;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            padding: 2px 6px;
-            font-size: 10px;
-            cursor: pointer;
-            margin-left: 8px;
-          "
+          title="Hide test panel"
         >
-          ×
+          ←
         </button>
       </div>
-      <div id="testStatesButtons">
-        <button
-          onclick="changeStateWithMockData('contact')"
-          style="
-            margin-right: 8px;
-            padding: 6px 12px;
-            background: #007cba;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-          "
-        >
-          Contact
-        </button>
-        <button
-          onclick="changeStateWithMockData('delivery')"
-          style="
-            margin-right: 8px;
-            padding: 6px 12px;
-            background: #007cba;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-          "
-        >
-          Delivery
-        </button>
-        <button
-          onclick="changeStateWithMockData('payment')"
-          style="
-            padding: 6px 12px;
-            background: #007cba;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-          "
-        >
-          Payment
-        </button>
+
+      <div class="p-chk-test-states__content">
+        <div class="p-chk-test-states__section">
+          <h5>State Testing</h5>
+          <button 
+            type="button" 
+            class="p-chk-test-btn" 
+            onclick="changeState('contact')"
+          >
+            Contact State
+          </button>
+          <button 
+            type="button" 
+            class="p-chk-test-btn" 
+            onclick="changeState('delivery')"
+          >
+            Delivery State
+          </button>
+          <button 
+            type="button" 
+            class="p-chk-test-btn" 
+            onclick="changeState('payment')"
+          >
+            Payment State
+          </button>
+        </div>
+
+        <div class="p-chk-test-states__section">
+          <h5>Mock Data Testing</h5>
+          <button 
+            type="button" 
+            class="p-chk-test-btn p-chk-test-btn--secondary" 
+            onclick="changeStateWithMockData('contact')"
+          >
+            Fresh Contact
+          </button>
+          <button 
+            type="button" 
+            class="p-chk-test-btn p-chk-test-btn--secondary" 
+            onclick="changeStateWithMockData('delivery')"
+          >
+            Contact Filled
+          </button>
+          <button 
+            type="button" 
+            class="p-chk-test-btn p-chk-test-btn--secondary" 
+            onclick="changeStateWithMockData('payment')"
+          >
+            All Filled
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Minimized Test States Tab -->
-    <div
-      id="testStatesTab"
-      onclick="toggleTestStates()"
-      style="
-        position: fixed;
-        top: 10px;
-        left: -90px;
-        z-index: 999;
-        background: #007cba;
-        color: white;
-        padding: 8px 12px;
-        border-radius: 0 8px 8px 0;
-        cursor: pointer;
-        font-size: 12px;
-        font-weight: bold;
-        transition: left 0.3s ease;
-        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-      "
-    >
-      Test States
+    <!-- Test States Tab (shows when panel is hidden) -->
+    <div class="p-chk-test-states-tab" id="testStatesTab">
+      <button 
+        type="button" 
+        class="p-chk-test-states-tab__button" 
+        onclick="toggleTestStates()"
+        title="Show test panel"
+      >
+        Test
+      </button>
     </div>
 
     <!-- Main Layout -->
@@ -1503,5 +1479,8 @@
     
     <!-- External JavaScript -->
     <script src="chk-script.js"></script>
+    
+    <!-- Development Test Utilities JavaScript -->
+    <script src="test-utils/test-states.js"></script>
   </body>
 </html>

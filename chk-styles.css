@@ -172,7 +172,7 @@ body {
   align-items: stretch;
   border-radius: 12px;
   background-color: #fff;
-  border: 1px solid #000000;
+  border: 1px solid #e3e3e3;
   overflow: hidden;
 }
 
@@ -1390,7 +1390,7 @@ body {
   align-items: stretch;
   border-radius: 12px;
   background-color: #fff;
-  border: 1px solid #000000;
+  border: 1px solid #e3e3e3;
   overflow: hidden;
 }
 
@@ -1735,7 +1735,7 @@ body {
   padding: 20px;
   background-color: #fff;
   border-radius: 12px;
-  border: 1px solid #000;
+  border: 1px solid #e3e3e3;
 }
 
 .p-chk-cca__checkbox-container {

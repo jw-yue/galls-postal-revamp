@@ -1,0 +1,85 @@
+<!-- =============================================================================
+     TEST STATES PANEL - DEVELOPMENT ONLY
+     ============================================================================= 
+     This component provides UI controls for testing different checkout states.
+     Should NOT be included in production builds.
+-->
+
+<!-- Test States Control Panel -->
+<div class="p-chk-test-states" id="testStatesPanel">
+  <div class="p-chk-test-states__header">
+    <h4>Test States</h4>
+    <button 
+      type="button" 
+      class="p-chk-test-states__toggle" 
+      onclick="toggleTestStates()"
+      title="Hide test panel"
+    >
+      ←
+    </button>
+  </div>
+
+  <div class="p-chk-test-states__content">
+    <div class="p-chk-test-states__section">
+      <h5>State Testing</h5>
+      <button 
+        type="button" 
+        class="p-chk-test-btn" 
+        onclick="changeState('contact')"
+      >
+        Contact State
+      </button>
+      <button 
+        type="button" 
+        class="p-chk-test-btn" 
+        onclick="changeState('delivery')"
+      >
+        Delivery State
+      </button>
+      <button 
+        type="button" 
+        class="p-chk-test-btn" 
+        onclick="changeState('payment')"
+      >
+        Payment State
+      </button>
+    </div>
+
+    <div class="p-chk-test-states__section">
+      <h5>Mock Data Testing</h5>
+      <button 
+        type="button" 
+        class="p-chk-test-btn p-chk-test-btn--secondary" 
+        onclick="changeStateWithMockData('contact')"
+      >
+        Fresh Contact
+      </button>
+      <button 
+        type="button" 
+        class="p-chk-test-btn p-chk-test-btn--secondary" 
+        onclick="changeStateWithMockData('delivery')"
+      >
+        Contact Filled
+      </button>
+      <button 
+        type="button" 
+        class="p-chk-test-btn p-chk-test-btn--secondary" 
+        onclick="changeStateWithMockData('payment')"
+      >
+        All Filled
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Test States Tab (shows when panel is hidden) -->
+<div class="p-chk-test-states-tab" id="testStatesTab">
+  <button 
+    type="button" 
+    class="p-chk-test-states-tab__button" 
+    onclick="toggleTestStates()"
+    title="Show test panel"
+  >
+    Test
+  </button>
+</div>
