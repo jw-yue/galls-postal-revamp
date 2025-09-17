@@ -265,7 +265,7 @@ function changeState(newState) {
 }
 
 // Test States Panel Toggle Functionality
-let testStatesPanelVisible = true;
+let testStatesPanelVisible = false;
 
 function toggleTestStates() {
   const panel = document.getElementById("testStatesPanel");
@@ -283,37 +283,3 @@ function toggleTestStates() {
     testStatesPanelVisible = true;
   }
 }
-
-// Delayed hover fade functionality
-let hoverTimeout = null;
-
-function initializeTestPanelHover() {
-  const panel = document.getElementById("testStatesPanel");
-  if (!panel) return;
-
-  panel.addEventListener("mouseenter", function () {
-    // Clear any existing timeout
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-    }
-
-    // Set a 3-second timeout to fade the panel
-    hoverTimeout = setTimeout(() => {
-      panel.classList.add("faded");
-    }, 2000);
-  });
-
-  panel.addEventListener("mouseleave", function () {
-    // Clear the timeout and remove fade immediately when mouse leaves
-    if (hoverTimeout) {
-      clearTimeout(hoverTimeout);
-      hoverTimeout = null;
-    }
-    panel.classList.remove("faded");
-  });
-}
-
-// Initialize the hover functionality when the DOM is loaded
-document.addEventListener("DOMContentLoaded", function () {
-  initializeTestPanelHover();
-});
