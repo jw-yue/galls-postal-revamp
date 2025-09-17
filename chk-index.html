@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Galls Checkout - Complete Your Order</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    
+    <!-- Inputmask Library for Credit Card Formatting -->
+    <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
+    
+    <!-- External CSS -->
+    <link rel="stylesheet" href="chk-styles.css" />
+  </head>
+
+    <!-- Main checkout content -->
+    <!-- State Switching Controls for Testing -->
+    <div
+      style="
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1000;
+        background: white;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <div style="margin-bottom: 8px; font-weight: bold; font-size: 14px">
+        Test States:
+      </div>
+      <button
+        onclick="changeStateWithMockData('contact')"
+        style="
+          margin-right: 8px;
+          padding: 6px 12px;
+          background: #007cba;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+        "
+      >
+        Contact
+      </button>
+      <button
+        onclick="changeStateWithMockData('delivery')"
+        style="
+          margin-right: 8px;
+          padding: 6px 12px;
+          background: #007cba;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+        "
+      >
+        Delivery
+      </button>
+      <button
+        onclick="changeStateWithMockData('payment')"
+        style="
+          padding: 6px 12px;
+          background: #007cba;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 12px;
+        "
+      >
+        Payment
+      </button>
+    </div>
+
+    <!-- Main Layout -->
+    <div class="p-chk-main__container">
+      <!-- Main Content - Left-->
+      <div class="p-chk-main__content" data-chk-state="payment">
+        <!-- Contact -->
+        <section data-editable-section="contact">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="contact"
+            style="display: none"
+          >
+            <div class="p-chk-info-card__header-left">
+              <h1 class="p-chk-payment-header__title">Contact</h1>
+              <!-- Have an account login link -->
+              <div class="p-chk-contact__login-container">
+                <span class="p-chk-contact__login-text">
+                  Have an account?
+                  <a
+                    href="#signInModal"
+                    data-toggle="modal"
+                    data-target="#signInModal"
+                    class="p-chk-contact__login-link"
+                    >Log In</a
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <div class="p-chk-info-card__header-left">
+                <h2 class="p-chk-info-card__title">Contact</h2>
+                <!-- Have an account login link -->
+                <div class="p-chk-contact__login-container">
+                  <span class="p-chk-contact__login-text">
+                    Have an account?
+                    <a
+                      href="#signInModal"
+                      data-toggle="modal"
+                      data-target="#signInModal"
+                      class="p-chk-contact__login-link"
+                      >Log In</a
+                    >
+                  </span>
+                </div>
+              </div>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="contact"
+                id="contactEditButton"
+              >
+                Edit
+              </button>
+            </div>
+            <div
+              class="p-chk-contact-card__content"
+              data-display-content="contact"
+            >
+              <p class="p-chk-contact-card__email">example@test.com</p>
+              <p class="p-chk-contact-card__job-title">Firefighter</p>
+            </div>
+
+            <!-- Contact Edit Form -->
+            <div class="p-chk-contact-edit__form" data-edit-form="contact">
+              <div class="p-chk-contact-edit__field">
+                <label class="p-chk-contact-edit__label">Email</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="email"
+                    class="p-chk-form__input-text"
+                    value="example@test.com"
+                    placeholder="Enter email"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                  />
+                </div>
+              </div>
+
+              <div class="p-chk-contact-edit__field">
+                <label class="p-chk-contact-edit__label">Craft</label>
+                <div class="p-chk-form__input-field">
+                  <select
+                    class="p-chk-form__select"
+                    title="Craft"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                  >
+                    <option value="" selected>Select craft</option>
+                    <option value="police">Police Officer</option>
+                    <option value="firefighter">Firefighter</option>
+                    <option value="ems">EMS/Paramedic</option>
+                    <option value="security">Security Guard</option>
+                    <option value="corrections">Corrections Officer</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="p-chk-contact-edit__checkbox-container">
+                <input
+                  type="checkbox"
+                  id="emailNewsOffers"
+                  class="p-chk-contact-edit__checkbox"
+                />
+                <label
+                  for="emailNewsOffers"
+                  class="p-chk-contact-edit__checkbox-label"
+                >
+                  Email me with news and offers
+                </label>
+              </div>
+
+              <div class="p-chk-contact-edit__actions">
+                <button class="p-chk-primary-button" data-complete-edit>
+                  Complete
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Contact - Login Modal -->
+
+        <!-- Delivery Address -->
+        <section data-editable-section="delivery">
+          <div
+            class="p-chk-payment-header"
+            data-section-header="delivery"
+            style="display: none"
+          >
+            <h1 class="p-chk-payment-header__title">Delivery Address</h1>
+          </div>
+          <div class="p-chk-info-card__container">
+            <div class="p-chk-info-card__header">
+              <h2 class="p-chk-info-card__title">Delivery Address</h2>
+              <button
+                class="p-chk-info-card__edit-button"
+                data-edit-button="delivery"
+                id="deliveryEditButton"
+              >
+                Edit
+              </button>
+            </div>
+            <div
+              class="p-chk-address-card__content"
+              data-display-content="delivery"
+            >
+              <p class="p-chk-address-card__empty-description">
+                Add your delivery address
+              </p>
+              <p class="p-chk-address-card__address">
+                John Doe<br />123 Main Street<br />Apt 4B<br />New York, NY
+                10001<br />United States
+              </p>
+            </div>
+
+            <!-- Delivery Edit Form (Initially Hidden) -->
+            <div class="p-chk-address-edit__form" data-edit-form="delivery">
+              <div class="p-chk-address-edit__field">
+                <label class="p-chk-address-edit__label">Full Name</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    value="John Doe"
+                    placeholder="Enter full name"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-address-edit__field">
+                <label class="p-chk-address-edit__label">Street Address</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    value="123 Main Street"
+                    placeholder="Enter street address"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-address-edit__field">
+                <label class="p-chk-address-edit__label">Apartment/Suite</label>
+                <div class="p-chk-form__input-field">
+                  <input
+                    type="text"
+                    class="p-chk-form__input-text"
+                    value="Apt 4B"
+                    placeholder="Apartment, suite, etc. (optional)"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                  />
+                </div>
+              </div>
+              <div class="p-chk-address-edit__row">
+                <div
+                  class="p-chk-address-edit__field p-chk-address-edit__field--half"
+                >
+                  <label class="p-chk-address-edit__label">City</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      value="New York"
+                      placeholder="Enter city"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                >
+                  <label class="p-chk-address-edit__label">State</label>
+                  <div class="p-chk-form__input-field">
+                    <select
+                      class="p-chk-form__select"
+                      title="State"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    >
+                      <option value="" selected>Select state</option>
+                      <option value="NY">NY</option>
+                      <option value="CA">CA</option>
+                      <option value="TX">TX</option>
+                      <option value="FL">FL</option>
+                      <!-- Add more states as needed -->
+                    </select>
+                  </div>
+                </div>
+                <div
+                  class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                >
+                  <label class="p-chk-address-edit__label">ZIP Code</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      value="10001"
+                      placeholder="ZIP"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="p-chk-address-edit__actions">
+                <button class="p-chk-primary-button" data-complete-edit>
+                  Complete
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Shipping Method -->
+        <section class="p-chk-shipping__container">
+          <div class="p-chk-shipping__header">
+            <h2 class="p-chk-shipping__title">Shipping Method</h2>
+          </div>
+          <div class="p-chk-shipping__content">
+            <p class="p-chk-shipping__method">
+              Standard Shipping (5-7 business days)
+            </p>
+            <p class="p-chk-shipping__price">FREE</p>
+          </div>
+        </section>
+
+        <!-- Payment Section with Product List and Card Forms -->
+        <section data-editable-section="payment">
+          <div
+            class="p-chk-payment-header active"
+            data-section-header="payment"
+          >
+            <h1 class="p-chk-payment-header__title">Payment</h1>
+          </div>
+          <div class="p-chk-payment-container no-top-radius">
+            <div class="p-chk-payment-card__header">
+              <h2 class="p-chk-payment-card__title">Payment</h2>
+            </div>
+            <div class="p-chk-payment-section" data-display-content="payment">
+              <div class="p-chk-payment-section__layout">
+                <!-- Left Side: Product List -->
+                <div class="p-chk-payment-section__left">
+                  <div class="p-chk-product__container">
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--postal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Postal Card Eligible</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-2"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--postal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Postal Card Eligible</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-3"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--postal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Postal Card Eligible</span
+                          >
+                        </div>
+                        <div class="p-chk-product__postal-info">
+                          <div class="p-chk-product__postal-title">
+                            Partially covered by Postal Card
+                          </div>
+                          <div class="p-chk-product__postal-breakdown">
+                            $30.02 applied to Postal Card – $4.97 will be
+                            charged to your personal card.
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-4"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--personal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Personal Card Only</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-5"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--personal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Personal Card Only</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-product__item">
+                      <img
+                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                        alt="Mission Made Men's Long Sleeve Combat Shirt"
+                        class="p-chk-product__image"
+                      />
+                      <div class="p-chk-product__details">
+                        <h4 class="p-chk-product__title">
+                          <a
+                            href="/products/mission-made-mens-long-sleeve-combat-shirt-6"
+                            class="p-chk-product__title-link"
+                            >Mission Made Men's Long Sleeve Combat Shirt</a
+                          >
+                        </h4>
+                        <div class="p-chk-product__info">
+                          <span class="p-chk-product__attribute"
+                            >Color: Blue • Size: XL</span
+                          >
+                          <span class="p-chk-product__quantity">QTY: 1</span>
+                          <span class="p-chk-product__price"
+                            >Price: $34.99</span
+                          >
+                        </div>
+                        <div
+                          class="p-chk-product__badge p-chk-product__badge--personal"
+                        >
+                          <span class="p-chk-product__badge-text"
+                            >Personal Card Only</span
+                          >
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Right Side: Card Forms Stack -->
+                <div class="p-chk-payment-section__right">
+                  <!-- 1. CCA Voucher Form -->
+                  <div class="p-chk-cca__container">
+                    <div class="p-chk-cca__checkbox-container">
+                      <div
+                        class="p-chk-cca__checkbox"
+                        role="checkbox"
+                        aria-checked="false"
+                        tabindex="0"
+                        data-chk-element="cca-checkbox"
+                      ></div>
+                      <label class="p-chk-cca__label" for="cca-checkbox">
+                        Use your
+                        <span class="bold-text">CCA Allowance Voucher</span>
+                      </label>
+                    </div>
+
+                    <div class="p-chk-cca__card" data-chk-element="cca-card">
+                      <div class="p-chk-cca__amount-container">
+                        <div class="p-chk-cca__dollar-sign">$</div>
+                        <div class="p-chk-cca__file-allowance-field">
+                          <input
+                            type="text"
+                            class="p-chk-form__input-text"
+                            placeholder="104.97"
+                            data-chk-element="allowance-amount-input"
+                          />
+                        </div>
+                      </div>
+
+                      <div class="p-chk-cca__description">
+                        We require a manager approved CCA voucher to process
+                        your order
+                      </div>
+
+                      <div class="p-chk-cca__form-container">
+                        <div class="p-chk-cca__form-fields">
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="email"
+                              class="p-chk-form__input-text"
+                              placeholder="Paying Supervisor Email"
+                              id="cca-supervisor-email"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                            />
+                          </div>
+
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="tel"
+                              class="p-chk-form__input-text"
+                              placeholder="Paying Supervisor Phone"
+                              id="cca-supervisor-phone"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                            />
+                          </div>
+
+                          <div class="p-chk-cca__upload-section">
+                            <div class="p-chk-cca__upload-header">
+                              <div class="p-chk-cca__upload-button-row">
+                                <div class="p-chk-cca__upload-icon">
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6eedad85-5cdb-4a3c-8783-a6a922cac9e2"
+                                    alt="Upload icon"
+                                  />
+                                </div>
+                                <div class="p-chk-cca__upload-text-container">
+                                  <a
+                                    href="#"
+                                    class="p-chk-cca__upload-link"
+                                    data-chk-element="file-upload-link"
+                                    >Choose a file to upload</a
+                                  >
+                                  <div class="p-chk-cca__accepted-formats">
+                                    Accepted formats: JPEG, JPG, PNG, BMP, DOC,
+                                    DOCX, PDF, TXT
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="p-chk-cca__file-name-field">
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="Voucher_Upload.pdf"
+                                data-chk-element="file-name-input"
+                                readonly
+                              />
+                            </div>
+
+                            <button
+                              class="p-chk-cca__upload-voucher-button"
+                              data-chk-element="upload-button"
+                            >
+                              <span class="p-chk-cca__upload-voucher-text"
+                                >Upload Voucher</span
+                              >
+                            </button>
+                          </div>
+
+                          <div class="p-chk-cca__disclaimer-container">
+                            <div class="p-chk-cca__disclaimer-row">
+                              <div
+                                class="p-chk-cca__disclaimer-checkbox"
+                                role="checkbox"
+                                tabindex="0"
+                                aria-checked="false"
+                                data-chk-element="disclaimer-checkbox"
+                              ></div>
+                              <label
+                                class="p-chk-cca__disclaimer-label"
+                                for="disclaimer-checkbox"
+                              >
+                                I do not wish to upload my voucher at this time.
+                                I acknowledge I am still required to provide my
+                                voucher for verification before my order will be
+                                processed
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
+                        class="p-chk-primary-button"
+                        disabled
+                        data-chk-element="submit-button"
+                      >
+                        Confirm & Submit
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- 2. Postal Card Form -->
+                  <div class="p-chk-card__container">
+                    <input
+                      type="checkbox"
+                      id="postalCardToggle"
+                      class="p-chk-card__toggle-input"
+                    />
+
+                    <div class="p-chk-card__header">
+                      <div class="p-chk-card__title">Add Postal Card</div>
+                      <label
+                        for="postalCardToggle"
+                        class="p-chk-card__toggle-button"
+                        id="postalToggleButton"
+                        data-chk-element="postal-toggle-button"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.5 8.75L7 5.25L10.5 8.75"
+                            stroke="black"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </label>
+                    </div>
+
+                    <div class="p-chk-pcard__summary-bar">
+                      <div class="p-chk-pcard__summary-item">
+                        <div class="p-chk-pcard__summary-label">
+                          Postal Card Amount due
+                        </div>
+                        <div class="p-chk-pcard__summary-value">$104.97</div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-card__collapsible-content">
+                      <div class="p-chk-pcard__content">
+                        <div class="p-chk-pcard__section-header">
+                          <div class="p-chk-pcard__section-title">
+                            Postal Card
+                          </div>
+                        </div>
+
+                        <div
+                          class="p-chk-pcard__charge-input"
+                          id="postalChargeInput"
+                          data-chk-element="postal-charge-input"
+                        >
+                          <div class="p-chk-pcard__dollar-prefix">$</div>
+                          <div class="p-chk-pcard__charge-text">
+                            Postal Card Charge
+                          </div>
+                        </div>
+
+                        <div
+                          class="p-chk-pcard__form-section"
+                          id="postalFormSection"
+                          data-chk-element="postal-form-section"
+                        >
+                          <div class="p-chk-pcard__form-fields">
+                            <div class="p-chk-form__input-field">
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="Postal Card Number"
+                                id="postal-card-number-payment"
+                                onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('POSTAL', this);"
+                                onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('POSTAL', this);"
+                              />
+                            </div>
+
+                            <div class="p-chk-pcard__input-row">
+                              <!-- Month Dropdown -->
+                              <div
+                                class="p-chk-pcard__dropdown"
+                                data-chk-element="postal-month-dropdown"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-toggle"
+                                />
+                                <label
+                                  for="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-text"
+                                  >Month</label
+                                >
+                                <label
+                                  for="postalMonthToggle"
+                                  class="p-chk-pcard__dropdown-icon"
+                                >
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/198f5925-4bd0-42a7-8c9b-d09dc18dd84c"
+                                    alt="Dropdown"
+                                    style="width: 100%; height: 100%"
+                                  />
+                                </label>
+                                <div class="p-chk-pcard__dropdown-menu">
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="01"
+                                  >
+                                    01 - January
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="02"
+                                  >
+                                    02 - February
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="03"
+                                  >
+                                    03 - March
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="04"
+                                  >
+                                    04 - April
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="05"
+                                  >
+                                    05 - May
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="06"
+                                  >
+                                    06 - June
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="07"
+                                  >
+                                    07 - July
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="08"
+                                  >
+                                    08 - August
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="09"
+                                  >
+                                    09 - September
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="10"
+                                  >
+                                    10 - October
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="11"
+                                  >
+                                    11 - November
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="12"
+                                  >
+                                    12 - December
+                                  </div>
+                                </div>
+                              </div>
+
+                              <!-- Year Dropdown -->
+                              <div
+                                class="p-chk-pcard__dropdown"
+                                data-chk-element="postal-year-dropdown"
+                              >
+                                <input
+                                  type="checkbox"
+                                  id="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-toggle"
+                                />
+                                <label
+                                  for="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-text"
+                                  >Year</label
+                                >
+                                <label
+                                  for="postalYearToggle"
+                                  class="p-chk-pcard__dropdown-icon"
+                                >
+                                  <img
+                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/23616888-f0dc-4ca5-af5d-b0483d545fdd"
+                                    alt="Dropdown"
+                                    style="width: 100%; height: 100%"
+                                  />
+                                </label>
+                                <div class="p-chk-pcard__dropdown-menu">
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2024"
+                                  >
+                                    2024
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2025"
+                                  >
+                                    2025
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2026"
+                                  >
+                                    2026
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2027"
+                                  >
+                                    2027
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2028"
+                                  >
+                                    2028
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2029"
+                                  >
+                                    2029
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2030"
+                                  >
+                                    2030
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2031"
+                                  >
+                                    2031
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2032"
+                                  >
+                                    2032
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2033"
+                                  >
+                                    2033
+                                  </div>
+                                  <div
+                                    class="p-chk-pcard__dropdown-option"
+                                    data-value="2034"
+                                  >
+                                    2034
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div
+                                class="p-chk-form__input-field p-chk-pcard__cvv-field"
+                              >
+                                <input
+                                  type="text"
+                                  class="p-chk-form__input-text"
+                                  placeholder="CVV"
+                                  maxlength="4"
+                                  id="postal-cvv-payment"
+                                />
+                              </div>
+                            </div>
+
+                            <div class="p-chk-form__input-field">
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="Name on card"
+                                id="postal-cardholder-payment"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="p-chk-pcard__checkbox-container">
+                            <img
+                              src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/f35904bd-86ba-42ab-ac02-5b2594a48b8f"
+                              alt="Checkbox"
+                              class="p-chk-pcard__checkbox"
+                              id="postalSaveCheckbox"
+                              data-chk-element="postal-save-checkbox"
+                              aria-checked="false"
+                              role="checkbox"
+                              tabindex="0"
+                            />
+                            <label
+                              class="p-chk-pcard__checkbox-label"
+                              for="postalSaveCheckbox"
+                              >Save Postal Card on File</label
+                            >
+                          </div>
+
+                          <button
+                            class="p-chk-primary-button"
+                            data-chk-element="postal-continue-button"
+                          >
+                            Continue
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 3. Personal Card Form -->
+                  <div class="p-chk-user-card__container">
+                    <input
+                      type="checkbox"
+                      id="personalCardToggle"
+                      class="p-chk-user-card__toggle-input"
+                    />
+
+                    <div class="p-chk-user-card__header">
+                      <div class="p-chk-user-card__title">
+                        Add Personal Debit/Credit Card
+                      </div>
+                      <label
+                        for="personalCardToggle"
+                        class="p-chk-card__toggle-button"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                        >
+                          <path
+                            d="M3.5 8.75L7 5.25L10.5 8.75"
+                            stroke="black"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                          />
+                        </svg>
+                      </label>
+                    </div>
+
+                    <div class="p-chk-user-card__summary-bar">
+                      <div class="p-chk-user-card__summary-item">
+                        <div class="p-chk-user-card__summary-label">
+                          Personal Card Amount Due
+                        </div>
+                        <div class="p-chk-user-card__summary-value">
+                          $323.99
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="p-chk-user-card__collapsible-content">
+                      <div class="p-chk-user-card__content">
+                        <div class="p-chk-user-card__section-header">
+                          <div class="p-chk-user-card__section-title">
+                            Credit Card
+                          </div>
+                          <img
+                            src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/67940f0e-235d-4d47-8392-bc78b92b0da6"
+                            alt="Credit Card Icons"
+                            class="p-chk-user-card__card-icons"
+                          />
+                        </div>
+
+                        <div class="p-chk-user-card__form-fields">
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              placeholder="Enter Card Number"
+                              maxlength="19"
+                              id="personal-card-number-payment"
+                              data-chk-element="personal-card-number"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                            />
+                          </div>
+
+                          <div class="p-chk-user-card__input-row">
+                            <!-- Month Dropdown -->
+                            <div
+                              class="p-chk-user-card__dropdown"
+                              data-chk-element="personal-month-dropdown"
+                            >
+                              <input
+                                type="checkbox"
+                                id="personalMonthToggle"
+                                class="p-chk-user-card__dropdown-toggle"
+                              />
+                              <label
+                                for="personalMonthToggle"
+                                class="p-chk-user-card__dropdown-text"
+                                >Month</label
+                              >
+                              <label
+                                for="personalMonthToggle"
+                                class="p-chk-user-card__dropdown-icon"
+                              >
+                                <img
+                                  src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/aa38bbc7-09bf-4c8d-9bde-305b1d3fdcad"
+                                  alt="Dropdown"
+                                  style="width: 100%; height: 100%"
+                                />
+                              </label>
+                              <div class="p-chk-user-card__dropdown-menu">
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="01"
+                                >
+                                  01 - January
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="02"
+                                >
+                                  02 - February
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="03"
+                                >
+                                  03 - March
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="04"
+                                >
+                                  04 - April
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="05"
+                                >
+                                  05 - May
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="06"
+                                >
+                                  06 - June
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="07"
+                                >
+                                  07 - July
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="08"
+                                >
+                                  08 - August
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="09"
+                                >
+                                  09 - September
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="10"
+                                >
+                                  10 - October
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="11"
+                                >
+                                  11 - November
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="12"
+                                >
+                                  12 - December
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Year Dropdown -->
+                            <div
+                              class="p-chk-user-card__dropdown"
+                              data-chk-element="personal-year-dropdown"
+                            >
+                              <input
+                                type="checkbox"
+                                id="personalYearToggle"
+                                class="p-chk-user-card__dropdown-toggle"
+                              />
+                              <label
+                                for="personalYearToggle"
+                                class="p-chk-user-card__dropdown-text"
+                                >Year</label
+                              >
+                              <label
+                                for="personalYearToggle"
+                                class="p-chk-user-card__dropdown-icon"
+                              >
+                                <img
+                                  src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c28177d3-b998-43b9-bf15-2301e7ebc81c"
+                                  alt="Dropdown"
+                                  style="width: 100%; height: 100%"
+                                />
+                              </label>
+                              <div class="p-chk-user-card__dropdown-menu">
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2024"
+                                >
+                                  2024
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2025"
+                                >
+                                  2025
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2026"
+                                >
+                                  2026
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2027"
+                                >
+                                  2027
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2028"
+                                >
+                                  2028
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2029"
+                                >
+                                  2029
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2030"
+                                >
+                                  2030
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2031"
+                                >
+                                  2031
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2032"
+                                >
+                                  2032
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2033"
+                                >
+                                  2033
+                                </div>
+                                <div
+                                  class="p-chk-user-card__dropdown-option"
+                                  data-value="2034"
+                                >
+                                  2034
+                                </div>
+                              </div>
+                            </div>
+
+                            <div
+                              class="p-chk-form__input-field p-chk-user-card__cvv-field"
+                            >
+                              <input
+                                type="text"
+                                class="p-chk-form__input-text"
+                                placeholder="CVV"
+                                maxlength="4"
+                                id="personal-cvv-payment"
+                                onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                                onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              placeholder="Name on card"
+                              id="personal-cardholder-payment"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                            />
+                          </div>
+                        </div>
+
+                        <!-- Pre-charge card checkbox (disabled) -->
+                        <div class="p-chk-user-card__checkbox-container">
+                          <div
+                            class="p-chk-user-card__checkbox disabled"
+                            data-chk-element="personal-precharge-checkbox"
+                          ></div>
+                          <label
+                            class="p-chk-user-card__checkbox-label disabled"
+                            >Pre-charge card</label
+                          >
+                        </div>
+
+                        <div class="p-chk-user-card__note-text">
+                          NOTE: Order contains items that are customized,
+                          shipped direct from our supplier or in stock shipping
+                          direct from our supplier. The order will be charged in
+                          full at the time the order is placed. Please note that
+                          customized product sales are final and can only be
+                          returned due to product defects.
+                        </div>
+
+                        <!-- Save card checkbox (functional) -->
+                        <input
+                          type="checkbox"
+                          id="personalSaveCardToggle"
+                          class="p-chk-user-card__checkbox-toggle"
+                        />
+                        <div class="p-chk-user-card__checkbox-container">
+                          <label
+                            for="personalSaveCardToggle"
+                            class="p-chk-user-card__checkbox"
+                            data-chk-element="personal-save-checkbox"
+                          ></label>
+                          <label
+                            for="personalSaveCardToggle"
+                            class="p-chk-user-card__checkbox-label"
+                            >Save Personal Card on File</label
+                          >
+                        </div>
+
+                        <button
+                          class="p-chk-primary-button"
+                          type="button"
+                          data-chk-element="personal-continue-button"
+                        >
+                          Continue
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <!-- Order Summary - Right-->
+      <div class="p-chk-main__sidebar">
+        <!-- Order Summary -->
+        <section class="p-chk-order-summary__container">
+          <div class="p-chk-order-summary__header">
+            <h2 class="p-chk-order-summary__title">Order Summary</h2>
+          </div>
+          <div class="p-chk-order-summary__content">
+            <div class="p-chk-order-summary__details">
+              <div class="p-chk-order-summary__line-items">
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Subtotal</span>
+                  <span class="p-chk-order-summary__line-value">$126.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Savings</span>
+                  <span class="p-chk-order-summary__line-value">$20.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label">Shipping</span>
+                  <span class="p-chk-order-summary__line-value">$0.00</span>
+                </div>
+
+                <div class="p-chk-order-summary__line-item">
+                  <span class="p-chk-order-summary__line-label"
+                    >Estimated Taxes</span
+                  >
+                  <span class="p-chk-order-summary__line-value">$6.93</span>
+                </div>
+
+                <hr class="p-chk-order-summary__divider" />
+
+                <div class="p-chk-order-summary__total-row">
+                  <span class="p-chk-order-summary__total-label">Total</span>
+                  <span class="p-chk-order-summary__total-value">$137.93</span>
+                </div>
+              </div>
+
+              <button class="p-chk-primary-button" type="button">
+                Place Order
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- External JavaScript -->
+    <script src="chk-script.js"></script>
+  </body>
+</html>

@@ -139,13 +139,14 @@
         padding: 0 32px 0 12px;
       }
 
-      .p-chk-form__input-field:focus-within {
-        box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
+      .p-chk-form__input-field:focus-within,
+      .p-chk-user-card__dropdown:focus-within {
+        box-shadow: 0 0 0 1px rgba(5, 48, 173, 0.1);
       }
 
       /* Credit Card Type Visual Feedback - 4 major card types */
       .card-type-visa {
-        background-image: url("visa.svg");
+        background-image: url("assets/cards/visa.svg");
         background-repeat: no-repeat;
         background-position: right 12px center;
         background-size: 32px 20px;
@@ -153,7 +154,7 @@
       }
 
       .card-type-mastercard {
-        background-image: url("mc.svg");
+        background-image: url("assets/cards/mc.svg");
         background-repeat: no-repeat;
         background-position: right 12px center;
         background-size: 32px 20px;
@@ -161,7 +162,7 @@
       }
 
       .card-type-amex {
-        background-image: url("amex.svg");
+        background-image: url("assets/cards/amex.svg");
         background-repeat: no-repeat;
         background-position: right 12px center;
         background-size: 32px 20px;
@@ -169,7 +170,7 @@
       }
 
       .card-type-discover {
-        background-image: url("discover.svg");
+        background-image: url("assets/cards/discover.svg");
         background-repeat: no-repeat;
         background-position: right 12px center;
         background-size: 32px 20px;
@@ -259,7 +260,7 @@
         gap: 10px;
         border-radius: 6px;
         background-color: #ffffff;
-        border: 1px solid #bbbbbb;
+        border: 1px solid #e3e3e3;
         transition: border-color 0.2s ease;
       }
 
@@ -1181,14 +1182,10 @@
         height: 50px;
         border-radius: 6px;
         background-color: #ffffff;
-        border: 1px solid #bbbbbb;
+        border: 1px solid #e3e3e3;
         cursor: pointer;
         flex: 1;
         transition: border-color 0.2s ease;
-      }
-
-      .p-chk-pcard__dropdown:hover {
-        border-color: #999999;
       }
 
       .p-chk-pcard__dropdown-text {
@@ -1226,7 +1223,7 @@
         left: 0;
         right: 0;
         background-color: #ffffff;
-        border: 1px solid #bbbbbb;
+        border: 1px solid #e3e3e3;
         border-top: none;
         border-radius: 0 0 6px 6px;
         display: block;
@@ -1325,10 +1322,6 @@
 
       .p-chk-pcard__toggle-input:checked ~ .p-chk-pcard__collapsible-content {
         max-height: 600px;
-      }
-
-      .p-chk-pcard__charge-input:hover {
-        border-color: #999999;
       }
 
       /* Responsive Design */
@@ -1553,10 +1546,6 @@
         transition: border-color 0.2s ease;
       }
 
-      .p-chk-user-card__dropdown:hover {
-        border-color: #999999;
-      }
-
       .p-chk-user-card__dropdown-text {
         color: #616161;
         font-family: "Roboto", sans-serif;
@@ -1596,7 +1585,7 @@
         left: 0;
         right: 0;
         background-color: #ffffff;
-        border: 1px solid #bbbbbb;
+        border: 1px solid #e3e3e3;
         border-top: none;
         border-radius: 0 0 6px 6px;
         display: block;
