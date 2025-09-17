@@ -20,11 +20,11 @@
   transition: transform 0.3s ease;
 }
 
-.p-chk-test-states:hover .p-chk-test-states__content {
+.p-chk-test-states.faded .p-chk-test-states__content {
   opacity: 0.3;
 }
 
-.p-chk-test-states:hover .p-chk-test-states__header h4 {
+.p-chk-test-states.faded .p-chk-test-states__header h4 {
   opacity: 0.3;
 }
 
