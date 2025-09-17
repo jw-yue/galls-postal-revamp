@@ -320,6 +320,12 @@
         gap: 10px;
       }
 
+      .p-chk-info-card__header-left {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
       .p-chk-info-card__title {
         color: #002133;
         font-family: "Roboto", sans-serif;
@@ -638,6 +644,19 @@
         font-size: 14px;
         line-height: 16px;
         cursor: pointer;
+      }
+
+      /* Contact Login Link Styles */
+
+      .p-chk-contact__login-text {
+        color: #616161;
+        font-family: "Roboto", sans-serif;
+        font-size: 14px;
+      }
+
+      .p-chk-contact__login-link {
+        color: #0530ad;
+        text-decoration: underline;
       }
 
       /* Delivery Component Styles */
@@ -1314,6 +1333,12 @@
 
       /* Responsive Design */
       @media (max-width: 768px) {
+        .p-chk-info-card__header-left {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: unset;
+        }
+
         .p-chk-pcard__container {
           max-width: 100%;
         }
@@ -2503,18 +2528,48 @@
     <div class="p-chk-main__container">
       <!-- Main Content - Left-->
       <div class="p-chk-main__content" data-chk-state="payment">
-        <!-- Contact Information -->
+        <!-- Contact -->
         <section data-editable-section="contact">
           <div
             class="p-chk-payment-header"
             data-section-header="contact"
             style="display: none"
           >
-            <h1 class="p-chk-payment-header__title">Contact Information</h1>
+            <div class="p-chk-info-card__header-left">
+              <h1 class="p-chk-payment-header__title">Contact</h1>
+              <!-- Have an account login link -->
+              <div class="p-chk-contact__login-container">
+                <span class="p-chk-contact__login-text">
+                  Have an account?
+                  <a
+                    href="#signInModal"
+                    data-toggle="modal"
+                    data-target="#signInModal"
+                    class="p-chk-contact__login-link"
+                    >Log In</a
+                  >
+                </span>
+              </div>
+            </div>
           </div>
           <div class="p-chk-info-card__container">
             <div class="p-chk-info-card__header">
-              <h2 class="p-chk-info-card__title">Contact Information</h2>
+              <div class="p-chk-info-card__header-left">
+                <h2 class="p-chk-info-card__title">Contact</h2>
+                <!-- Have an account login link -->
+                <div class="p-chk-contact__login-container">
+                  <span class="p-chk-contact__login-text">
+                    Have an account?
+                    <a
+                      href="#signInModal"
+                      data-toggle="modal"
+                      data-target="#signInModal"
+                      class="p-chk-contact__login-link"
+                      >Log In</a
+                    >
+                  </span>
+                </div>
+              </div>
               <button
                 class="p-chk-info-card__edit-button"
                 data-edit-button="contact"
