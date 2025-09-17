@@ -814,6 +814,8 @@ function initializeFromState() {
       console.log("Setting up contact state - new user");
       setTimeout(() => {
         startEditing("contact");
+        // Restore payment section border radius when not in payment state
+        SectionManager.manageBorderRadius("payment", "restore");
         // Show delivery Add button for new user (no delivery content yet)
         updateEditButtonText("delivery", false);
         // Ensure delivery shows empty state
@@ -838,6 +840,8 @@ function initializeFromState() {
       console.log("Setting up delivery state");
       setTimeout(() => {
         startEditing("delivery");
+        // Restore payment section border radius when not in payment state
+        SectionManager.manageBorderRadius("payment", "restore");
       }, 100);
       break;
 
@@ -1902,3 +1906,23 @@ function geoFmt(city, sta, cnty, geo, zip) {
 }
 
 function clickOnEnter(buttonElement, event) {}
+
+// Test States Panel Toggle Functionality
+let testStatesPanelVisible = true;
+
+function toggleTestStates() {
+  const panel = document.getElementById("testStatesPanel");
+  const tab = document.getElementById("testStatesTab");
+
+  if (testStatesPanelVisible) {
+    // Hide panel, show tab
+    panel.style.transform = "translateX(-100%)";
+    tab.style.left = "0px";
+    testStatesPanelVisible = false;
+  } else {
+    // Show panel, hide tab
+    panel.style.transform = "translateX(0)";
+    tab.style.left = "-90px";
+    testStatesPanelVisible = true;
+  }
+}

@@ -290,12 +290,9 @@ body {
 }
 
 /* When used with payment header, remove top border radius */
-.p-chk-info-card__container.no-top-radius {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
-.p-chk-new-contact-form__container.no-top-radius {
+.p-chk-info-card__container.no-top-radius,
+.p-chk-new-contact-form__container.no-top-radius,
+.p-chk-payment-container.no-top-radius {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -2312,7 +2309,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  border-radius: 0 0 12px 12px; /* No top radius - payment header is always above */
+  border-radius: 12px; /* Full radius by default, managed by no-top-radius class */
   border: 1px solid #e3e3e3;
   background-color: #fff;
   overflow: hidden;

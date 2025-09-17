@@ -29,6 +29,7 @@
     <!-- Main checkout content -->
     <!-- State Switching Controls for Testing -->
     <div
+      id="testStatesPanel"
       style="
         position: fixed;
         top: 10px;
@@ -39,55 +40,98 @@
         border: 2px solid #ccc;
         border-radius: 8px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
       "
     >
       <div style="margin-bottom: 8px; font-weight: bold; font-size: 14px">
         Test States:
+        <button
+          id="hideTestStates"
+          onclick="toggleTestStates()"
+          style="
+            float: right;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            padding: 2px 6px;
+            font-size: 10px;
+            cursor: pointer;
+            margin-left: 8px;
+          "
+        >
+          ×
+        </button>
       </div>
-      <button
-        onclick="changeStateWithMockData('contact')"
-        style="
-          margin-right: 8px;
-          padding: 6px 12px;
-          background: #007cba;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 12px;
-        "
-      >
-        Contact
-      </button>
-      <button
-        onclick="changeStateWithMockData('delivery')"
-        style="
-          margin-right: 8px;
-          padding: 6px 12px;
-          background: #007cba;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 12px;
-        "
-      >
-        Delivery
-      </button>
-      <button
-        onclick="changeStateWithMockData('payment')"
-        style="
-          padding: 6px 12px;
-          background: #007cba;
-          color: white;
-          border: none;
-          border-radius: 4px;
-          cursor: pointer;
-          font-size: 12px;
-        "
-      >
-        Payment
-      </button>
+      <div id="testStatesButtons">
+        <button
+          onclick="changeStateWithMockData('contact')"
+          style="
+            margin-right: 8px;
+            padding: 6px 12px;
+            background: #007cba;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+          "
+        >
+          Contact
+        </button>
+        <button
+          onclick="changeStateWithMockData('delivery')"
+          style="
+            margin-right: 8px;
+            padding: 6px 12px;
+            background: #007cba;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+          "
+        >
+          Delivery
+        </button>
+        <button
+          onclick="changeStateWithMockData('payment')"
+          style="
+            padding: 6px 12px;
+            background: #007cba;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+          "
+        >
+          Payment
+        </button>
+      </div>
+    </div>
+
+    <!-- Minimized Test States Tab -->
+    <div
+      id="testStatesTab"
+      onclick="toggleTestStates()"
+      style="
+        position: fixed;
+        top: 10px;
+        left: -90px;
+        z-index: 999;
+        background: #007cba;
+        color: white;
+        padding: 8px 12px;
+        border-radius: 0 8px 8px 0;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: bold;
+        transition: left 0.3s ease;
+        box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+      "
+    >
+      Test States
     </div>
 
     <!-- Main Layout -->
@@ -369,7 +413,7 @@
           >
             <h1 class="p-chk-payment-header__title">Payment</h1>
           </div>
-          <div class="p-chk-payment-container no-top-radius">
+          <div class="p-chk-payment-container">
             <div class="p-chk-payment-card__header">
               <h2 class="p-chk-payment-card__title">Payment</h2>
             </div>
