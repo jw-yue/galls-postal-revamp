@@ -20,6 +20,14 @@
   transition: transform 0.3s ease;
 }
 
+.p-chk-test-states:hover .p-chk-test-states__content {
+  opacity: 0.3;
+}
+
+.p-chk-test-states:hover .p-chk-test-states__header h4 {
+  opacity: 0.3;
+}
+
 .p-chk-test-states__header {
   background: #f5f5f5;
   padding: 12px 16px;
@@ -35,6 +43,7 @@
   font-size: 14px;
   font-weight: 600;
   color: #333;
+  transition: opacity 0.3s ease;
 }
 
 .p-chk-test-states__toggle {
@@ -56,6 +65,7 @@
   padding: 16px;
   max-height: 70vh;
   overflow-y: auto;
+  transition: opacity 0.3s ease;
 }
 
 .p-chk-test-states__section {
