@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Galls Checkout - Complete Your Order</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,19 +12,19 @@
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap"
       rel="stylesheet"
     />
-    
+
     <!-- Bootstrap CSS -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    
+
     <!-- Inputmask Library for Credit Card Formatting -->
     <script src="https://cdn.jsdelivr.net/npm/inputmask@5.0.8/dist/inputmask.min.js"></script>
-    
+
     <!-- External CSS -->
     <link rel="stylesheet" href="chk-styles.css" />
-    
+
     <!-- Development Test Utilities CSS -->
     <link rel="stylesheet" href="test-utils/test-styles.css" />
   </head>
@@ -35,9 +35,9 @@
     <div class="p-chk-test-states" id="testStatesPanel">
       <div class="p-chk-test-states__header">
         <h4>Test States</h4>
-        <button 
-          type="button" 
-          class="p-chk-test-states__toggle" 
+        <button
+          type="button"
+          class="p-chk-test-states__toggle"
           onclick="toggleTestStates()"
           title="Hide test panel"
         >
@@ -48,23 +48,23 @@
       <div class="p-chk-test-states__content">
         <div class="p-chk-test-states__section">
           <h5>State Testing</h5>
-          <button 
-            type="button" 
-            class="p-chk-test-btn" 
+          <button
+            type="button"
+            class="p-chk-test-btn"
             onclick="changeState('contact')"
           >
             Contact State
           </button>
-          <button 
-            type="button" 
-            class="p-chk-test-btn" 
+          <button
+            type="button"
+            class="p-chk-test-btn"
             onclick="changeState('delivery')"
           >
             Delivery State
           </button>
-          <button 
-            type="button" 
-            class="p-chk-test-btn" 
+          <button
+            type="button"
+            class="p-chk-test-btn"
             onclick="changeState('payment')"
           >
             Payment State
@@ -73,23 +73,23 @@
 
         <div class="p-chk-test-states__section">
           <h5>Mock Data Testing</h5>
-          <button 
-            type="button" 
-            class="p-chk-test-btn p-chk-test-btn--secondary" 
+          <button
+            type="button"
+            class="p-chk-test-btn p-chk-test-btn--secondary"
             onclick="changeStateWithMockData('contact')"
           >
             Fresh Contact
           </button>
-          <button 
-            type="button" 
-            class="p-chk-test-btn p-chk-test-btn--secondary" 
+          <button
+            type="button"
+            class="p-chk-test-btn p-chk-test-btn--secondary"
             onclick="changeStateWithMockData('delivery')"
           >
             Contact Filled
           </button>
-          <button 
-            type="button" 
-            class="p-chk-test-btn p-chk-test-btn--secondary" 
+          <button
+            type="button"
+            class="p-chk-test-btn p-chk-test-btn--secondary"
             onclick="changeStateWithMockData('payment')"
           >
             All Filled
@@ -100,9 +100,9 @@
 
     <!-- Test States Tab (shows when panel is hidden) -->
     <div class="p-chk-test-states-tab" id="testStatesTab">
-      <button 
-        type="button" 
-        class="p-chk-test-states-tab__button" 
+      <button
+        type="button"
+        class="p-chk-test-states-tab__button"
         onclick="toggleTestStates()"
         title="Show test panel"
       >
@@ -1476,10 +1476,10 @@
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <!-- External JavaScript -->
     <script src="chk-script.js"></script>
-    
+
     <!-- Development Test Utilities JavaScript -->
     <script src="test-utils/test-states.js"></script>
   </body>

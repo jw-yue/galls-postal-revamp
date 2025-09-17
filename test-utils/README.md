@@ -14,7 +14,7 @@ To include test functionality in development:
 
 ```html
 <!-- Include in your HTML head -->
-<link rel="stylesheet" href="test-utils/test-styles.css">
+<link rel="stylesheet" href="test-utils/test-styles.css" />
 
 <!-- Include the test panel in your body after main content -->
 <!-- Copy contents of test-panel.html and paste into your HTML body -->
@@ -28,11 +28,13 @@ To include test functionality in development:
 Here's how to add test functionality to your development environment:
 
 1. **Add CSS to head section:**
+
    ```html
-   <link rel="stylesheet" href="test-utils/test-styles.css">
+   <link rel="stylesheet" href="test-utils/test-styles.css" />
    ```
 
 2. **Add test panel HTML after your main content:**
+
    ```html
    <!-- Insert the entire contents of test-panel.html here -->
    ```
@@ -45,14 +47,17 @@ Here's how to add test functionality to your development environment:
 ## Functions Available
 
 ### State Management
+
 - `changeState(newState)` - Changes checkout state without mock data
 - `changeStateWithMockData(newState)` - Changes state and populates with mock data
 
 ### Mock Data Population
+
 - `populateContactData(contactData)` - Fills contact section with test data
 - `populateDeliveryData(deliveryData)` - Fills delivery section with test data
 
 ### Panel Controls
+
 - `toggleTestStates()` - Shows/hides the test control panel
 
 ## Test States

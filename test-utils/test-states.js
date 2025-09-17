@@ -61,7 +61,7 @@ function changeStateWithMockData(newState) {
     console.log("State changed to:", newState);
 
     // Reset current editing
-    if (typeof currentEditingSection !== 'undefined' && currentEditingSection) {
+    if (typeof currentEditingSection !== "undefined" && currentEditingSection) {
       completeEditing(currentEditingSection);
     }
 
@@ -69,7 +69,7 @@ function changeStateWithMockData(newState) {
     populateMockData(newState);
 
     // Re-initialize
-    if (typeof initializeFromState === 'function') {
+    if (typeof initializeFromState === "function") {
       initializeFromState();
     }
   }
@@ -132,7 +132,7 @@ function populateContactData(contactData) {
   const hasContactContent =
     (contactData.email && contactData.email.trim()) ||
     (contactData.craft && contactData.craft.trim());
-  if (typeof updateEditButtonText === 'function') {
+  if (typeof updateEditButtonText === "function") {
     updateEditButtonText("contact", hasContactContent);
   }
 }
@@ -171,7 +171,7 @@ function populateDeliveryData(deliveryData) {
     (deliveryData.city && deliveryData.city.trim()) ||
     (deliveryData.state && deliveryData.state.trim()) ||
     (deliveryData.zip && deliveryData.zip.trim());
-  if (typeof updateEditButtonText === 'function') {
+  if (typeof updateEditButtonText === "function") {
     updateEditButtonText("delivery", hasContent);
   }
 }
@@ -253,12 +253,12 @@ function changeState(newState) {
     console.log("State changed to:", newState);
 
     // Reset current editing
-    if (typeof currentEditingSection !== 'undefined' && currentEditingSection) {
+    if (typeof currentEditingSection !== "undefined" && currentEditingSection) {
       completeEditing(currentEditingSection);
     }
 
     // Re-initialize
-    if (typeof initializeFromState === 'function') {
+    if (typeof initializeFromState === "function") {
       initializeFromState();
     }
   }
