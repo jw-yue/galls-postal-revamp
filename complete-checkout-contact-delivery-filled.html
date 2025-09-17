@@ -92,7 +92,7 @@
       .p-chk-form__input-field {
         display: flex;
         align-items: center;
-        padding: 0 12px;
+        padding: 0;
         width: 100%;
         gap: 10px;
         border-radius: 6px;
@@ -111,6 +111,7 @@
         background: transparent;
         width: 100%;
         height: 100%;
+        padding: 0 12px;
       }
 
       .p-chk-form__input-text::placeholder {
@@ -131,13 +132,12 @@
         appearance: none;
         background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
         background-repeat: no-repeat;
-        background-position: right 0 center;
+        background-position: right 12px center;
         background-size: 16px;
-        padding-right: 20px;
+        padding: 0 32px 0 12px;
       }
 
       .p-chk-form__input-field:focus-within {
-        border-color: #0530ad;
         box-shadow: 0 0 0 2px rgba(5, 48, 173, 0.1);
       }
 
@@ -1324,6 +1324,14 @@
         .p-chk-form__select {
           font-size: 14px;
         }
+
+        .p-chk-form__input-text {
+          padding: 0 12px;
+        }
+
+        .p-chk-form__select {
+          padding: 0 32px 0 12px;
+        }
       }
 
       .p-chk-pcard__continue-button:hover {
@@ -1498,7 +1506,7 @@
         height: 50px;
         border-radius: 6px;
         background-color: #ffffff;
-        border: 1px solid #bbbbbb;
+        border: 1px solid #e3e3e3;
         cursor: pointer;
         flex: 1;
         transition: border-color 0.2s ease;
@@ -1928,7 +1936,6 @@
       .p-chk-cca__file-allowance-field {
         display: flex;
         align-items: center;
-        padding: 0 12px;
         flex: 1;
         height: 100%;
       }
@@ -2390,6 +2397,26 @@
           height: 80px;
         }
       }
+
+      /* Galls-style validation error styling */
+      .p-chk-form__input-error {
+        border: 1px solid #dc3545 !important;
+        background-color: #fff5f5 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+      }
+
+      .p-chk-form__error-message {
+        color: #dc3545;
+        font-size: 14px;
+        margin: 5px 0 0 0;
+        font-weight: 500;
+        display: block;
+      }
+
+      .p-chk-form__input-error:focus {
+        border: 1px solid #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+      }
     </style>
   </head>
   <body>
@@ -2498,6 +2525,8 @@
                     class="p-chk-form__input-text"
                     value="example@test.com"
                     placeholder="Enter email"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
                   />
                 </div>
               </div>
@@ -2505,10 +2534,15 @@
               <div class="p-chk-contact-edit__field">
                 <label class="p-chk-contact-edit__label">Craft</label>
                 <div class="p-chk-form__input-field">
-                  <select class="p-chk-form__select" title="Craft">
-                    <option value="" disabled>Select craft</option>
+                  <select
+                    class="p-chk-form__select"
+                    title="Craft"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                  >
+                    <option value="" selected>Select craft</option>
                     <option value="police">Police Officer</option>
-                    <option value="firefighter" selected>Firefighter</option>
+                    <option value="firefighter">Firefighter</option>
                     <option value="ems">EMS/Paramedic</option>
                     <option value="security">Security Guard</option>
                     <option value="corrections">Corrections Officer</option>
@@ -2585,6 +2619,8 @@
                     class="p-chk-form__input-text"
                     value="John Doe"
                     placeholder="Enter full name"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                   />
                 </div>
               </div>
@@ -2596,6 +2632,8 @@
                     class="p-chk-form__input-text"
                     value="123 Main Street"
                     placeholder="Enter street address"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                   />
                 </div>
               </div>
@@ -2607,6 +2645,8 @@
                     class="p-chk-form__input-text"
                     value="Apt 4B"
                     placeholder="Apartment, suite, etc. (optional)"
+                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                   />
                 </div>
               </div>
@@ -2621,6 +2661,8 @@
                       class="p-chk-form__input-text"
                       value="New York"
                       placeholder="Enter city"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                     />
                   </div>
                 </div>
@@ -2629,8 +2671,14 @@
                 >
                   <label class="p-chk-address-edit__label">State</label>
                   <div class="p-chk-form__input-field">
-                    <select class="p-chk-form__select" title="State">
-                      <option value="NY" selected>NY</option>
+                    <select
+                      class="p-chk-form__select"
+                      title="State"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    >
+                      <option value="" selected>Select state</option>
+                      <option value="NY">NY</option>
                       <option value="CA">CA</option>
                       <option value="TX">TX</option>
                       <option value="FL">FL</option>
@@ -2648,6 +2696,8 @@
                       class="p-chk-form__input-text"
                       value="10001"
                       placeholder="ZIP"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                     />
                   </div>
                 </div>
@@ -2944,6 +2994,8 @@
                               class="p-chk-form__input-text"
                               placeholder="Paying Supervisor Email"
                               id="cca-supervisor-email"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
                             />
                           </div>
 
@@ -2953,6 +3005,8 @@
                               class="p-chk-form__input-text"
                               placeholder="Paying Supervisor Phone"
                               id="cca-supervisor-phone"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
                             />
                           </div>
 
@@ -3097,6 +3151,8 @@
                                 class="p-chk-form__input-text"
                                 placeholder="Postal Card Number"
                                 id="postal-card-number-payment"
+                                onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('POSTAL', this);"
+                                onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('POSTAL', this);"
                               />
                             </div>
 
@@ -3406,6 +3462,8 @@
                               maxlength="19"
                               id="personal-card-number-payment"
                               data-chk-element="personal-card-number"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                             />
                           </div>
 
@@ -3615,6 +3673,8 @@
                                 placeholder="CVV"
                                 maxlength="4"
                                 id="personal-cvv-payment"
+                                onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                                onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                               />
                             </div>
                           </div>
@@ -3625,6 +3685,8 @@
                               class="p-chk-form__input-text"
                               placeholder="Name on card"
                               id="personal-cardholder-payment"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                             />
                           </div>
                         </div>
@@ -3742,6 +3804,9 @@
 
         // Initialize button states based on content
         initializeButtonStates();
+
+        // Show any existing validation errors
+        showErrors2();
 
         // Generic Complete button functionality for all sections
         document.querySelectorAll("[data-complete-edit]").forEach((button) => {
@@ -4209,26 +4274,6 @@
           });
         }
 
-        // Card number formatting
-        if (personalCardNumber) {
-          personalCardNumber.addEventListener("input", function (e) {
-            let value = e.target.value
-              .replace(/\s/g, "")
-              .replace(/[^0-9]/gi, "");
-            let formattedValue = value.match(/.{1,4}/g)?.join(" ") || value;
-            if (formattedValue !== e.target.value) {
-              e.target.value = formattedValue;
-            }
-          });
-        }
-
-        // CVV input validation
-        if (personalCvv) {
-          personalCvv.addEventListener("input", function (e) {
-            e.target.value = e.target.value.replace(/[^0-9]/g, "");
-          });
-        }
-
         // Save card checkbox functionality
         if (personalSaveCardToggle) {
           personalSaveCardToggle.addEventListener("change", function () {});
@@ -4413,132 +4458,6 @@
           }
         });
 
-        // Personal Card form dropdown functionality (legacy support)
-        const personalDropdowns = document.querySelectorAll(
-          ".p-chk-user-card__dropdown"
-        );
-        const personalDropdownData = {
-          "personal-month": [
-            { value: "01", text: "01 - January" },
-            { value: "02", text: "02 - February" },
-            { value: "03", text: "03 - March" },
-            { value: "04", text: "04 - April" },
-            { value: "05", text: "05 - May" },
-            { value: "06", text: "06 - June" },
-            { value: "07", text: "07 - July" },
-            { value: "08", text: "08 - August" },
-            { value: "09", text: "09 - September" },
-            { value: "10", text: "10 - October" },
-            { value: "11", text: "11 - November" },
-            { value: "12", text: "12 - December" },
-          ],
-          "personal-year": [
-            { value: "2024", text: "2024" },
-            { value: "2025", text: "2025" },
-            { value: "2026", text: "2026" },
-            { value: "2027", text: "2027" },
-            { value: "2028", text: "2028" },
-            { value: "2029", text: "2029" },
-            { value: "2030", text: "2030" },
-            { value: "2031", text: "2031" },
-            { value: "2032", text: "2032" },
-            { value: "2033", text: "2033" },
-            { value: "2034", text: "2034" },
-          ],
-        };
-
-        // Initialize personal dropdown functionality
-        function initializeDropdown(dropdown, dropdownData) {
-          const dropdownType = dropdown.getAttribute("data-dropdown");
-          const dropdownText = dropdown.querySelector(
-            ".p-chk-user-card__dropdown-text"
-          );
-          const options = dropdownData[dropdownType];
-
-          if (!options) return;
-
-          // Create dropdown menu
-          const menu = document.createElement("div");
-          menu.className = dropdown.classList.contains("p-chk-pcard__dropdown")
-            ? "p-chk-pcard__dropdown-menu"
-            : "p-chk-user-card__dropdown-menu";
-          menu.style.position = "absolute";
-          menu.style.top = "100%";
-          menu.style.left = "0";
-          menu.style.right = "0";
-          menu.style.backgroundColor = "#ffffff";
-          menu.style.border = "1px solid #bbbbbb";
-          menu.style.borderTop = "none";
-          menu.style.borderRadius = "0 0 6px 6px";
-          menu.style.display = "none";
-          menu.style.zIndex = "10";
-          menu.style.maxHeight = "200px";
-          menu.style.overflowY = "auto";
-
-          options.forEach((option) => {
-            const optionDiv = document.createElement("div");
-            optionDiv.textContent = option.text;
-            optionDiv.style.padding = "12px";
-            optionDiv.style.cursor = "pointer";
-            optionDiv.style.borderBottom = "1px solid #f0f0f0";
-            optionDiv.style.fontSize = "16px";
-            optionDiv.style.fontFamily = "Roboto, sans-serif";
-
-            optionDiv.addEventListener("mouseenter", () => {
-              optionDiv.style.backgroundColor = "#f5f5f5";
-            });
-
-            optionDiv.addEventListener("mouseleave", () => {
-              optionDiv.style.backgroundColor = "transparent";
-            });
-
-            optionDiv.addEventListener("click", () => {
-              dropdownText.textContent = option.text;
-              dropdownText.classList.add("selected");
-              dropdown.setAttribute("data-value", option.value);
-              menu.style.display = "none";
-            });
-
-            menu.appendChild(optionDiv);
-          });
-
-          dropdown.appendChild(menu);
-
-          dropdown.addEventListener("click", (e) => {
-            e.stopPropagation();
-            // Close all other dropdowns
-            document
-              .querySelectorAll(
-                ".p-chk-pcard__dropdown-menu, .p-chk-user-card__dropdown-menu"
-              )
-              .forEach((m) => {
-                if (m !== menu) m.style.display = "none";
-              });
-
-            menu.style.display =
-              menu.style.display === "none" ? "block" : "none";
-          });
-        }
-
-        // Initialize all dropdowns
-        postalDropdowns.forEach((dropdown) =>
-          initializeDropdown(dropdown, postalDropdownData)
-        );
-        personalDropdowns.forEach((dropdown) =>
-          initializeDropdown(dropdown, personalDropdownData)
-        );
-
-        // Close dropdowns when clicking outside
-        document.addEventListener("click", () => {
-          document
-            .querySelectorAll(
-              ".p-chk-pcard__dropdown-menu, .p-chk-user-card__dropdown-menu"
-            )
-            .forEach((menu) => {
-              menu.style.display = "none";
-            });
-        });
-
         // Card number formatting
         function formatCardNumber(input) {
           let value = input.value.replace(/\s/g, "");
@@ -4596,8 +4515,15 @@
         }
 
         if (placeOrderBtn) {
-          placeOrderBtn.addEventListener("click", function () {
-            // Basic validation - check if at least one form has data
+          placeOrderBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            // Use integrated Galls-style validation
+            if (!submitOrder()) {
+              return; // Validation failed, don't proceed
+            }
+
+            // Check payment information
             const postalCardNumber = document.getElementById(
               "postal-card-number-payment"
             )?.value;
@@ -4647,12 +4573,8 @@
             console.log("Setting up contact state - new user");
             setTimeout(() => {
               startEditing("contact");
-              // Hide delivery edit button for new user
-              const deliveryEditButton =
-                document.getElementById("deliveryEditButton");
-              if (deliveryEditButton) {
-                deliveryEditButton.style.display = "none";
-              }
+              // Show delivery Add button for new user (no delivery content yet)
+              updateEditButtonText("delivery", false);
               // Ensure delivery shows empty state
               const displayContent = document.querySelector(
                 '[data-display-content="delivery"]'
@@ -4832,14 +4754,10 @@
         }
 
         // Update button text based on content - check if contact has ANY data
-        const contactEditButton = document.getElementById("contactEditButton");
-        if (contactEditButton) {
-          const hasContactContent =
-            (contactData.email && contactData.email.trim()) ||
-            (contactData.craft && contactData.craft.trim());
-          contactEditButton.textContent = hasContactContent ? "Edit" : "Add";
-          contactEditButton.style.display = "block";
-        }
+        const hasContactContent =
+          (contactData.email && contactData.email.trim()) ||
+          (contactData.craft && contactData.craft.trim());
+        updateEditButtonText("contact", hasContactContent);
       }
 
       // Function to populate delivery section with mock data
@@ -4870,19 +4788,14 @@
         updateDeliveryDisplayFromData(deliveryData);
 
         // Update button text based on content - check for ANY filled data
-        const deliveryEditButton =
-          document.getElementById("deliveryEditButton");
-        if (deliveryEditButton) {
-          const hasContent =
-            (deliveryData.fullName && deliveryData.fullName.trim()) ||
-            (deliveryData.streetAddress && deliveryData.streetAddress.trim()) ||
-            (deliveryData.apartment && deliveryData.apartment.trim()) ||
-            (deliveryData.city && deliveryData.city.trim()) ||
-            (deliveryData.state && deliveryData.state.trim()) ||
-            (deliveryData.zip && deliveryData.zip.trim());
-          deliveryEditButton.textContent = hasContent ? "Edit" : "Add";
-          deliveryEditButton.style.display = "block";
-        }
+        const hasContent =
+          (deliveryData.fullName && deliveryData.fullName.trim()) ||
+          (deliveryData.streetAddress && deliveryData.streetAddress.trim()) ||
+          (deliveryData.apartment && deliveryData.apartment.trim()) ||
+          (deliveryData.city && deliveryData.city.trim()) ||
+          (deliveryData.state && deliveryData.state.trim()) ||
+          (deliveryData.zip && deliveryData.zip.trim());
+        updateEditButtonText("delivery", hasContent);
       }
 
       // Function to update delivery display from data object
@@ -5136,18 +5049,20 @@
 
           if (hasContactContent) {
             // Content exists - show Edit button
-            contactEditButton.textContent = "Edit";
-            contactEditButton.style.display = "block";
+            updateEditButtonText("contact", true);
           } else {
             // No content - check if form is expanded (new user scenario)
             if (contactForm && contactForm.classList.contains("expanded")) {
               // Form is open for new user - hide button
-              contactEditButton.style.display = "none";
+              const contactEditButton =
+                document.getElementById("contactEditButton");
+              if (contactEditButton) {
+                contactEditButton.style.display = "none";
+              }
               startEditing("contact"); // Start editing for new users
             } else {
               // Form closed, no content - show Add button
-              contactEditButton.textContent = "Add";
-              contactEditButton.style.display = "block";
+              updateEditButtonText("contact", false);
             }
           }
         }
@@ -5177,18 +5092,20 @@
 
           if (hasDeliveryContent) {
             // Content exists - show Edit button
-            deliveryEditButton.textContent = "Edit";
-            deliveryEditButton.style.display = "block";
+            updateEditButtonText("delivery", true);
           } else {
             // No content - check if form is expanded (contact-filled scenario)
             if (deliveryForm && deliveryForm.classList.contains("expanded")) {
               // Form is open - hide button, user needs to complete first
-              deliveryEditButton.style.display = "none";
+              const deliveryEditButton =
+                document.getElementById("deliveryEditButton");
+              if (deliveryEditButton) {
+                deliveryEditButton.style.display = "none";
+              }
               startEditing("delivery"); // Start editing for contact-filled scenario
             } else {
               // Form closed, no content - show Add button
-              deliveryEditButton.textContent = "Add";
-              deliveryEditButton.style.display = "block";
+              updateEditButtonText("delivery", false);
             }
           }
         }
@@ -5402,6 +5319,15 @@
         }
       }
 
+      // Generic function to update edit button text based on content
+      function updateEditButtonText(sectionType, hasContent) {
+        const editButton = document.getElementById(`${sectionType}EditButton`);
+        if (editButton) {
+          editButton.textContent = hasContent ? "Edit" : "Add";
+          editButton.style.display = "block";
+        }
+      }
+
       function updateContactDisplay(sectionType) {
         if (sectionType !== "contact") return;
 
@@ -5441,12 +5367,9 @@
           jobElement.textContent = craftText;
         }
 
-        // Update contact button text based on content
-        const contactEditButton = document.getElementById("contactEditButton");
-        if (contactEditButton) {
-          const hasContactContent = email || craftText;
-          contactEditButton.textContent = hasContactContent ? "Edit" : "Add";
-        }
+        // Update button text using generic function
+        const hasContactContent = email || craftText;
+        updateEditButtonText("contact", hasContactContent);
       }
 
       function updateDeliveryDisplay(sectionType) {
@@ -5559,14 +5482,8 @@
             console.log("Address element created and added");
           }
 
-          // Change button text from "Add" to "Edit" and show edit button
-          const deliveryEditButton =
-            document.getElementById("deliveryEditButton");
-          if (deliveryEditButton) {
-            deliveryEditButton.textContent = "Edit";
-            deliveryEditButton.style.display = "block";
-            console.log("Button changed to Edit");
-          }
+          // Update button text using generic function
+          updateEditButtonText("delivery", true);
         } else {
           // No content - show empty state
           if (addressElement) {
@@ -5576,13 +5493,8 @@
             emptyDescription.style.display = "block";
           }
 
-          // Change button text back to "Add"
-          const deliveryEditButton =
-            document.getElementById("deliveryEditButton");
-          if (deliveryEditButton) {
-            deliveryEditButton.textContent = "Add";
-            console.log("Button changed to Add");
-          }
+          // Update button text using generic function
+          updateEditButtonText("delivery", false);
         }
       }
 
@@ -5611,6 +5523,168 @@
           startEditing("payment");
         });
       }
+
+      // **GALLS CHECKOUT VALIDATION FUNCTIONS**
+      // Functions extracted from Galls checkout for reuse in postal checkout
+
+      // Saves checkout form data via AJAX and performs server-side validation
+      function saveCheckoutForm(action, inputObj) {
+        console.log(`Saving checkout form - Action: ${action}`);
+
+        // Clear existing errors for the field being validated
+        if (inputObj && inputObj.id) {
+          const field = document.getElementById(inputObj.id);
+          if (field) {
+            field.classList.remove("p-chk-form__input-error");
+            const errorElement = document.getElementById(
+              "error_" + inputObj.id
+            );
+            if (errorElement) {
+              errorElement.remove();
+            }
+          }
+        }
+
+        // For progressive checkout, perform client-side validation
+        let isValid = true;
+
+        if (action === "CONTACT") {
+          isValid = validateContactInformation();
+        } else if (action === "DELIVERY") {
+          isValid = validateDeliveryAddress();
+        } else if (action === "PRECHECK") {
+          // Comprehensive validation before order submission
+          isValid = validateContactInformation() && validateDeliveryAddress();
+        }
+
+        // In a real implementation, this would make an AJAX call to the server
+        // For now, we'll simulate with client-side validation
+        if (!isValid) {
+          console.log("Validation failed for action:", action);
+          return false;
+        }
+
+        console.log("Validation passed for action:", action);
+        return true;
+      }
+
+      // Displays error messages for form fields with visual styling
+      function errMsg(id, msg) {
+        const field = document.getElementById(id);
+        if (!field) return;
+
+        // Add error class to field
+        field.classList.add("p-chk-form__input-error");
+
+        // Remove existing error message
+        const existingError = document.getElementById("error_" + id);
+        if (existingError) {
+          existingError.remove();
+        }
+
+        // Create and insert new error message
+        const errorElement = document.createElement("p");
+        errorElement.className = "p-chk-form__error-message";
+        errorElement.id = "error_" + id;
+        errorElement.textContent = msg;
+
+        // Insert after the field's closest container div
+        const container = field.closest("div");
+        if (container) {
+          container.insertAdjacentElement("afterend", errorElement);
+        }
+      }
+
+      // Shows all validation errors stored in hidden field on page load
+      function showErrors2() {
+        const errorField = document.getElementById("SIERR2");
+        if (!errorField || !errorField.value) return;
+
+        try {
+          const errorArray = JSON.parse(decodeURIComponent(errorField.value));
+          for (let i = 0; i < errorArray.length; i++) {
+            const error = errorArray[i];
+            if (i === 0) {
+              // Focus first error field
+              const field = document.getElementById(error.id);
+              if (field) field.focus();
+            }
+            errMsg(error.id, error.errmsg);
+          }
+        } catch (e) {
+          console.error("Error parsing validation errors:", e);
+        }
+      }
+
+      // Handles form submission with comprehensive validation
+      function submitOrder() {
+        console.log("Submitting order with comprehensive validation");
+
+        // Perform comprehensive validation
+        if (!saveCheckoutForm("PRECHECK")) {
+          console.log("Order submission blocked - validation failed");
+          return false;
+        }
+
+        // Check for required craft/profession selection (similar to Galls)
+        const craftField = document.querySelector('select[title="Craft"]');
+        if (craftField && !craftField.value) {
+          errMsg(
+            craftField.id || "craft-select",
+            "Profession/Craft selection is required"
+          );
+
+          // Scroll to the field
+          craftField.scrollIntoView({ behavior: "smooth", block: "center" });
+          craftField.focus();
+          return false;
+        }
+
+        console.log("All validations passed - ready to process order");
+        return true;
+      }
+
+      // Applies geographic formatting for city/state/zip based on input
+      function geoFmt(city, sta, cnty, geo, zip) {
+        // Find the focused ZIP field to determine which address section to update
+        const focusedElement = document.activeElement;
+
+        if (
+          focusedElement &&
+          focusedElement.placeholder &&
+          focusedElement.placeholder.includes("ZIP")
+        ) {
+          // Find the section this ZIP field belongs to
+          const section = focusedElement.closest("[data-editable-section]");
+          if (section) {
+            const sectionType = section.getAttribute("data-editable-section");
+
+            // Update the corresponding city, state, and ZIP fields in this section
+            const cityField = section.querySelector(
+              'input[placeholder*="City"]'
+            );
+            const stateField = section.querySelector(
+              'select[title*="State"], input[placeholder*="State"]'
+            );
+            const zipField = section.querySelector('input[placeholder*="ZIP"]');
+
+            if (cityField) cityField.value = city;
+            if (stateField) stateField.value = sta;
+            if (zipField) zipField.value = zip;
+
+            // Trigger validation for the updated section
+            if (sectionType === "delivery") {
+              validateDeliveryAddress();
+            }
+
+            console.log(
+              `Auto-filled address for ${sectionType}: ${city}, ${sta} ${zip}`
+            );
+          }
+        }
+      }
+
+      function clickOnEnter(buttonElement, event) {}
     </script>
   </body>
 </html>
