@@ -3,7 +3,7 @@
  * Handles contact section functionality
  */
 
-import { updateEditButtonText } from './sectionManager.js';
+import { updateEditButtonText } from "./sectionManager.js";
 
 /**
  * Populate contact section with mock data
@@ -59,9 +59,7 @@ export function populateContactData(contactData) {
 export function updateContactDisplay(sectionType) {
   if (sectionType !== "contact") return;
 
-  const editForm = document.querySelector(
-    `[data-edit-form="${sectionType}"]`
-  );
+  const editForm = document.querySelector(`[data-edit-form="${sectionType}"]`);
   const displayContent = document.querySelector(
     `[data-display-content="${sectionType}"]`
   );
@@ -76,8 +74,7 @@ export function updateContactDisplay(sectionType) {
 
   const email = emailInput.value.trim();
   const craftIndex = craftSelect.selectedIndex;
-  const craftText =
-    craftIndex > 0 ? craftSelect.options[craftIndex].text : "";
+  const craftText = craftIndex > 0 ? craftSelect.options[craftIndex].text : "";
 
   // Update display content
   const emailElement = displayContent.querySelector(

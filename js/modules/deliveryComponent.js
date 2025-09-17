@@ -3,7 +3,7 @@
  * Handles delivery section functionality
  */
 
-import { updateEditButtonText } from './sectionManager.js';
+import { updateEditButtonText } from "./sectionManager.js";
 
 /**
  * Populate delivery section with mock data
@@ -51,9 +51,7 @@ export function updateDeliveryDisplay(sectionType) {
   console.log("updateDeliveryDisplay called with:", sectionType);
   if (sectionType !== "delivery") return;
 
-  const editForm = document.querySelector(
-    `[data-edit-form="${sectionType}"]`
-  );
+  const editForm = document.querySelector(`[data-edit-form="${sectionType}"]`);
   const displayContent = document.querySelector(
     `[data-display-content="${sectionType}"]`
   );
@@ -219,7 +217,8 @@ export function updateDeliveryDisplayFromData(deliveryData) {
       locationLine += (deliveryData.city ? ", " : "") + deliveryData.state;
     }
     if (deliveryData.zip) {
-      locationLine += (deliveryData.city || deliveryData.state ? " " : "") + deliveryData.zip;
+      locationLine +=
+        (deliveryData.city || deliveryData.state ? " " : "") + deliveryData.zip;
     }
 
     if (locationLine) {

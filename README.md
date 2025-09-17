@@ -27,16 +27,19 @@ galls-postal-revamp/
 ## Key Features
 
 ### Modular Architecture
+
 - **ES6 Modules**: Each functionality is separated into its own module
 - **Clear Dependencies**: Import/export system makes dependencies explicit
 - **Browser Compatible**: Works directly in modern browsers without build tools
 
 ### Separation of Concerns
+
 - **CSS Organization**: Styles split into logical files (main, forms, components)
 - **JavaScript Modules**: Business logic separated by functionality
 - **Test States Isolation**: Testing functionality in its own dedicated folder
 
 ### Maintainable Code
+
 - **DRY Principles**: Shared functionality extracted into reusable functions
 - **Generic Functions**: `updateEditButtonText()` handles both contact and delivery
 - **Consistent Naming**: BEM methodology with `p-chk-` prefix throughout
@@ -44,16 +47,19 @@ galls-postal-revamp/
 ## Usage
 
 ### Running the Application
+
 1. Open `index.html` in a modern browser
 2. The application will automatically initialize
 3. Use the test state buttons to switch between different scenarios
 
 ### Test States
+
 - **Contact**: New user scenario with contact form open
 - **Delivery**: Contact completed, delivery form active
 - **Payment**: Both sections completed, payment highlighted
 
 ### Adding New Components
+
 1. Create a new module file in `js/modules/`
 2. Export the necessary functions
 3. Import and integrate in `js/main.js`
@@ -62,6 +68,7 @@ galls-postal-revamp/
 ## Development Benefits
 
 ### Before (Monolithic)
+
 - ❌ 5,691 lines in single HTML file
 - ❌ Difficult to locate specific functionality
 - ❌ Code duplication across sections
@@ -69,6 +76,7 @@ galls-postal-revamp/
 - ❌ CSS and JS mixed with HTML structure
 
 ### After (Modular)
+
 - ✅ Clean HTML structure (~300 lines)
 - ✅ Logical file organization
 - ✅ Reusable utility functions
@@ -78,6 +86,7 @@ galls-postal-revamp/
 ## Browser Support
 
 This application uses ES6 modules and modern JavaScript features. It requires:
+
 - Chrome 61+
 - Firefox 60+
 - Safari 11+
@@ -86,10 +95,12 @@ This application uses ES6 modules and modern JavaScript features. It requires:
 ## Key Functions
 
 ### Global Functions (available in browser console)
+
 - `changeState(newState)` - Change application state
 - `changeStateWithMockData(newState)` - Change state with mock data population
 
 ### Main Modules
+
 - **SectionManager**: Handles section display, headers, and state management
 - **Validation**: Galls-style form validation and error handling
 - **Components**: Contact and delivery specific functionality
@@ -98,6 +109,7 @@ This application uses ES6 modules and modern JavaScript features. It requires:
 ## Form Integration
 
 The form maintains full compatibility with Galls validation patterns:
+
 - **Progressive Validation**: Uses `onchange` and `onkeyup` events
 - **Cloudflare Security**: Includes CF hash updates for security
 - **Error Display**: Visual error styling and message placement
@@ -106,11 +118,13 @@ The form maintains full compatibility with Galls validation patterns:
 ## Styling Architecture
 
 ### CSS Organization
+
 - **main.css**: Global reset, body styles, and utility classes
 - **forms.css**: Form field styles, inputs, selects, and validation states
 - **components.css**: Component layout, cards, buttons, and responsive design
 
 ### Design System
+
 - **Consistent Spacing**: Systematic use of padding and margins
 - **Color Palette**: Blue primary (#2287ef), error red (#dc3545)
 - **Typography**: Roboto font family with weight hierarchy

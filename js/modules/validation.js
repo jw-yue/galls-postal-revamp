@@ -133,11 +133,11 @@ export function submitOrder() {
  */
 function validateContactInformation() {
   let isValid = true;
-  
+
   // Get contact form elements
   const emailField = document.querySelector('input[type="email"]');
   const craftField = document.querySelector('select[title="Craft"]');
-  
+
   // Validate email
   if (emailField && !emailField.value.trim()) {
     errMsg(emailField.id || "email", "Email address is required");
@@ -146,13 +146,13 @@ function validateContactInformation() {
     errMsg(emailField.id || "email", "Please enter a valid email address");
     isValid = false;
   }
-  
+
   // Validate craft selection
   if (craftField && !craftField.value) {
     errMsg(craftField.id || "craft", "Please select your profession/craft");
     isValid = false;
   }
-  
+
   return isValid;
 }
 
@@ -161,47 +161,49 @@ function validateContactInformation() {
  */
 function validateDeliveryAddress() {
   let isValid = true;
-  
+
   // Get delivery form elements
-  const deliverySection = document.querySelector('[data-editable-section="delivery"]');
+  const deliverySection = document.querySelector(
+    '[data-editable-section="delivery"]'
+  );
   if (!deliverySection) return true;
-  
+
   const inputFields = deliverySection.querySelectorAll('input[type="text"]');
   const stateSelect = deliverySection.querySelector("select");
-  
+
   if (inputFields.length >= 5) {
     const nameField = inputFields[0];
     const streetField = inputFields[1];
     const cityField = inputFields[3];
     const zipField = inputFields[4];
-    
+
     // Validate required fields
     if (!nameField.value.trim()) {
       errMsg(nameField.id || "fullname", "Full name is required");
       isValid = false;
     }
-    
+
     if (!streetField.value.trim()) {
       errMsg(streetField.id || "street", "Street address is required");
       isValid = false;
     }
-    
+
     if (!cityField.value.trim()) {
       errMsg(cityField.id || "city", "City is required");
       isValid = false;
     }
-    
+
     if (!zipField.value.trim()) {
       errMsg(zipField.id || "zip", "ZIP code is required");
       isValid = false;
     }
   }
-  
+
   if (stateSelect && !stateSelect.value) {
     errMsg(stateSelect.id || "state", "State selection is required");
     isValid = false;
   }
-  
+
   return isValid;
 }
 
@@ -224,7 +226,7 @@ export function geoFmt(city, sta, cnty, geo, zip) {
 
       // Update the corresponding city, state, and ZIP fields in this section
       const cityField = section.querySelector('input[placeholder*="City"]');
-      const stateField = section.querySelector('select');
+      const stateField = section.querySelector("select");
       const zipField = section.querySelector('input[placeholder*="ZIP"]');
 
       if (cityField && city) cityField.value = city;

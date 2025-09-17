@@ -3,11 +3,32 @@
  * Coordinates all checkout functionality and initializes the application
  */
 
-import { SectionManager, updateEditButtonText } from './modules/sectionManager.js';
-import { saveCheckoutForm, errMsg, showErrors2, submitOrder, geoFmt, clickOnEnter } from './modules/validation.js';
-import { populateContactData, updateContactDisplay } from './modules/contactComponent.js';
-import { populateDeliveryData, updateDeliveryDisplay, updateDeliveryDisplayFromData } from './modules/deliveryComponent.js';
-import { initializeFromState, changeStateWithMockData, changeState } from './test-states/testStates.js';
+import {
+  SectionManager,
+  updateEditButtonText,
+} from "./modules/sectionManager.js";
+import {
+  saveCheckoutForm,
+  errMsg,
+  showErrors2,
+  submitOrder,
+  geoFmt,
+  clickOnEnter,
+} from "./modules/validation.js";
+import {
+  populateContactData,
+  updateContactDisplay,
+} from "./modules/contactComponent.js";
+import {
+  populateDeliveryData,
+  updateDeliveryDisplay,
+  updateDeliveryDisplayFromData,
+} from "./modules/deliveryComponent.js";
+import {
+  initializeFromState,
+  changeStateWithMockData,
+  changeState,
+} from "./test-states/testStates.js";
 
 // Global state
 let currentEditingSection = null;
@@ -35,7 +56,7 @@ window.completeEditing = completeEditing;
  */
 function initializeApp() {
   console.log("Initializing Galls Postal Checkout Application");
-  
+
   // Initialize from state attribute
   initializeFromState();
 
@@ -47,7 +68,7 @@ function initializeApp() {
 
   // Setup event listeners
   setupEventListeners();
-  
+
   console.log("Application initialized successfully");
 }
 
@@ -82,7 +103,9 @@ function setupEventListeners() {
   });
 
   // Payment section click handler
-  const paymentSection = document.querySelector('[data-editable-section="payment"]');
+  const paymentSection = document.querySelector(
+    '[data-editable-section="payment"]'
+  );
   if (paymentSection) {
     paymentSection.addEventListener("click", function (e) {
       if (currentEditingSection === "payment") return;
@@ -94,7 +117,7 @@ function setupEventListeners() {
 
   // Setup payment components
   setupPaymentComponents();
-  
+
   // Setup order buttons
   setupOrderButtons();
 }
@@ -165,7 +188,8 @@ function completeEditing(sectionType) {
     if (!currentEditingSection) {
       // Always show delivery edit button when contact is completed
       if (sectionType === "contact") {
-        const deliveryEditButton = document.getElementById("deliveryEditButton");
+        const deliveryEditButton =
+          document.getElementById("deliveryEditButton");
         if (deliveryEditButton) {
           deliveryEditButton.style.display = "block";
         }
@@ -182,7 +206,7 @@ function completeEditing(sectionType) {
         nextIncompleteSection &&
         ((currentState === "contact" && nextIncompleteSection === "delivery") ||
           (currentState === "delivery" && nextIncompleteSection === "payment"));
-          
+
       if (shouldAutoProgress) {
         console.log("Auto-progressing to next section:", nextIncompleteSection);
         if (nextIncompleteSection === "payment") {
@@ -206,15 +230,23 @@ function completeEditing(sectionType) {
  */
 function initializeButtonStates() {
   // Check contact section state
-  const contactSection = document.querySelector('[data-editable-section="contact"]');
+  const contactSection = document.querySelector(
+    '[data-editable-section="contact"]'
+  );
   const contactEditButton = document.getElementById("contactEditButton");
-  const contactDisplayContent = document.querySelector('[data-display-content="contact"]');
+  const contactDisplayContent = document.querySelector(
+    '[data-display-content="contact"]'
+  );
   const contactForm = document.querySelector('[data-edit-form="contact"]');
 
   if (contactSection && contactEditButton) {
     // Check if contact has content by looking for filled display content
-    const contactEmail = contactDisplayContent?.querySelector(".p-chk-contact-card__email");
-    const contactJob = contactDisplayContent?.querySelector(".p-chk-contact-card__job-title");
+    const contactEmail = contactDisplayContent?.querySelector(
+      ".p-chk-contact-card__email"
+    );
+    const contactJob = contactDisplayContent?.querySelector(
+      ".p-chk-contact-card__job-title"
+    );
     const hasContactContent =
       (contactEmail && contactEmail.textContent.trim()) ||
       (contactJob && contactJob.textContent.trim());
@@ -239,14 +271,20 @@ function initializeButtonStates() {
   }
 
   // Check delivery section state - similar logic
-  const deliverySection = document.querySelector('[data-editable-section="delivery"]');
+  const deliverySection = document.querySelector(
+    '[data-editable-section="delivery"]'
+  );
   const deliveryEditButton = document.getElementById("deliveryEditButton");
-  const deliveryDisplayContent = document.querySelector('[data-display-content="delivery"]');
+  const deliveryDisplayContent = document.querySelector(
+    '[data-display-content="delivery"]'
+  );
   const deliveryForm = document.querySelector('[data-edit-form="delivery"]');
 
   if (deliverySection && deliveryEditButton) {
     // Check if delivery has content
-    const deliveryAddress = deliveryDisplayContent?.querySelector(".p-chk-address-card__address");
+    const deliveryAddress = deliveryDisplayContent?.querySelector(
+      ".p-chk-address-card__address"
+    );
     const hasDeliveryContent =
       deliveryAddress &&
       deliveryAddress.textContent.trim() &&
@@ -259,7 +297,8 @@ function initializeButtonStates() {
       // No content - check if form is expanded (contact-filled scenario)
       if (deliveryForm && deliveryForm.classList.contains("expanded")) {
         // Form is open - hide button, user needs to complete first
-        const deliveryEditButton = document.getElementById("deliveryEditButton");
+        const deliveryEditButton =
+          document.getElementById("deliveryEditButton");
         if (deliveryEditButton) {
           deliveryEditButton.style.display = "none";
         }
@@ -272,7 +311,9 @@ function initializeButtonStates() {
   }
 
   // Check if payment section should be highlighted (scenario 3)
-  const paymentSection = document.querySelector('[data-editable-section="payment"]');
+  const paymentSection = document.querySelector(
+    '[data-editable-section="payment"]'
+  );
   if (paymentSection) {
     // If both contact and delivery have content, highlight payment
     const contactHasContent = contactDisplayContent
@@ -301,7 +342,9 @@ function initializeButtonStates() {
  */
 function getNextIncompleteSection() {
   // Check contact completion
-  const contactDisplay = document.querySelector('[data-display-content="contact"]');
+  const contactDisplay = document.querySelector(
+    '[data-display-content="contact"]'
+  );
   const contactEmail = contactDisplay
     ?.querySelector(".p-chk-contact-card__email")
     ?.textContent?.trim();
@@ -311,8 +354,12 @@ function getNextIncompleteSection() {
   const isContactComplete = contactEmail && contactCraft;
 
   // Check delivery completion
-  const deliveryDisplay = document.querySelector('[data-display-content="delivery"]');
-  const deliveryAddress = deliveryDisplay?.querySelector(".p-chk-address-card__address");
+  const deliveryDisplay = document.querySelector(
+    '[data-display-content="delivery"]'
+  );
+  const deliveryAddress = deliveryDisplay?.querySelector(
+    ".p-chk-address-card__address"
+  );
   const isDeliveryComplete =
     deliveryAddress &&
     deliveryAddress.style.display !== "none" &&
@@ -348,16 +395,24 @@ function setupPaymentComponents() {
  */
 function setupOrderButtons() {
   // Complete order button
-  const completeOrderBtn = document.querySelector(".p-chk-global__button--primary");
-  
+  const completeOrderBtn = document.querySelector(
+    ".p-chk-global__button--primary"
+  );
+
   // Place Order button from Order Summary
-  const placeOrderBtn = document.querySelector(".p-chk-order-summary__place-order-button");
+  const placeOrderBtn = document.querySelector(
+    ".p-chk-order-summary__place-order-button"
+  );
 
   if (completeOrderBtn) {
     completeOrderBtn.addEventListener("click", function () {
       // Basic validation - check if at least one form has data
-      const postalCardNumber = document.getElementById("postal-card-number-payment")?.value;
-      const personalCardNumber = document.getElementById("personal-card-number-payment")?.value;
+      const postalCardNumber = document.getElementById(
+        "postal-card-number-payment"
+      )?.value;
+      const personalCardNumber = document.getElementById(
+        "personal-card-number-payment"
+      )?.value;
 
       if (postalCardNumber || personalCardNumber) {
         alert("Order completed successfully!");
@@ -377,13 +432,19 @@ function setupOrderButtons() {
       }
 
       // Check payment information
-      const postalCardNumber = document.getElementById("postal-card-number-payment")?.value;
-      const personalCardNumber = document.getElementById("personal-card-number-payment")?.value;
+      const postalCardNumber = document.getElementById(
+        "postal-card-number-payment"
+      )?.value;
+      const personalCardNumber = document.getElementById(
+        "personal-card-number-payment"
+      )?.value;
 
       if (postalCardNumber || personalCardNumber) {
         alert("Processing your order...");
         setTimeout(() => {
-          alert("Order placed successfully! You will receive a confirmation email shortly.");
+          alert(
+            "Order placed successfully! You will receive a confirmation email shortly."
+          );
         }, 2000);
       } else {
         alert("Please enter payment information to complete your order.");

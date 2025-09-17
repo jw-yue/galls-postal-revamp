@@ -7,18 +7,18 @@ export const SectionManager = {
   // Cache DOM queries for performance
   getSection: (sectionType) =>
     document.querySelector(`[data-editable-section="${sectionType}"]`),
-    
+
   getSectionElement: (sectionType, selector) => {
     const section = SectionManager.getSection(sectionType);
     return section ? section.querySelector(selector) : null;
   },
-  
+
   getSectionHeader: (sectionType) =>
     document.querySelector(`[data-section-header="${sectionType}"]`),
-    
+
   getDisplayContent: (sectionType) =>
     document.querySelector(`[data-display-content="${sectionType}"]`),
-    
+
   getEditForm: (sectionType) =>
     document.querySelector(`[data-edit-form="${sectionType}"]`),
 

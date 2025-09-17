@@ -57,9 +57,7 @@ const mockData = {
  */
 export function initializeFromState() {
   const mainContent = document.querySelector(".p-chk-main__content");
-  const state = mainContent
-    ? mainContent.getAttribute("data-chk-state")
-    : null;
+  const state = mainContent ? mainContent.getAttribute("data-chk-state") : null;
 
   console.log("Initializing from state:", state);
 
