@@ -1,0 +1,312 @@
+<!-- =============================================================================
+     DESIGN 2: SLIDE-UP PANEL FOR UNSAVED CHANGES
+     ============================================================================= 
+     Mobile-friendly bottom sheet style confirmation
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slide-Up Panel - Save/Discard Design</title>
+    <style>
+        /* Bottom Sheet Overlay */
+        .save-discard-sheet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(2px);
+            -webkit-backdrop-filter: blur(2px);
+        }
+
+        .save-discard-sheet-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Slide-Up Panel */
+        .save-discard-sheet {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            max-height: 70vh;
+            overflow: hidden;
+        }
+
+        .save-discard-sheet-overlay.active .save-discard-sheet {
+            transform: translateY(0);
+        }
+
+        /* Sheet Handle */
+        .save-discard-sheet__handle {
+            padding: 16px 0 8px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .save-discard-sheet__handle-bar {
+            width: 36px;
+            height: 4px;
+            background: #d1d5db;
+            border-radius: 2px;
+        }
+
+        /* Sheet Header */
+        .save-discard-sheet__header {
+            padding: 8px 24px 20px;
+            text-align: center;
+        }
+
+        .save-discard-sheet__icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 28px;
+        }
+
+        .save-discard-sheet__title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #111827;
+            margin: 0 0 8px 0;
+        }
+
+        .save-discard-sheet__subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Sheet Content */
+        .save-discard-sheet__content {
+            padding: 0 24px 24px;
+        }
+
+        .save-discard-sheet__section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .save-discard-sheet__section-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #374151;
+            margin: 0 0 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .save-discard-sheet__changes {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .save-discard-sheet__change-item {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            border-left: 4px solid #3b82f6;
+            font-size: 14px;
+            color: #374151;
+        }
+
+        /* Sheet Actions */
+        .save-discard-sheet__actions {
+            padding: 0 24px 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .save-discard-sheet-btn {
+            padding: 16px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+            width: 100%;
+            position: relative;
+        }
+
+        .save-discard-sheet-btn--save {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .save-discard-sheet-btn--save:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.4);
+        }
+
+        .save-discard-sheet-btn--discard {
+            background: white;
+            color: #dc2626;
+            border: 2px solid #dc2626;
+        }
+
+        .save-discard-sheet-btn--discard:hover {
+            background: #dc2626;
+            color: white;
+        }
+
+        .save-discard-sheet-btn--cancel {
+            background: #f1f5f9;
+            color: #64748b;
+            border: 1px solid #e2e8f0;
+        }
+
+        .save-discard-sheet-btn--cancel:hover {
+            background: #e2e8f0;
+        }
+
+        /* Demo Styles */
+        .demo-container {
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .demo-trigger {
+            background: linear-gradient(135deg, #3b82f6, #1e40af);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .demo-trigger:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .save-discard-sheet {
+                max-width: 480px;
+                left: 50%;
+                transform: translateX(-50%) translateY(100%);
+                border-radius: 20px;
+                bottom: 20px;
+            }
+            
+            .save-discard-sheet-overlay.active .save-discard-sheet {
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>Design 2: Slide-Up Panel for Unsaved Changes</h1>
+        <p>Modern mobile-friendly bottom sheet approach</p>
+        <button class="demo-trigger" onclick="showSheet()">Show Slide-Up Panel</button>
+    </div>
+
+    <!-- Slide-Up Panel -->
+    <div class="save-discard-sheet-overlay" id="saveDiscardSheet">
+        <div class="save-discard-sheet">
+            <div class="save-discard-sheet__handle">
+                <div class="save-discard-sheet__handle-bar"></div>
+            </div>
+            
+            <div class="save-discard-sheet__header">
+                <div class="save-discard-sheet__icon">
+                    💾
+                </div>
+                <h3 class="save-discard-sheet__title">Save Your Progress?</h3>
+                <p class="save-discard-sheet__subtitle">
+                    You've made changes to your contact information
+                </p>
+            </div>
+            
+            <div class="save-discard-sheet__content">
+                <div class="save-discard-sheet__section">
+                    <h4 class="save-discard-sheet__section-title">
+                        📝 Modified Fields
+                    </h4>
+                    <div class="save-discard-sheet__changes">
+                        <div class="save-discard-sheet__change-item">
+                            Email: john.doe@example.com → jane.doe@example.com
+                        </div>
+                        <div class="save-discard-sheet__change-item">
+                            Job Title: Officer → Senior Officer
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="save-discard-sheet__actions">
+                <button class="save-discard-sheet-btn save-discard-sheet-btn--save" onclick="saveChanges()">
+                    💾 Save & Continue
+                </button>
+                <button class="save-discard-sheet-btn save-discard-sheet-btn--discard" onclick="discardChanges()">
+                    🗑️ Discard Changes
+                </button>
+                <button class="save-discard-sheet-btn save-discard-sheet-btn--cancel" onclick="hideSheet()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSheet() {
+            document.getElementById('saveDiscardSheet').classList.add('active');
+        }
+
+        function hideSheet() {
+            document.getElementById('saveDiscardSheet').classList.remove('active');
+        }
+
+        function saveChanges() {
+            alert('Changes saved! Moving to delivery section...');
+            hideSheet();
+        }
+
+        function discardChanges() {
+            alert('Changes discarded! Moving to delivery section...');
+            hideSheet();
+        }
+
+        // Allow dismissing by clicking overlay
+        document.getElementById('saveDiscardSheet').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideSheet();
+            }
+        });
+    </script>
+</body>
+</html>

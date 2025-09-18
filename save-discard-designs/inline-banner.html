@@ -1,0 +1,405 @@
+<!-- =============================================================================
+     DESIGN 3: INLINE WARNING BANNER FOR UNSAVED CHANGES
+     ============================================================================= 
+     Subtle inline approach that appears within the form section
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inline Banner - Save/Discard Design</title>
+    <style>
+        /* Inline Warning Banner */
+        .save-discard-banner {
+            background: linear-gradient(135deg, #fef3c7, #fed7aa);
+            border: 1px solid #f59e0b;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
+        }
+
+        .save-discard-banner.active {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .save-discard-banner__header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .save-discard-banner__icon {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            background: #f59e0b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: white;
+            margin-top: 2px;
+        }
+
+        .save-discard-banner__content {
+            flex: 1;
+        }
+
+        .save-discard-banner__title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #92400e;
+            margin: 0 0 4px 0;
+        }
+
+        .save-discard-banner__description {
+            font-size: 13px;
+            color: #a16207;
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+
+        .save-discard-banner__changes {
+            font-size: 12px;
+            color: #a16207;
+            margin-bottom: 16px;
+        }
+
+        .save-discard-banner__changes-list {
+            list-style: none;
+            padding: 0;
+            margin: 4px 0 0 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .save-discard-banner__change-tag {
+            background: rgba(245, 158, 11, 0.2);
+            color: #92400e;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .save-discard-banner__actions {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .save-discard-banner-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 1px solid transparent;
+        }
+
+        .save-discard-banner-btn--save {
+            background: #f59e0b;
+            color: white;
+            border-color: #f59e0b;
+        }
+
+        .save-discard-banner-btn--save:hover {
+            background: #d97706;
+            border-color: #d97706;
+        }
+
+        .save-discard-banner-btn--discard {
+            background: transparent;
+            color: #92400e;
+            border-color: #d97706;
+        }
+
+        .save-discard-banner-btn--discard:hover {
+            background: rgba(217, 119, 6, 0.1);
+        }
+
+        .save-discard-banner-btn--dismiss {
+            background: transparent;
+            color: #a16207;
+            border: none;
+            padding: 4px;
+            margin-left: auto;
+        }
+
+        .save-discard-banner-btn--dismiss:hover {
+            color: #92400e;
+        }
+
+        /* Pulse Animation for Changes */
+        .save-discard-banner__change-tag.new {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* Alternative: Floating Notification Style */
+        .save-discard-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-left: 4px solid #f59e0b;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 360px;
+            transform: translateX(100px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 9999;
+        }
+
+        .save-discard-notification.active {
+            transform: translateX(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .save-discard-notification__header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+
+        .save-discard-notification__icon {
+            width: 24px;
+            height: 24px;
+            background: #fbbf24;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+
+        .save-discard-notification__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0;
+        }
+
+        .save-discard-notification__close {
+            margin-left: auto;
+            background: none;
+            border: none;
+            color: #9ca3af;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .save-discard-notification__content {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+
+        .save-discard-notification__actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .save-discard-notification-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .save-discard-notification-btn--save {
+            background: #3b82f6;
+            color: white;
+            border: none;
+        }
+
+        .save-discard-notification-btn--discard {
+            background: #f3f4f6;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+        }
+
+        /* Demo Styles */
+        .demo-container {
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .demo-trigger {
+            background: #3b82f6;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-right: 12px;
+        }
+
+        .demo-form {
+            margin: 20px 0;
+        }
+
+        .demo-input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>Design 3: Inline Warning Banner</h1>
+        <p>Subtle, contextual approach that appears within the form section</p>
+        
+        <div class="demo-section">
+            <h3>Option A: Inline Banner</h3>
+            <button class="demo-trigger" onclick="showInlineBanner()">Show Inline Banner</button>
+            <button class="demo-trigger" onclick="hideInlineBanner()">Hide Banner</button>
+            
+            <div class="demo-form">
+                <input type="email" class="demo-input" placeholder="Email Address" value="john.doe@example.com">
+                <input type="text" class="demo-input" placeholder="Job Title" value="Senior Officer">
+            </div>
+
+            <!-- Inline Banner -->
+            <div class="save-discard-banner" id="inlineBanner">
+                <div class="save-discard-banner__header">
+                    <div class="save-discard-banner__icon">!</div>
+                    <div class="save-discard-banner__content">
+                        <h4 class="save-discard-banner__title">Unsaved Changes Detected</h4>
+                        <p class="save-discard-banner__description">
+                            You've modified your contact information. Save your changes before continuing.
+                        </p>
+                        <div class="save-discard-banner__changes">
+                            Modified fields:
+                            <ul class="save-discard-banner__changes-list">
+                                <li class="save-discard-banner__change-tag new">Email</li>
+                                <li class="save-discard-banner__change-tag new">Job Title</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="save-discard-banner__actions">
+                    <button class="save-discard-banner-btn save-discard-banner-btn--save" onclick="saveInlineChanges()">
+                        Save Changes
+                    </button>
+                    <button class="save-discard-banner-btn save-discard-banner-btn--discard" onclick="discardInlineChanges()">
+                        Discard
+                    </button>
+                    <button class="save-discard-banner-btn save-discard-banner-btn--dismiss" onclick="hideInlineBanner()">
+                        ✕
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h3>Option B: Floating Notification</h3>
+            <button class="demo-trigger" onclick="showNotification()">Show Notification</button>
+            <button class="demo-trigger" onclick="hideNotification()">Hide Notification</button>
+        </div>
+    </div>
+
+    <!-- Floating Notification -->
+    <div class="save-discard-notification" id="floatingNotification">
+        <div class="save-discard-notification__header">
+            <div class="save-discard-notification__icon">📝</div>
+            <h4 class="save-discard-notification__title">Unsaved Changes</h4>
+            <button class="save-discard-notification__close" onclick="hideNotification()">✕</button>
+        </div>
+        <div class="save-discard-notification__content">
+            You have unsaved changes in the Contact section. Would you like to save them?
+        </div>
+        <div class="save-discard-notification__actions">
+            <button class="save-discard-notification-btn save-discard-notification-btn--save" onclick="saveNotificationChanges()">
+                Save
+            </button>
+            <button class="save-discard-notification-btn save-discard-notification-btn--discard" onclick="discardNotificationChanges()">
+                Discard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Inline Banner Functions
+        function showInlineBanner() {
+            document.getElementById('inlineBanner').classList.add('active');
+        }
+
+        function hideInlineBanner() {
+            document.getElementById('inlineBanner').classList.remove('active');
+        }
+
+        function saveInlineChanges() {
+            alert('Changes saved! Continuing to next section...');
+            hideInlineBanner();
+        }
+
+        function discardInlineChanges() {
+            alert('Changes discarded! Continuing to next section...');
+            hideInlineBanner();
+        }
+
+        // Floating Notification Functions
+        function showNotification() {
+            document.getElementById('floatingNotification').classList.add('active');
+            // Auto-hide after 10 seconds
+            setTimeout(() => {
+                hideNotification();
+            }, 10000);
+        }
+
+        function hideNotification() {
+            document.getElementById('floatingNotification').classList.remove('active');
+        }
+
+        function saveNotificationChanges() {
+            alert('Changes saved! Continuing to next section...');
+            hideNotification();
+        }
+
+        function discardNotificationChanges() {
+            alert('Changes discarded! Continuing to next section...');
+            hideNotification();
+        }
+    </script>
+</body>
+</html>

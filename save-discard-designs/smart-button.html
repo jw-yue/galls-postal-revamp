@@ -1,0 +1,462 @@
+<!-- =============================================================================
+     DESIGN 4: SMART CONTINUE BUTTON FOR UNSAVED CHANGES
+     ============================================================================= 
+     Contextual approach that transforms the continue button itself
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Continue Button - Save/Discard Design</title>
+    <style>
+        /* Smart Continue Button States */
+        .smart-continue-container {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .smart-continue-btn {
+            width: 100%;
+            padding: 16px 24px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Default State - Normal Continue */
+        .smart-continue-btn--normal {
+            background: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .smart-continue-btn--normal:hover {
+            background: #2563eb;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        }
+
+        /* Warning State - Has Unsaved Changes */
+        .smart-continue-btn--warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            animation: pulse-warning 2s infinite;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .smart-continue-btn--warning:hover {
+            background: linear-gradient(135deg, #d97706, #b45309);
+            animation: none;
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% { box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4); }
+            50% { box-shadow: 0 4px 20px rgba(245, 158, 11, 0.6); }
+        }
+
+        /* Button Content */
+        .smart-continue-btn__content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .smart-continue-btn__icon {
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .smart-continue-btn__text {
+            transition: all 0.3s ease;
+        }
+
+        .smart-continue-btn__badge {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 500;
+            margin-left: 4px;
+        }
+
+        /* Dropdown Menu for Save/Discard Actions */
+        .smart-continue-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            margin-top: 8px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            z-index: 1000;
+        }
+
+        .smart-continue-dropdown.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .smart-continue-dropdown__header {
+            padding: 16px 20px 12px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .smart-continue-dropdown__title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #111827;
+            margin: 0 0 4px 0;
+        }
+
+        .smart-continue-dropdown__subtitle {
+            font-size: 12px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .smart-continue-dropdown__actions {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .smart-continue-dropdown-btn {
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-align: left;
+        }
+
+        .smart-continue-dropdown-btn--save {
+            background: #f0f9ff;
+            color: #0369a1;
+            border: 1px solid #e0f2fe;
+        }
+
+        .smart-continue-dropdown-btn--save:hover {
+            background: #e0f2fe;
+            border-color: #0ea5e9;
+        }
+
+        .smart-continue-dropdown-btn--discard {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .smart-continue-dropdown-btn--discard:hover {
+            background: #fecaca;
+            border-color: #f87171;
+        }
+
+        .smart-continue-dropdown-btn--cancel {
+            background: #f9fafb;
+            color: #6b7280;
+            border: 1px solid #e5e7eb;
+        }
+
+        .smart-continue-dropdown-btn--cancel:hover {
+            background: #f3f4f6;
+        }
+
+        /* Changes Summary */
+        .smart-continue-changes {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 8px 0;
+        }
+
+        .smart-continue-changes__title {
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin: 0 0 6px 0;
+        }
+
+        .smart-continue-changes__list {
+            font-size: 11px;
+            color: #6b7280;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        /* Alternative: Split Button Design */
+        .split-continue-container {
+            display: flex;
+            gap: 2px;
+            margin: 20px 0;
+        }
+
+        .split-continue-btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .split-continue-btn--main {
+            background: #f59e0b;
+            color: white;
+            border-radius: 12px 0 0 12px;
+        }
+
+        .split-continue-btn--dropdown {
+            background: #d97706;
+            color: white;
+            border-radius: 0 12px 12px 0;
+            flex: 0 0 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Demo Styles */
+        .demo-container {
+            padding: 40px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .demo-section {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .demo-trigger {
+            background: #3b82f6;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-right: 8px;
+            margin-bottom: 8px;
+        }
+
+        .demo-form {
+            margin: 16px 0;
+        }
+
+        .demo-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .demo-status {
+            font-size: 12px;
+            color: #6b7280;
+            margin-bottom: 16px;
+            padding: 8px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1>Design 4: Smart Continue Button</h1>
+        <p>Contextual approach that transforms the continue button based on form state</p>
+        
+        <div class="demo-section">
+            <h3>Smart Button with Dropdown</h3>
+            <div class="demo-status" id="formStatus1">
+                Form Status: No changes detected
+            </div>
+            
+            <div class="demo-form">
+                <input type="email" class="demo-input" placeholder="Email Address" value="john.doe@example.com" onchange="markAsChanged(1)">
+                <input type="text" class="demo-input" placeholder="Job Title" value="Officer" onchange="markAsChanged(1)">
+            </div>
+
+            <!-- Smart Continue Button -->
+            <div class="smart-continue-container">
+                <button class="smart-continue-btn smart-continue-btn--normal" id="smartBtn1" onclick="handleSmartContinue(1)">
+                    <div class="smart-continue-btn__content">
+                        <span class="smart-continue-btn__icon">→</span>
+                        <span class="smart-continue-btn__text">Continue to Delivery</span>
+                    </div>
+                </button>
+
+                <div class="smart-continue-dropdown" id="smartDropdown1">
+                    <div class="smart-continue-dropdown__header">
+                        <h4 class="smart-continue-dropdown__title">Unsaved Changes Detected</h4>
+                        <p class="smart-continue-dropdown__subtitle">What would you like to do with your changes?</p>
+                    </div>
+                    
+                    <div class="smart-continue-changes">
+                        <h5 class="smart-continue-changes__title">Modified Fields:</h5>
+                        <div class="smart-continue-changes__list" id="changesList1">
+                            No changes yet
+                        </div>
+                    </div>
+
+                    <div class="smart-continue-dropdown__actions">
+                        <button class="smart-continue-dropdown-btn smart-continue-dropdown-btn--save" onclick="saveAndContinue(1)">
+                            💾 Save Changes & Continue
+                        </button>
+                        <button class="smart-continue-dropdown-btn smart-continue-dropdown-btn--discard" onclick="discardAndContinue(1)">
+                            🗑️ Discard Changes & Continue
+                        </button>
+                        <button class="smart-continue-dropdown-btn smart-continue-dropdown-btn--cancel" onclick="cancelContinue(1)">
+                            ↩️ Cancel (Keep Editing)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <button class="demo-trigger" onclick="simulateChanges(1)">Simulate Changes</button>
+            <button class="demo-trigger" onclick="resetForm(1)">Reset Form</button>
+        </div>
+
+        <div class="demo-section">
+            <h3>Split Button Alternative</h3>
+            <p>Another approach with a dedicated dropdown button</p>
+            
+            <div class="demo-form">
+                <input type="text" class="demo-input" placeholder="Full Name" value="John Doe">
+                <input type="text" class="demo-input" placeholder="Address" value="123 Main St">
+            </div>
+
+            <div class="split-continue-container">
+                <button class="split-continue-btn split-continue-btn--main" onclick="showSplitOptions()">
+                    Save & Continue to Payment
+                </button>
+                <button class="split-continue-btn split-continue-btn--dropdown" onclick="showSplitOptions()">
+                    ▼
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form state tracking
+        const formStates = {
+            1: { hasChanges: false, changes: [] }
+        };
+
+        function markAsChanged(formId) {
+            formStates[formId].hasChanges = true;
+            formStates[formId].changes = ['Email address', 'Job title'];
+            updateSmartButton(formId);
+        }
+
+        function simulateChanges(formId) {
+            formStates[formId].hasChanges = true;
+            formStates[formId].changes = ['Email address', 'Job title', 'Phone number'];
+            updateSmartButton(formId);
+        }
+
+        function resetForm(formId) {
+            formStates[formId].hasChanges = false;
+            formStates[formId].changes = [];
+            updateSmartButton(formId);
+        }
+
+        function updateSmartButton(formId) {
+            const btn = document.getElementById(`smartBtn${formId}`);
+            const status = document.getElementById(`formStatus${formId}`);
+            const changesList = document.getElementById(`changesList${formId}`);
+            const state = formStates[formId];
+
+            if (state.hasChanges) {
+                btn.className = 'smart-continue-btn smart-continue-btn--warning';
+                btn.innerHTML = `
+                    <div class="smart-continue-btn__content">
+                        <span class="smart-continue-btn__icon">⚠️</span>
+                        <span class="smart-continue-btn__text">Unsaved Changes</span>
+                        <span class="smart-continue-btn__badge">${state.changes.length}</span>
+                    </div>
+                `;
+                status.textContent = `Form Status: ${state.changes.length} unsaved changes detected`;
+                changesList.textContent = state.changes.join(', ');
+            } else {
+                btn.className = 'smart-continue-btn smart-continue-btn--normal';
+                btn.innerHTML = `
+                    <div class="smart-continue-btn__content">
+                        <span class="smart-continue-btn__icon">→</span>
+                        <span class="smart-continue-btn__text">Continue to Delivery</span>
+                    </div>
+                `;
+                status.textContent = 'Form Status: No changes detected';
+                changesList.textContent = 'No changes yet';
+            }
+        }
+
+        function handleSmartContinue(formId) {
+            if (formStates[formId].hasChanges) {
+                // Show dropdown
+                document.getElementById(`smartDropdown${formId}`).classList.add('active');
+            } else {
+                // Normal continue
+                alert('Continuing to delivery section...');
+            }
+        }
+
+        function saveAndContinue(formId) {
+            alert('Changes saved! Continuing to delivery section...');
+            resetForm(formId);
+            document.getElementById(`smartDropdown${formId}`).classList.remove('active');
+        }
+
+        function discardAndContinue(formId) {
+            alert('Changes discarded! Continuing to delivery section...');
+            resetForm(formId);
+            document.getElementById(`smartDropdown${formId}`).classList.remove('active');
+        }
+
+        function cancelContinue(formId) {
+            document.getElementById(`smartDropdown${formId}`).classList.remove('active');
+        }
+
+        function showSplitOptions() {
+            alert('Split button options would show here');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.smart-continue-container')) {
+                document.querySelectorAll('.smart-continue-dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>

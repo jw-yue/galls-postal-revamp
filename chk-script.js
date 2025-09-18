@@ -1656,3 +1656,464 @@ function geoFmt(city, sta, cnty, geo, zip) {
 }
 
 function clickOnEnter(buttonElement, event) {}
+
+// =============================================================================
+// UNSAVED CHANGES DETECTION SYSTEM
+// =============================================================================
+
+/**
+ * Namespaced object for managing unsaved changes detection
+ */
+window.ChkUnsavedChanges = {
+  // Configuration
+  config: {
+    debounceMs: 500,
+    storageKey: 'chk_form_original_values'
+  },
+
+  // State tracking
+  state: {
+    originalValues: new Map(),
+    currentChanges: new Map(),
+    isInitialized: false,
+    debounceTimer: null,
+    pendingNavigation: null
+  },
+
+  /**
+   * Initialize the unsaved changes detection system
+   */
+  init() {
+    if (this.state.isInitialized) return;
+
+    console.log('[ChkUnsavedChanges] Initializing change detection system');
+    
+    this.captureOriginalValues();
+    this.attachEventListeners();
+    this.interceptNavigationButtons();
+    this.state.isInitialized = true;
+  },
+
+  /**
+   * Capture original form values for comparison
+   */
+  captureOriginalValues() {
+    const formInputs = this.getTrackableInputs();
+    
+    formInputs.forEach(input => {
+      const key = this.getInputKey(input);
+      const value = this.getInputValue(input);
+      this.state.originalValues.set(key, value);
+    });
+
+    console.log(`[ChkUnsavedChanges] Captured ${formInputs.length} original form values`);
+  },
+
+  /**
+   * Get all trackable form inputs across checkout sections
+   */
+  getTrackableInputs() {
+    const selectors = [
+      // Contact section
+      '[data-edit-form="contact"] input',
+      '[data-edit-form="contact"] select',
+      '[data-edit-form="contact"] textarea',
+      
+      // Delivery section  
+      '[data-edit-form="delivery"] input',
+      '[data-edit-form="delivery"] select',
+      '[data-edit-form="delivery"] textarea',
+      
+      // CCA section
+      '[data-chk-element="cca-checkbox"]',
+      '[data-chk-element="disclaimer-checkbox"]',
+      '[data-chk-element="file-name-input"]',
+      
+      // Postal card section
+      '[data-edit-form="postal"] input',
+      '[data-edit-form="postal"] select',
+      '[data-edit-form="postal"] textarea',
+      '#postalFormSection input',
+      '#postalFormSection select',
+      '#postalFormSection textarea'
+    ];
+
+    const inputs = [];
+    selectors.forEach(selector => {
+      const elements = document.querySelectorAll(selector);
+      inputs.push(...elements);
+    });
+
+    return inputs.filter(input => 
+      input.type !== 'submit' && 
+      input.type !== 'button' && 
+      !input.hasAttribute('data-chk-ignore-changes')
+    );
+  },
+
+  /**
+   * Generate unique key for form input
+   */
+  getInputKey(input) {
+    // Use ID if available, otherwise create key from name/type/closest section
+    if (input.id) return input.id;
+    
+    const section = input.closest('[data-edit-form]')?.getAttribute('data-edit-form') || 
+                   input.closest('[data-chk-element]')?.getAttribute('data-chk-element') || 
+                   'unknown';
+    const name = input.name || input.type || 'unnamed';
+    
+    return `${section}_${name}_${input.tagName.toLowerCase()}`;
+  },
+
+  /**
+   * Get current value of input element
+   */
+  getInputValue(input) {
+    if (input.type === 'checkbox' || input.type === 'radio') {
+      return input.checked;
+    }
+    return input.value || '';
+  },
+
+  /**
+   * Attach change event listeners to form inputs
+   */
+  attachEventListeners() {
+    const formInputs = this.getTrackableInputs();
+    
+    formInputs.forEach(input => {
+      // Use multiple events to catch all changes
+      ['input', 'change', 'blur', 'keyup'].forEach(eventType => {
+        input.addEventListener(eventType, (e) => {
+          this.handleInputChange(e.target);
+        });
+      });
+    });
+
+    console.log(`[ChkUnsavedChanges] Attached listeners to ${formInputs.length} inputs`);
+  },
+
+  /**
+   * Intercept continue button clicks to check for unsaved changes
+   */
+  interceptNavigationButtons() {
+    const continueButtons = document.querySelectorAll('[data-chk-element*="continue-button"]');
+    
+    continueButtons.forEach(button => {
+      button.addEventListener('click', (e) => {
+        // Check for unsaved changes before continuing
+        if (this.hasUnsavedChanges()) {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Store the pending navigation for later
+          this.state.pendingNavigation = () => {
+            // Re-trigger the original click without interception
+            button.removeEventListener('click', arguments.callee);
+            button.click();
+          };
+          
+          // Show the banner
+          this.showUnsavedBanner();
+        }
+      }, true); // Use capture phase to intercept before other handlers
+    });
+
+    console.log(`[ChkUnsavedChanges] Intercepted ${continueButtons.length} continue buttons`);
+  },
+
+  /**
+   * Handle input change with debouncing
+   */
+  handleInputChange(input) {
+    clearTimeout(this.state.debounceTimer);
+    
+    this.state.debounceTimer = setTimeout(() => {
+      this.checkForChanges(input);
+    }, this.config.debounceMs);
+  },
+
+  /**
+   * Check if input has changed from original value
+   */
+  checkForChanges(changedInput = null) {
+    const formInputs = this.getTrackableInputs();
+    this.state.currentChanges.clear();
+
+    formInputs.forEach(input => {
+      const key = this.getInputKey(input);
+      const currentValue = this.getInputValue(input);
+      const originalValue = this.state.originalValues.get(key);
+
+      if (this.valuesDiffer(currentValue, originalValue)) {
+        this.state.currentChanges.set(key, {
+          input: input,
+          original: originalValue,
+          current: currentValue,
+          label: this.getInputLabel(input)
+        });
+      }
+    });
+
+    this.updateBannerDisplay();
+  },
+
+  /**
+   * Compare two values accounting for type differences
+   */
+  valuesDiffer(current, original) {
+    // Handle undefined/null comparisons
+    if (current == null && original == null) return false;
+    if (current == null || original == null) return true;
+    
+    // For checkboxes, ensure boolean comparison
+    if (typeof current === 'boolean' || typeof original === 'boolean') {
+      return Boolean(current) !== Boolean(original);
+    }
+    
+    // For strings, trim and compare
+    return String(current).trim() !== String(original).trim();
+  },
+
+  /**
+   * Get human-readable label for input
+   */
+  getInputLabel(input) {
+    // Try to find associated label
+    if (input.id) {
+      const label = document.querySelector(`label[for="${input.id}"]`);
+      if (label) return label.textContent.trim();
+    }
+
+    // Look for closest label
+    const closestLabel = input.closest('.p-chk-contact-edit__field, .p-chk-address-edit__field')
+                              ?.querySelector('label');
+    if (closestLabel) return closestLabel.textContent.trim();
+
+    // Fallback to placeholder or name
+    return input.placeholder || input.name || 'Unknown field';
+  },
+
+  /**
+   * Update banner display based on current changes
+   */
+  updateBannerDisplay() {
+    const hasChanges = this.state.currentChanges.size > 0;
+    
+    if (hasChanges) {
+      this.showUnsavedBanner();
+    } else {
+      this.hideUnsavedBanner();
+    }
+  },
+
+  /**
+   * Show the unsaved changes banner
+   */
+  showUnsavedBanner() {
+    const changes = Array.from(this.state.currentChanges.values());
+    const changeLabels = changes.map(change => change.label).join(', ');
+    
+    // Create banner if it doesn't exist
+    let banner = document.getElementById('chk-unsaved-changes-banner');
+    if (!banner) {
+      banner = this.createBannerElement();
+      
+      // Try to place banner in designated container, fallback to body
+      const container = document.getElementById('chk-unsaved-changes-banner-container') ||
+                       document.getElementById('chk-unsaved-changes-banner-container-2') ||
+                       document.body;
+      container.appendChild(banner);
+    }
+
+    // Update banner content
+    const changesList = banner.querySelector('.p-chk-unsaved-banner__changes-list');
+    if (changesList) {
+      changesList.textContent = changeLabels;
+    }
+
+    // Show banner
+    banner.classList.add('active');
+    
+    console.log(`[ChkUnsavedChanges] Showing banner for ${changes.length} changes: ${changeLabels}`);
+  },
+
+  /**
+   * Hide the unsaved changes banner
+   */
+  hideUnsavedBanner() {
+    const banner = document.getElementById('chk-unsaved-changes-banner');
+    if (banner) {
+      banner.classList.remove('active');
+    }
+  },
+
+  /**
+   * Create the banner DOM element
+   */
+  createBannerElement() {
+    const banner = document.createElement('div');
+    banner.id = 'chk-unsaved-changes-banner';
+    banner.className = 'p-chk-unsaved-banner';
+    
+    banner.innerHTML = `
+      <div class="p-chk-unsaved-banner__header">
+        <span class="p-chk-unsaved-banner__icon">⚠️</span>
+        <h4 class="p-chk-unsaved-banner__title">Unsaved Changes Detected</h4>
+      </div>
+      
+      <p class="p-chk-unsaved-banner__message">
+        You have made changes that haven't been saved. What would you like to do?
+      </p>
+      
+      <div class="p-chk-unsaved-banner__changes">
+        <div class="p-chk-unsaved-banner__changes-title">Modified Fields:</div>
+        <div class="p-chk-unsaved-banner__changes-list"></div>
+      </div>
+      
+      <div class="p-chk-unsaved-banner__actions">
+        <button type="button" class="p-chk-unsaved-banner__btn p-chk-unsaved-banner__btn--save" 
+                onclick="ChkUnsavedChanges.saveChangesAndContinue()">
+          <span>💾</span> Save Changes & Continue
+        </button>
+        <button type="button" class="p-chk-unsaved-banner__btn p-chk-unsaved-banner__btn--discard" 
+                onclick="ChkUnsavedChanges.discardChangesAndContinue()">
+          <span>🗑️</span> Discard Changes & Continue  
+        </button>
+        <button type="button" class="p-chk-unsaved-banner__btn p-chk-unsaved-banner__btn--cancel" 
+                onclick="ChkUnsavedChanges.cancelNavigation()">
+          <span>↩️</span> Cancel (Keep Editing)
+        </button>
+      </div>
+    `;
+    
+    return banner;
+  },
+
+  /**
+   * Save changes and continue navigation
+   */
+  saveChangesAndContinue() {
+    console.log('[ChkUnsavedChanges] User chose to save changes and continue');
+    
+    // Update original values to current values
+    this.updateOriginalValues();
+    
+    // Hide banner
+    this.hideUnsavedBanner();
+    
+    // Trigger any pending navigation
+    this.continuePendingNavigation();
+  },
+
+  /**
+   * Discard changes and continue navigation
+   */
+  discardChangesAndContinue() {
+    console.log('[ChkUnsavedChanges] User chose to discard changes and continue');
+    
+    // Restore original values
+    this.restoreOriginalValues();
+    
+    // Hide banner
+    this.hideUnsavedBanner();
+    
+    // Trigger any pending navigation
+    this.continuePendingNavigation();
+  },
+
+  /**
+   * Cancel navigation and keep editing
+   */
+  cancelNavigation() {
+    console.log('[ChkUnsavedChanges] User chose to cancel navigation');
+    
+    // Just hide banner - keep changes as they are
+    this.hideUnsavedBanner();
+  },
+
+  /**
+   * Update original values to match current state
+   */
+  updateOriginalValues() {
+    const formInputs = this.getTrackableInputs();
+    
+    formInputs.forEach(input => {
+      const key = this.getInputKey(input);
+      const value = this.getInputValue(input);
+      this.state.originalValues.set(key, value);
+    });
+    
+    this.state.currentChanges.clear();
+  },
+
+  /**
+   * Restore form inputs to their original values
+   */
+  restoreOriginalValues() {
+    this.state.originalValues.forEach((originalValue, key) => {
+      const input = this.findInputByKey(key);
+      if (input) {
+        if (input.type === 'checkbox' || input.type === 'radio') {
+          input.checked = Boolean(originalValue);
+        } else {
+          input.value = originalValue || '';
+        }
+        
+        // Trigger change event to update any dependent UI
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    });
+    
+    this.state.currentChanges.clear();
+  },
+
+  /**
+   * Find input element by its generated key
+   */
+  findInputByKey(key) {
+    const formInputs = this.getTrackableInputs();
+    return formInputs.find(input => this.getInputKey(input) === key);
+  },
+
+  /**
+   * Continue any pending navigation (placeholder for future integration)
+   */
+  continuePendingNavigation() {
+    if (this.state.pendingNavigation) {
+      console.log('[ChkUnsavedChanges] Executing pending navigation...');
+      const navigation = this.state.pendingNavigation;
+      this.state.pendingNavigation = null;
+      navigation();
+    } else {
+      console.log('[ChkUnsavedChanges] No pending navigation to continue');
+    }
+  },
+
+  /**
+   * Public method to check if there are unsaved changes
+   */
+  hasUnsavedChanges() {
+    this.checkForChanges();
+    return this.state.currentChanges.size > 0;
+  },
+
+  /**
+   * Public method to reset the change detection
+   */
+  reset() {
+    this.state.currentChanges.clear();
+    this.state.originalValues.clear();
+    this.hideUnsavedBanner();
+    this.captureOriginalValues();
+  }
+};
+
+// Initialize the unsaved changes system when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Small delay to ensure all other initialization is complete
+  setTimeout(() => {
+    window.ChkUnsavedChanges.init();
+  }, 1000);
+});
