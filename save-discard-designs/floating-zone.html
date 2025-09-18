@@ -6,507 +6,579 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Floating Action Zone - Save/Discard Design</title>
     <style>
-        /* Floating Action Zone */
-        .floating-action-zone {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.05) 100%);
-            padding: 20px;
-            transform: translateY(100%);
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 1000;
-        }
+      /* Floating Action Zone */
+      .floating-action-zone {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          180deg,
+          transparent 0%,
+          rgba(0, 0, 0, 0.05) 100%
+        );
+        padding: 20px;
+        transform: translateY(100%);
+        transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1000;
+      }
 
-        .floating-action-zone.active {
-            transform: translateY(0);
-        }
+      .floating-action-zone.active {
+        transform: translateY(0);
+      }
 
-        .floating-action-card {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            max-width: 500px;
-            margin: 0 auto;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.8);
-        }
+      .floating-action-card {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        max-width: 500px;
+        margin: 0 auto;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+      }
 
-        .floating-action-header {
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            color: white;
-            padding: 16px 20px;
-            position: relative;
-        }
+      .floating-action-header {
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        color: white;
+        padding: 16px 20px;
+        position: relative;
+      }
 
-        .floating-action-header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, #f59e0b, #d97706, #b45309, #92400e);
-            animation: progress-wave 2s infinite;
-        }
+      .floating-action-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #f59e0b, #d97706, #b45309, #92400e);
+        animation: progress-wave 2s infinite;
+      }
 
-        @keyframes progress-wave {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+      @keyframes progress-wave {
+        0% {
+          background-position: 0% 50%;
         }
-
-        .floating-action-title {
-            font-size: 16px;
-            font-weight: 700;
-            margin: 0 0 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        50% {
+          background-position: 100% 50%;
         }
-
-        .floating-action-subtitle {
-            font-size: 13px;
-            opacity: 0.9;
-            margin: 0;
+        100% {
+          background-position: 0% 50%;
         }
+      }
 
-        .floating-action-content {
-            padding: 20px;
+      .floating-action-title {
+        font-size: 16px;
+        font-weight: 700;
+        margin: 0 0 4px 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .floating-action-subtitle {
+        font-size: 13px;
+        opacity: 0.9;
+        margin: 0;
+      }
+
+      .floating-action-content {
+        padding: 20px;
+      }
+
+      .floating-changes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 12px;
+        margin-bottom: 20px;
+      }
+
+      .floating-change-chip {
+        background: #f1f5f9;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 8px 12px;
+        text-align: center;
+        font-size: 12px;
+        color: #475569;
+        position: relative;
+        transition: all 0.2s ease;
+      }
+
+      .floating-change-chip::before {
+        content: "•";
+        color: #f59e0b;
+        font-weight: bold;
+        margin-right: 4px;
+      }
+
+      .floating-change-chip:hover {
+        background: #e2e8f0;
+        transform: translateY(-1px);
+      }
+
+      .floating-actions {
+        display: flex;
+        gap: 12px;
+      }
+
+      .floating-action-btn {
+        flex: 1;
+        padding: 14px;
+        border: none;
+        border-radius: 14px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .floating-action-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .floating-action-btn:hover::before {
+        left: 100%;
+      }
+
+      .floating-action-btn--save {
+        background: linear-gradient(135deg, #059669, #047857);
+        color: white;
+        box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+      }
+
+      .floating-action-btn--save:hover {
+        background: linear-gradient(135deg, #047857, #065f46);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4);
+      }
+
+      .floating-action-btn--discard {
+        background: linear-gradient(135deg, #dc2626, #b91c1c);
+        color: white;
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+      }
+
+      .floating-action-btn--discard:hover {
+        background: linear-gradient(135deg, #b91c1c, #991b1b);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
+      }
+
+      /* Alternative: Compact FAB */
+      .compact-fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #f59e0b, #d97706);
+        border: none;
+        border-radius: 50%;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1001;
+        transform: scale(0);
+      }
+
+      .compact-fab.active {
+        transform: scale(1);
+        animation: fab-pulse 2s infinite;
+      }
+
+      @keyframes fab-pulse {
+        0%,
+        100% {
+          box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+        50% {
+          box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6);
+        }
+      }
+
+      .compact-fab:hover {
+        transform: scale(1.1);
+        animation: none;
+      }
+
+      /* FAB Menu */
+      .fab-menu {
+        position: fixed;
+        bottom: 90px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        transform: scale(0);
+        transform-origin: bottom right;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        z-index: 1000;
+      }
+
+      .fab-menu.active {
+        transform: scale(1);
+      }
+
+      .fab-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        background: white;
+        border: none;
+        border-radius: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .fab-menu-item:hover {
+        transform: translateX(-4px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .fab-menu-item--save {
+        color: #059669;
+      }
+
+      .fab-menu-item--discard {
+        color: #dc2626;
+      }
+
+      .fab-menu-item--cancel {
+        color: #6b7280;
+      }
+
+      /* Demo Styles */
+      .demo-container {
+        padding: 40px 20px 120px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .demo-section {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 24px;
+      }
+
+      .demo-trigger {
+        background: #3b82f6;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+      }
+
+      .demo-form {
+        margin: 16px 0;
+      }
+
+      .demo-input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-size: 14px;
+      }
+
+      .demo-status {
+        font-size: 12px;
+        color: #6b7280;
+        margin-bottom: 16px;
+        padding: 8px;
+        background: #f9fafb;
+        border-radius: 6px;
+      }
+
+      /* Mobile Responsive */
+      @media (max-width: 640px) {
+        .floating-actions {
+          flex-direction: column;
         }
 
         .floating-changes-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 12px;
-            margin-bottom: 20px;
+          grid-template-columns: 1fr;
         }
-
-        .floating-change-chip {
-            background: #f1f5f9;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 8px 12px;
-            text-align: center;
-            font-size: 12px;
-            color: #475569;
-            position: relative;
-            transition: all 0.2s ease;
-        }
-
-        .floating-change-chip::before {
-            content: '•';
-            color: #f59e0b;
-            font-weight: bold;
-            margin-right: 4px;
-        }
-
-        .floating-change-chip:hover {
-            background: #e2e8f0;
-            transform: translateY(-1px);
-        }
-
-        .floating-actions {
-            display: flex;
-            gap: 12px;
-        }
-
-        .floating-action-btn {
-            flex: 1;
-            padding: 14px;
-            border: none;
-            border-radius: 14px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .floating-action-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .floating-action-btn:hover::before {
-            left: 100%;
-        }
-
-        .floating-action-btn--save {
-            background: linear-gradient(135deg, #059669, #047857);
-            color: white;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-        }
-
-        .floating-action-btn--save:hover {
-            background: linear-gradient(135deg, #047857, #065f46);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(5, 150, 105, 0.4);
-        }
-
-        .floating-action-btn--discard {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            color: white;
-            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
-        }
-
-        .floating-action-btn--discard:hover {
-            background: linear-gradient(135deg, #b91c1c, #991b1b);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(220, 38, 38, 0.4);
-        }
-
-        /* Alternative: Compact FAB */
-        .compact-fab {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 1001;
-            transform: scale(0);
-        }
-
-        .compact-fab.active {
-            transform: scale(1);
-            animation: fab-pulse 2s infinite;
-        }
-
-        @keyframes fab-pulse {
-            0%, 100% { box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4); }
-            50% { box-shadow: 0 8px 30px rgba(245, 158, 11, 0.6); }
-        }
-
-        .compact-fab:hover {
-            transform: scale(1.1);
-            animation: none;
-        }
-
-        /* FAB Menu */
-        .fab-menu {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            transform: scale(0);
-            transform-origin: bottom right;
-            transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            z-index: 1000;
-        }
-
-        .fab-menu.active {
-            transform: scale(1);
-        }
-
-        .fab-menu-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 16px;
-            background: white;
-            border: none;
-            border-radius: 25px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-size: 14px;
-            font-weight: 500;
-            white-space: nowrap;
-        }
-
-        .fab-menu-item:hover {
-            transform: translateX(-4px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .fab-menu-item--save {
-            color: #059669;
-        }
-
-        .fab-menu-item--discard {
-            color: #dc2626;
-        }
-
-        .fab-menu-item--cancel {
-            color: #6b7280;
-        }
-
-        /* Demo Styles */
-        .demo-container {
-            padding: 40px 20px 120px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .demo-section {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-
-        .demo-trigger {
-            background: #3b82f6;
-            color: white;
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-            margin-right: 8px;
-            margin-bottom: 8px;
-        }
-
-        .demo-form {
-            margin: 16px 0;
-        }
-
-        .demo-input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            font-size: 14px;
-        }
-
-        .demo-status {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 16px;
-            padding: 8px;
-            background: #f9fafb;
-            border-radius: 6px;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 640px) {
-            .floating-actions {
-                flex-direction: column;
-            }
-            
-            .floating-changes-grid {
-                grid-template-columns: 1fr;
-            }
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="demo-container">
-        <h1>Design 5: Floating Action Zone</h1>
-        <p>Modern mobile-first approach with floating action areas</p>
-        
-        <div class="demo-section">
-            <h3>Main Form with Floating Actions</h3>
-            <div class="demo-status" id="formStatus2">
-                Form Status: No changes detected
-            </div>
-            
-            <div class="demo-form">
-                <input type="email" class="demo-input" placeholder="Email Address" value="jane.smith@example.com" onchange="markAsChanged(2)">
-                <input type="text" class="demo-input" placeholder="Job Title" value="Detective" onchange="markAsChanged(2)">
-                <input type="tel" class="demo-input" placeholder="Phone Number" onchange="markAsChanged(2)">
-                <input type="text" class="demo-input" placeholder="Department" onchange="markAsChanged(2)">
-            </div>
+      <h1>Design 5: Floating Action Zone</h1>
+      <p>Modern mobile-first approach with floating action areas</p>
 
-            <button class="demo-trigger" onclick="simulateChanges(2)">Simulate Changes</button>
-            <button class="demo-trigger" onclick="resetForm(2)">Reset Form</button>
-            <button class="demo-trigger" onclick="showCompactFAB()">Show Compact FAB</button>
+      <div class="demo-section">
+        <h3>Main Form with Floating Actions</h3>
+        <div class="demo-status" id="formStatus2">
+          Form Status: No changes detected
         </div>
 
-        <div class="demo-section">
-            <h3>Additional Form Sections</h3>
-            <p>These would be other parts of your checkout form</p>
-            
-            <div class="demo-form">
-                <input type="text" class="demo-input" placeholder="Shipping Address">
-                <input type="text" class="demo-input" placeholder="City">
-                <input type="text" class="demo-input" placeholder="ZIP Code">
-            </div>
+        <div class="demo-form">
+          <input
+            type="email"
+            class="demo-input"
+            placeholder="Email Address"
+            value="jane.smith@example.com"
+            onchange="markAsChanged(2)"
+          />
+          <input
+            type="text"
+            class="demo-input"
+            placeholder="Job Title"
+            value="Detective"
+            onchange="markAsChanged(2)"
+          />
+          <input
+            type="tel"
+            class="demo-input"
+            placeholder="Phone Number"
+            onchange="markAsChanged(2)"
+          />
+          <input
+            type="text"
+            class="demo-input"
+            placeholder="Department"
+            onchange="markAsChanged(2)"
+          />
         </div>
+
+        <button class="demo-trigger" onclick="simulateChanges(2)">
+          Simulate Changes
+        </button>
+        <button class="demo-trigger" onclick="resetForm(2)">Reset Form</button>
+        <button class="demo-trigger" onclick="showCompactFAB()">
+          Show Compact FAB
+        </button>
+      </div>
+
+      <div class="demo-section">
+        <h3>Additional Form Sections</h3>
+        <p>These would be other parts of your checkout form</p>
+
+        <div class="demo-form">
+          <input
+            type="text"
+            class="demo-input"
+            placeholder="Shipping Address"
+          />
+          <input type="text" class="demo-input" placeholder="City" />
+          <input type="text" class="demo-input" placeholder="ZIP Code" />
+        </div>
+      </div>
     </div>
 
     <!-- Floating Action Zone -->
     <div class="floating-action-zone" id="floatingZone">
-        <div class="floating-action-card">
-            <div class="floating-action-header">
-                <div class="floating-action-title">
-                    <span>⚠️</span>
-                    Unsaved Changes Detected
-                </div>
-                <div class="floating-action-subtitle">
-                    You have modifications that haven't been saved
-                </div>
-            </div>
-            
-            <div class="floating-action-content">
-                <div class="floating-changes-grid" id="floatingChangesList">
-                    <div class="floating-change-chip">Email</div>
-                    <div class="floating-change-chip">Job Title</div>
-                    <div class="floating-change-chip">Phone</div>
-                </div>
-
-                <div class="floating-actions">
-                    <button class="floating-action-btn floating-action-btn--save" onclick="saveChanges(2)">
-                        <span>💾</span>
-                        Save & Continue
-                    </button>
-                    <button class="floating-action-btn floating-action-btn--discard" onclick="discardChanges(2)">
-                        <span>🗑️</span>
-                        Discard Changes
-                    </button>
-                </div>
-            </div>
+      <div class="floating-action-card">
+        <div class="floating-action-header">
+          <div class="floating-action-title">
+            <span>⚠️</span>
+            Unsaved Changes Detected
+          </div>
+          <div class="floating-action-subtitle">
+            You have modifications that haven't been saved
+          </div>
         </div>
+
+        <div class="floating-action-content">
+          <div class="floating-changes-grid" id="floatingChangesList">
+            <div class="floating-change-chip">Email</div>
+            <div class="floating-change-chip">Job Title</div>
+            <div class="floating-change-chip">Phone</div>
+          </div>
+
+          <div class="floating-actions">
+            <button
+              class="floating-action-btn floating-action-btn--save"
+              onclick="saveChanges(2)"
+            >
+              <span>💾</span>
+              Save & Continue
+            </button>
+            <button
+              class="floating-action-btn floating-action-btn--discard"
+              onclick="discardChanges(2)"
+            >
+              <span>🗑️</span>
+              Discard Changes
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- Compact FAB -->
     <button class="compact-fab" id="compactFAB" onclick="toggleFABMenu()">
-        ⚠️
+      ⚠️
     </button>
 
     <!-- FAB Menu -->
     <div class="fab-menu" id="fabMenu">
-        <button class="fab-menu-item fab-menu-item--save" onclick="saveChanges(2)">
-            <span>💾</span>
-            Save Changes
-        </button>
-        <button class="fab-menu-item fab-menu-item--discard" onclick="discardChanges(2)">
-            <span>🗑️</span>
-            Discard Changes
-        </button>
-        <button class="fab-menu-item fab-menu-item--cancel" onclick="hideFAB()">
-            <span>❌</span>
-            Cancel
-        </button>
+      <button
+        class="fab-menu-item fab-menu-item--save"
+        onclick="saveChanges(2)"
+      >
+        <span>💾</span>
+        Save Changes
+      </button>
+      <button
+        class="fab-menu-item fab-menu-item--discard"
+        onclick="discardChanges(2)"
+      >
+        <span>🗑️</span>
+        Discard Changes
+      </button>
+      <button class="fab-menu-item fab-menu-item--cancel" onclick="hideFAB()">
+        <span>❌</span>
+        Cancel
+      </button>
     </div>
 
     <script>
-        // Form state tracking
-        const formStates = {
-            2: { hasChanges: false, changes: [] }
-        };
+      // Form state tracking
+      const formStates = {
+        2: { hasChanges: false, changes: [] },
+      };
 
-        let fabMenuOpen = false;
+      let fabMenuOpen = false;
 
-        function markAsChanged(formId) {
-            formStates[formId].hasChanges = true;
-            formStates[formId].changes = ['Email address', 'Job title'];
-            updateFloatingZone(formId);
+      function markAsChanged(formId) {
+        formStates[formId].hasChanges = true;
+        formStates[formId].changes = ["Email address", "Job title"];
+        updateFloatingZone(formId);
+      }
+
+      function simulateChanges(formId) {
+        formStates[formId].hasChanges = true;
+        formStates[formId].changes = [
+          "Email address",
+          "Job title",
+          "Phone number",
+          "Department",
+        ];
+        updateFloatingZone(formId);
+      }
+
+      function resetForm(formId) {
+        formStates[formId].hasChanges = false;
+        formStates[formId].changes = [];
+        updateFloatingZone(formId);
+        hideFAB();
+      }
+
+      function updateFloatingZone(formId) {
+        const zone = document.getElementById("floatingZone");
+        const status = document.getElementById("formStatus2");
+        const changesList = document.getElementById("floatingChangesList");
+        const state = formStates[formId];
+
+        if (state.hasChanges) {
+          zone.classList.add("active");
+          status.textContent = `Form Status: ${state.changes.length} unsaved changes detected`;
+
+          // Update changes grid
+          changesList.innerHTML = state.changes
+            .map(
+              (change) => `<div class="floating-change-chip">${change}</div>`
+            )
+            .join("");
+        } else {
+          zone.classList.remove("active");
+          status.textContent = "Form Status: No changes detected";
         }
+      }
 
-        function simulateChanges(formId) {
-            formStates[formId].hasChanges = true;
-            formStates[formId].changes = ['Email address', 'Job title', 'Phone number', 'Department'];
-            updateFloatingZone(formId);
+      function showCompactFAB() {
+        document.getElementById("compactFAB").classList.add("active");
+      }
+
+      function hideFAB() {
+        document.getElementById("compactFAB").classList.remove("active");
+        document.getElementById("fabMenu").classList.remove("active");
+        fabMenuOpen = false;
+      }
+
+      function toggleFABMenu() {
+        const menu = document.getElementById("fabMenu");
+        fabMenuOpen = !fabMenuOpen;
+
+        if (fabMenuOpen) {
+          menu.classList.add("active");
+        } else {
+          menu.classList.remove("active");
         }
+      }
 
-        function resetForm(formId) {
-            formStates[formId].hasChanges = false;
-            formStates[formId].changes = [];
-            updateFloatingZone(formId);
-            hideFAB();
-        }
+      function saveChanges(formId) {
+        alert("Changes saved! Continuing to next section...");
+        resetForm(formId);
+      }
 
-        function updateFloatingZone(formId) {
-            const zone = document.getElementById('floatingZone');
-            const status = document.getElementById('formStatus2');
-            const changesList = document.getElementById('floatingChangesList');
-            const state = formStates[formId];
+      function discardChanges(formId) {
+        alert("Changes discarded! Continuing to next section...");
+        resetForm(formId);
+      }
 
-            if (state.hasChanges) {
-                zone.classList.add('active');
-                status.textContent = `Form Status: ${state.changes.length} unsaved changes detected`;
-                
-                // Update changes grid
-                changesList.innerHTML = state.changes.map(change => 
-                    `<div class="floating-change-chip">${change}</div>`
-                ).join('');
-            } else {
-                zone.classList.remove('active');
-                status.textContent = 'Form Status: No changes detected';
-            }
-        }
-
-        function showCompactFAB() {
-            document.getElementById('compactFAB').classList.add('active');
-        }
-
-        function hideFAB() {
-            document.getElementById('compactFAB').classList.remove('active');
-            document.getElementById('fabMenu').classList.remove('active');
+      // Auto-hide floating zone when clicking outside
+      document.addEventListener("click", function (e) {
+        if (
+          !e.target.closest(".floating-action-zone") &&
+          !e.target.closest(".compact-fab") &&
+          !e.target.closest(".fab-menu") &&
+          !e.target.closest(".demo-trigger")
+        ) {
+          // Only hide if clicking on empty space, not form inputs
+          if (e.target.tagName !== "INPUT") {
+            document.getElementById("fabMenu").classList.remove("active");
             fabMenuOpen = false;
+          }
         }
+      });
 
-        function toggleFABMenu() {
-            const menu = document.getElementById('fabMenu');
-            fabMenuOpen = !fabMenuOpen;
-            
-            if (fabMenuOpen) {
-                menu.classList.add('active');
-            } else {
-                menu.classList.remove('active');
-            }
+      // Demo: Auto-show floating zone on page load with delay
+      setTimeout(() => {
+        if (Math.random() > 0.7) {
+          // 30% chance for demo
+          simulateChanges(2);
         }
-
-        function saveChanges(formId) {
-            alert('Changes saved! Continuing to next section...');
-            resetForm(formId);
-        }
-
-        function discardChanges(formId) {
-            alert('Changes discarded! Continuing to next section...');
-            resetForm(formId);
-        }
-
-        // Auto-hide floating zone when clicking outside
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.floating-action-zone') && 
-                !e.target.closest('.compact-fab') && 
-                !e.target.closest('.fab-menu') &&
-                !e.target.closest('.demo-trigger')) {
-                // Only hide if clicking on empty space, not form inputs
-                if (e.target.tagName !== 'INPUT') {
-                    document.getElementById('fabMenu').classList.remove('active');
-                    fabMenuOpen = false;
-                }
-            }
-        });
-
-        // Demo: Auto-show floating zone on page load with delay
-        setTimeout(() => {
-            if (Math.random() > 0.7) { // 30% chance for demo
-                simulateChanges(2);
-            }
-        }, 2000);
+      }, 2000);
     </script>
-</body>
+  </body>
 </html>

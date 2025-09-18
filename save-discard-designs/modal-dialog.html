@@ -6,242 +6,256 @@
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Modal Dialog - Save/Discard Design</title>
     <style>
-        /* Modal Overlay */
-        .save-discard-modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(4px);
-            z-index: 10000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            visibility: hidden;
-            transition: all 0.3s ease;
-        }
+      /* Modal Overlay */
+      .save-discard-modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
 
-        .save-discard-modal-overlay.active {
-            opacity: 1;
-            visibility: visible;
-        }
+      .save-discard-modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
 
-        /* Modal Dialog */
-        .save-discard-modal {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-            max-width: 480px;
-            width: 90%;
-            transform: scale(0.9) translateY(20px);
-            transition: transform 0.3s ease;
-        }
+      /* Modal Dialog */
+      .save-discard-modal {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        max-width: 480px;
+        width: 90%;
+        transform: scale(0.9) translateY(20px);
+        transition: transform 0.3s ease;
+      }
 
-        .save-discard-modal-overlay.active .save-discard-modal {
-            transform: scale(1) translateY(0);
-        }
+      .save-discard-modal-overlay.active .save-discard-modal {
+        transform: scale(1) translateY(0);
+      }
 
-        /* Modal Header */
-        .save-discard-modal__header {
-            padding: 24px 24px 16px;
-            border-bottom: 1px solid #e5e7eb;
-        }
+      /* Modal Header */
+      .save-discard-modal__header {
+        padding: 24px 24px 16px;
+        border-bottom: 1px solid #e5e7eb;
+      }
 
-        .save-discard-modal__icon {
-            width: 48px;
-            height: 48px;
-            background: #fef3c7;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 16px;
-        }
+      .save-discard-modal__icon {
+        width: 48px;
+        height: 48px;
+        background: #fef3c7;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 16px;
+      }
 
-        .save-discard-modal__title {
-            font-size: 20px;
-            font-weight: 600;
-            color: #111827;
-            margin: 0 0 8px 0;
-        }
+      .save-discard-modal__title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #111827;
+        margin: 0 0 8px 0;
+      }
 
-        .save-discard-modal__description {
-            font-size: 14px;
-            color: #6b7280;
-            margin: 0;
-            line-height: 1.5;
-        }
+      .save-discard-modal__description {
+        font-size: 14px;
+        color: #6b7280;
+        margin: 0;
+        line-height: 1.5;
+      }
 
-        /* Modal Content */
-        .save-discard-modal__content {
-            padding: 20px 24px;
-        }
+      /* Modal Content */
+      .save-discard-modal__content {
+        padding: 20px 24px;
+      }
 
-        .save-discard-modal__changes {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            padding: 16px;
-            margin-bottom: 20px;
-        }
+      .save-discard-modal__changes {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 20px;
+      }
 
-        .save-discard-modal__changes-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: #374151;
-            margin: 0 0 12px 0;
-        }
+      .save-discard-modal__changes-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #374151;
+        margin: 0 0 12px 0;
+      }
 
-        .save-discard-modal__changes-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
+      .save-discard-modal__changes-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
 
-        .save-discard-modal__changes-item {
-            font-size: 13px;
-            color: #6b7280;
-            padding: 4px 0;
-            border-left: 3px solid #3b82f6;
-            padding-left: 12px;
-            margin-bottom: 8px;
-        }
+      .save-discard-modal__changes-item {
+        font-size: 13px;
+        color: #6b7280;
+        padding: 4px 0;
+        border-left: 3px solid #3b82f6;
+        padding-left: 12px;
+        margin-bottom: 8px;
+      }
 
-        /* Modal Actions */
-        .save-discard-modal__actions {
-            padding: 16px 24px 24px;
-            display: flex;
-            gap: 12px;
-            justify-content: flex-end;
-        }
+      /* Modal Actions */
+      .save-discard-modal__actions {
+        padding: 16px 24px 24px;
+        display: flex;
+        gap: 12px;
+        justify-content: flex-end;
+      }
 
-        .save-discard-btn {
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-        }
+      .save-discard-btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+      }
 
-        .save-discard-btn--cancel {
-            background: white;
-            color: #6b7280;
-            border-color: #d1d5db;
-        }
+      .save-discard-btn--cancel {
+        background: white;
+        color: #6b7280;
+        border-color: #d1d5db;
+      }
 
-        .save-discard-btn--cancel:hover {
-            background: #f9fafb;
-            border-color: #9ca3af;
-        }
+      .save-discard-btn--cancel:hover {
+        background: #f9fafb;
+        border-color: #9ca3af;
+      }
 
-        .save-discard-btn--discard {
-            background: #dc2626;
-            color: white;
-        }
+      .save-discard-btn--discard {
+        background: #dc2626;
+        color: white;
+      }
 
-        .save-discard-btn--discard:hover {
-            background: #b91c1c;
-        }
+      .save-discard-btn--discard:hover {
+        background: #b91c1c;
+      }
 
-        .save-discard-btn--save {
-            background: #2563eb;
-            color: white;
-        }
+      .save-discard-btn--save {
+        background: #2563eb;
+        color: white;
+      }
 
-        .save-discard-btn--save:hover {
-            background: #1d4ed8;
-        }
+      .save-discard-btn--save:hover {
+        background: #1d4ed8;
+      }
 
-        /* Demo Styles */
-        .demo-container {
-            padding: 40px 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+      /* Demo Styles */
+      .demo-container {
+        padding: 40px 20px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
 
-        .demo-trigger {
-            background: #3b82f6;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+      .demo-trigger {
+        background: #3b82f6;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="demo-container">
-        <h1>Design 1: Modal Dialog for Unsaved Changes</h1>
-        <p>Click the button below to preview the modal:</p>
-        <button class="demo-trigger" onclick="showModal()">Show Save/Discard Modal</button>
+      <h1>Design 1: Modal Dialog for Unsaved Changes</h1>
+      <p>Click the button below to preview the modal:</p>
+      <button class="demo-trigger" onclick="showModal()">
+        Show Save/Discard Modal
+      </button>
     </div>
 
     <!-- Modal Dialog -->
     <div class="save-discard-modal-overlay" id="saveDiscardModal">
-        <div class="save-discard-modal">
-            <div class="save-discard-modal__header">
-                <div class="save-discard-modal__icon">
-                    ⚠️
-                </div>
-                <h3 class="save-discard-modal__title">Unsaved Changes</h3>
-                <p class="save-discard-modal__description">
-                    You have unsaved changes in the Contact section. What would you like to do?
-                </p>
-            </div>
-            
-            <div class="save-discard-modal__content">
-                <div class="save-discard-modal__changes">
-                    <h4 class="save-discard-modal__changes-title">Modified Fields:</h4>
-                    <ul class="save-discard-modal__changes-list">
-                        <li class="save-discard-modal__changes-item">Email address changed</li>
-                        <li class="save-discard-modal__changes-item">Job title updated</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="save-discard-modal__actions">
-                <button class="save-discard-btn save-discard-btn--cancel" onclick="hideModal()">
-                    Cancel
-                </button>
-                <button class="save-discard-btn save-discard-btn--discard" onclick="discardChanges()">
-                    Discard Changes
-                </button>
-                <button class="save-discard-btn save-discard-btn--save" onclick="saveChanges()">
-                    Save & Continue
-                </button>
-            </div>
+      <div class="save-discard-modal">
+        <div class="save-discard-modal__header">
+          <div class="save-discard-modal__icon">⚠️</div>
+          <h3 class="save-discard-modal__title">Unsaved Changes</h3>
+          <p class="save-discard-modal__description">
+            You have unsaved changes in the Contact section. What would you like
+            to do?
+          </p>
         </div>
+
+        <div class="save-discard-modal__content">
+          <div class="save-discard-modal__changes">
+            <h4 class="save-discard-modal__changes-title">Modified Fields:</h4>
+            <ul class="save-discard-modal__changes-list">
+              <li class="save-discard-modal__changes-item">
+                Email address changed
+              </li>
+              <li class="save-discard-modal__changes-item">
+                Job title updated
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="save-discard-modal__actions">
+          <button
+            class="save-discard-btn save-discard-btn--cancel"
+            onclick="hideModal()"
+          >
+            Cancel
+          </button>
+          <button
+            class="save-discard-btn save-discard-btn--discard"
+            onclick="discardChanges()"
+          >
+            Discard Changes
+          </button>
+          <button
+            class="save-discard-btn save-discard-btn--save"
+            onclick="saveChanges()"
+          >
+            Save & Continue
+          </button>
+        </div>
+      </div>
     </div>
 
     <script>
-        function showModal() {
-            document.getElementById('saveDiscardModal').classList.add('active');
-        }
+      function showModal() {
+        document.getElementById("saveDiscardModal").classList.add("active");
+      }
 
-        function hideModal() {
-            document.getElementById('saveDiscardModal').classList.remove('active');
-        }
+      function hideModal() {
+        document.getElementById("saveDiscardModal").classList.remove("active");
+      }
 
-        function saveChanges() {
-            alert('Changes saved! Proceeding to next section...');
-            hideModal();
-        }
+      function saveChanges() {
+        alert("Changes saved! Proceeding to next section...");
+        hideModal();
+      }
 
-        function discardChanges() {
-            alert('Changes discarded! Proceeding to next section...');
-            hideModal();
-        }
+      function discardChanges() {
+        alert("Changes discarded! Proceeding to next section...");
+        hideModal();
+      }
     </script>
-</body>
+  </body>
 </html>

@@ -1668,7 +1668,7 @@ window.ChkUnsavedChanges = {
   // Configuration
   config: {
     debounceMs: 500,
-    storageKey: 'chk_form_original_values'
+    storageKey: "chk_form_original_values",
   },
 
   // State tracking
@@ -1677,7 +1677,7 @@ window.ChkUnsavedChanges = {
     currentChanges: new Map(),
     isInitialized: false,
     debounceTimer: null,
-    pendingNavigation: null
+    pendingNavigation: null,
   },
 
   /**
@@ -1686,8 +1686,8 @@ window.ChkUnsavedChanges = {
   init() {
     if (this.state.isInitialized) return;
 
-    console.log('[ChkUnsavedChanges] Initializing change detection system');
-    
+    console.log("[ChkUnsavedChanges] Initializing change detection system");
+
     this.captureOriginalValues();
     this.attachEventListeners();
     this.interceptNavigationButtons();
@@ -1699,14 +1699,16 @@ window.ChkUnsavedChanges = {
    */
   captureOriginalValues() {
     const formInputs = this.getTrackableInputs();
-    
-    formInputs.forEach(input => {
+
+    formInputs.forEach((input) => {
       const key = this.getInputKey(input);
       const value = this.getInputValue(input);
       this.state.originalValues.set(key, value);
     });
 
-    console.log(`[ChkUnsavedChanges] Captured ${formInputs.length} original form values`);
+    console.log(
+      `[ChkUnsavedChanges] Captured ${formInputs.length} original form values`
+    );
   },
 
   /**
@@ -1718,36 +1720,37 @@ window.ChkUnsavedChanges = {
       '[data-edit-form="contact"] input',
       '[data-edit-form="contact"] select',
       '[data-edit-form="contact"] textarea',
-      
-      // Delivery section  
+
+      // Delivery section
       '[data-edit-form="delivery"] input',
       '[data-edit-form="delivery"] select',
       '[data-edit-form="delivery"] textarea',
-      
+
       // CCA section
       '[data-chk-element="cca-checkbox"]',
       '[data-chk-element="disclaimer-checkbox"]',
       '[data-chk-element="file-name-input"]',
-      
+
       // Postal card section
       '[data-edit-form="postal"] input',
       '[data-edit-form="postal"] select',
       '[data-edit-form="postal"] textarea',
-      '#postalFormSection input',
-      '#postalFormSection select',
-      '#postalFormSection textarea'
+      "#postalFormSection input",
+      "#postalFormSection select",
+      "#postalFormSection textarea",
     ];
 
     const inputs = [];
-    selectors.forEach(selector => {
+    selectors.forEach((selector) => {
       const elements = document.querySelectorAll(selector);
       inputs.push(...elements);
     });
 
-    return inputs.filter(input => 
-      input.type !== 'submit' && 
-      input.type !== 'button' && 
-      !input.hasAttribute('data-chk-ignore-changes')
+    return inputs.filter(
+      (input) =>
+        input.type !== "submit" &&
+        input.type !== "button" &&
+        !input.hasAttribute("data-chk-ignore-changes")
     );
   },
 
@@ -1757,12 +1760,13 @@ window.ChkUnsavedChanges = {
   getInputKey(input) {
     // Use ID if available, otherwise create key from name/type/closest section
     if (input.id) return input.id;
-    
-    const section = input.closest('[data-edit-form]')?.getAttribute('data-edit-form') || 
-                   input.closest('[data-chk-element]')?.getAttribute('data-chk-element') || 
-                   'unknown';
-    const name = input.name || input.type || 'unnamed';
-    
+
+    const section =
+      input.closest("[data-edit-form]")?.getAttribute("data-edit-form") ||
+      input.closest("[data-chk-element]")?.getAttribute("data-chk-element") ||
+      "unknown";
+    const name = input.name || input.type || "unnamed";
+
     return `${section}_${name}_${input.tagName.toLowerCase()}`;
   },
 
@@ -1770,10 +1774,10 @@ window.ChkUnsavedChanges = {
    * Get current value of input element
    */
   getInputValue(input) {
-    if (input.type === 'checkbox' || input.type === 'radio') {
+    if (input.type === "checkbox" || input.type === "radio") {
       return input.checked;
     }
-    return input.value || '';
+    return input.value || "";
   },
 
   /**
@@ -1781,46 +1785,56 @@ window.ChkUnsavedChanges = {
    */
   attachEventListeners() {
     const formInputs = this.getTrackableInputs();
-    
-    formInputs.forEach(input => {
+
+    formInputs.forEach((input) => {
       // Use multiple events to catch all changes
-      ['input', 'change', 'blur', 'keyup'].forEach(eventType => {
+      ["input", "change", "blur", "keyup"].forEach((eventType) => {
         input.addEventListener(eventType, (e) => {
           this.handleInputChange(e.target);
         });
       });
     });
 
-    console.log(`[ChkUnsavedChanges] Attached listeners to ${formInputs.length} inputs`);
+    console.log(
+      `[ChkUnsavedChanges] Attached listeners to ${formInputs.length} inputs`
+    );
   },
 
   /**
    * Intercept continue button clicks to check for unsaved changes
    */
   interceptNavigationButtons() {
-    const continueButtons = document.querySelectorAll('[data-chk-element*="continue-button"]');
-    
-    continueButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        // Check for unsaved changes before continuing
-        if (this.hasUnsavedChanges()) {
-          e.preventDefault();
-          e.stopPropagation();
-          
-          // Store the pending navigation for later
-          this.state.pendingNavigation = () => {
-            // Re-trigger the original click without interception
-            button.removeEventListener('click', arguments.callee);
-            button.click();
-          };
-          
-          // Show the banner
-          this.showUnsavedBanner();
-        }
-      }, true); // Use capture phase to intercept before other handlers
+    const continueButtons = document.querySelectorAll(
+      '[data-chk-element*="continue-button"]'
+    );
+
+    continueButtons.forEach((button) => {
+      button.addEventListener(
+        "click",
+        (e) => {
+          // Check for unsaved changes before continuing
+          if (this.hasUnsavedChanges()) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // Store the pending navigation for later
+            this.state.pendingNavigation = () => {
+              // Re-trigger the original click without interception
+              button.removeEventListener("click", arguments.callee);
+              button.click();
+            };
+
+            // Show the banner
+            this.showUnsavedBanner();
+          }
+        },
+        true
+      ); // Use capture phase to intercept before other handlers
     });
 
-    console.log(`[ChkUnsavedChanges] Intercepted ${continueButtons.length} continue buttons`);
+    console.log(
+      `[ChkUnsavedChanges] Intercepted ${continueButtons.length} continue buttons`
+    );
   },
 
   /**
@@ -1828,7 +1842,7 @@ window.ChkUnsavedChanges = {
    */
   handleInputChange(input) {
     clearTimeout(this.state.debounceTimer);
-    
+
     this.state.debounceTimer = setTimeout(() => {
       this.checkForChanges(input);
     }, this.config.debounceMs);
@@ -1841,7 +1855,7 @@ window.ChkUnsavedChanges = {
     const formInputs = this.getTrackableInputs();
     this.state.currentChanges.clear();
 
-    formInputs.forEach(input => {
+    formInputs.forEach((input) => {
       const key = this.getInputKey(input);
       const currentValue = this.getInputValue(input);
       const originalValue = this.state.originalValues.get(key);
@@ -1851,7 +1865,7 @@ window.ChkUnsavedChanges = {
           input: input,
           original: originalValue,
           current: currentValue,
-          label: this.getInputLabel(input)
+          label: this.getInputLabel(input),
         });
       }
     });
@@ -1866,12 +1880,12 @@ window.ChkUnsavedChanges = {
     // Handle undefined/null comparisons
     if (current == null && original == null) return false;
     if (current == null || original == null) return true;
-    
+
     // For checkboxes, ensure boolean comparison
-    if (typeof current === 'boolean' || typeof original === 'boolean') {
+    if (typeof current === "boolean" || typeof original === "boolean") {
       return Boolean(current) !== Boolean(original);
     }
-    
+
     // For strings, trim and compare
     return String(current).trim() !== String(original).trim();
   },
@@ -1887,12 +1901,13 @@ window.ChkUnsavedChanges = {
     }
 
     // Look for closest label
-    const closestLabel = input.closest('.p-chk-contact-edit__field, .p-chk-address-edit__field')
-                              ?.querySelector('label');
+    const closestLabel = input
+      .closest(".p-chk-contact-edit__field, .p-chk-address-edit__field")
+      ?.querySelector("label");
     if (closestLabel) return closestLabel.textContent.trim();
 
     // Fallback to placeholder or name
-    return input.placeholder || input.name || 'Unknown field';
+    return input.placeholder || input.name || "Unknown field";
   },
 
   /**
@@ -1900,7 +1915,7 @@ window.ChkUnsavedChanges = {
    */
   updateBannerDisplay() {
     const hasChanges = this.state.currentChanges.size > 0;
-    
+
     if (hasChanges) {
       this.showUnsavedBanner();
     } else {
@@ -1913,39 +1928,44 @@ window.ChkUnsavedChanges = {
    */
   showUnsavedBanner() {
     const changes = Array.from(this.state.currentChanges.values());
-    const changeLabels = changes.map(change => change.label).join(', ');
-    
+    const changeLabels = changes.map((change) => change.label).join(", ");
+
     // Create banner if it doesn't exist
-    let banner = document.getElementById('chk-unsaved-changes-banner');
+    let banner = document.getElementById("chk-unsaved-changes-banner");
     if (!banner) {
       banner = this.createBannerElement();
-      
+
       // Try to place banner in designated container, fallback to body
-      const container = document.getElementById('chk-unsaved-changes-banner-container') ||
-                       document.getElementById('chk-unsaved-changes-banner-container-2') ||
-                       document.body;
+      const container =
+        document.getElementById("chk-unsaved-changes-banner-container") ||
+        document.getElementById("chk-unsaved-changes-banner-container-2") ||
+        document.body;
       container.appendChild(banner);
     }
 
     // Update banner content
-    const changesList = banner.querySelector('.p-chk-unsaved-banner__changes-list');
+    const changesList = banner.querySelector(
+      ".p-chk-unsaved-banner__changes-list"
+    );
     if (changesList) {
       changesList.textContent = changeLabels;
     }
 
     // Show banner
-    banner.classList.add('active');
-    
-    console.log(`[ChkUnsavedChanges] Showing banner for ${changes.length} changes: ${changeLabels}`);
+    banner.classList.add("active");
+
+    console.log(
+      `[ChkUnsavedChanges] Showing banner for ${changes.length} changes: ${changeLabels}`
+    );
   },
 
   /**
    * Hide the unsaved changes banner
    */
   hideUnsavedBanner() {
-    const banner = document.getElementById('chk-unsaved-changes-banner');
+    const banner = document.getElementById("chk-unsaved-changes-banner");
     if (banner) {
-      banner.classList.remove('active');
+      banner.classList.remove("active");
     }
   },
 
@@ -1953,10 +1973,10 @@ window.ChkUnsavedChanges = {
    * Create the banner DOM element
    */
   createBannerElement() {
-    const banner = document.createElement('div');
-    banner.id = 'chk-unsaved-changes-banner';
-    banner.className = 'p-chk-unsaved-banner';
-    
+    const banner = document.createElement("div");
+    banner.id = "chk-unsaved-changes-banner";
+    banner.className = "p-chk-unsaved-banner";
+
     banner.innerHTML = `
       <div class="p-chk-unsaved-banner__header">
         <span class="p-chk-unsaved-banner__icon">⚠️</span>
@@ -1987,7 +2007,7 @@ window.ChkUnsavedChanges = {
         </button>
       </div>
     `;
-    
+
     return banner;
   },
 
@@ -1995,14 +2015,14 @@ window.ChkUnsavedChanges = {
    * Save changes and continue navigation
    */
   saveChangesAndContinue() {
-    console.log('[ChkUnsavedChanges] User chose to save changes and continue');
-    
+    console.log("[ChkUnsavedChanges] User chose to save changes and continue");
+
     // Update original values to current values
     this.updateOriginalValues();
-    
+
     // Hide banner
     this.hideUnsavedBanner();
-    
+
     // Trigger any pending navigation
     this.continuePendingNavigation();
   },
@@ -2011,14 +2031,16 @@ window.ChkUnsavedChanges = {
    * Discard changes and continue navigation
    */
   discardChangesAndContinue() {
-    console.log('[ChkUnsavedChanges] User chose to discard changes and continue');
-    
+    console.log(
+      "[ChkUnsavedChanges] User chose to discard changes and continue"
+    );
+
     // Restore original values
     this.restoreOriginalValues();
-    
+
     // Hide banner
     this.hideUnsavedBanner();
-    
+
     // Trigger any pending navigation
     this.continuePendingNavigation();
   },
@@ -2027,8 +2049,8 @@ window.ChkUnsavedChanges = {
    * Cancel navigation and keep editing
    */
   cancelNavigation() {
-    console.log('[ChkUnsavedChanges] User chose to cancel navigation');
-    
+    console.log("[ChkUnsavedChanges] User chose to cancel navigation");
+
     // Just hide banner - keep changes as they are
     this.hideUnsavedBanner();
   },
@@ -2038,13 +2060,13 @@ window.ChkUnsavedChanges = {
    */
   updateOriginalValues() {
     const formInputs = this.getTrackableInputs();
-    
-    formInputs.forEach(input => {
+
+    formInputs.forEach((input) => {
       const key = this.getInputKey(input);
       const value = this.getInputValue(input);
       this.state.originalValues.set(key, value);
     });
-    
+
     this.state.currentChanges.clear();
   },
 
@@ -2055,17 +2077,17 @@ window.ChkUnsavedChanges = {
     this.state.originalValues.forEach((originalValue, key) => {
       const input = this.findInputByKey(key);
       if (input) {
-        if (input.type === 'checkbox' || input.type === 'radio') {
+        if (input.type === "checkbox" || input.type === "radio") {
           input.checked = Boolean(originalValue);
         } else {
-          input.value = originalValue || '';
+          input.value = originalValue || "";
         }
-        
+
         // Trigger change event to update any dependent UI
-        input.dispatchEvent(new Event('change', { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
       }
     });
-    
+
     this.state.currentChanges.clear();
   },
 
@@ -2074,7 +2096,7 @@ window.ChkUnsavedChanges = {
    */
   findInputByKey(key) {
     const formInputs = this.getTrackableInputs();
-    return formInputs.find(input => this.getInputKey(input) === key);
+    return formInputs.find((input) => this.getInputKey(input) === key);
   },
 
   /**
@@ -2082,12 +2104,12 @@ window.ChkUnsavedChanges = {
    */
   continuePendingNavigation() {
     if (this.state.pendingNavigation) {
-      console.log('[ChkUnsavedChanges] Executing pending navigation...');
+      console.log("[ChkUnsavedChanges] Executing pending navigation...");
       const navigation = this.state.pendingNavigation;
       this.state.pendingNavigation = null;
       navigation();
     } else {
-      console.log('[ChkUnsavedChanges] No pending navigation to continue');
+      console.log("[ChkUnsavedChanges] No pending navigation to continue");
     }
   },
 
@@ -2107,11 +2129,11 @@ window.ChkUnsavedChanges = {
     this.state.originalValues.clear();
     this.hideUnsavedBanner();
     this.captureOriginalValues();
-  }
+  },
 };
 
 // Initialize the unsaved changes system when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", function () {
   // Small delay to ensure all other initialization is complete
   setTimeout(() => {
     window.ChkUnsavedChanges.init();
