@@ -31,6 +31,72 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // Payment form interaction handlers - show blue header when user interacts with forms
+  // Consolidated payment form interaction handlers
+  const paymentFormSelectors = [
+    ".p-chk-cca__card input, .p-chk-cca__card select, .p-chk-cca__card textarea",
+    ".p-chk-pcard__container input, .p-chk-pcard__container select, .p-chk-pcard__dropdown",
+    ".p-chk-user-card__container input, .p-chk-user-card__container select, .p-chk-user-card__dropdown",
+  ];
+
+  paymentFormSelectors.forEach((selector) => {
+    document.querySelectorAll(selector).forEach((element) => {
+      ["focus", "click"].forEach((event) => {
+        element.addEventListener(event, () => startEditing("payment"));
+      });
+    });
+  });
+
+  // Also trigger on toggle/checkbox clicks for postal and credit cards
+  const postalToggle = document.querySelector(".p-chk-pcard__summary-toggle");
+  if (postalToggle) {
+    postalToggle.addEventListener("change", function () {
+      if (this.checked) {
+        startEditing("payment");
+      }
+    });
+  }
+
+  const creditCardToggle = document.querySelector(
+    ".p-chk-user-card__summary-toggle"
+  );
+  if (creditCardToggle) {
+    creditCardToggle.addEventListener("change", function () {
+      if (this.checked) {
+        startEditing("payment");
+      }
+    });
+  }
+
+  // Arrow direction toggle for toggle buttons
+  function setupToggleButtonRotation() {
+    const toggleButtons = [
+      { button: "postalToggleButton", form: "postalFormSection" },
+      { button: "personalToggleButton", form: "personalFormSection" },
+    ];
+
+    toggleButtons.forEach(({ button, form }) => {
+      const toggleBtn = document.getElementById(button);
+      const formSection = document.getElementById(form);
+
+      if (toggleBtn && formSection) {
+        const path = toggleBtn.querySelector("svg path");
+        if (path) {
+          formSection.addEventListener("show.bs.collapse", () => {
+            path.setAttribute("d", "M3.5 8.75L7 5.25L10.5 8.75"); // Down arrow
+          });
+
+          formSection.addEventListener("hide.bs.collapse", () => {
+            path.setAttribute("d", "M3.5 5.25L7 8.75L10.5 5.25"); // Up arrow
+          });
+        }
+      }
+    });
+  }
+
+  // Initialize toggle button rotations
+  setupToggleButtonRotation();
+
   // CCA Voucher functionality with enhanced features
   const ccaMainCheckbox = document.querySelector(
     '[data-chk-element="cca-checkbox"]'
@@ -59,10 +125,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
     ccaMainCheckbox.setAttribute("aria-checked", newState);
 
-    // Get postal card container
-    const postalCardContainer = document
-      .querySelector("#postalCardToggle")
-      ?.closest(".p-chk-card__container");
+    // Get postal card container by class since we removed the postalCardToggle ID
+    const postalCardContainer = document.querySelector(
+      ".p-chk-card__container"
+    );
 
     if (newState) {
       ccaCard.classList.add("expanded");
@@ -228,9 +294,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (ccaMainCheckbox) {
           ccaMainCheckbox.setAttribute("aria-checked", "false");
         }
-
-        // Check if all payment methods are completed
-        checkPaymentCompletion();
       }
     });
   }
@@ -275,360 +338,6 @@ document.addEventListener("DOMContentLoaded", function () {
     ccaCard.classList.remove("expanded");
   }
   resetCCAForm();
-
-  // Payment form interaction handlers - show blue header when user interacts with forms
-  // Consolidated payment form interaction handlers
-  const paymentFormSelectors = [
-    ".p-chk-cca__card input, .p-chk-cca__card select, .p-chk-cca__card textarea",
-    ".p-chk-pcard__container input, .p-chk-pcard__container select, .p-chk-pcard__dropdown",
-    ".p-chk-user-card__container input, .p-chk-user-card__container select, .p-chk-user-card__dropdown",
-  ];
-
-  paymentFormSelectors.forEach((selector) => {
-    document.querySelectorAll(selector).forEach((element) => {
-      ["focus", "click"].forEach((event) => {
-        element.addEventListener(event, () => startEditing("payment"));
-      });
-    });
-  });
-
-  // Also trigger on toggle/checkbox clicks for postal and credit cards
-  const postalToggle = document.querySelector(".p-chk-pcard__summary-toggle");
-  if (postalToggle) {
-    postalToggle.addEventListener("change", function () {
-      if (this.checked) {
-        startEditing("payment");
-      }
-    });
-  }
-
-  const creditCardToggle = document.querySelector(
-    ".p-chk-user-card__summary-toggle"
-  );
-  if (creditCardToggle) {
-    creditCardToggle.addEventListener("change", function () {
-      if (this.checked) {
-        startEditing("payment");
-      }
-    });
-  }
-
-  // Postal Card Component functionality with enhanced features
-  const postalToggleButton = document.getElementById("postalToggleButton");
-  const postalFormSection = document.getElementById("postalFormSection");
-  const postalChargeInput = document.getElementById("postalChargeInput");
-  const postalSaveCheckbox = document.getElementById("postalSaveCheckbox");
-  const postalContinueButton = document.querySelector(
-    '[data-chk-element="postal-continue-button"]'
-  );
-  let isPostalExpanded = false;
-
-  // Main postal toggle functionality
-  function togglePostalForm() {
-    isPostalExpanded = !isPostalExpanded;
-
-    if (isPostalExpanded) {
-      postalToggleButton.classList.add("expanded");
-      postalFormSection.classList.add("expanded");
-    } else {
-      postalToggleButton.classList.remove("expanded");
-      postalFormSection.classList.remove("expanded");
-    }
-  }
-
-  // Event listeners for postal toggle
-  if (postalToggleButton) {
-    postalToggleButton.addEventListener("click", togglePostalForm);
-  }
-
-  // Postal card checkbox functionality
-  let isPostalCheckboxChecked = false;
-
-  if (postalSaveCheckbox) {
-    postalSaveCheckbox.addEventListener("click", function () {
-      isPostalCheckboxChecked = !isPostalCheckboxChecked;
-      this.setAttribute("aria-checked", isPostalCheckboxChecked);
-    });
-
-    // Label click handler
-    const postalCheckboxLabel = document.querySelector(
-      ".p-chk-pcard__checkbox-label"
-    );
-    if (postalCheckboxLabel) {
-      postalCheckboxLabel.addEventListener("click", function (e) {
-        e.preventDefault();
-        postalSaveCheckbox.click();
-      });
-    }
-  }
-
-  // Continue button functionality
-  if (postalContinueButton) {
-    postalContinueButton.addEventListener("click", function () {
-      alert("Postal card information saved successfully!");
-
-      // Close the postal card form after successful submission
-      const postalCardContainer = this.closest(".p-chk-pcard__container");
-      if (postalCardContainer) {
-        // Collapse the postal card form
-        postalCardContainer.classList.remove("expanded");
-
-        // Hide the form content but keep the summary visible
-        const formSection = postalCardContainer.querySelector(
-          '[data-chk-element="postal-form-section"]'
-        );
-        if (formSection) {
-          formSection.style.display = "none";
-        }
-
-        // Show a completed state message or summary
-        const summarySection = postalCardContainer.querySelector(
-          ".p-chk-pcard__summary-section"
-        );
-        if (summarySection) {
-          summarySection.style.display = "block";
-        }
-      }
-
-      // Check if all payment methods are completed
-      checkPaymentCompletion();
-    });
-  }
-
-  // Postal Card dropdown functionality
-  document
-    .querySelectorAll(".p-chk-pcard__dropdown-option")
-    .forEach((option) => {
-      option.addEventListener("click", function () {
-        const dropdown = this.closest(".p-chk-pcard__dropdown");
-        const label = dropdown.querySelector(".p-chk-pcard__dropdown-text");
-        const toggle = dropdown.querySelector(".p-chk-pcard__dropdown-toggle");
-
-        label.textContent = this.textContent;
-        label.classList.add("selected");
-        toggle.checked = false; // Close dropdown
-      });
-    });
-
-  // Close postal dropdowns when clicking outside
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".p-chk-pcard__dropdown")) {
-      document
-        .querySelectorAll(".p-chk-pcard__dropdown-toggle")
-        .forEach((toggle) => {
-          toggle.checked = false;
-        });
-    }
-  });
-
-  // Personal Card Component functionality with enhanced features
-  const personalCardToggle = document.getElementById("personalCardToggle");
-  const personalCardNumber = document.getElementById(
-    "personal-card-number-payment"
-  );
-  const personalCvv = document.getElementById("personal-cvv-payment");
-  const personalSaveCardToggle = document.getElementById(
-    "personalSaveCardToggle"
-  );
-  const personalContinueButton = document.querySelector(
-    '[data-chk-element="personal-continue-button"]'
-  );
-
-  if (personalCardToggle) {
-    personalCardToggle.addEventListener("change", function () {
-      // Additional fallback to ensure content expands
-      const collapsibleContent = document.querySelector(
-        ".p-chk-user-card__collapsible-content"
-      );
-      if (collapsibleContent) {
-        if (this.checked) {
-          collapsibleContent.style.maxHeight = "1000px";
-        } else {
-          collapsibleContent.style.maxHeight = "0";
-        }
-      }
-    });
-  }
-
-  // Save card checkbox functionality
-  if (personalSaveCardToggle) {
-    personalSaveCardToggle.addEventListener("change", function () {});
-  }
-
-  // Personal card form validation function
-  function validatePersonalCardForm(
-    cardNumber,
-    expiryMonth,
-    expiryYear,
-    cvv,
-    cardholderName,
-    container
-  ) {
-    // Check if card number is filled and valid length (13-19 digits)
-    if (
-      !cardNumber ||
-      !cardNumber.value.trim() ||
-      cardNumber.value.replace(/\s/g, "").length < 13
-    ) {
-      cardNumber?.focus();
-      return false;
-    }
-
-    // Check if expiry month is selected (look for dropdown label change)
-    const monthLabel = container.querySelector(
-      '[data-chk-element="personal-month-dropdown"] .p-chk-user-card__dropdown-text'
-    );
-    if (!monthLabel || monthLabel.textContent.trim() === "Month") {
-      return false;
-    }
-
-    // Check if expiry year is selected (look for dropdown label change)
-    const yearLabel = container.querySelector(
-      '[data-chk-element="personal-year-dropdown"] .p-chk-user-card__dropdown-text'
-    );
-    if (!yearLabel || yearLabel.textContent.trim() === "Year") {
-      return false;
-    }
-
-    // Check if CVV is filled (3-4 digits)
-    if (!cvv || !cvv.value.trim() || cvv.value.length < 3) {
-      cvv?.focus();
-      return false;
-    }
-
-    // Check if cardholder name is filled
-    if (!cardholderName || !cardholderName.value.trim()) {
-      cardholderName?.focus();
-      return false;
-    }
-
-    return true;
-  }
-
-  // Continue button functionality
-  if (personalContinueButton) {
-    personalContinueButton.addEventListener("click", function () {
-      // **NEW: Validate form fields before closing**
-      const personalCardContainer = this.closest(".p-chk-user-card__container");
-      if (personalCardContainer) {
-        // Get form fields with correct selectors
-        const cardNumber = personalCardContainer.querySelector(
-          "#personal-card-number-payment"
-        );
-        const cvv = personalCardContainer.querySelector(
-          "#personal-cvv-payment"
-        );
-        const cardholderName = personalCardContainer.querySelector(
-          "#personal-cardholder-payment"
-        );
-
-        // Validate required fields
-        const isValid = validatePersonalCardForm(
-          cardNumber,
-          null,
-          null,
-          cvv,
-          cardholderName,
-          personalCardContainer
-        );
-
-        if (!isValid) {
-          // Don't close the form if validation fails
-          alert(
-            "Please fill in all required card information before continuing."
-          );
-          return;
-        }
-      }
-
-      alert("Personal card information saved successfully!");
-
-      // **MOVED: Only close form after successful validation**
-      if (personalCardContainer) {
-        // Collapse the personal card form
-        personalCardContainer.classList.remove("expanded");
-
-        // Hide the collapsible content (the form)
-        const collapsibleContent = personalCardContainer.querySelector(
-          ".p-chk-user-card__collapsible-content"
-        );
-        if (collapsibleContent) {
-          collapsibleContent.style.display = "none";
-        }
-
-        // Reset the toggle state
-        const summaryToggle = personalCardContainer.querySelector(
-          ".p-chk-user-card__summary-toggle"
-        );
-        if (summaryToggle) {
-          summaryToggle.checked = false;
-        }
-      }
-
-      // Check if all payment methods are completed
-      checkPaymentCompletion();
-    });
-  }
-
-  // Function to check if payment section should be completed
-  function checkPaymentCompletion() {
-    // **REFACTORED: Simplified completion check**
-    const completionChecks = [
-      {
-        selector: '[data-chk-element="cca-card"]',
-        condition: (el) => el && el.style.display === "none",
-      },
-      {
-        selector: '[data-chk-element="postal-form-section"]',
-        condition: (el) => el && el.style.display === "none",
-      },
-      {
-        selector: ".p-chk-user-card__collapsible-content",
-        condition: (el) => el && el.style.display === "none",
-      },
-    ];
-
-    const isAnyCompleted = completionChecks.some((check) => {
-      const element = document.querySelector(check.selector);
-      return check.condition(element);
-    });
-
-    if (isAnyCompleted) {
-      setTimeout(() => {
-        // Use unified header and border radius management
-        SectionManager.manageHeaders("payment", "hide-blue");
-        SectionManager.manageBorderRadius("payment", "restore");
-      }, 500);
-    }
-  }
-
-  // Personal Card dropdown functionality
-  document
-    .querySelectorAll(".p-chk-user-card__dropdown-option")
-    .forEach((option) => {
-      option.addEventListener("click", function () {
-        const dropdown = this.closest(".p-chk-user-card__dropdown");
-        const label = dropdown.querySelector(".p-chk-user-card__dropdown-text");
-        const toggle = dropdown.querySelector(
-          ".p-chk-user-card__dropdown-toggle"
-        );
-
-        label.textContent = this.textContent;
-        label.classList.add("selected");
-        toggle.checked = false; // Close dropdown
-      });
-    });
-
-  // Close personal dropdowns when clicking outside
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".p-chk-user-card__dropdown")) {
-      document
-        .querySelectorAll(".p-chk-user-card__dropdown-toggle")
-        .forEach((toggle) => {
-          toggle.checked = false;
-        });
-    }
-  });
 
   // Card number formatting using Inputmask library
   function initializeCardNumberMasks() {
@@ -728,71 +437,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Initialize CVV masks
   initializeCVVMasks();
-
-  // Complete order button
-  const completeOrderBtn = document.querySelector(
-    ".p-chk-global__button--primary"
-  );
-
-  // Place Order button from Order Summary
-  const placeOrderBtn = document.querySelector(
-    ".p-chk-order-summary__place-order-button"
-  );
-
-  if (completeOrderBtn) {
-    completeOrderBtn.addEventListener("click", function () {
-      // Basic validation - check if at least one form has data
-      const postalCardNumber = document.getElementById(
-        "postal-card-number-payment"
-      )?.value;
-      const personalCardNumber = document.getElementById(
-        "personal-card-number-payment"
-      )?.value;
-
-      if (postalCardNumber || personalCardNumber) {
-        alert("Order completed successfully!");
-      } else {
-        alert("Please fill in payment information.");
-      }
-    });
-  }
-
-  if (placeOrderBtn) {
-    placeOrderBtn.addEventListener("click", function (e) {
-      e.preventDefault();
-
-      // Use integrated Galls-style validation
-      if (!submitOrder()) {
-        return; // Validation failed, don't proceed
-      }
-
-      // Check payment information
-      const postalCardNumber = document.getElementById(
-        "postal-card-number-payment"
-      )?.value;
-      const personalCardNumber = document.getElementById(
-        "personal-card-number-payment"
-      )?.value;
-
-      if (postalCardNumber || personalCardNumber) {
-        // Simulate order processing
-        this.disabled = true;
-        this.querySelector(
-          ".p-chk-order-summary__place-order-text"
-        ).textContent = "Processing...";
-
-        setTimeout(() => {
-          alert("Order placed successfully!");
-          this.disabled = false;
-          this.querySelector(
-            ".p-chk-order-summary__place-order-text"
-          ).textContent = "Place Order";
-        }, 2000);
-      } else {
-        alert("Please fill in payment information.");
-      }
-    });
-  }
 });
 
 // Section Edit Functionality
