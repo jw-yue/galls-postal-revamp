@@ -160,6 +160,7 @@
                 class="p-chk-info-card__edit-button"
                 data-edit-button="contact"
                 id="contactEditButton"
+                onclick="GallsCheckout.handleEditButtonClick('contact')"
               >
                 Edit
               </button>
@@ -223,7 +224,11 @@
               </div>
 
               <div class="p-chk-contact-edit__actions">
-                <button class="p-chk-primary-button" data-complete-edit>
+                <button
+                  class="p-chk-primary-button"
+                  data-complete-edit
+                  onclick="GallsCheckout.handleCompleteButtonClick(this)"
+                >
                   Complete
                 </button>
               </div>
@@ -249,6 +254,7 @@
                 class="p-chk-info-card__edit-button"
                 data-edit-button="delivery"
                 id="deliveryEditButton"
+                onclick="GallsCheckout.handleEditButtonClick('delivery')"
               >
                 Edit
               </button>
@@ -360,7 +366,11 @@
                 </div>
               </div>
               <div class="p-chk-address-edit__actions">
-                <button class="p-chk-primary-button" data-complete-edit>
+                <button
+                  class="p-chk-primary-button"
+                  data-complete-edit
+                  onclick="GallsCheckout.handleCompleteButtonClick(this)"
+                >
                   Complete
                 </button>
               </div>
@@ -382,7 +392,10 @@
         </section>
 
         <!-- Payment Section with Product List and Card Forms -->
-        <section data-editable-section="payment">
+        <section
+          data-editable-section="payment"
+          onclick="GallsCheckout.handlePaymentCardClick(event)"
+        >
           <div
             class="p-chk-payment-header active"
             data-section-header="payment"
@@ -618,8 +631,14 @@
                         aria-checked="false"
                         tabindex="0"
                         data-chk-element="cca-checkbox"
+                        onclick="GallsCheckout.handleCCAForm.handleCCACheckboxClick(event)"
+                        onkeydown="GallsCheckout.handleCCAForm.handleCCACheckboxKeydown(event)"
                       ></div>
-                      <label class="p-chk-cca__label" for="cca-checkbox">
+                      <label
+                        class="p-chk-cca__label"
+                        for="cca-checkbox"
+                        onclick="GallsCheckout.handleCCAForm.handleCCALabelClick(event)"
+                      >
                         Use your
                         <span class="bold-text">CCA Allowance Voucher</span>
                       </label>
@@ -653,6 +672,7 @@
                               id="cca-supervisor-email"
                               onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
                               onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                              oninput="GallsCheckout.handleCCAForm.handleSupervisorEmailInput()"
                             />
                           </div>
 
@@ -664,6 +684,7 @@
                               id="cca-supervisor-phone"
                               onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
                               onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                              oninput="GallsCheckout.handleCCAForm.handleSupervisorPhoneInput()"
                             />
                           </div>
 
@@ -681,6 +702,7 @@
                                     href="#"
                                     class="p-chk-cca__upload-link"
                                     data-chk-element="file-upload-link"
+                                    onclick="GallsCheckout.handleCCAForm.handleFileUploadClick(event)"
                                     >Choose a file to upload</a
                                   >
                                   <div class="p-chk-cca__accepted-formats">
@@ -704,6 +726,7 @@
                             <button
                               class="p-chk-cca__upload-voucher-button"
                               data-chk-element="upload-button"
+                              onclick="GallsCheckout.handleCCAForm.handleUploadButtonClick(event)"
                             >
                               <span class="p-chk-cca__upload-voucher-text"
                                 >Upload Voucher</span
@@ -719,10 +742,13 @@
                                 tabindex="0"
                                 aria-checked="false"
                                 data-chk-element="disclaimer-checkbox"
+                                onclick="GallsCheckout.handleCCAForm.toggleDisclaimerCheckbox()"
+                                onkeydown="GallsCheckout.handleCCAForm.handleDisclaimerKeydown(event)"
                               ></div>
                               <label
                                 class="p-chk-cca__disclaimer-label"
                                 for="disclaimer-checkbox"
+                                onclick="GallsCheckout.handleCCAForm.handleDisclaimerLabelClick(event)"
                               >
                                 I do not wish to upload my voucher at this time.
                                 I acknowledge I am still required to provide my
@@ -738,6 +764,7 @@
                         class="p-chk-primary-button"
                         disabled
                         data-chk-element="submit-button"
+                        onclick="GallsCheckout.handleCCAForm.handleSubmitButtonClick(event)"
                       >
                         Confirm & Submit
                       </button>
