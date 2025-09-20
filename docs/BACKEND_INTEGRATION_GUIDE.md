@@ -12,6 +12,8 @@
 
 ---
 
+Note: ES6 modules can't be loaded from the folder protocol due to CORS restrictions. We need to serve the files over HTTP. To run local server with node, run npx http-server -p 8000
+
 ## High-Level Architecture
 
 ### Overview
