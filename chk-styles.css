@@ -1071,6 +1071,7 @@ body {
   padding: 12px 20px 0px 20px;
   gap: 21px;
   border-radius: 6px;
+  padding-bottom: 11px;
 }
 
 .p-chk-user-card__title {
@@ -1340,66 +1341,6 @@ body {
 }
 
 /* CCA Voucher Styles */
-.p-chk-cca__container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  padding: 20px;
-  background-color: #fff;
-  border-radius: 12px;
-  border: 1px solid #e3e3e3;
-}
-
-.p-chk-cca__checkbox-container {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background-color: transparent;
-}
-
-.p-chk-cca__checkbox {
-  width: 18px;
-  height: 18px;
-  display: flex;
-  align-items: center;
-  padding: 2px;
-  gap: 10px;
-  border-radius: 3px;
-  background-color: #fdfdfd;
-  border: 1px solid #8a8a8a;
-  cursor: pointer;
-}
-
-.p-chk-cca__checkbox[aria-checked="true"] {
-  background-color: #000000;
-  border-color: #000000;
-  background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-.p-chk-cca__checkbox:hover {
-  border-color: #666666;
-}
-
-.p-chk-cca__checkbox[aria-checked="true"]:hover {
-  background-color: #333333;
-  border-color: #333333;
-}
-
-.p-chk-cca__label {
-  color: #000000;
-  font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 16px;
-  text-align: left;
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  text-wrap: nowrap;
-}
 
 .p-chk-cca__label .bold-text {
   font-weight: 700;
@@ -1407,23 +1348,6 @@ body {
 }
 
 /* CCA Card Styles with Smooth Animation */
-.p-chk-cca__card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 16px;
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  opacity: 1;
-  max-height: 800px;
-}
-
-.p-chk-cca__card.expanded {
-  max-height: 800px;
-  opacity: 1;
-}
 
 .p-chk-cca__amount-container {
   width: 100%;
@@ -1431,11 +1355,10 @@ body {
   display: flex;
   align-items: stretch;
   gap: 0;
-  border-radius: 12px;
+  border-radius: 6px;
   background-color: #ffffff;
   border: 1px solid #e3e3e3;
   overflow: hidden;
-  margin-top: 12px;
 }
 
 .p-chk-cca__dollar-sign {
@@ -1467,13 +1390,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 12px;
-}
-
-.p-chk-cca__form-fields {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 .p-chk-cca__upload-section {
@@ -1603,30 +1519,6 @@ body {
   width: 100%;
   gap: 12px;
   align-items: flex-start;
-}
-
-.p-chk-cca__disclaimer-checkbox {
-  display: flex;
-  align-items: center;
-  padding: 2px;
-  width: 18px;
-  height: 18px;
-  gap: 10px;
-  border-radius: 3px;
-  background-color: #fdfdfd;
-  border: 1px solid #8a8a8a;
-  cursor: pointer;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.p-chk-cca__disclaimer-checkbox.checked {
-  background-color: #000000;
-  border-color: #000000;
-  background-image: url("https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/141eb57e-16fe-4a06-8e58-7b9c4c5eddf5");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
 }
 
 .p-chk-cca__disclaimer-label {

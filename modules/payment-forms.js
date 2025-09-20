@@ -5,11 +5,11 @@
 
 // Card number formatting using Inputmask library
 function initializeCardNumberMasks() {
-  const cardNumberInputs = document.querySelectorAll(
-    "#postal-card-number-payment, #personal-card-number-payment"
+  const cardInputs = document.querySelectorAll(
+    "#chkPostalCardNumber, #chkPersonalCardNumber"
   );
 
-  cardNumberInputs.forEach((input) => {
+  cardInputs.forEach((input) => {
     // Apply credit card mask for 4 major card types
     const cardMask = new Inputmask({
       mask: [
@@ -68,9 +68,7 @@ function initializeCardNumberMasks() {
 
 // CVV formatting using Inputmask library
 function initializeCVVMasks() {
-  const cvvInputs = document.querySelectorAll(
-    "#postal-cvv-payment, #personal-cvv-payment"
-  );
+  const cvvInputs = document.querySelectorAll("#chkPostalCVV, #chkPersonalCVV");
 
   cvvInputs.forEach((input) => {
     // Apply CVV mask (3-4 digits)
@@ -99,8 +97,8 @@ function initializeCVVMasks() {
 // Arrow direction toggle for toggle buttons (Bootstrap collapse specific)
 function setupToggleButtonRotation() {
   const toggleButtons = [
-    { button: "postalToggleButton", form: "postalFormSection" },
-    { button: "personalToggleButton", form: "personalFormSection" },
+    { button: "chkPostalToggleButton", form: "chkPostalFormSection" },
+    { button: "chkPersonalToggleButton", form: "chkPersonalFormSection" },
   ];
 
   toggleButtons.forEach(({ button, form }) => {
@@ -192,10 +190,10 @@ function updateSubmitButtonState() {
     disclaimerCheckbox &&
     disclaimerCheckbox.getAttribute("aria-checked") === "true";
   const supervisorEmail = document
-    .getElementById("cca-supervisor-email")
+    .getElementById("chkCCASupervisorEmail")
     ?.value.trim();
   const supervisorPhone = document
-    .getElementById("cca-supervisor-phone")
+    .getElementById("chkCCASupervisorPhone")
     ?.value.trim();
 
   const canSubmit =
@@ -233,8 +231,8 @@ function validateCCAForm() {
     fileNameInput &&
     fileNameInput.value.trim() &&
     fileNameInput.value !== "Voucher_Upload.pdf";
-  const supervisorEmail = document.getElementById("cca-supervisor-email");
-  const supervisorPhone = document.getElementById("cca-supervisor-phone");
+  const supervisorEmail = document.getElementById("chkCCASupervisorEmail");
+  const supervisorPhone = document.getElementById("chkCCASupervisorPhone");
   const hasEmail = supervisorEmail && supervisorEmail.value.trim();
   const hasPhone = supervisorPhone && supervisorPhone.value.trim();
   const disclaimerChecked =
@@ -242,59 +240,6 @@ function validateCCAForm() {
     disclaimerCheckbox.getAttribute("aria-checked") === "true";
 
   return (hasFile || disclaimerChecked) && hasEmail && hasPhone;
-}
-
-// CCA Event Handlers
-function handleCCACheckboxClick(event) {
-  event.preventDefault();
-  event.stopPropagation();
-  toggleCCAMain();
-}
-
-function handleCCACheckboxKeydown(event) {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    event.stopPropagation();
-    toggleCCAMain();
-  }
-}
-
-function handleCCALabelClick(event) {
-  event.preventDefault();
-  toggleCCAMain();
-}
-
-function toggleDisclaimerCheckbox() {
-  const disclaimerCheckbox = document.querySelector(
-    '[data-chk-element="disclaimer-checkbox"]'
-  );
-  if (!disclaimerCheckbox) return;
-
-  const isChecked = disclaimerCheckbox.getAttribute("aria-checked") === "true";
-  const newState = !isChecked;
-
-  disclaimerCheckbox.setAttribute("aria-checked", newState);
-
-  if (newState) {
-    disclaimerCheckbox.classList.add("checked");
-  } else {
-    disclaimerCheckbox.classList.remove("checked");
-  }
-
-  // Update submit button state
-  updateSubmitButtonState();
-}
-
-function handleDisclaimerKeydown(event) {
-  if (event.key === "Enter" || event.key === " ") {
-    event.preventDefault();
-    toggleDisclaimerCheckbox();
-  }
-}
-
-function handleDisclaimerLabelClick(event) {
-  event.preventDefault();
-  toggleDisclaimerCheckbox();
 }
 
 function handleFileUploadClick(event) {
@@ -371,12 +316,6 @@ const handleCCAForm = {
   hideCCACard,
   validateCCAForm,
   resetCCAForm,
-  handleCCACheckboxClick,
-  handleCCACheckboxKeydown,
-  handleCCALabelClick,
-  toggleDisclaimerCheckbox,
-  handleDisclaimerKeydown,
-  handleDisclaimerLabelClick,
   handleFileUploadClick,
   handleUploadButtonClick,
   handleSupervisorEmailInput,

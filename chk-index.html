@@ -623,151 +623,196 @@
                 <!-- Right Side: Card Forms Stack -->
                 <div class="p-chk-payment-section__right">
                   <!-- 1. CCA Voucher Form -->
-                  <div class="p-chk-cca__container">
-                    <div class="p-chk-cca__checkbox-container">
-                      <div
-                        class="p-chk-cca__checkbox"
-                        role="checkbox"
-                        aria-checked="false"
-                        tabindex="0"
-                        data-chk-element="cca-checkbox"
-                        onclick="GallsCheckout.handleCCAForm.handleCCACheckboxClick(event)"
-                        onkeydown="GallsCheckout.handleCCAForm.handleCCACheckboxKeydown(event)"
-                      ></div>
-                      <label
-                        class="p-chk-cca__label"
-                        for="cca-checkbox"
-                        onclick="GallsCheckout.handleCCAForm.handleCCALabelClick(event)"
-                      >
-                        Use your
-                        <span class="bold-text">CCA Allowance Voucher</span>
-                      </label>
+                  <div class="p-chk-user-card__container">
+                    <div class="p-chk-user-card__header">
+                      <div class="form-check mb-0">
+                        <input
+                          class="form-check-input"
+                          type="checkbox"
+                          id="chkCCACheckbox"
+                          data-chk-element="cca-checkbox"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#chkCCAFormSection"
+                          aria-expanded="false"
+                          aria-controls="chkCCAFormSection"
+                        />
+                        <label
+                          class="form-check-label p-chk-cca__label"
+                          for="chkCCACheckbox"
+                        >
+                          Use your
+                          <span class="bold-text">CCA Allowance Voucher</span>
+                        </label>
+                      </div>
                     </div>
 
-                    <div class="p-chk-cca__card" data-chk-element="cca-card">
-                      <div class="p-chk-cca__amount-container">
-                        <div class="p-chk-cca__dollar-sign">$</div>
-                        <div class="p-chk-cca__file-allowance-field">
-                          <input
-                            type="text"
-                            class="p-chk-form__input-text"
-                            placeholder="104.97"
-                            data-chk-element="allowance-amount-input"
-                          />
+                    <div
+                      class="p-chk-user-card__collapsible-content collapse"
+                      id="chkCCAFormSection"
+                    >
+                      <div
+                        class="p-chk-user-card__content pt-0"
+                        data-chk-element="cca-card"
+                      >
+                        <div class="p-chk-cca__amount-container">
+                          <div class="p-chk-cca__dollar-sign">$</div>
+                          <div class="p-chk-cca__file-allowance-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              placeholder="104.97"
+                              data-chk-element="allowance-amount-input"
+                            />
+                          </div>
                         </div>
-                      </div>
 
-                      <div class="p-chk-cca__description">
-                        We require a manager approved CCA voucher to process
-                        your order
-                      </div>
+                        <div class="p-chk-cca__description">
+                          We require a manager approved CCA voucher to process
+                          your order
+                        </div>
 
-                      <div class="p-chk-cca__form-container">
-                        <div class="p-chk-cca__form-fields">
-                          <div class="p-chk-form__input-field">
-                            <input
-                              type="email"
-                              class="p-chk-form__input-text"
-                              placeholder="Paying Supervisor Email"
-                              id="cca-supervisor-email"
-                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
-                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
-                              oninput="GallsCheckout.handleCCAForm.handleSupervisorEmailInput()"
-                            />
-                          </div>
-
-                          <div class="p-chk-form__input-field">
-                            <input
-                              type="tel"
-                              class="p-chk-form__input-text"
-                              placeholder="Paying Supervisor Phone"
-                              id="cca-supervisor-phone"
-                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
-                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
-                              oninput="GallsCheckout.handleCCAForm.handleSupervisorPhoneInput()"
-                            />
-                          </div>
-
-                          <div class="p-chk-cca__upload-section">
-                            <div class="p-chk-cca__upload-header">
-                              <div class="p-chk-cca__upload-button-row">
-                                <div class="p-chk-cca__upload-icon">
-                                  <img
-                                    src="https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/6eedad85-5cdb-4a3c-8783-a6a922cac9e2"
-                                    alt="Upload icon"
-                                  />
-                                </div>
-                                <div class="p-chk-cca__upload-text-container">
-                                  <a
-                                    href="#"
-                                    class="p-chk-cca__upload-link"
-                                    data-chk-element="file-upload-link"
-                                    onclick="GallsCheckout.handleCCAForm.handleFileUploadClick(event)"
-                                    >Choose a file to upload</a
-                                  >
-                                  <div class="p-chk-cca__accepted-formats">
-                                    Accepted formats: JPEG, JPG, PNG, BMP, DOC,
-                                    DOCX, PDF, TXT
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                            <div class="p-chk-cca__file-name-field">
+                        <div class="p-chk-cca__form-container">
+                          <div class="p-chk-user-card__form-fields">
+                            <div class="p-chk-form__input-field">
                               <input
-                                type="text"
+                                type="email"
                                 class="p-chk-form__input-text"
-                                placeholder="Voucher_Upload.pdf"
-                                data-chk-element="file-name-input"
-                                readonly
+                                placeholder="Paying Supervisor Email"
+                                id="chkCCASupervisorEmail"
+                                onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                                onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                                oninput="GallsCheckout.handleCCAForm.handleSupervisorEmailInput()"
                               />
                             </div>
 
-                            <button
-                              class="p-chk-cca__upload-voucher-button"
-                              data-chk-element="upload-button"
-                              onclick="GallsCheckout.handleCCAForm.handleUploadButtonClick(event)"
-                            >
-                              <span class="p-chk-cca__upload-voucher-text"
-                                >Upload Voucher</span
-                              >
-                            </button>
-                          </div>
+                            <div class="p-chk-form__input-field">
+                              <input
+                                type="tel"
+                                class="p-chk-form__input-text"
+                                placeholder="Paying Supervisor Phone"
+                                id="chkCCASupervisorPhone"
+                                onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                                onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CCA', this);"
+                                oninput="GallsCheckout.handleCCAForm.handleSupervisorPhoneInput()"
+                              />
+                            </div>
 
-                          <div class="p-chk-cca__disclaimer-container">
-                            <div class="p-chk-cca__disclaimer-row">
-                              <div
-                                class="p-chk-cca__disclaimer-checkbox"
-                                role="checkbox"
-                                tabindex="0"
-                                aria-checked="false"
-                                data-chk-element="disclaimer-checkbox"
-                                onclick="GallsCheckout.handleCCAForm.toggleDisclaimerCheckbox()"
-                                onkeydown="GallsCheckout.handleCCAForm.handleDisclaimerKeydown(event)"
-                              ></div>
-                              <label
-                                class="p-chk-cca__disclaimer-label"
-                                for="disclaimer-checkbox"
-                                onclick="GallsCheckout.handleCCAForm.handleDisclaimerLabelClick(event)"
+                            <div class="p-chk-cca__upload-section">
+                              <div class="p-chk-cca__upload-header">
+                                <div class="p-chk-cca__upload-button-row">
+                                  <div class="p-chk-cca__upload-icon">
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="14"
+                                      height="15"
+                                      viewBox="0 0 14 15"
+                                      fill="none"
+                                    >
+                                      <g clip-path="url(#clip0_1110_1036)">
+                                        <path
+                                          d="M2.3335 7.5V12.1667C2.3335 12.4761 2.45641 12.7728 2.6752 12.9916C2.894 13.2104 3.19074 13.3333 3.50016 13.3333H10.5002C10.8096 13.3333 11.1063 13.2104 11.3251 12.9916C11.5439 12.7728 11.6668 12.4761 11.6668 12.1667V7.5"
+                                          stroke="black"
+                                          stroke-width="1.5"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                        />
+                                        <path
+                                          d="M9.33317 4.00033L6.99984 1.66699L4.6665 4.00033"
+                                          stroke="black"
+                                          stroke-width="1.5"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                        />
+                                        <path
+                                          d="M7 1.66699V9.25033"
+                                          stroke="black"
+                                          stroke-width="1.5"
+                                          stroke-linecap="round"
+                                          stroke-linejoin="round"
+                                        />
+                                      </g>
+                                      <defs>
+                                        <clipPath id="clip0_1110_1036">
+                                          <rect
+                                            width="14"
+                                            height="14"
+                                            fill="white"
+                                            transform="translate(0 0.5)"
+                                          />
+                                        </clipPath>
+                                      </defs>
+                                    </svg>
+                                  </div>
+                                  <div class="p-chk-cca__upload-text-container">
+                                    <a
+                                      href="#"
+                                      class="p-chk-cca__upload-link"
+                                      data-chk-element="file-upload-link"
+                                      onclick="GallsCheckout.handleCCAForm.handleFileUploadClick(event)"
+                                      >Choose a file to upload</a
+                                    >
+                                    <div class="p-chk-cca__accepted-formats">
+                                      Accepted formats: JPEG, JPG, PNG, BMP,
+                                      DOC, DOCX, PDF, TXT
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div class="p-chk-cca__file-name-field">
+                                <input
+                                  type="text"
+                                  class="p-chk-form__input-text"
+                                  placeholder="Voucher_Upload.pdf"
+                                  data-chk-element="file-name-input"
+                                  readonly
+                                />
+                              </div>
+
+                              <button
+                                class="p-chk-cca__upload-voucher-button"
+                                data-chk-element="upload-button"
+                                onclick="GallsCheckout.handleCCAForm.handleUploadButtonClick(event)"
                               >
-                                I do not wish to upload my voucher at this time.
-                                I acknowledge I am still required to provide my
-                                voucher for verification before my order will be
-                                processed
-                              </label>
+                                <span class="p-chk-cca__upload-voucher-text"
+                                  >Upload Voucher</span
+                                >
+                              </button>
+                            </div>
+
+                            <div class="p-chk-cca__disclaimer-container">
+                              <div class="p-chk-cca__disclaimer-row">
+                                <div class="form-check">
+                                  <input
+                                    class="form-check-input"
+                                    type="checkbox"
+                                    id="chkDisclaimerCheckbox"
+                                    data-chk-element="disclaimer-checkbox"
+                                  />
+                                  <label
+                                    class="form-check-label p-chk-cca__disclaimer-label"
+                                    for="chkDisclaimerCheckbox"
+                                  >
+                                    I do not wish to upload my voucher at this
+                                    time. I acknowledge I am still required to
+                                    provide my voucher for verification before
+                                    my order will be processed
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                           </div>
                         </div>
-                      </div>
 
-                      <button
-                        class="p-chk-primary-button"
-                        disabled
-                        data-chk-element="submit-button"
-                        onclick="GallsCheckout.handleCCAForm.handleSubmitButtonClick(event)"
-                      >
-                        Confirm & Submit
-                      </button>
+                        <button
+                          class="p-chk-primary-button"
+                          disabled
+                          data-chk-element="submit-button"
+                          onclick="GallsCheckout.handleCCAForm.handleSubmitButtonClick(event)"
+                        >
+                          Confirm & Submit
+                        </button>
+                      </div>
                     </div>
                   </div>
 
@@ -777,13 +822,13 @@
                       <div class="p-chk-user-card__title">Add Postal Card</div>
                       <button
                         class="p-chk-card__toggle-button"
-                        id="postalToggleButton"
+                        id="chkPostalToggleButton"
                         data-chk-element="postal-toggle-button"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#postalFormSection"
+                        data-bs-target="#chkPostalFormSection"
                         aria-expanded="false"
-                        aria-controls="postalFormSection"
+                        aria-controls="chkPostalFormSection"
                         title="Toggle Postal Card Form"
                       >
                         <svg
@@ -816,7 +861,7 @@
 
                     <div
                       class="p-chk-user-card__collapsible-content collapse"
-                      id="postalFormSection"
+                      id="chkPostalFormSection"
                     >
                       <div class="p-chk-user-card__content">
                         <div class="p-chk-user-card__section-header">
@@ -848,7 +893,7 @@
                                 type="text"
                                 class="p-chk-form__input-text"
                                 placeholder="Postal Card Number"
-                                id="postal-card-number-payment"
+                                id="chkPostalCardNumber"
                                 onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('POSTAL', this);"
                                 onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('POSTAL', this);"
                               />
@@ -858,7 +903,7 @@
                               <!-- Month Select -->
                               <select
                                 class="form-select"
-                                id="postalMonthSelect"
+                                id="chkPostalMonthSelect"
                                 name="postal-month"
                                 title="Select expiration month"
                                 required
@@ -883,7 +928,7 @@
                               <!-- Year Select -->
                               <select
                                 class="form-select"
-                                id="postalYearSelect"
+                                id="chkPostalYearSelect"
                                 name="postal-year"
                                 title="Select expiration year"
                                 required
@@ -910,7 +955,7 @@
                                   class="p-chk-form__input-text"
                                   placeholder="CVV"
                                   maxlength="4"
-                                  id="postal-cvv-payment"
+                                  id="chkPostalCVV"
                                 />
                               </div>
                             </div>
@@ -920,7 +965,7 @@
                                 type="text"
                                 class="p-chk-form__input-text"
                                 placeholder="Name on card"
-                                id="postal-cardholder-payment"
+                                id="chkPostalCardholder"
                               />
                             </div>
                           </div>
@@ -959,13 +1004,13 @@
                       </div>
                       <button
                         class="p-chk-card__toggle-button"
-                        id="personalToggleButton"
+                        id="chkPersonalToggleButton"
                         data-chk-element="personal-toggle-button"
                         type="button"
                         data-bs-toggle="collapse"
-                        data-bs-target="#personalFormSection"
+                        data-bs-target="#chkPersonalFormSection"
                         aria-expanded="false"
-                        aria-controls="personalFormSection"
+                        aria-controls="chkPersonalFormSection"
                         title="Toggle Personal Card Form"
                       >
                         <svg
@@ -999,7 +1044,7 @@
 
                     <div
                       class="p-chk-user-card__collapsible-content collapse"
-                      id="personalFormSection"
+                      id="chkPersonalFormSection"
                     >
                       <div class="p-chk-user-card__content">
                         <div class="p-chk-user-card__section-header">
@@ -1020,7 +1065,7 @@
                               class="p-chk-form__input-text"
                               placeholder="Enter Card Number"
                               maxlength="19"
-                              id="personal-card-number-payment"
+                              id="chkPersonalCardNumber"
                               data-chk-element="personal-card-number"
                               onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                               onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
@@ -1031,7 +1076,7 @@
                             <!-- Month Select -->
                             <select
                               class="form-select"
-                              id="personalMonthSelect"
+                              id="chkPersonalMonthSelect"
                               name="personal-month"
                               title="Select expiration month"
                               required
@@ -1054,7 +1099,7 @@
                             <!-- Year Select -->
                             <select
                               class="form-select"
-                              id="personalYearSelect"
+                              id="chkPersonalYearSelect"
                               name="personal-year"
                               title="Select expiration year"
                               required
@@ -1081,7 +1126,7 @@
                                 class="p-chk-form__input-text"
                                 placeholder="CVV"
                                 maxlength="4"
-                                id="personal-cvv-payment"
+                                id="chkPersonalCVV"
                                 onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                                 onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                               />
@@ -1093,7 +1138,7 @@
                               type="text"
                               class="p-chk-form__input-text"
                               placeholder="Name on card"
-                              id="personal-cardholder-payment"
+                              id="chkPersonalCardholder"
                               onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                               onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('PERSONAL', this);"
                             />
