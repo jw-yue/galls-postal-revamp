@@ -817,13 +817,30 @@
                                   style="display: none"
                                   data-chk-voucher-upload-success
                                 >
-                                  voucher Upload Success
+                                  <div
+                                    class="alert alert-success"
+                                    id="successMsg"
+                                  >
+                                    <svg class="alert-icon">
+                                      <use
+                                        href="/images/icons/feather-sprite.svg#check-circle"
+                                      ></use>
+                                    </svg>
+                                    <b>Voucher upload successful</b>
+                                  </div>
                                 </div>
                                 <div
                                   style="display: none"
                                   data-chk-voucher-upload-error
                                 >
-                                  voucher Upload Error
+                                  <div class="alert alert-danger" id="errorMsg">
+                                    <svg class="alert-icon">
+                                      <use
+                                        href="/images/icons/feather-sprite.svg#alert-octagon"
+                                      ></use>
+                                    </svg>
+                                    <b>Voucher upload unsuccessful</b>
+                                  </div>
                                 </div>
                               </div>
                             </div>

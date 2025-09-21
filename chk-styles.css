@@ -12,6 +12,20 @@ body {
   line-height: 1.4;
 }
 
+:root {
+  --base-success-text: #0c5132;
+  --base-success-bg: #cdfee1;
+  --base-success-border: #92fec2;
+
+  /* Critical */
+  --base-critical-bg: #fee9e8;
+  --base-critical-text: #8e1f0b;
+  --base-critical-fill: #e51c00;
+  --base-critical-onFill: #fffafb;
+  --base-critical-border: #fec3c1;
+  --base-critical-icon: #ef4d2f;
+}
+
 /* Bootstrap Overrides */
 .form-check-input {
   cursor: pointer;
@@ -46,7 +60,30 @@ body {
   box-shadow: none;
   cursor: pointer;
 }
-/* EndBootstrap Overrides */
+
+.alert.alert-success {
+  color: var(--base-success-text);
+  background-color: var(--base-success-bg);
+  border-color: var(--base-success-border);
+}
+
+.alert-danger {
+  color: var(--base-critical-text);
+  background-color: var(--base-critical-bg);
+  border-color: var(--base-critical-border);
+}
+
+.alert-icon {
+  width: 24px;
+  height: 24px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  flex-shrink: 0;
+}
+/* End Bootstrap Overrides */
 
 /* Global Checkout Styles */
 .p-chk-global__input {
@@ -1896,6 +1933,10 @@ body {
   .p-chk-main__container {
     flex-direction: column-reverse;
     gap: 20px;
+  }
+
+  .p-chk-main__content {
+    width: 100%;
   }
 
   .p-chk-main__sidebar {
