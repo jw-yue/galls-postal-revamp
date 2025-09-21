@@ -153,12 +153,13 @@ function resetCCAForm() {
   const errorMessage = document.querySelector(
     "[data-chk-voucher-upload-error]"
   );
+  const voucherForm = document.getElementById("chkCCAVoucherUploadSection");
 
   if (fileNameInput) {
     fileNameInput.value = "Name your file";
   }
   if (disclaimerCheckbox) {
-    disclaimerCheckbox.checked = false;
+    disclaimerCheckbox.setAttribute("aria-expanded", "true");
   }
   if (submitButton) {
     submitButton.disabled = true;
@@ -171,6 +172,14 @@ function resetCCAForm() {
   }
   if (errorMessage) {
     errorMessage.style.display = "none";
+  }
+
+  // Reset voucher form to shown state (since disclaimer unchecked means they want to upload)
+  if (voucherForm) {
+    const bsCollapse = new bootstrap.Collapse(voucherForm, {
+      toggle: false,
+    });
+    bsCollapse.show();
   }
 
   // Hide remove button on reset

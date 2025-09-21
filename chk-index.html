@@ -901,148 +901,159 @@
                               />
                             </div>
 
-                            <div class="p-chk-cca__upload-section">
-                              <div class="p-chk-cca__upload-header">
-                                <div class="p-chk-cca__upload-button-row">
-                                  <div class="p-chk-cca__upload-icon">
-                                    <svg
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      width="14"
-                                      height="15"
-                                      viewBox="0 0 14 15"
-                                      fill="none"
-                                    >
-                                      <g clip-path="url(#clip0_1110_1036)">
-                                        <path
-                                          d="M2.3335 7.5V12.1667C2.3335 12.4761 2.45641 12.7728 2.6752 12.9916C2.894 13.2104 3.19074 13.3333 3.50016 13.3333H10.5002C10.8096 13.3333 11.1063 13.2104 11.3251 12.9916C11.5439 12.7728 11.6668 12.4761 11.6668 12.1667V7.5"
-                                          stroke="black"
-                                          stroke-width="1.5"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                        />
-                                        <path
-                                          d="M9.33317 4.00033L6.99984 1.66699L4.6665 4.00033"
-                                          stroke="black"
-                                          stroke-width="1.5"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                        />
-                                        <path
-                                          d="M7 1.66699V9.25033"
-                                          stroke="black"
-                                          stroke-width="1.5"
-                                          stroke-linecap="round"
-                                          stroke-linejoin="round"
-                                        />
-                                      </g>
-                                      <defs>
-                                        <clipPath id="clip0_1110_1036">
-                                          <rect
-                                            width="14"
-                                            height="14"
-                                            fill="white"
-                                            transform="translate(0 0.5)"
+                            <div
+                              class="show"
+                              id="chkCCAVoucherUploadSection"
+                              data-chk-cca-voucher-upload
+                            >
+                              <div class="p-chk-cca__upload-section">
+                                <div class="p-chk-cca__upload-header">
+                                  <div class="p-chk-cca__upload-button-row">
+                                    <div class="p-chk-cca__upload-icon">
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="14"
+                                        height="15"
+                                        viewBox="0 0 14 15"
+                                        fill="none"
+                                      >
+                                        <g clip-path="url(#clip0_1110_1036)">
+                                          <path
+                                            d="M2.3335 7.5V12.1667C2.3335 12.4761 2.45641 12.7728 2.6752 12.9916C2.894 13.2104 3.19074 13.3333 3.50016 13.3333H10.5002C10.8096 13.3333 11.1063 13.2104 11.3251 12.9916C11.5439 12.7728 11.6668 12.4761 11.6668 12.1667V7.5"
+                                            stroke="black"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
                                           />
-                                        </clipPath>
-                                      </defs>
-                                    </svg>
-                                  </div>
-                                  <div class="p-chk-cca__upload-text-container">
-                                    <a
-                                      href="#"
-                                      class="p-chk-cca__upload-link"
-                                      data-chk-element="file-upload-link"
-                                      onclick="GallsCheckout.handleCCAForm.handleFileUploadClick(event)"
-                                      >Choose a file to upload</a
+                                          <path
+                                            d="M9.33317 4.00033L6.99984 1.66699L4.6665 4.00033"
+                                            stroke="black"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                          <path
+                                            d="M7 1.66699V9.25033"
+                                            stroke="black"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                          />
+                                        </g>
+                                        <defs>
+                                          <clipPath id="clip0_1110_1036">
+                                            <rect
+                                              width="14"
+                                              height="14"
+                                              fill="white"
+                                              transform="translate(0 0.5)"
+                                            />
+                                          </clipPath>
+                                        </defs>
+                                      </svg>
+                                    </div>
+                                    <div
+                                      class="p-chk-cca__upload-text-container"
                                     >
-                                    <div class="p-chk-cca__accepted-formats">
-                                      Accepted formats: JPEG, JPG, PNG, BMP,
-                                      DOC, DOCX, PDF, TXT
+                                      <a
+                                        href="#"
+                                        class="p-chk-cca__upload-link"
+                                        data-chk-element="file-upload-link"
+                                        onclick="GallsCheckout.handleCCAForm.handleFileUploadClick(event)"
+                                        >Choose a file to upload</a
+                                      >
+                                      <div class="p-chk-cca__accepted-formats">
+                                        Accepted formats: JPEG, JPG, PNG, BMP,
+                                        DOC, DOCX, PDF, TXT
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
 
-                              <div class="p-chk-cca__file-name-field">
-                                <input
-                                  type="text"
-                                  class="p-chk-form__input-text"
-                                  placeholder="Name your file"
-                                  data-chk-element="file-name-input"
-                                  readonly
-                                />
-                                <button
-                                  type="button"
-                                  class="p-chk-cca__remove-file-button"
-                                  data-chk-element="remove-file-button"
-                                  style="display: none"
-                                  onclick="GallsCheckout.handleCCAForm.handleRemoveFileClick(event)"
-                                  aria-label="Remove uploaded file"
-                                >
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="17"
-                                    height="17"
-                                    viewBox="0 0 17 17"
-                                    fill="none"
+                                <div class="p-chk-cca__file-name-field">
+                                  <input
+                                    type="text"
+                                    class="p-chk-form__input-text"
+                                    placeholder="Name your file"
+                                    data-chk-element="file-name-input"
+                                    readonly
+                                  />
+                                  <button
+                                    type="button"
+                                    class="p-chk-cca__remove-file-button"
+                                    data-chk-element="remove-file-button"
+                                    style="display: none"
+                                    onclick="GallsCheckout.handleCCAForm.handleRemoveFileClick(event)"
+                                    aria-label="Remove uploaded file"
                                   >
-                                    <path
-                                      d="M12.75 4.25L4.25 12.75"
-                                      stroke="black"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                    />
-                                    <path
-                                      d="M4.25 4.25L12.75 12.75"
-                                      stroke="black"
-                                      stroke-width="1.5"
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                    />
-                                  </svg>
-                                </button>
-                              </div>
-
-                              <div>
-                                <button
-                                  type="button"
-                                  class="p-chk-cca__upload-voucher-button"
-                                  data-chk-element="upload-button"
-                                  disabled
-                                  onclick="GallsCheckout.handleCCAForm.handleUploadVoucherButtonClick(event)"
-                                >
-                                  <span class="p-chk-cca__upload-voucher-text"
-                                    >Upload Voucher</span
-                                  >
-                                </button>
-                                <div
-                                  style="display: none"
-                                  data-chk-voucher-upload-success
-                                >
-                                  <div
-                                    class="alert alert-success"
-                                    id="successMsg"
-                                  >
-                                    <svg class="alert-icon">
-                                      <use
-                                        href="/images/icons/feather-sprite.svg#check-circle"
-                                      ></use>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      width="17"
+                                      height="17"
+                                      viewBox="0 0 17 17"
+                                      fill="none"
+                                    >
+                                      <path
+                                        d="M12.75 4.25L4.25 12.75"
+                                        stroke="black"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
+                                      <path
+                                        d="M4.25 4.25L12.75 12.75"
+                                        stroke="black"
+                                        stroke-width="1.5"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                      />
                                     </svg>
-                                    <b>Voucher upload successful</b>
-                                  </div>
+                                  </button>
                                 </div>
-                                <div
-                                  style="display: none"
-                                  data-chk-voucher-upload-error
-                                >
-                                  <div class="alert alert-danger" id="errorMsg">
-                                    <svg class="alert-icon">
-                                      <use
-                                        href="/images/icons/feather-sprite.svg#alert-octagon"
-                                      ></use>
-                                    </svg>
-                                    <b>Voucher upload unsuccessful</b>
+
+                                <div>
+                                  <button
+                                    type="button"
+                                    class="p-chk-cca__upload-voucher-button"
+                                    data-chk-element="upload-button"
+                                    disabled
+                                    onclick="GallsCheckout.handleCCAForm.handleUploadVoucherButtonClick(event)"
+                                  >
+                                    <span class="p-chk-cca__upload-voucher-text"
+                                      >Upload Voucher</span
+                                    >
+                                  </button>
+                                  <div
+                                    style="display: none"
+                                    data-chk-voucher-upload-success
+                                  >
+                                    <div
+                                      class="alert alert-success"
+                                      id="successMsg"
+                                    >
+                                      <svg class="alert-icon">
+                                        <use
+                                          href="/images/icons/feather-sprite.svg#check-circle"
+                                        ></use>
+                                      </svg>
+                                      <b>Voucher upload successful</b>
+                                    </div>
+                                  </div>
+                                  <div
+                                    style="display: none"
+                                    data-chk-voucher-upload-error
+                                  >
+                                    <div
+                                      class="alert alert-danger"
+                                      id="errorMsg"
+                                    >
+                                      <svg class="alert-icon">
+                                        <use
+                                          href="/images/icons/feather-sprite.svg#alert-octagon"
+                                        ></use>
+                                      </svg>
+                                      <b>Voucher upload unsuccessful</b>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
@@ -1056,6 +1067,11 @@
                                     type="checkbox"
                                     id="chkDisclaimerCheckbox"
                                     data-chk-element="disclaimer-checkbox"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#chkCCAVoucherUploadSection"
+                                    aria-expanded="true"
+                                    aria-controls="chkCCAVoucherUploadSection"
+                                    onclick="GallsCheckout.handleCCAForm.handleDisclaimerCheckboxClick(this)"
                                   />
                                   <label
                                     class="form-check-label p-chk-cca__disclaimer-label"
@@ -1141,7 +1157,7 @@
                     </div>
 
                     <div
-                      class="p-chk-user-card__collapsible-content"
+                      class="p-chk-user-card__collapsible-content collapse"
                       id="chkPostalFormSection"
                     >
                       <div class="p-chk-user-card__content">

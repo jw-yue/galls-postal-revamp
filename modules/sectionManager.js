@@ -103,7 +103,25 @@ function getPaymentData() {
   const personalNameOnCard =
     document.querySelector("#chkPersonalCardName")?.value?.trim() || "";
 
+  // Check CCA card completeness
+  const ccaSupervisorEmail =
+    document.querySelector("#chkCCASupervisorEmail").value.trim() || "";
+  const ccaSupervisorPhone =
+    document.querySelector("#chkCCASupervisorPhone").value.trim() || "";
+  const ccaVoucherUploadedSuccessfully =
+    document.querySelector("[data-chk-voucher-upload-success]")?.style
+      .display === "block";
+  const ccaDisclaimerChecked =
+    document
+      .querySelector("[data-element='cca-checkbox']")
+      ?.getAttribute("aria-expanded") === "true";
+
   // Determine if each payment method is completely filled
+  const isCCACardComplete =
+    ccaSupervisorEmail.length > 0 &&
+    ccaSupervisorPhone.length > 0 &&
+    (ccaVoucherUploadedSuccessfully || ccaDisclaimerChecked);
+
   const isPostalCardComplete =
     postalCardNumber.length > 0 &&
     postalExpiry.length > 0 &&
@@ -115,14 +133,24 @@ function getPaymentData() {
     personalExpiry.length > 0 &&
     personalCvv.length > 0 &&
     personalNameOnCard.length > 0;
-
   return {
     hasPostalCard: postalCardNumber.length > 0, // Any postal card data
     hasPersonalCard: personalCardNumber.length > 0, // Any personal card data
     isPostalCardComplete: isPostalCardComplete, // All postal card fields filled
     isPersonalCardComplete: isPersonalCardComplete, // All personal card fields filled
-    isComplete: function () {
-      return isPostalCardComplete || isPersonalCardComplete; // At least one payment method completely filled
+    isCCAFormComplete: function () {
+      return isCCACardComplete; // Voucher is uploaded successfully
+    },
+    isPostalFormComplete: function () {
+      return isPostalCardComplete; // Postal card completely filled
+    },
+    isPersonalFormComplete: function () {
+      return isPersonalCardComplete; // Personal card completely filled
+    },
+    allFormsComplete: function () {
+      return (
+        isPostalCardComplete && isPersonalCardComplete && isCCACardComplete
+      ); // At least one payment method completely filled
     },
   };
 }
@@ -195,7 +223,7 @@ function determineEditingSection(formData) {
     return "contact";
   } else if (!formData.delivery.isComplete()) {
     return "delivery";
-  } else if (!formData.payment.isComplete()) {
+  } else if (!formData.payment.allFormsComplete()) {
     return "payment";
   } else {
     return null; // All sections complete
@@ -547,11 +575,14 @@ function startEditing(sectionType) {
     SectionManager.manageBorderRadius("payment", "restore");
     SectionManager.showSectionForm(sectionType);
   }
+
+  // Open postal form if incomplete, else open credit card form
+  if (sectionType === "payment") {
+  }
 }
 
 function completeEditing(sectionType) {
   console.log("completeEditing called with:", sectionType);
-  // **REFACTORED: Simplified with utility functions**
 
   // Use unified header management
   SectionManager.manageHeaders(sectionType, "hide-blue");
@@ -563,16 +594,9 @@ function completeEditing(sectionType) {
   SectionManager.manageBorderRadius(sectionType, "restore");
 
   // Update display content with form data for contact and delivery sections
-  if (sectionType === "contact") {
-    updateContactDisplay(sectionType);
-  } else if (sectionType === "delivery") {
-    console.log("Calling updateDeliveryDisplay...");
-    updateDeliveryDisplay(sectionType);
-  }
-
-  // Hide edit form using generic function
   if (sectionType === "contact" || sectionType === "delivery") {
-    SectionManager.hideSectionForm(sectionType);
+    updateContactDisplay(sectionType);
+    SectionManager.hideSectionForm(sectionType); // Hide edit form
   }
 
   setCurrentEditingSection(null);
