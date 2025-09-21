@@ -631,6 +631,7 @@
                           type="checkbox"
                           id="chkCCACheckbox"
                           data-chk-element="cca-checkbox"
+                          onchange="GallsCheckout.handleCCAForm.handleCCACheckboxClick(this)"
                           data-bs-toggle="collapse"
                           data-bs-target="#chkCCAFormSection"
                           aria-expanded="false"
@@ -763,21 +764,68 @@
                                 <input
                                   type="text"
                                   class="p-chk-form__input-text"
-                                  placeholder="Voucher_Upload.pdf"
+                                  placeholder="Name your file"
                                   data-chk-element="file-name-input"
                                   readonly
                                 />
+                                <button
+                                  type="button"
+                                  class="p-chk-cca__remove-file-button"
+                                  data-chk-element="remove-file-button"
+                                  style="display: none"
+                                  onclick="GallsCheckout.handleCCAForm.handleRemoveFileClick(event)"
+                                  aria-label="Remove uploaded file"
+                                >
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="17"
+                                    height="17"
+                                    viewBox="0 0 17 17"
+                                    fill="none"
+                                  >
+                                    <path
+                                      d="M12.75 4.25L4.25 12.75"
+                                      stroke="black"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                    />
+                                    <path
+                                      d="M4.25 4.25L12.75 12.75"
+                                      stroke="black"
+                                      stroke-width="1.5"
+                                      stroke-linecap="round"
+                                      stroke-linejoin="round"
+                                    />
+                                  </svg>
+                                </button>
                               </div>
 
-                              <button
-                                class="p-chk-cca__upload-voucher-button"
-                                data-chk-element="upload-button"
-                                onclick="GallsCheckout.handleCCAForm.handleUploadButtonClick(event)"
-                              >
-                                <span class="p-chk-cca__upload-voucher-text"
-                                  >Upload Voucher</span
+                              <div>
+                                <button
+                                  type="button"
+                                  class="p-chk-cca__upload-voucher-button"
+                                  data-chk-element="upload-button"
+                                  disabled
+                                  onclick="GallsCheckout.handleCCAForm.handleUploadVoucherButtonClick(event)"
                                 >
-                              </button>
+                                  <span class="p-chk-cca__upload-voucher-text"
+                                    >Upload Voucher</span
+                                  >
+                                </button>
+                                <div
+                                  style="display: none"
+                                  data-chk-voucher-upload-success
+                                >
+                                  voucher Upload Success
+                                </div>
+                                <div
+                                  style="display: none"
+                                  data-chk-voucher-upload-error
+                                >
+                                  voucher Upload Error
+                                </div>
+                              </div>
                             </div>
 
                             <div class="p-chk-cca__disclaimer-container">
@@ -817,7 +865,10 @@
                   </div>
 
                   <!-- 2. Postal Card Form -->
-                  <div class="p-chk-user-card__container">
+                  <div
+                    class="p-chk-user-card__container"
+                    data-chk-element="postal-card-container"
+                  >
                     <div class="p-chk-user-card__header">
                       <div class="p-chk-user-card__title">Add Postal Card</div>
                       <button

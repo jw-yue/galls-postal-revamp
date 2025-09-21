@@ -120,128 +120,21 @@ function setupToggleButtonRotation() {
   });
 }
 
-// CCA Form Management - Module-level variables for DOM elements
-let ccaMainCheckbox, ccaCard, disclaimerCheckbox, fileNameInput, submitButton;
-
-function initializeCCAForm() {
-  ccaMainCheckbox = document.querySelector('[data-chk-element="cca-checkbox"]');
-  ccaCard = document.querySelector('[data-chk-element="cca-card"]');
-  disclaimerCheckbox = document.querySelector(
-    '[data-chk-element="disclaimer-checkbox"]'
-  );
-  fileNameInput = document.querySelector(
+// API call to submit voucher - placeholder function
+function handleUploadVoucherButtonClick(event) {
+  event.preventDefault();
+  const fileNameInput = document.querySelector(
     '[data-chk-element="file-name-input"]'
   );
-  submitButton = document.querySelector('[data-chk-element="submit-button"]');
-
-  // Initialize form state
-  if (ccaMainCheckbox) {
-    ccaMainCheckbox.setAttribute("aria-checked", "false");
-  }
-  if (ccaCard) {
-    ccaCard.classList.remove("expanded");
-  }
-  resetCCAForm();
-}
-
-// Exported CCA functions
-function toggleCCAMain() {
-  const isChecked = ccaMainCheckbox.getAttribute("aria-checked") === "true";
-  const newState = !isChecked;
-
-  ccaMainCheckbox.setAttribute("aria-checked", newState);
-  const postalCardContainer = document.querySelector(".p-chk-card__container");
-
-  if (newState) {
-    ccaCard.classList.add("expanded");
-    if (postalCardContainer) {
-      postalCardContainer.style.display = "none";
-    }
+  // API call to send file to backend would go here
+  if (true) {
+    uploadVoucherButtonState("voucherUploadSuccess");
   } else {
-    ccaCard.classList.remove("expanded");
-    if (postalCardContainer) {
-      postalCardContainer.style.display = "flex";
-    }
-    resetCCAForm();
+    uploadVoucherButtonState("voucherUploadError");
   }
 }
 
-function resetCCAForm() {
-  if (disclaimerCheckbox) {
-    disclaimerCheckbox.setAttribute("aria-checked", "false");
-    disclaimerCheckbox.classList.remove("checked");
-  }
-  if (fileNameInput) {
-    fileNameInput.value = "Voucher_Upload.pdf";
-  }
-  if (submitButton) {
-    submitButton.disabled = true;
-  }
-}
-
-function updateSubmitButtonState() {
-  if (!submitButton) return;
-
-  const hasFile =
-    fileNameInput &&
-    fileNameInput.value.trim() &&
-    fileNameInput.value !== "Voucher_Upload.pdf";
-  const disclaimerChecked =
-    disclaimerCheckbox &&
-    disclaimerCheckbox.getAttribute("aria-checked") === "true";
-  const supervisorEmail = document
-    .getElementById("chkCCASupervisorEmail")
-    ?.value.trim();
-  const supervisorPhone = document
-    .getElementById("chkCCASupervisorPhone")
-    ?.value.trim();
-
-  const canSubmit =
-    (hasFile || disclaimerChecked) && supervisorEmail && supervisorPhone;
-  submitButton.disabled = !canSubmit;
-}
-
-function showCCACard() {
-  if (ccaCard) {
-    ccaCard.classList.add("expanded");
-    const postalCardContainer = document.querySelector(
-      ".p-chk-card__container"
-    );
-    if (postalCardContainer) {
-      postalCardContainer.style.display = "none";
-    }
-  }
-}
-
-function hideCCACard() {
-  if (ccaCard) {
-    ccaCard.classList.remove("expanded");
-    const postalCardContainer = document.querySelector(
-      ".p-chk-card__container"
-    );
-    if (postalCardContainer) {
-      postalCardContainer.style.display = "flex";
-    }
-    resetCCAForm();
-  }
-}
-
-function validateCCAForm() {
-  const hasFile =
-    fileNameInput &&
-    fileNameInput.value.trim() &&
-    fileNameInput.value !== "Voucher_Upload.pdf";
-  const supervisorEmail = document.getElementById("chkCCASupervisorEmail");
-  const supervisorPhone = document.getElementById("chkCCASupervisorPhone");
-  const hasEmail = supervisorEmail && supervisorEmail.value.trim();
-  const hasPhone = supervisorPhone && supervisorPhone.value.trim();
-  const disclaimerChecked =
-    disclaimerCheckbox &&
-    disclaimerCheckbox.getAttribute("aria-checked") === "true";
-
-  return (hasFile || disclaimerChecked) && hasEmail && hasPhone;
-}
-
+// Handle file selection dialog and update input field
 function handleFileUploadClick(event) {
   event.preventDefault();
   const input = document.createElement("input");
@@ -255,72 +148,175 @@ function handleFileUploadClick(event) {
       );
       if (fileNameInput) {
         fileNameInput.value = file.name;
-        updateSubmitButtonState();
+        uploadVoucherButtonState("enableVoucherUpload");
       }
     }
   };
   input.click();
 }
 
-function handleUploadButtonClick(event) {
-  event.preventDefault();
-  const fileNameInput = document.querySelector(
-    '[data-chk-element="file-name-input"]'
+// Update submit button state based on form inputs and upload status
+function uploadVoucherButtonState(state) {
+  const uploadVoucherButton = document.querySelector(
+    '[data-chk-element="upload-button"]'
   );
-  if (
-    fileNameInput &&
-    fileNameInput.value.trim() &&
-    fileNameInput.value !== "Voucher_Upload.pdf"
-  ) {
-    alert("Voucher uploaded successfully!");
-    updateSubmitButtonState();
-  } else {
-    alert("Please select a file first.");
+  const successMessage = document.querySelector(
+    "[data-chk-voucher-upload-success]"
+  );
+  const errorMessage = document.querySelector(
+    "[data-chk-voucher-upload-error]"
+  );
+
+  switch (state) {
+    case "enableVoucherUpload":
+      if (uploadVoucherButton) {
+        uploadVoucherButton.disabled = false;
+      }
+      // Show remove button when file is selected
+      toggleRemoveButton(true);
+      break;
+
+    case "voucherUploadSuccess":
+      if (successMessage) {
+        successMessage.style.display = "block";
+      }
+      if (errorMessage) {
+        errorMessage.style.display = "none";
+      }
+      if (uploadVoucherButton) {
+        uploadVoucherButton.style.display = "none";
+      }
+      // Keep remove button visible for successful uploads
+      toggleRemoveButton(true);
+      break;
+
+    case "voucherUploadError":
+      if (errorMessage) {
+        errorMessage.style.display = "block";
+      }
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+      if (uploadVoucherButton) {
+        uploadVoucherButton.disabled = true;
+      }
+      // Hide remove button on error
+      toggleRemoveButton(false);
+      break;
+
+    case "resetUpload":
+      // Reset upload state - hide messages, show upload button, disable it
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+      if (errorMessage) {
+        errorMessage.style.display = "none";
+      }
+      if (uploadVoucherButton) {
+        uploadVoucherButton.style.display = "block";
+        uploadVoucherButton.disabled = true;
+      }
+      // Hide remove button
+      toggleRemoveButton(false);
+      break;
   }
 }
 
-function handleSupervisorEmailInput() {
-  updateSubmitButtonState();
+// Show or hide the remove file button
+function toggleRemoveButton(show) {
+  const removeButton = document.querySelector(
+    '[data-chk-element="remove-file-button"]'
+  );
+  if (removeButton) {
+    removeButton.style.display = show ? "flex" : "none";
+  }
 }
 
-function handleSupervisorPhoneInput() {
-  updateSubmitButtonState();
-}
-
-function handleSubmitButtonClick(event) {
+// Handle remove file button click
+function handleRemoveFileClick(event) {
   event.preventDefault();
-  if (!event.target.disabled) {
-    alert("CCA Voucher submitted successfully!");
 
-    // Close the CCA form after successful submission
-    const ccaCard = document.querySelector('[data-chk-element="cca-card"]');
-    if (ccaCard) {
-      ccaCard.style.display = "none";
-    }
+  // Reset file input and hide remove button
+  const fileNameInput = document.querySelector(
+    '[data-chk-element="file-name-input"]'
+  );
+  if (fileNameInput) {
+    fileNameInput.value = "Name your file";
+  }
 
-    // Reset the CCA checkbox to unchecked state
-    const ccaMainCheckbox = document.querySelector(
-      '[data-chk-element="cca-checkbox"]'
-    );
-    if (ccaMainCheckbox) {
-      ccaMainCheckbox.setAttribute("aria-checked", "false");
+  // Hide remove button
+  toggleRemoveButton(false);
+
+  // Reset upload state
+  uploadVoucherButtonState("resetUpload");
+}
+
+// Reset CCA form to initial state
+function resetCCAForm() {
+  const fileNameInput = document.querySelector(
+    '[data-chk-element="file-name-input"]'
+  );
+  const disclaimerCheckbox = document.querySelector(
+    '[data-chk-element="disclaimer-checkbox"]'
+  );
+  const submitButton = document.querySelector(
+    '[data-chk-element="submit-button"]'
+  );
+  const uploadVoucherButton = document.querySelector(
+    "[data-chk-element='upload-button']"
+  );
+  const successMessage = document.querySelector(
+    "[data-chk-voucher-upload-success]"
+  );
+  const errorMessage = document.querySelector(
+    "[data-chk-voucher-upload-error]"
+  );
+
+  if (fileNameInput) {
+    fileNameInput.value = "Name your file";
+  }
+  if (disclaimerCheckbox) {
+    disclaimerCheckbox.checked = false;
+  }
+  if (submitButton) {
+    submitButton.disabled = true;
+  }
+  if (uploadVoucherButton) {
+    uploadVoucherButton.disabled = false;
+  }
+  if (successMessage) {
+    successMessage.style.display = "none";
+  }
+  if (errorMessage) {
+    errorMessage.style.display = "none";
+  }
+
+  // Hide remove button on reset
+  toggleRemoveButton(false);
+}
+
+// Toggle the Postal form if user clicks the CCA checkbox
+function togglePostalForm(checkbox) {
+  const postalForm = document.querySelector(
+    "[data-chk-element='postal-card-container']"
+  );
+
+  if (checkbox && postalForm) {
+    if (checkbox.checked) {
+      postalForm.style.display = "none";
+    } else {
+      postalForm.style.display = "block";
     }
   }
 }
 
 // CCA Form Handler Object - contains all CCA functionality
 const handleCCAForm = {
-  toggleCCAMain,
-  updateSubmitButtonState,
-  showCCACard,
-  hideCCACard,
-  validateCCAForm,
-  resetCCAForm,
   handleFileUploadClick,
-  handleUploadButtonClick,
-  handleSupervisorEmailInput,
-  handleSupervisorPhoneInput,
-  handleSubmitButtonClick,
+  handleUploadVoucherButtonClick,
+  handleRemoveFileClick,
+  resetCCAForm,
+  handleCCACheckboxClick: togglePostalForm,
 };
 
 // Initialize all payment form functionality
@@ -328,7 +324,6 @@ function initializePaymentForms() {
   initializeCardNumberMasks();
   initializeCVVMasks();
   setupToggleButtonRotation();
-  initializeCCAForm();
 }
 
 initializePaymentForms.handleCCAForm = handleCCAForm;
