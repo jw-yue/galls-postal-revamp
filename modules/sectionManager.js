@@ -712,6 +712,34 @@ function initializeSectionManager() {
   initializeButtonStates();
 }
 
+// Section wrapper functions for HTML event handlers
+function handleEditButtonClick(sectionType) {
+  startEditing(sectionType);
+}
+
+function handleCompleteButtonClick(element) {
+  // Get section type from the closest editable section
+  const section = element.closest("[data-chk-editable-section]");
+  const sectionType = section
+    ? section.getAttribute("data-chk-editable-section")
+    : null;
+
+  if (sectionType) {
+    completeEditing(sectionType);
+  }
+}
+
+// Payment section handlers
+function handlePaymentCardClick(event) {
+  // Don't trigger if clicking complete button
+  if (event.target.closest('[data-complete-edit="payment"]')) {
+    return;
+  }
+
+  // Trigger edit mode for payment section
+  startEditing("payment");
+}
+
 export {
   initializeSectionManager,
   startEditing,
@@ -719,4 +747,7 @@ export {
   initializeFromState,
   getCurrentEditingSection,
   updateEditButtonText,
+  handleEditButtonClick,
+  handleCompleteButtonClick,
+  handlePaymentCardClick,
 };

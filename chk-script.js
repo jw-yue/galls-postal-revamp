@@ -2,8 +2,9 @@
 import { initializePaymentForms } from "./modules/formUtil.js";
 import {
   initializeSectionManager,
-  startEditing,
-  completeEditing,
+  handleEditButtonClick,
+  handleCompleteButtonClick,
+  handlePaymentCardClick,
 } from "./modules/sectionManager.js";
 import { initializeCCAForm } from "./modules/ccaForm.js";
 import {
@@ -26,32 +27,9 @@ window.GallsCheckout = {
   },
 
   // Section Management Functions
-  handleEditButtonClick: function (sectionType) {
-    startEditing(sectionType);
-  },
-
-  handleCompleteButtonClick: function (element) {
-    // Get section type from the closest editable section
-    const section = element.closest("[data-chk-editable-section]");
-    const sectionType = section
-      ? section.getAttribute("data-chk-editable-section")
-      : null;
-
-    if (sectionType) {
-      completeEditing(sectionType);
-    }
-  },
-
-  // Payment section handlers
-  handlePaymentCardClick: function (event) {
-    // Don't trigger if clicking complete button
-    if (event.target.closest('[data-complete-edit="payment"]')) {
-      return;
-    }
-
-    // Trigger edit mode for payment section
-    startEditing("payment");
-  },
+  handleEditButtonClick: handleEditButtonClick,
+  handleCompleteButtonClick: handleCompleteButtonClick,
+  handlePaymentCardClick: handlePaymentCardClick,
 };
 
 document.addEventListener("DOMContentLoaded", function () {
