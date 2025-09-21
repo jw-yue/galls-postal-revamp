@@ -176,10 +176,10 @@ function resetCCAForm() {
 
   // Reset voucher form to shown state (since disclaimer unchecked means they want to upload)
   if (voucherForm) {
-    const bsCollapse = new bootstrap.Collapse(voucherForm, {
-      toggle: false,
-    });
-    bsCollapse.show();
+    // Use existing Bootstrap functionality
+    if (!voucherForm.classList.contains("show")) {
+      voucherForm.classList.add("show");
+    }
   }
 
   // Hide remove button on reset

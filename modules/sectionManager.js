@@ -576,8 +576,18 @@ function startEditing(sectionType) {
     SectionManager.showSectionForm(sectionType);
   }
 
-  // Open postal form if incomplete, else open credit card form
+  // Trigger the existing toggle buttons instead of creating new instances
   if (sectionType === "payment") {
+    const postalToggleBtn = document.getElementById("chkPostalToggleButton");
+    const personalToggleBtn = document.getElementById(
+      "chkPersonalToggleButton"
+    );
+
+    [postalToggleBtn, personalToggleBtn].forEach((btn) => {
+      if (btn && btn.getAttribute("aria-expanded") === "false") {
+        btn.click();
+      }
+    });
   }
 }
 
