@@ -46,7 +46,7 @@ The system operates on three main states controlled by the `data-chk-state` attr
 **When to Use:**
 
 - New users with no contact information
-- Users with incomplete contact data (for the most part users should have their email and craft if logged in. Remember to make a change where we have users select a craft before they can proceed from cart to checkout.)
+- Users with incomplete contact data (primarily email address)
 
 **Characteristics:**
 
@@ -94,7 +94,6 @@ The system operates on three main states controlled by the `data-chk-state` attr
 | Data Type        | Source                  | Population Method              | Validation Required               |
 | ---------------- | ----------------------- | ------------------------------ | --------------------------------- |
 | Contact Email    | User Profile            | Pre-fill form inputs + display | Email format, verification status |
-| Contact Craft    | User Profile/HR System  | Pre-select dropdown + display  | Valid craft codes                 |
 | Delivery Address | Saved Addresses/Profile | Pre-fill all address fields    | Address validation service        |
 | Payment Methods  | Saved Payment Methods   | Display saved cards            | PCI compliance check              |
 
@@ -112,7 +111,6 @@ The frontend provides these JavaScript functions that can be called via server-s
 // Backend can call this via server-side rendering or AJAX
 populateContactData({
   email: "user@department.gov",
-  craft: "Police Officer", // Must match dropdown options
 });
 ```
 
@@ -140,14 +138,12 @@ Alternatively, the backend can render different HTML segments based on the state
 <!-- For users WITH contact data -->
 <div data-display-content="contact">
   <span class="p-chk-contact-card__email">{{user.email}}</span>
-  <span class="p-chk-contact-card__job-title">{{user.craft}}</span>
 </div>
 <button id="contactEditButton" data-edit-button="contact">Edit</button>
 
 <!-- For users WITHOUT contact data -->
 <div data-display-content="contact">
   <span class="p-chk-contact-card__email"></span>
-  <span class="p-chk-contact-card__job-title"></span>
 </div>
 <button id="contactEditButton" data-edit-button="contact">Add</button>
 ```
@@ -180,7 +176,7 @@ The backend system (IBM iSeries/mainframe or other architecture) needs to determ
 
 **State Decision Matrix:**
 
-- **Contact State**: User has no email OR no craft/job title OR email not verified
+- **Contact State**: User has no email OR email not verified
 - **Delivery State**: Contact complete BUT no delivery address OR incomplete address
 - **Payment State**: Both contact and delivery information are complete and verified
 

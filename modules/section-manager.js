@@ -241,12 +241,7 @@ function initializeButtonStates() {
     const contactEmail = contactDisplayContent?.querySelector(
       ".p-chk-contact-card__email"
     );
-    const contactJob = contactDisplayContent?.querySelector(
-      ".p-chk-contact-card__job-title"
-    );
-    const hasContactContent =
-      (contactEmail && contactEmail.textContent.trim()) ||
-      (contactJob && contactJob.textContent.trim());
+    const hasContactContent = contactEmail && contactEmail.textContent.trim();
 
     if (hasContactContent) {
       // Content exists - show Edit button
@@ -450,10 +445,7 @@ function getNextIncompleteSection() {
   const contactEmail = contactDisplay
     ?.querySelector(".p-chk-contact-card__email")
     ?.textContent?.trim();
-  const contactCraft = contactDisplay
-    ?.querySelector(".p-chk-contact-card__job-title")
-    ?.textContent?.trim();
-  const isContactComplete = contactEmail && contactCraft;
+  const isContactComplete = contactEmail;
 
   // Check delivery completion
   const deliveryDisplay = document.querySelector(
@@ -504,32 +496,22 @@ function updateContactDisplay(sectionType) {
 
   // Get form values
   const emailInput = editForm.querySelector('input[type="email"]');
-  const craftSelect = editForm.querySelector("select");
 
-  if (!emailInput || !craftSelect) return;
+  if (!emailInput) return;
 
   const email = emailInput.value.trim();
-  const craftIndex = craftSelect.selectedIndex;
-  const craftText = craftIndex > 0 ? craftSelect.options[craftIndex].text : "";
 
   // Update display content
   const emailElement = displayContent.querySelector(
     ".p-chk-contact-card__email"
-  );
-  const jobElement = displayContent.querySelector(
-    ".p-chk-contact-card__job-title"
   );
 
   if (emailElement && email) {
     emailElement.textContent = email;
   }
 
-  if (jobElement && craftText) {
-    jobElement.textContent = craftText;
-  }
-
   // Update button text using generic function
-  const hasContactContent = email || craftText;
+  const hasContactContent = email;
   updateEditButtonText("contact", hasContactContent);
 }
 

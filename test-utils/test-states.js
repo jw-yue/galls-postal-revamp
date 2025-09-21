@@ -10,7 +10,6 @@ const mockData = {
     // New user - no data populated, form should be open
     contact: {
       email: "",
-      craft: "",
     },
     delivery: {
       fullName: "",
@@ -25,7 +24,6 @@ const mockData = {
     // Contact filled, delivery partially filled
     contact: {
       email: "john.doe@email.com",
-      craft: "Police Officer",
     },
     delivery: {
       fullName: "John Doe",
@@ -40,7 +38,6 @@ const mockData = {
     // Both contact and delivery completed
     contact: {
       email: "example@test.com",
-      craft: "Firefighter",
     },
     delivery: {
       fullName: "John Doe",
@@ -100,38 +97,19 @@ function populateContactData(contactData) {
   const emailDisplay = contactSection.querySelector(
     ".p-chk-contact-card__email"
   );
-  const jobDisplay = contactSection.querySelector(
-    ".p-chk-contact-card__job-title"
-  );
-
   if (emailDisplay) {
     emailDisplay.textContent = contactData.email || "";
-  }
-  if (jobDisplay) {
-    jobDisplay.textContent = contactData.craft || "";
   }
 
   // Update form inputs
   const emailInput = contactSection.querySelector('input[type="email"]');
-  const craftSelect = contactSection.querySelector("select");
 
   if (emailInput) {
     emailInput.value = contactData.email || "";
   }
-  if (craftSelect && contactData.craft) {
-    // Find the option that matches the craft
-    const options = craftSelect.querySelectorAll("option");
-    options.forEach((option) => {
-      if (option.textContent.includes(contactData.craft)) {
-        option.selected = true;
-      }
-    });
-  }
 
   // Update button text based on content - check if contact has ANY data
-  const hasContactContent =
-    (contactData.email && contactData.email.trim()) ||
-    (contactData.craft && contactData.craft.trim());
+  const hasContactContent = contactData.email && contactData.email.trim();
   if (typeof updateEditButtonText === "function") {
     updateEditButtonText("contact", hasContactContent);
   }
