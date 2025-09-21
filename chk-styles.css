@@ -614,16 +614,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  padding: 0 20px;
-}
-
-.p-chk-contact-edit__form.expanded {
-  max-height: 400px;
-  opacity: 1;
   padding: 20px;
 }
 
@@ -642,22 +632,6 @@ body {
 }
 
 /* Contact Edit Form Styles */
-.p-chk-contact-edit__form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  padding: 0 20px;
-}
-
-.p-chk-contact-edit__form.expanded {
-  max-height: 500px;
-  opacity: 1;
-  padding: 20px;
-}
 
 .p-chk-contact-edit__field {
   display: flex;
@@ -772,16 +746,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  max-height: 0;
-  overflow: hidden;
-  opacity: 0;
-  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-  padding: 0 20px;
-}
-
-.p-chk-address-edit__form.expanded {
-  max-height: 500px;
-  opacity: 1;
   padding: 20px;
 }
 
@@ -823,9 +787,6 @@ body {
 /* Edit State Styles */
 [data-editable-section] {
   transition: border 0.3s ease, box-shadow 0.3s ease;
-}
-
-[data-editable-section].editing {
 }
 
 /* Change border radius when editing */

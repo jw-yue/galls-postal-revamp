@@ -100,7 +100,11 @@ const SectionManager = {
   showSectionForm: (sectionType) => {
     const editForm = SectionManager.getEditForm(sectionType);
     if (editForm) {
-      editForm.classList.add("expanded");
+      // Use Bootstrap 5 Collapse API
+      const collapse = new bootstrap.Collapse(editForm, {
+        toggle: false,
+      });
+      collapse.show();
     }
   },
 
@@ -108,7 +112,11 @@ const SectionManager = {
   hideSectionForm: (sectionType) => {
     const editForm = SectionManager.getEditForm(sectionType);
     if (editForm) {
-      editForm.classList.remove("expanded");
+      // Use Bootstrap 5 Collapse API
+      const collapse = new bootstrap.Collapse(editForm, {
+        toggle: false,
+      });
+      collapse.hide();
     }
   },
 
@@ -245,7 +253,7 @@ function initializeButtonStates() {
       updateEditButtonText("contact", true);
     } else {
       // No content - check if form is expanded (new user scenario)
-      if (contactForm && contactForm.classList.contains("expanded")) {
+      if (contactForm && contactForm.classList.contains("show")) {
         // Form is open for new user - hide button
         const contactEditButton = document.getElementById("contactEditButton");
         if (contactEditButton) {
@@ -284,7 +292,7 @@ function initializeButtonStates() {
       updateEditButtonText("delivery", true);
     } else {
       // No content - check if form is expanded (contact-filled scenario)
-      if (deliveryForm && deliveryForm.classList.contains("expanded")) {
+      if (deliveryForm && deliveryForm.classList.contains("show")) {
         // Form is open - hide button, user needs to complete first
         const deliveryEditButton =
           document.getElementById("deliveryEditButton");

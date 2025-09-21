@@ -160,6 +160,10 @@
                 class="p-chk-info-card__edit-button"
                 data-edit-button="contact"
                 id="contactEditButton"
+                data-bs-toggle="collapse"
+                data-bs-target="#contactEditForm"
+                aria-expanded="false"
+                aria-controls="contactEditForm"
                 onclick="GallsCheckout.handleEditButtonClick('contact')"
               >
                 Edit
@@ -174,63 +178,65 @@
             </div>
 
             <!-- Contact Edit Form -->
-            <div class="p-chk-contact-edit__form" data-edit-form="contact">
-              <div class="p-chk-contact-edit__field">
-                <label class="p-chk-contact-edit__label">Email</label>
-                <div class="p-chk-form__input-field">
+            <div class="collapse" id="contactEditForm" data-edit-form="contact">
+              <div class="p-chk-contact-edit__form">
+                <div class="p-chk-contact-edit__field">
+                  <label class="p-chk-contact-edit__label">Email</label>
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="email"
+                      class="p-chk-form__input-text"
+                      value="example@test.com"
+                      placeholder="Enter email"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    />
+                  </div>
+                </div>
+
+                <div class="p-chk-contact-edit__field">
+                  <label class="p-chk-contact-edit__label">Craft</label>
+                  <div class="p-chk-form__input-field">
+                    <select
+                      class="p-chk-form__select"
+                      title="Craft"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    >
+                      <option value="" selected>Select craft</option>
+                      <option value="police">Police Officer</option>
+                      <option value="firefighter">Firefighter</option>
+                      <option value="ems">EMS/Paramedic</option>
+                      <option value="security">Security Guard</option>
+                      <option value="corrections">Corrections Officer</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="p-chk-contact-edit__checkbox-container">
                   <input
-                    type="email"
-                    class="p-chk-form__input-text"
-                    value="example@test.com"
-                    placeholder="Enter email"
-                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
-                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                    type="checkbox"
+                    id="emailNewsOffers"
+                    class="p-chk-contact-edit__checkbox"
                   />
-                </div>
-              </div>
-
-              <div class="p-chk-contact-edit__field">
-                <label class="p-chk-contact-edit__label">Craft</label>
-                <div class="p-chk-form__input-field">
-                  <select
-                    class="p-chk-form__select"
-                    title="Craft"
-                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
-                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
+                  <label
+                    for="emailNewsOffers"
+                    class="p-chk-contact-edit__checkbox-label"
                   >
-                    <option value="" selected>Select craft</option>
-                    <option value="police">Police Officer</option>
-                    <option value="firefighter">Firefighter</option>
-                    <option value="ems">EMS/Paramedic</option>
-                    <option value="security">Security Guard</option>
-                    <option value="corrections">Corrections Officer</option>
-                    <option value="other">Other</option>
-                  </select>
+                    Email me with news and offers
+                  </label>
                 </div>
-              </div>
 
-              <div class="p-chk-contact-edit__checkbox-container">
-                <input
-                  type="checkbox"
-                  id="emailNewsOffers"
-                  class="p-chk-contact-edit__checkbox"
-                />
-                <label
-                  for="emailNewsOffers"
-                  class="p-chk-contact-edit__checkbox-label"
-                >
-                  Email me with news and offers
-                </label>
-              </div>
-
-              <div class="p-chk-contact-edit__actions">
-                <button
-                  class="p-chk-primary-button"
-                  data-complete-edit
-                  onclick="GallsCheckout.handleCompleteButtonClick(this)"
-                >
-                  Complete
-                </button>
+                <div class="p-chk-contact-edit__actions">
+                  <button
+                    class="p-chk-primary-button"
+                    data-complete-edit
+                    onclick="GallsCheckout.handleCompleteButtonClick(this)"
+                  >
+                    Complete
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -254,6 +260,10 @@
                 class="p-chk-info-card__edit-button"
                 data-edit-button="delivery"
                 id="deliveryEditButton"
+                data-bs-toggle="collapse"
+                data-bs-target="#deliveryEditForm"
+                aria-expanded="false"
+                aria-controls="deliveryEditForm"
                 onclick="GallsCheckout.handleEditButtonClick('delivery')"
               >
                 Edit
@@ -273,106 +283,116 @@
             </div>
 
             <!-- Delivery Edit Form (Initially Hidden) -->
-            <div class="p-chk-address-edit__form" data-edit-form="delivery">
-              <div class="p-chk-address-edit__field">
-                <label class="p-chk-address-edit__label">Full Name</label>
-                <div class="p-chk-form__input-field">
-                  <input
-                    type="text"
-                    class="p-chk-form__input-text"
-                    value="John Doe"
-                    placeholder="Enter full name"
-                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                  />
-                </div>
-              </div>
-              <div class="p-chk-address-edit__field">
-                <label class="p-chk-address-edit__label">Street Address</label>
-                <div class="p-chk-form__input-field">
-                  <input
-                    type="text"
-                    class="p-chk-form__input-text"
-                    value="123 Main Street"
-                    placeholder="Enter street address"
-                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                  />
-                </div>
-              </div>
-              <div class="p-chk-address-edit__field">
-                <label class="p-chk-address-edit__label">Apartment/Suite</label>
-                <div class="p-chk-form__input-field">
-                  <input
-                    type="text"
-                    class="p-chk-form__input-text"
-                    value="Apt 4B"
-                    placeholder="Apartment, suite, etc. (optional)"
-                    onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                    onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                  />
-                </div>
-              </div>
-              <div class="p-chk-address-edit__row">
-                <div
-                  class="p-chk-address-edit__field p-chk-address-edit__field--half"
-                >
-                  <label class="p-chk-address-edit__label">City</label>
+            <div
+              class="collapse"
+              id="deliveryEditForm"
+              data-edit-form="delivery"
+            >
+              <div class="p-chk-address-edit__form">
+                <div class="p-chk-address-edit__field">
+                  <label class="p-chk-address-edit__label">Full Name</label>
                   <div class="p-chk-form__input-field">
                     <input
                       type="text"
                       class="p-chk-form__input-text"
-                      value="New York"
-                      placeholder="Enter city"
+                      value="John Doe"
+                      placeholder="Enter full name"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                     />
                   </div>
                 </div>
-                <div
-                  class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
-                >
-                  <label class="p-chk-address-edit__label">State</label>
-                  <div class="p-chk-form__input-field">
-                    <select
-                      class="p-chk-form__select"
-                      title="State"
-                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
-                    >
-                      <option value="" selected>Select state</option>
-                      <option value="NY">NY</option>
-                      <option value="CA">CA</option>
-                      <option value="TX">TX</option>
-                      <option value="FL">FL</option>
-                      <!-- Add more states as needed -->
-                    </select>
-                  </div>
-                </div>
-                <div
-                  class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
-                >
-                  <label class="p-chk-address-edit__label">ZIP Code</label>
+                <div class="p-chk-address-edit__field">
+                  <label class="p-chk-address-edit__label"
+                    >Street Address</label
+                  >
                   <div class="p-chk-form__input-field">
                     <input
                       type="text"
                       class="p-chk-form__input-text"
-                      value="10001"
-                      placeholder="ZIP"
+                      value="123 Main Street"
+                      placeholder="Enter street address"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                     />
                   </div>
                 </div>
-              </div>
-              <div class="p-chk-address-edit__actions">
-                <button
-                  class="p-chk-primary-button"
-                  data-complete-edit
-                  onclick="GallsCheckout.handleCompleteButtonClick(this)"
-                >
-                  Complete
-                </button>
+                <div class="p-chk-address-edit__field">
+                  <label class="p-chk-address-edit__label"
+                    >Apartment/Suite</label
+                  >
+                  <div class="p-chk-form__input-field">
+                    <input
+                      type="text"
+                      class="p-chk-form__input-text"
+                      value="Apt 4B"
+                      placeholder="Apartment, suite, etc. (optional)"
+                      onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                    />
+                  </div>
+                </div>
+                <div class="p-chk-address-edit__row">
+                  <div
+                    class="p-chk-address-edit__field p-chk-address-edit__field--half"
+                  >
+                    <label class="p-chk-address-edit__label">City</label>
+                    <div class="p-chk-form__input-field">
+                      <input
+                        type="text"
+                        class="p-chk-form__input-text"
+                        value="New York"
+                        placeholder="Enter city"
+                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                        onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                  >
+                    <label class="p-chk-address-edit__label">State</label>
+                    <div class="p-chk-form__input-field">
+                      <select
+                        class="p-chk-form__select"
+                        title="State"
+                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                        onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      >
+                        <option value="" selected>Select state</option>
+                        <option value="NY">NY</option>
+                        <option value="CA">CA</option>
+                        <option value="TX">TX</option>
+                        <option value="FL">FL</option>
+                        <!-- Add more states as needed -->
+                      </select>
+                    </div>
+                  </div>
+                  <div
+                    class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                  >
+                    <label class="p-chk-address-edit__label">ZIP Code</label>
+                    <div class="p-chk-form__input-field">
+                      <input
+                        type="text"
+                        class="p-chk-form__input-text"
+                        value="10001"
+                        placeholder="ZIP"
+                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                        onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="p-chk-address-edit__actions">
+                  <button
+                    class="p-chk-primary-button"
+                    data-complete-edit
+                    onclick="GallsCheckout.handleCompleteButtonClick(this)"
+                  >
+                    Complete
+                  </button>
+                </div>
               </div>
             </div>
           </div>
