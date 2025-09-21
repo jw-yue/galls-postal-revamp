@@ -581,7 +581,7 @@ body {
   gap: 4px;
 }
 
-.p-chk-contact-card__empty-description {
+.p-chk-card__empty-description {
   color: #666;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
