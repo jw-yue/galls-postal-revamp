@@ -3,9 +3,14 @@
 // Global state
 let currentEditingSection = null;
 
+// Getter for current editing section (for test utilities)
+function getCurrentEditingSection() {
+  return currentEditingSection;
+}
+
 // State-driven initialization function
 function initializeFromState() {
-  const mainContent = document.querySelector(".p-chk-main__content");
+  const mainContent = document.querySelector("[data-chk-state]");
   const state = mainContent ? mainContent.getAttribute("data-chk-state") : null;
 
   console.log("Initializing from state:", state);
@@ -24,18 +29,33 @@ function initializeFromState() {
         // Show delivery Add button for new user (no delivery content yet)
         updateEditButtonText("delivery", false);
         // Ensure delivery shows empty state
-        const displayContent = document.querySelector(
-          '[data-display-content="delivery"]'
+        const deliveryDisplayContent = document.querySelector(
+          '[data-chk-display-content="delivery"]'
         );
-        const addressElement = displayContent?.querySelector(
-          ".p-chk-address-card__address"
+        const deliveryAddressElement = deliveryDisplayContent?.querySelector(
+          "[data-chk-delivery-address]"
         );
-        const emptyDescription = displayContent?.querySelector(
-          ".p-chk-address-card__empty-description"
+        const deliveryEmptyDescription = deliveryDisplayContent?.querySelector(
+          "[data-chk-delivery-empty]"
         );
-        if (addressElement && emptyDescription) {
-          addressElement.style.display = "none";
-          emptyDescription.style.display = "block";
+        if (deliveryAddressElement && deliveryEmptyDescription) {
+          deliveryAddressElement.style.display = "none";
+          deliveryEmptyDescription.style.display = "block";
+        }
+
+        // Ensure contact shows empty state
+        const contactDisplayContent = document.querySelector(
+          '[data-chk-display-content="contact"]'
+        );
+        const contactEmailElement = contactDisplayContent?.querySelector(
+          "[data-chk-contact-email]"
+        );
+        const contactEmptyDescription = contactDisplayContent?.querySelector(
+          "[data-chk-contact-empty]"
+        );
+        if (contactEmailElement && contactEmptyDescription) {
+          contactEmailElement.style.display = "none";
+          contactEmptyDescription.style.display = "block";
         }
       }, 100);
       break;
@@ -47,6 +67,21 @@ function initializeFromState() {
         startEditing("delivery");
         // Restore payment section border radius when not in payment state
         SectionManager.manageBorderRadius("payment", "restore");
+
+        // Ensure contact shows completed email (not empty state)
+        const contactDisplayContent = document.querySelector(
+          '[data-chk-display-content="contact"]'
+        );
+        const contactEmailElement = contactDisplayContent?.querySelector(
+          "[data-chk-contact-email]"
+        );
+        const contactEmptyDescription = contactDisplayContent?.querySelector(
+          "[data-chk-contact-empty]"
+        );
+        if (contactEmailElement && contactEmptyDescription) {
+          contactEmailElement.style.display = "block";
+          contactEmptyDescription.style.display = "none";
+        }
       }, 100);
       break;
 
@@ -57,19 +92,34 @@ function initializeFromState() {
         SectionManager.manageHeaders("payment", "show-blue");
         SectionManager.manageBorderRadius("payment", "remove-top");
 
+        // Ensure contact shows completed email (not empty state)
+        const contactDisplayContent = document.querySelector(
+          '[data-chk-display-content="contact"]'
+        );
+        const contactEmailElement = contactDisplayContent?.querySelector(
+          "[data-chk-contact-email]"
+        );
+        const contactEmptyDescription = contactDisplayContent?.querySelector(
+          "[data-chk-contact-empty]"
+        );
+        if (contactEmailElement && contactEmptyDescription) {
+          contactEmailElement.style.display = "block";
+          contactEmptyDescription.style.display = "none";
+        }
+
         // Ensure delivery shows completed address (not empty state)
-        const displayContent = document.querySelector(
-          '[data-display-content="delivery"]'
+        const deliveryDisplayContent = document.querySelector(
+          '[data-chk-display-content="delivery"]'
         );
-        const addressElement = displayContent?.querySelector(
-          ".p-chk-address-card__address"
+        const deliveryAddressElement = deliveryDisplayContent?.querySelector(
+          "[data-chk-delivery-address]"
         );
-        const emptyDescription = displayContent?.querySelector(
-          ".p-chk-address-card__empty-description"
+        const deliveryEmptyDescription = deliveryDisplayContent?.querySelector(
+          "[data-chk-delivery-empty]"
         );
-        if (addressElement && emptyDescription) {
-          addressElement.style.display = "block";
-          emptyDescription.style.display = "none";
+        if (deliveryAddressElement && deliveryEmptyDescription) {
+          deliveryAddressElement.style.display = "block";
+          deliveryEmptyDescription.style.display = "none";
         }
       }, 100);
       break;
@@ -84,17 +134,17 @@ function initializeFromState() {
 const SectionManager = {
   // Cache DOM queries for performance
   getSection: (sectionType) =>
-    document.querySelector(`[data-editable-section="${sectionType}"]`),
+    document.querySelector(`[data-chk-editable-section="${sectionType}"]`),
   getSectionElement: (sectionType, selector) => {
     const section = SectionManager.getSection(sectionType);
     return section ? section.querySelector(selector) : null;
   },
   getSectionHeader: (sectionType) =>
-    document.querySelector(`[data-section-header="${sectionType}"]`),
+    document.querySelector(`[data-chk-section-header="${sectionType}"]`),
   getDisplayContent: (sectionType) =>
-    document.querySelector(`[data-display-content="${sectionType}"]`),
+    document.querySelector(`[data-chk-display-content="${sectionType}"]`),
   getEditForm: (sectionType) =>
-    document.querySelector(`[data-edit-form="${sectionType}"]`),
+    document.querySelector(`[data-chk-edit-form="${sectionType}"]`),
 
   // Generic function to show section form
   showSectionForm: (sectionType) => {
@@ -140,13 +190,13 @@ const SectionManager = {
   manageHeaders: (sectionType, action) => {
     const isPayment = sectionType === "payment";
     const paymentCardHeader = document.querySelector(
-      ".p-chk-payment-card__header"
+      "[data-chk-payment-header]"
     );
     const sectionHeader = SectionManager.getSectionHeader(sectionType);
 
     if (action === "show-blue") {
       // Hide all blue headers first
-      document.querySelectorAll("[data-section-header]").forEach((h) => {
+      document.querySelectorAll("[data-chk-section-header]").forEach((h) => {
         h.classList.remove("active");
         h.style.display = "none";
       });
@@ -185,8 +235,10 @@ const SectionManager = {
     if (!section) return;
 
     const containers = [
-      section.querySelector(".p-chk-info-card__container"),
-      section.querySelector(".p-chk-payment-container"),
+      section.querySelector(
+        "[data-chk-contact-container], [data-chk-delivery-container]"
+      ),
+      section.querySelector("[data-chk-payment-container]"),
     ].filter(Boolean);
 
     containers.forEach((container) => {
@@ -208,7 +260,7 @@ const SectionManager = {
 
     // Regular header editing class
     const regularHeader = section.querySelector(
-      ".p-chk-contact-card__header, .p-chk-address-card__header, .p-chk-payment-card__header, .p-chk-info-card__header"
+      "[data-chk-contact-header], [data-chk-delivery-header], [data-chk-payment-header]"
     );
     if (regularHeader) {
       regularHeader.classList.toggle("editing", isEditing);
@@ -228,18 +280,18 @@ const SectionManager = {
 function initializeButtonStates() {
   // Check contact section state
   const contactSection = document.querySelector(
-    '[data-editable-section="contact"]'
+    '[data-chk-editable-section="contact"]'
   );
   const contactEditButton = document.getElementById("contactEditButton");
   const contactDisplayContent = document.querySelector(
-    '[data-display-content="contact"]'
+    '[data-chk-display-content="contact"]'
   );
-  const contactForm = document.querySelector('[data-edit-form="contact"]');
+  const contactForm = document.querySelector('[data-chk-edit-form="contact"]');
 
   if (contactSection && contactEditButton) {
     // Check if contact has content by looking for filled display content
     const contactEmail = contactDisplayContent?.querySelector(
-      ".p-chk-contact-card__email"
+      "[data-chk-contact-email]"
     );
     const hasContactContent = contactEmail && contactEmail.textContent.trim();
 
@@ -264,18 +316,20 @@ function initializeButtonStates() {
 
   // Check delivery section state
   const deliverySection = document.querySelector(
-    '[data-editable-section="delivery"]'
+    '[data-chk-editable-section="delivery"]'
   );
   const deliveryEditButton = document.getElementById("deliveryEditButton");
   const deliveryDisplayContent = document.querySelector(
-    '[data-display-content="delivery"]'
+    '[data-chk-display-content="delivery"]'
   );
-  const deliveryForm = document.querySelector('[data-edit-form="delivery"]');
+  const deliveryForm = document.querySelector(
+    '[data-chk-edit-form="delivery"]'
+  );
 
   if (deliverySection && deliveryEditButton) {
     // Check if delivery has content
     const deliveryAddress = deliveryDisplayContent?.querySelector(
-      ".p-chk-address-card__address"
+      "[data-chk-delivery-address]"
     );
     const hasDeliveryContent =
       deliveryAddress &&
@@ -304,15 +358,15 @@ function initializeButtonStates() {
 
   // Check if payment section should be highlighted (scenario 3)
   const paymentSection = document.querySelector(
-    '[data-editable-section="payment"]'
+    '[data-chk-editable-section="payment"]'
   );
   if (paymentSection) {
     // If both contact and delivery have content, highlight payment
     const contactHasContent = contactDisplayContent
-      ?.querySelector(".p-chk-contact-card__email")
+      ?.querySelector("[data-chk-contact-email]")
       ?.textContent.trim();
     const deliveryHasContent = deliveryDisplayContent
-      ?.querySelector(".p-chk-address-card__address")
+      ?.querySelector("[data-chk-delivery-address]")
       ?.textContent.trim();
 
     if (
@@ -330,11 +384,6 @@ function initializeButtonStates() {
 }
 
 function startEditing(sectionType) {
-  // Handle new-contact as contact for consistency
-  if (sectionType === "new-contact") {
-    sectionType = "contact";
-  }
-
   // Clear any existing editing state
   if (currentEditingSection) {
     completeEditing(currentEditingSection);
@@ -351,8 +400,9 @@ function startEditing(sectionType) {
   // Use unified border radius management
   SectionManager.manageBorderRadius(sectionType, "remove-top");
 
-  // Show edit form for contact and delivery sections using generic function
+  // When editing contact or delivery, restore payment section border radius
   if (sectionType === "contact" || sectionType === "delivery") {
+    SectionManager.manageBorderRadius("payment", "restore");
     SectionManager.showSectionForm(sectionType);
   }
 }
@@ -399,7 +449,7 @@ function completeEditing(sectionType) {
 
       // Check current application state to determine if we should auto-progress
       const currentState = document
-        .querySelector(".p-chk-main__content")
+        .querySelector("[data-chk-state]")
         ?.getAttribute("data-chk-state");
       const nextIncompleteSection = getNextIncompleteSection();
 
@@ -440,19 +490,19 @@ function completeEditing(sectionType) {
 function getNextIncompleteSection() {
   // Check contact completion
   const contactDisplay = document.querySelector(
-    '[data-display-content="contact"]'
+    '[data-chk-display-content="contact"]'
   );
   const contactEmail = contactDisplay
-    ?.querySelector(".p-chk-contact-card__email")
+    ?.querySelector("[data-chk-contact-email]")
     ?.textContent?.trim();
   const isContactComplete = contactEmail;
 
   // Check delivery completion
   const deliveryDisplay = document.querySelector(
-    '[data-display-content="delivery"]'
+    '[data-chk-display-content="delivery"]'
   );
   const deliveryAddress = deliveryDisplay?.querySelector(
-    ".p-chk-address-card__address"
+    "[data-chk-delivery-address]"
   );
   const isDeliveryComplete =
     deliveryAddress &&
@@ -487,9 +537,11 @@ function updateEditButtonText(sectionType, hasContent) {
 function updateContactDisplay(sectionType) {
   if (sectionType !== "contact") return;
 
-  const editForm = document.querySelector(`[data-edit-form="${sectionType}"]`);
+  const editForm = document.querySelector(
+    `[data-chk-edit-form="${sectionType}"]`
+  );
   const displayContent = document.querySelector(
-    `[data-display-content="${sectionType}"]`
+    `[data-chk-display-content="${sectionType}"]`
   );
 
   if (!editForm || !displayContent) return;
@@ -502,12 +554,24 @@ function updateContactDisplay(sectionType) {
   const email = emailInput.value.trim();
 
   // Update display content
-  const emailElement = displayContent.querySelector(
-    ".p-chk-contact-card__email"
-  );
+  const emailElement = displayContent.querySelector("[data-chk-contact-email]");
 
   if (emailElement && email) {
     emailElement.textContent = email;
+  }
+
+  // Handle empty state visibility
+  const emptyElement = displayContent.querySelector("[data-chk-contact-empty]");
+  if (emailElement && emptyElement) {
+    if (email) {
+      // Has content - show email, hide empty state
+      emailElement.style.display = "block";
+      emptyElement.style.display = "none";
+    } else {
+      // No content - hide email, show empty state
+      emailElement.style.display = "none";
+      emptyElement.style.display = "block";
+    }
   }
 
   // Update button text using generic function
@@ -519,9 +583,11 @@ function updateDeliveryDisplay(sectionType) {
   console.log("updateDeliveryDisplay called with:", sectionType);
   if (sectionType !== "delivery") return;
 
-  const editForm = document.querySelector(`[data-edit-form="${sectionType}"]`);
+  const editForm = document.querySelector(
+    `[data-chk-edit-form="${sectionType}"]`
+  );
   const displayContent = document.querySelector(
-    `[data-display-content="${sectionType}"]`
+    `[data-chk-display-content="${sectionType}"]`
   );
 
   console.log("Edit form found:", editForm);
@@ -595,10 +661,10 @@ function updateDeliveryDisplay(sectionType) {
 
   // Handle display content update
   const addressElement = displayContent.querySelector(
-    ".p-chk-address-card__address"
+    "[data-chk-delivery-address]"
   );
   const emptyDescription = displayContent.querySelector(
-    ".p-chk-address-card__empty-description"
+    "[data-chk-delivery-empty]"
   );
 
   console.log("Address element found:", addressElement);
@@ -618,6 +684,7 @@ function updateDeliveryDisplay(sectionType) {
       // Create address element if it doesn't exist
       const newAddressElement = document.createElement("p");
       newAddressElement.className = "p-chk-address-card__address";
+      newAddressElement.setAttribute("data-chk-delivery-address", "");
       newAddressElement.innerHTML = addressText;
       displayContent.appendChild(newAddressElement);
       console.log("Address element created and added");
@@ -645,4 +712,11 @@ function initializeSectionManager() {
   initializeButtonStates();
 }
 
-export { initializeSectionManager, startEditing, completeEditing };
+export {
+  initializeSectionManager,
+  startEditing,
+  completeEditing,
+  initializeFromState,
+  getCurrentEditingSection,
+  updateEditButtonText,
+};

@@ -58,8 +58,12 @@ function changeStateWithMockData(newState) {
     console.log("State changed to:", newState);
 
     // Reset current editing
-    if (typeof currentEditingSection !== "undefined" && currentEditingSection) {
-      completeEditing(currentEditingSection);
+    const currentSection =
+      typeof getCurrentEditingSection === "function"
+        ? getCurrentEditingSection()
+        : null;
+    if (currentSection) {
+      completeEditing(currentSection);
     }
 
     // Populate mock data
@@ -231,8 +235,12 @@ function changeState(newState) {
     console.log("State changed to:", newState);
 
     // Reset current editing
-    if (typeof currentEditingSection !== "undefined" && currentEditingSection) {
-      completeEditing(currentEditingSection);
+    const currentSection =
+      typeof getCurrentEditingSection === "function"
+        ? getCurrentEditingSection()
+        : null;
+    if (currentSection) {
+      completeEditing(currentSection);
     }
 
     // Re-initialize

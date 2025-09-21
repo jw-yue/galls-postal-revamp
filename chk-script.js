@@ -4,6 +4,9 @@ import {
   initializeSectionManager,
   startEditing,
   completeEditing,
+  initializeFromState,
+  getCurrentEditingSection,
+  updateEditButtonText,
 } from "./modules/section-manager.js";
 
 window.GallsCheckout = {
@@ -18,9 +21,9 @@ window.GallsCheckout = {
 
   handleCompleteButtonClick: function (element) {
     // Get section type from the closest editable section
-    const section = element.closest("[data-editable-section]");
+    const section = element.closest("[data-chk-editable-section]");
     const sectionType = section
-      ? section.getAttribute("data-editable-section")
+      ? section.getAttribute("data-chk-editable-section")
       : null;
 
     if (sectionType) {
@@ -126,9 +129,9 @@ function geoFmt(city, sta, cnty, geo, zip) {
     focusedElement.placeholder.includes("ZIP")
   ) {
     // Find the section this ZIP field belongs to
-    const section = focusedElement.closest("[data-editable-section]");
+    const section = focusedElement.closest("[data-chk-editable-section]");
     if (section) {
-      const sectionType = section.getAttribute("data-editable-section");
+      const sectionType = section.getAttribute("data-chk-editable-section");
 
       // Update the corresponding city, state, and ZIP fields in this section
       const cityField = section.querySelector('input[placeholder*="City"]');
@@ -154,3 +157,10 @@ function geoFmt(city, sta, cnty, geo, zip) {
 }
 
 function clickOnEnter(buttonElement, event) {}
+
+// Make functions available globally for test utilities
+window.initializeFromState = initializeFromState;
+window.startEditing = startEditing;
+window.completeEditing = completeEditing;
+window.getCurrentEditingSection = getCurrentEditingSection;
+window.updateEditButtonText = updateEditButtonText;

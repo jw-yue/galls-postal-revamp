@@ -115,10 +115,10 @@
       <!-- Main Content - Left-->
       <div class="p-chk-main__content" data-chk-state="payment">
         <!-- Contact -->
-        <section data-editable-section="contact">
+        <section data-chk-editable-section="contact">
           <div
             class="p-chk-payment-header"
-            data-section-header="contact"
+            data-chk-section-header="contact"
             style="display: none"
           >
             <div class="p-chk-info-card__header-left">
@@ -138,8 +138,8 @@
               </div>
             </div>
           </div>
-          <div class="p-chk-info-card__container">
-            <div class="p-chk-info-card__header">
+          <div class="p-chk-info-card__container" data-chk-contact-container>
+            <div class="p-chk-info-card__header" data-chk-contact-header>
               <div class="p-chk-info-card__header-left">
                 <h2 class="p-chk-info-card__title">Contact</h2>
                 <!-- Have an account login link -->
@@ -173,17 +173,25 @@
             <!-- Contact Summary View -->
             <div
               class="p-chk-contact-card__content"
-              data-display-content="contact"
+              data-chk-display-content="contact"
             >
               <!-- Contact - Empty State -->
-              <p class="p-chk-card__empty-description">Add your contact</p>
+              <p class="p-chk-card__empty-description" data-chk-contact-empty>
+                Add your contact
+              </p>
 
               <!-- Contact - Populated State -->
-              <p class="p-chk-contact-card__email">example@test.com</p>
+              <p class="p-chk-contact-card__email" data-chk-contact-email>
+                example@test.com
+              </p>
             </div>
 
             <!-- Contact Edit Form -->
-            <div class="collapse" id="contactEditForm" data-edit-form="contact">
+            <div
+              class="collapse"
+              id="contactEditForm"
+              data-chk-edit-form="contact"
+            >
               <div class="p-chk-contact-edit__form">
                 <div class="p-chk-contact-edit__field">
                   <label class="p-chk-contact-edit__label">Email</label>
@@ -230,16 +238,16 @@
         <!-- Contact - Login Modal -->
 
         <!-- Delivery Address -->
-        <section data-editable-section="delivery">
+        <section data-chk-editable-section="delivery">
           <div
             class="p-chk-payment-header"
-            data-section-header="delivery"
+            data-chk-section-header="delivery"
             style="display: none"
           >
             <h1 class="p-chk-payment-header__title">Delivery Address</h1>
           </div>
-          <div class="p-chk-info-card__container">
-            <div class="p-chk-info-card__header">
+          <div class="p-chk-info-card__container" data-chk-delivery-container>
+            <div class="p-chk-info-card__header" data-chk-delivery-header>
               <h2 class="p-chk-info-card__title">Delivery Address</h2>
               <button
                 class="p-chk-info-card__edit-button"
@@ -258,15 +266,15 @@
             <!-- Delivery Summary View-->
             <div
               class="p-chk-address-card__content"
-              data-display-content="delivery"
+              data-chk-display-content="delivery"
             >
               <!-- Delivery - Empty State -->
-              <p class="p-chk-card__empty-description">
+              <p class="p-chk-card__empty-description" data-chk-delivery-empty>
                 Add your delivery address
               </p>
 
               <!-- Delivery - Populated State -->
-              <p class="p-chk-address-card__address">
+              <p class="p-chk-address-card__address" data-chk-delivery-address>
                 John Doe<br />123 Main Street<br />Apt 4B<br />New York, NY
                 10001<br />United States
               </p>
@@ -276,7 +284,7 @@
             <div
               class="collapse"
               id="deliveryEditForm"
-              data-edit-form="delivery"
+              data-chk-edit-form="delivery"
             >
               <div class="p-chk-address-edit__form">
                 <div class="p-chk-address-edit__field">
@@ -403,17 +411,17 @@
 
         <!-- Payment Section with Product List and Card Forms -->
         <section
-          data-editable-section="payment"
+          data-chk-editable-section="payment"
           onclick="GallsCheckout.handlePaymentCardClick(event)"
         >
           <div
             class="p-chk-payment-header active"
-            data-section-header="payment"
+            data-chk-section-header="payment"
           >
             <h1 class="p-chk-payment-header__title">Payment</h1>
           </div>
-          <div class="p-chk-payment-container">
-            <div class="p-chk-payment-card__header">
+          <div class="p-chk-payment-container" data-chk-payment-container>
+            <div class="p-chk-payment-card__header" data-chk-payment-header>
               <h2 class="p-chk-payment-card__title">Payment</h2>
             </div>
             <div class="p-chk-payment-section" data-display-content="payment">
@@ -640,7 +648,7 @@
                           class="form-check-input"
                           type="checkbox"
                           id="chkCCACheckbox"
-                          data-chk-element="cca-checkbox"
+                          data-element="cca-checkbox"
                           onchange="GallsCheckout.handleCCAForm.handleCCACheckboxClick(this)"
                           data-bs-toggle="collapse"
                           data-bs-target="#chkCCAFormSection"

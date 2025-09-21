@@ -776,32 +776,32 @@ body {
 }
 
 /* Edit State Styles */
-[data-editable-section] {
+[data-chk-editable-section] {
   transition: border 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Change border radius when editing */
-[data-editable-section].editing .p-chk-contact-card__container,
-[data-editable-section].editing .p-chk-address-card__container,
-[data-editable-section].editing .p-chk-payment-container {
+[data-chk-editable-section].editing .p-chk-contact-card__container,
+[data-chk-editable-section].editing .p-chk-address-card__container,
+[data-chk-editable-section].editing .p-chk-payment-container {
   border-radius: 0 0 12px 12px;
 }
 
 /* Hide content when editing */
-[data-display-content] {
+[data-chk-display-content] {
   transition: opacity 0.3s ease;
 }
 
-[data-display-content].hidden {
+[data-chk-display-content].hidden {
   display: none;
 }
 
 /* Show blue header when editing */
-[data-section-header] {
+[data-chk-section-header] {
   transition: all 0.3s ease;
 }
 
-[data-section-header].active {
+[data-chk-section-header].active {
   display: block !important;
 }
 
