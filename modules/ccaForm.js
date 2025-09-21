@@ -1,6 +1,10 @@
 // API call to submit voucher - placeholder function
 function handleUploadVoucherButtonClick(event) {
   event.preventDefault();
+
+  const submitButton = document.querySelector(
+    '[data-chk-element="submit-button"]'
+  );
   const fileNameInput = document.querySelector(
     '[data-chk-element="file-name-input"]'
   );

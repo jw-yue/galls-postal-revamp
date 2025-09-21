@@ -3,7 +3,7 @@
 ## Table of Contents
 
 1. [High-Level Architecture](#high-level-architecture)
-2. [State-Driven Template System](#state-driven-template-system)
+2. [Data-Driven Template System](#data-driven-template-system)
 3. [Data Population Strategy](#data-population-strategy)
 4. [Progression Logic](#progression-logic)
 5. [API Integration Points](#api-integration-points)
@@ -18,35 +18,52 @@ Note: ES6 modules can't be loaded from the folder protocol due to CORS restricti
 
 ### Overview
 
-The checkout system uses a **state-driven modular architecture** where the frontend renders different UI states based on user data completeness. The backend determines which template state to serve based on existing user information.
+The checkout system uses a **data-driven modular architecture** where the frontend analyzes form data completeness to determine the appropriate UI state. The backend provides user data, and the frontend automatically determines which section needs editing based on data completeness.
 
 ### Core Concept
 
 ```
-Backend Logic → User Data Assessment → Template State Selection → Frontend Rendering
+Backend Data → Form Population → Data Analysis → Auto State Determination → UI Rendering
 ```
 
 ### Key Components
 
-- **State Controller**: Backend logic that determines checkout state
-- **Template Renderer**: Serves appropriate HTML template with pre-populated data
-- **Progress Manager**: Handles section completion and advancement
-- **Data Validator**: Ensures data integrity across states
+- **Data-Driven Initialization**: Frontend automatically determines state from form data
+- **Form Data Analyzer**: Checks completeness of contact, delivery, and payment data
+- **Smart Progression**: Automatically advances to next incomplete section
+- **Template Renderer**: Renders appropriate UI based on data analysis
+- **Data Validator**: Ensures data integrity across sections
 
 ---
 
-## State-Driven Template System
+## Data-Driven Template System
 
-### Primary States
+### New Initialization Approach
 
-The system operates on three main states controlled by the `data-chk-state` attribute:
+The system no longer uses `data-chk-state` attributes. Instead, it uses `initializeFromFormData()` which:
 
-#### 1. Contact State (`data-chk-state="contact"`)
+1. **Analyzes form data completeness** for all sections
+2. **Automatically determines** which section needs editing
+3. **Sets up UI state** based on data analysis
+4. **Handles smart progression** between sections
 
-**When to Use:**
+#### Core Initialization Function
 
-- New users with no contact information
-- Users with incomplete contact data (primarily email address)
+```javascript
+// Main initialization - called after data population
+window.GallsCheckout.initializeFromFormData();
+```
+
+### Section States (Determined Automatically)
+
+The system automatically determines the appropriate state based on data completeness:
+
+#### 1. Contact State (Auto-Detected)
+
+**Triggers When:**
+
+- Contact email is missing or empty
+- First incomplete section found
 
 **Characteristics:**
 
@@ -55,13 +72,13 @@ The system operates on three main states controlled by the `data-chk-state` attr
 - "Add" button visible for contact section
 - Blue header highlights contact section
 
-#### 2. Delivery State (`data-chk-state="delivery"`)
+#### 2. Delivery State (Auto-Detected)
 
-**When to Use:**
+**Triggers When:**
 
 - Contact information is complete and verified
 - Delivery address is missing or incomplete
-- User needs to add/update shipping information
+- Next incomplete section in sequence
 
 **Characteristics:**
 
@@ -70,13 +87,13 @@ The system operates on three main states controlled by the `data-chk-state` attr
 - Payment section remains collapsed
 - Blue header highlights delivery section
 
-#### 3. Payment State (`data-chk-state="payment"`)
+#### 3. Payment State (Auto-Detected)
 
-**When to Use:**
+**Triggers When:**
 
 - Both contact and delivery information are complete
-- User ready to select payment method
-- Final checkout step
+- Payment information is missing or incomplete
+- Final step in checkout process
 
 **Characteristics:**
 
@@ -85,109 +102,190 @@ The system operates on three main states controlled by the `data-chk-state` attr
 - Blue header highlights payment section
 - All previous sections display completed data
 
+### Data Completeness Analysis
+
+The frontend automatically analyzes form data using these rules:
+
+```javascript
+// Contact completeness
+const isContactComplete = email && email.length > 0;
+
+// Delivery completeness
+const isDeliveryComplete = name && address && city && state && zip;
+
+// Payment completeness
+const isPaymentComplete = postalCardComplete || personalCardComplete;
+```
+
 ---
 
 ## Data Population Strategy
 
 ### Backend Responsibility Matrix
 
-| Data Type        | Source                  | Population Method              | Validation Required               |
-| ---------------- | ----------------------- | ------------------------------ | --------------------------------- |
-| Contact Email    | User Profile            | Pre-fill form inputs + display | Email format, verification status |
-| Delivery Address | Saved Addresses/Profile | Pre-fill all address fields    | Address validation service        |
-| Payment Methods  | Saved Payment Methods   | Display saved cards            | PCI compliance check              |
+| Data Type        | Source                  | Population Method            | Validation Required               |
+| ---------------- | ----------------------- | ---------------------------- | --------------------------------- |
+| Contact Email    | User Profile            | Pre-fill form inputs         | Email format, verification status |
+| Delivery Address | Saved Addresses/Profile | Pre-fill all address fields  | Address validation service        |
+| Payment Methods  | Saved Payment Methods   | Pre-fill payment form fields | PCI compliance check              |
 
-### Data Population Functions
+### New Data Population Process
 
-The backend has **two options** for populating user data:
+The backend now follows this simplified process:
 
-#### Option 1: JavaScript Function Calls
+1. **Populate form fields** with user data (using any method)
+2. **Call initialization function** to analyze data and determine state
+3. **Frontend handles** all state management automatically
 
-The frontend provides these JavaScript functions that can be called via server-side rendering or AJAX:
+#### Backend Implementation Options
 
-##### Contact Data Population
+The backend has **three main approaches** for populating user data:
+
+##### Option 1: Server-Side Form Pre-Population (Recommended)
+
+The backend renders the HTML template with form inputs pre-filled:
+
+```html
+<!-- Contact form with server-side data -->
+<form id="contactEditForm">
+  <input type="email" value="{{user.email}}" />
+</form>
+
+<!-- Delivery form with server-side data -->
+<form id="deliveryEditForm">
+  <input type="text" value="{{user.full_name}}" />
+  <input type="text" value="{{user.street_address}}" />
+  <input type="text" value="{{user.city}}" />
+  <select>
+    <option value="{{user.state}}" selected>{{user.state}}</option>
+  </select>
+  <input type="text" value="{{user.zip}}" />
+</form>
+
+<!-- Payment forms with server-side data -->
+<input id="chkPostalCardNumber" value="{{user.postal_card.number}}" />
+<input id="chkPersonalCardNumber" value="{{user.personal_card.number}}" />
+
+<!-- Initialize after form population -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    window.GallsCheckout.initializeFromFormData();
+  });
+</script>
+```
+
+##### Option 2: JavaScript Function Calls
+
+The frontend provides these JavaScript functions for dynamic data population:
 
 ```javascript
-// Backend can call this via server-side rendering or AJAX
-populateContactData({
-  email: "user@department.gov",
+// Populate contact data
+function populateContactData(contactData) {
+  const emailInput = document.querySelector(
+    '#contactEditForm input[type="email"]'
+  );
+  if (emailInput) emailInput.value = contactData.email || "";
+}
+
+// Populate delivery data
+function populateDeliveryData(deliveryData) {
+  const form = document.querySelector("#deliveryEditForm");
+  const inputs = form.querySelectorAll('input[type="text"]');
+  const select = form.querySelector("select");
+
+  if (inputs[0]) inputs[0].value = deliveryData.fullName || "";
+  if (inputs[1]) inputs[1].value = deliveryData.streetAddress || "";
+  if (inputs[2]) inputs[2].value = deliveryData.apartment || "";
+  if (inputs[3]) inputs[3].value = deliveryData.city || "";
+  if (select) select.value = deliveryData.state || "";
+  if (inputs[4]) inputs[4].value = deliveryData.zip || "";
+}
+
+// Populate payment data
+function populatePaymentData(paymentData) {
+  // Postal card
+  document.getElementById("chkPostalCardNumber").value =
+    paymentData.postalCard?.number || "";
+  document.getElementById("chkPostalCardExpiry").value =
+    paymentData.postalCard?.expiry || "";
+  document.getElementById("chkPostalCardCVV").value =
+    paymentData.postalCard?.cvv || "";
+  document.getElementById("chkPostalCardName").value =
+    paymentData.postalCard?.name || "";
+
+  // Personal card
+  document.getElementById("chkPersonalCardNumber").value =
+    paymentData.personalCard?.number || "";
+  document.getElementById("chkPersonalCardExpiry").value =
+    paymentData.personalCard?.expiry || "";
+  document.getElementById("chkPersonalCardCVV").value =
+    paymentData.personalCard?.cvv || "";
+  document.getElementById("chkPersonalCardName").value =
+    paymentData.personalCard?.name || "";
+}
+
+// After populating data, initialize the system
+window.GallsCheckout.initializeFromFormData();
+```
+
+##### Option 3: API-Driven Population
+
+```javascript
+// API-driven approach
+document.addEventListener("DOMContentLoaded", async function () {
+  try {
+    const response = await fetch("/api/checkout/user-data");
+    const userData = await response.json();
+
+    // Populate forms with API data
+    if (userData.contact) populateContactData(userData.contact);
+    if (userData.delivery) populateDeliveryData(userData.delivery);
+    if (userData.payment) populatePaymentData(userData.payment);
+
+    // Initialize system after population
+    window.GallsCheckout.initializeFromFormData();
+  } catch (error) {
+    console.error("Failed to load user data:", error);
+    // Initialize with empty forms
+    window.GallsCheckout.initializeFromFormData();
+  }
 });
 ```
 
-##### Delivery Data Population
+### State Determination (Now Automatic)
+
+**Important Change**: The backend no longer needs to determine checkout state! The frontend automatically analyzes form data completeness and determines the appropriate state.
+
+**Old Approach (Deprecated):**
+
+```html
+<!-- Old: Backend determined state -->
+<div data-chk-state="contact"></div>
+```
+
+**New Approach (Current):**
+
+```html
+<!-- New: No state attribute needed -->
+<div class="p-chk-main__content">
+  <!-- Frontend analyzes form data and determines state automatically -->
+</div>
+```
+
+The frontend uses this logic to determine state:
 
 ```javascript
-// Backend can populate with user's saved/default address
-populateDeliveryData({
-  fullName: "John Doe",
-  streetAddress: "123 Main St",
-  apartment: "Apt 4B", // Optional
-  city: "New York",
-  state: "NY",
-  zip: "10001",
-});
-```
-
-#### Option 2: Template Segment Display
-
-Alternatively, the backend can render different HTML segments based on the state, showing completed vs. empty sections:
-
-##### Contact Section Templates
-
-```html
-<!-- For users WITH contact data -->
-<div data-display-content="contact">
-  <span class="p-chk-contact-card__email">{{user.email}}</span>
-</div>
-<button id="contactEditButton" data-edit-button="contact">Edit</button>
-
-<!-- For users WITHOUT contact data -->
-<div data-display-content="contact">
-  <span class="p-chk-contact-card__email"></span>
-</div>
-<button id="contactEditButton" data-edit-button="contact">Add</button>
-```
-
-##### Delivery Section Templates
-
-```html
-<!-- For users WITH delivery data -->
-<div data-display-content="delivery">
-  <div class="p-chk-address-card__address">
-    {{user.full_name}}<br />
-    {{user.street_address}}<br />
-    {{user.city}}, {{user.state}} {{user.zip}}
-  </div>
-</div>
-<button id="deliveryEditButton" data-edit-button="delivery">Edit</button>
-
-<!-- For users WITHOUT delivery data -->
-<div data-display-content="delivery">
-  <div class="p-chk-address-card__empty-description">
-    Add your delivery address
-  </div>
-</div>
-<button id="deliveryEditButton" data-edit-button="delivery">Add</button>
-```
-
-### State Determination Logic (Backend)
-
-The backend system (IBM iSeries/mainframe or other architecture) needs to determine which checkout state to serve based on user data completeness:
-
-**State Decision Matrix:**
-
-- **Contact State**: User has no email OR email not verified
-- **Delivery State**: Contact complete BUT no delivery address OR incomplete address
-- **Payment State**: Both contact and delivery information are complete and verified
-
-```pseudocode
-// Conceptual logic - implement using your preferred backend architecture
-if (!user_has_complete_contact_info()) {
-    return "contact"
-} else if (!user_has_complete_delivery_info()) {
-    return "delivery"
-} else {
-    return "payment"
+function determineEditingSection(formData) {
+  // Check sections in order: contact → delivery → payment
+  if (!formData.contact.isComplete()) {
+    return "contact";
+  } else if (!formData.delivery.isComplete()) {
+    return "delivery";
+  } else if (!formData.payment.isComplete()) {
+    return "payment";
+  } else {
+    return null; // All sections complete
+  }
 }
 ```
 
@@ -197,41 +295,110 @@ if (!user_has_complete_contact_info()) {
 
 ### Smart Progression System
 
-The frontend automatically advances users to the next incomplete section after completing the current one.
+The frontend automatically advances users to the next incomplete section after completing the current one. This is all handled automatically without backend intervention.
 
-### Backend State Transitions
+### Automatic State Transitions
 
 #### Flow 1: New User Journey
 
 ```
-Empty State → Contact State → Delivery State → Payment State → Order Complete
+Empty Forms → Contact Auto-Selected → Delivery Auto-Selected → Payment Auto-Selected → Complete
 ```
 
 #### Flow 2: Returning User (Partial Data)
 
 ```
-Contact Complete → Delivery State → Payment State → Order Complete
+Contact Pre-filled → Delivery Auto-Selected → Payment Auto-Selected → Complete
 ```
 
 #### Flow 3: Returning User (Full Profile)
 
 ```
-All Data Complete → Payment State → Order Complete
+All Forms Pre-filled → Payment Auto-Selected (Final Review) → Complete
 ```
 
-### Section Completion Detection
+### Section Completion Detection (Automatic)
 
-The frontend determines section completion using:
+The frontend automatically determines section completion using these rules:
 
 ```javascript
-// Contact completion
-const isContactComplete = email && craftText;
+// Contact completion analysis
+function getContactData() {
+  const emailInput = document.querySelector(
+    '#contactEditForm input[type="email"]'
+  );
+  return {
+    email: emailInput?.value?.trim() || "",
+    isComplete: function () {
+      return this.email.length > 0;
+    },
+  };
+}
 
-// Delivery completion
-const isDeliveryComplete =
-  deliveryAddress &&
-  deliveryAddress.textContent.trim() &&
-  !deliveryAddress.textContent.includes("Add your delivery address");
+// Delivery completion analysis
+function getDeliveryData() {
+  // Analyzes all required delivery form fields
+  return {
+    name: nameInput?.value?.trim() || "",
+    address: addressInput?.value?.trim() || "",
+    city: cityInput?.value?.trim() || "",
+    state: stateSelect?.value || "",
+    zip: zipInput?.value?.trim() || "",
+    isComplete: function () {
+      return (
+        this.name.length > 0 &&
+        this.address.length > 0 &&
+        this.city.length > 0 &&
+        this.state.length > 0 &&
+        this.zip.length > 0
+      );
+    },
+  };
+}
+
+// Payment completion analysis
+function getPaymentData() {
+  // Analyzes both postal and personal card forms
+  return {
+    isComplete: function () {
+      return isPostalCardComplete || isPersonalCardComplete;
+    },
+  };
+}
+```
+
+### Auto-Progression After Section Completion
+
+When a user completes a section, the system automatically:
+
+1. **Analyzes current data completeness**
+2. **Determines next incomplete section**
+3. **Automatically advances** to next section
+4. **Updates UI state** without page refresh
+5. **Handles completion** when all sections are done
+
+```javascript
+// Automatic progression logic (handled by frontend)
+function completeEditing(sectionType) {
+  // ... update display with form data
+
+  // Smart automatic progression
+  setTimeout(() => {
+    const formData = {
+      contact: getContactData(),
+      delivery: getDeliveryData(),
+      payment: getPaymentData(),
+    };
+
+    const nextIncompleteSection = determineEditingSection(formData);
+
+    if (nextIncompleteSection) {
+      // Auto-advance to next incomplete section
+      startEditing(nextIncompleteSection);
+    }
+    // If no incomplete sections, user can proceed to checkout
+  }, 300);
+}
 ```
 
 ---
@@ -272,30 +439,65 @@ The backend system (IBM iSeries, mainframe, or other architecture) needs to prov
 
 ### Required Data Endpoints (If Using API Approach)
 
-#### 1. Checkout State Initialization
+#### 1. User Data Retrieval (Simplified)
 
 ```
-GET /api/checkout/state
+GET /api/checkout/user-data
 Response: {
-    "state": "contact|delivery|payment",
-    "user_data": {
-        "contact": { "email": "", "craft": "" },
-        "delivery": { "fullName": "", "streetAddress": "", ... },
-        "payment": { "saved_methods": [...] }
+    "contact": {
+        "email": "user@department.gov"
+    },
+    "delivery": {
+        "fullName": "John Doe",
+        "streetAddress": "123 Main St",
+        "apartment": "Apt 4B",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10001"
+    },
+    "payment": {
+        "postalCard": {
+            "number": "****1234",
+            "expiry": "12/25",
+            "cvv": "",
+            "name": "John Doe"
+        },
+        "personalCard": {
+            "number": "****5678",
+            "expiry": "06/26",
+            "cvv": "",
+            "name": "John Doe"
+        }
     }
 }
 ```
 
-#### 2. Section Data Update
+**Note**: The frontend automatically determines state from this data, so no `state` field is needed.
+
+#### 2. Section Data Update (Unchanged)
 
 ```
 POST /api/checkout/update/{section}
 Body: {
-    "contact": { "email": "user@gov.com", "craft": "Police Officer" }
+    "contact": { "email": "user@gov.com" }
 }
 Response: {
     "success": true,
-    "next_state": "delivery"
+    "message": "Contact information updated"
+}
+```
+
+**Note**: Backend no longer needs to return `next_state` - frontend handles progression automatically.
+
+#### 3. Order Completion (Unchanged)
+
+```
+POST /api/checkout/complete
+Body: {
+    "contact": {...},
+    "delivery": {...},
+    "payment": {...},
+    "order_items": [...]
 }
 ```
 
@@ -340,64 +542,133 @@ The backend system should implement appropriate validation based on business req
 
 ## Frontend-Backend Contract
 
-### Template Requirements
+### Template Requirements (Simplified)
 
-The backend must serve HTML with these specific attributes:
+The backend must serve HTML with these specific form structure (no state attributes required):
 
 ```html
-<!-- Main container with state -->
-<div class="p-chk-main__content" data-chk-state="contact">
-  <!-- Editable sections -->
-  <div data-editable-section="contact">
-    <div data-editable-section="delivery">
-      <div data-editable-section="payment">
-        <!-- Edit buttons -->
-        <button id="contactEditButton" data-edit-button="contact">
-          <button id="deliveryEditButton" data-edit-button="delivery">
-            <!-- Forms -->
-            <div data-edit-form="contact">
-              <div data-edit-form="delivery">
-                <!-- Display content -->
-                <div data-display-content="contact">
-                  <div data-display-content="delivery"></div>
-                </div>
-              </div>
-            </div>
-          </button>
-        </button>
-      </div>
+<!-- Main container (no data-chk-state needed) -->
+<div class="p-chk-main__content">
+  <!-- Contact Section -->
+  <div data-chk-editable-section="contact">
+    <!-- Contact form -->
+    <form id="contactEditForm" data-chk-edit-form="contact">
+      <input type="email" value="{{user.email}}" />
+    </form>
+
+    <!-- Contact display -->
+    <div data-chk-display-content="contact">
+      <span data-chk-contact-email>{{user.email}}</span>
+      <span data-chk-contact-empty>Add your contact information</span>
+    </div>
+
+    <button id="contactEditButton" data-edit-button="contact">Edit/Add</button>
+  </div>
+
+  <!-- Delivery Section -->
+  <div data-chk-editable-section="delivery">
+    <!-- Delivery form -->
+    <form id="deliveryEditForm" data-chk-edit-form="delivery">
+      <input type="text" value="{{user.fullName}}" />
+      <input type="text" value="{{user.streetAddress}}" />
+      <input type="text" value="{{user.apartment}}" />
+      <input type="text" value="{{user.city}}" />
+      <select>
+        <option value="{{user.state}}" selected>{{user.state}}</option>
+      </select>
+      <input type="text" value="{{user.zip}}" />
+    </form>
+
+    <!-- Delivery display -->
+    <div data-chk-display-content="delivery">
+      <div data-chk-delivery-address>{{formatted_address}}</div>
+      <div data-chk-delivery-empty>Add your delivery address</div>
+    </div>
+
+    <button id="deliveryEditButton" data-edit-button="delivery">
+      Edit/Add
+    </button>
+  </div>
+
+  <!-- Payment Section -->
+  <div data-chk-editable-section="payment">
+    <!-- Postal card form -->
+    <div id="chkPostalFormSection">
+      <input id="chkPostalCardNumber" value="{{user.postalCard.number}}" />
+      <input id="chkPostalCardExpiry" value="{{user.postalCard.expiry}}" />
+      <input id="chkPostalCardCVV" value="{{user.postalCard.cvv}}" />
+      <input id="chkPostalCardName" value="{{user.postalCard.name}}" />
+    </div>
+
+    <!-- Personal card form -->
+    <div id="chkPersonalFormSection" class="collapse">
+      <input id="chkPersonalCardNumber" value="{{user.personalCard.number}}" />
+      <input id="chkPersonalCardExpiry" value="{{user.personalCard.expiry}}" />
+      <input id="chkPersonalCardCVV" value="{{user.personalCard.cvv}}" />
+      <input id="chkPersonalCardName" value="{{user.personalCard.name}}" />
     </div>
   </div>
 </div>
+
+<!-- Initialize after form population -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize payment forms
+    window.GallsCheckout.initializePaymentForms();
+
+    // Analyze data and set up UI automatically
+    window.GallsCheckout.initializeFromFormData();
+  });
+</script>
 ```
 
-### Data Binding Points
+### Critical Form Field IDs
 
-#### Contact Section
+The frontend expects these exact form field IDs for data analysis:
+
+#### Contact Form
 
 ```html
-<!-- Display elements -->
-<span class="p-chk-contact-card__email">{{user.email}}</span>
-<span class="p-chk-contact-card__job-title">{{user.craft}}</span>
-
-<!-- Form inputs -->
-<input type="email" value="{{user.email}}">
-<select>
-    <option {{#if_eq user.craft 'Police Officer'}}selected{{/if_eq}}>
-        Police Officer
-    </option>
-</select>
+<form id="contactEditForm">
+  <input type="email" />
+  <!-- Any email input in contact form -->
+</form>
 ```
 
-#### Delivery Section
+#### Delivery Form
 
 ```html
-<!-- Address display -->
-<div class="p-chk-address-card__address">
-  {{user.address.full_name}}<br />
-  {{user.address.street}}<br />
-  {{user.address.city}}, {{user.address.state}} {{user.address.zip}}
-</div>
+<form id="deliveryEditForm">
+  <input type="text" />
+  <!-- [0] = fullName -->
+  <input type="text" />
+  <!-- [1] = streetAddress -->
+  <input type="text" />
+  <!-- [2] = apartment -->
+  <input type="text" />
+  <!-- [3] = city -->
+  <select></select>
+  <!-- state dropdown -->
+  <input type="text" />
+  <!-- [4] = zip -->
+</form>
+```
+
+#### Payment Forms
+
+```html
+<!-- Postal card -->
+<input id="chkPostalCardNumber" />
+<input id="chkPostalCardExpiry" />
+<input id="chkPostalCardCVV" />
+<input id="chkPostalCardName" />
+
+<!-- Personal card -->
+<input id="chkPersonalCardNumber" />
+<input id="chkPersonalCardExpiry" />
+<input id="chkPersonalCardCVV" />
+<input id="chkPersonalCardName" />
+```
 
 <!-- Form inputs -->
 <input type="text" value="{{user.address.full_name}}" />
@@ -409,92 +680,145 @@ The backend must serve HTML with these specific attributes:
 
 ## Implementation Examples
 
-### Example 1: Server-Side Template Rendering
+### Example 1: Server-Side Form Pre-Population (Recommended)
 
 ```html
-<!-- Backend determines state and renders appropriate template -->
-<div class="p-chk-main__content" data-chk-state="{{checkout_state}}">
-  <!-- Contact section with conditional display -->
-  {{#if user.has_contact_info}}
-  <span class="p-chk-contact-card__email">{{user.email}}</span>
-  <span class="p-chk-contact-card__job-title">{{user.craft}}</span>
-  <button id="contactEditButton" data-edit-button="contact">Edit</button>
-  {{else}}
-  <span class="p-chk-contact-card__email"></span>
-  <span class="p-chk-contact-card__job-title"></span>
-  <button id="contactEditButton" data-edit-button="contact">Add</button>
-  {{/if}}
+<!-- Backend renders HTML with forms pre-filled -->
+<div class="p-chk-main__content">
+  <!-- Contact section -->
+  <div data-chk-editable-section="contact">
+    <form id="contactEditForm" data-chk-edit-form="contact">
+      <!-- Pre-fill with user data -->
+      <input type="email" value="{{user.email}}" />
+    </form>
+    <div data-chk-display-content="contact">
+      <span data-chk-contact-email>{{user.email}}</span>
+      <span data-chk-contact-empty>Add your contact information</span>
+    </div>
+  </div>
 
-  <!-- Delivery section with conditional display -->
-  {{#if user.has_delivery_info}}
-  <div class="p-chk-address-card__address">
-    {{user.delivery.full_name}}<br />
-    {{user.delivery.street}}<br />
-    {{user.delivery.city}}, {{user.delivery.state}} {{user.delivery.zip}}
+  <!-- Delivery section -->
+  <div data-chk-editable-section="delivery">
+    <form id="deliveryEditForm" data-chk-edit-form="delivery">
+      <!-- Pre-fill with user address data -->
+      <input type="text" value="{{user.delivery.fullName}}" />
+      <input type="text" value="{{user.delivery.streetAddress}}" />
+      <input type="text" value="{{user.delivery.apartment}}" />
+      <input type="text" value="{{user.delivery.city}}" />
+      <select>
+        <option value="{{user.delivery.state}}" selected>
+          {{user.delivery.state}}
+        </option>
+      </select>
+      <input type="text" value="{{user.delivery.zip}}" />
+    </form>
   </div>
-  <button id="deliveryEditButton" data-edit-button="delivery">Edit</button>
-  {{else}}
-  <div class="p-chk-address-card__empty-description">
-    Add your delivery address
+
+  <!-- Payment section with pre-filled cards -->
+  <div data-chk-editable-section="payment">
+    <input
+      id="chkPostalCardNumber"
+      value="{{user.payment.postalCard.number}}"
+    />
+    <input
+      id="chkPersonalCardNumber"
+      value="{{user.payment.personalCard.number}}"
+    />
+    <!-- ... other payment fields -->
   </div>
-  <button id="deliveryEditButton" data-edit-button="delivery">Add</button>
-  {{/if}}
 </div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Initialize payment functionality
+    window.GallsCheckout.initializePaymentForms();
+
+    // Analyze form data and set up UI automatically
+    window.GallsCheckout.initializeFromFormData();
+  });
+</script>
 ```
 
-### Example 2: API-Driven Initialization
+### Example 2: API-Driven Data Population
 
 ```javascript
 // Frontend initialization for API-driven approach
 document.addEventListener("DOMContentLoaded", async function () {
   try {
-    // Backend can implement this endpoint using any architecture
-    const response = await fetch("/api/checkout/state");
-    const data = await response.json();
+    // Fetch user data from backend
+    const response = await fetch("/api/checkout/user-data");
+    const userData = await response.json();
 
-    // Set the state
-    document
-      .querySelector(".p-chk-main__content")
-      .setAttribute("data-chk-state", data.state);
-
-    // Populate data using frontend functions
-    if (data.user_data.contact) {
-      populateContactData(data.user_data.contact);
-    }
-    if (data.user_data.delivery) {
-      populateDeliveryData(data.user_data.delivery);
+    // Populate forms using helper functions
+    if (userData.contact?.email) {
+      document.querySelector('#contactEditForm input[type="email"]').value =
+        userData.contact.email;
     }
 
-    // Initialize UI
-    initializeFromState();
+    if (userData.delivery) {
+      const deliveryInputs = document.querySelectorAll(
+        '#deliveryEditForm input[type="text"]'
+      );
+      const stateSelect = document.querySelector("#deliveryEditForm select");
+
+      deliveryInputs[0].value = userData.delivery.fullName || "";
+      deliveryInputs[1].value = userData.delivery.streetAddress || "";
+      deliveryInputs[2].value = userData.delivery.apartment || "";
+      deliveryInputs[3].value = userData.delivery.city || "";
+      stateSelect.value = userData.delivery.state || "";
+      deliveryInputs[4].value = userData.delivery.zip || "";
+    }
+
+    if (userData.payment) {
+      // Populate payment fields
+      document.getElementById("chkPostalCardNumber").value =
+        userData.payment.postalCard?.number || "";
+      document.getElementById("chkPersonalCardNumber").value =
+        userData.payment.personalCard?.number || "";
+      // ... populate other payment fields
+    }
+
+    // Initialize payment functionality
+    window.GallsCheckout.initializePaymentForms();
+
+    // Analyze populated data and set up UI automatically
+    window.GallsCheckout.initializeFromFormData();
   } catch (error) {
     console.error("Failed to initialize checkout:", error);
+
+    // Initialize with empty forms if API fails
+    window.GallsCheckout.initializePaymentForms();
+    window.GallsCheckout.initializeFromFormData();
   }
 });
 ```
 
-### Example 3: Form Submission Handler
+### Example 3: Form Submission Handler (Updated)
 
 ```javascript
-// Generic form submission - backend can implement any architecture
+// Form submission handlers - backend responses simplified
 document
   .querySelector('[data-complete-edit="contact"]')
   .addEventListener("click", async function () {
-    const formData = gatherContactFormData();
+    // Gather form data
+    const email = document.querySelector(
+      '#contactEditForm input[type="email"]'
+    ).value;
 
     try {
-      // Backend endpoint - implementation flexible
+      // Save to backend
       const response = await fetch("/api/checkout/update/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ contact: { email } }),
       });
 
       const result = await response.json();
 
-      if (result.success && result.next_state) {
-        // Update state and advance
-        changeStateWithMockData(result.next_state);
+      if (result.success) {
+        // Frontend handles progression automatically
+        // Just complete the current section
+        window.GallsCheckout.handleCompleteButtonClick(this);
       }
     } catch (error) {
       console.error("Failed to update contact:", error);
@@ -506,51 +830,117 @@ document
 
 ## Testing & Debugging
 
-### State Testing Buttons
+### Development Test Panel
 
-The frontend includes test buttons for development:
+The frontend includes a test panel for development that demonstrates the new data-driven approach:
 
 ```html
-<!-- Development only - remove in production -->
-<div style="position: fixed; top: 10px; left: 10px; z-index: 9999;">
-  <button onclick="changeStateWithMockData('contact')">Contact</button>
-  <button onclick="changeStateWithMockData('delivery')">Delivery</button>
-  <button onclick="changeStateWithMockData('payment')">Payment</button>
+<!-- Development test panel - remove in production -->
+<div class="p-chk-test-states" id="testStatesPanel">
+  <h4>Data-Driven Tests</h4>
+
+  <!-- Test current form data analysis -->
+  <button onclick="window.GallsCheckout.initializeFromFormData()">
+    Test Current Data
+  </button>
+
+  <!-- Test with mock data scenarios -->
+  <button onclick="changeStateWithMockData('contact')">
+    Mock: New User (Contact)
+  </button>
+  <button onclick="changeStateWithMockData('delivery')">
+    Mock: Contact Complete (Delivery)
+  </button>
+  <button onclick="changeStateWithMockData('payment')">
+    Mock: Ready for Payment
+  </button>
+
+  <!-- Clear all data -->
+  <button onclick="clearAllFormData()">Clear All Data</button>
 </div>
 ```
 
-### Backend Testing Checklist
+### Backend Testing Checklist (Updated)
 
-- [ ] New users load in contact state with empty forms
-- [ ] Users with contact info load in delivery state with contact pre-filled
-- [ ] Users with complete profiles load in payment state with all data shown
-- [ ] State transitions work correctly after form submissions
-- [ ] Data persists correctly between state changes
-- [ ] Form validation prevents invalid state progression
-- [ ] Edit buttons allow returning to previous sections
-- [ ] IBM iSeries/mainframe data integration works correctly (if applicable)
-- [ ] Performance is acceptable for expected user load
+- [ ] **Form Pre-Population**: User data correctly populates form fields
+- [ ] **Auto State Detection**: Frontend correctly identifies which section needs editing
+- [ ] **Smart Progression**: Completing a section automatically advances to next incomplete section
+- [ ] **Data Persistence**: Form submissions save correctly to backend
+- [ ] **Empty State Handling**: New users start with contact section editing
+- [ ] **Partial Data Handling**: Users with some data start at appropriate section
+- [ ] **Complete Data Handling**: Users with all data start at payment section for review
+- [ ] **Edit Functionality**: Users can return to edit previous sections
+- [ ] **Form Validation**: Frontend validation works correctly
+- [ ] **Payment Forms**: Both postal and personal card forms work properly
+- [ ] **API Integration**: Backend endpoints work with simplified request/response format
+- [ ] **Performance**: Acceptable load times for form population and state analysis
 
-### Common Integration Issues
+### Common Integration Issues (Updated)
 
-1. **State Mismatch**: Frontend state doesn't match backend data
-2. **Data Format**: Backend data doesn't match frontend expectations
-3. **Timing Issues**: Race conditions during state transitions
-4. **Validation Conflicts**: Frontend and backend validation inconsistencies
+1. **Form Field Misalignment**: Backend data doesn't populate expected form fields
+
+   - **Solution**: Verify form field IDs and structure match frontend expectations
+
+2. **Initialization Timing**: Data populated after `initializeFromFormData()` is called
+
+   - **Solution**: Ensure data population happens before initialization call
+
+3. **Incomplete Data Analysis**: Frontend doesn't detect data completeness correctly
+
+   - **Solution**: Check that all required fields for a section are properly populated
+
+4. **Payment Form Issues**: Payment forms not working correctly
+   - **Solution**: Ensure `initializePaymentForms()` is called before `initializeFromFormData()`
+
+### Debug Tools
+
+```javascript
+// Debug current form data analysis
+console.log("Contact Data:", window.GallsCheckout.getContactData());
+console.log("Delivery Data:", window.GallsCheckout.getDeliveryData());
+console.log("Payment Data:", window.GallsCheckout.getPaymentData());
+
+// Test initialization manually
+window.GallsCheckout.initializeFromFormData();
+```
 
 ---
 
 ## Next Steps
 
-1. **Backend Architecture**: Design backend system using preferred technology stack (IBM iSeries integration, modern web frameworks, etc.)
-2. **Data Integration**: Connect to existing user data sources and profile systems
-3. **State Logic**: Implement business logic for determining checkout states
-4. **Template System**: Choose between server-side rendering or API-driven approach
-5. **Testing**: Create comprehensive tests for all user scenarios and state transitions
-6. **Performance**: Optimize for expected user load and system constraints
-7. **Security**: Implement appropriate authentication, authorization, and data protection
-8. **Deployment**: Plan deployment strategy that works with existing infrastructure
+1. **Backend Data Integration**: Connect to existing user data sources and profile systems
+2. **Form Pre-Population**: Implement user data population in forms (server-side or API-driven)
+3. **Form Submission Handling**: Create endpoints to save user data during checkout
+4. **Initialization Integration**: Ensure `initializeFromFormData()` is called after data population
+5. **Payment Processing**: Integrate payment form data with payment processing systems
+6. **Testing**: Create comprehensive tests for all user data scenarios
+7. **Performance**: Optimize for expected user load and system constraints
+8. **Security**: Implement appropriate authentication, authorization, and data protection
+9. **Deployment**: Plan deployment strategy that works with existing infrastructure
 
-The frontend system is designed to be backend-agnostic and will work with any server architecture that can provide the required data and state information.
+## Key Benefits of New Approach
+
+### For Backend Developers
+
+- **Simplified State Management**: No need to determine checkout state - frontend handles automatically
+- **Flexible Data Population**: Use any method (server-side, API, hybrid) to populate forms
+- **Reduced Complexity**: Focus on data retrieval and persistence rather than state logic
+- **Better Separation of Concerns**: Backend handles data, frontend handles UI state
+
+### For Frontend Developers
+
+- **Consistent User Experience**: Automatic state detection ensures proper flow
+- **Smart Progression**: Users automatically advance through incomplete sections
+- **Better Data Analysis**: Real-time analysis of form completeness
+- **Improved Maintenance**: Centralized state logic in frontend
+
+### For Users
+
+- **Seamless Experience**: Automatically start where they left off based on saved data
+- **Smart Navigation**: System knows which section needs attention
+- **Faster Checkout**: Skip completed sections, focus on what's needed
+- **Consistent Interface**: Same experience regardless of data completeness
+
+The frontend system is designed to be backend-agnostic and will work with any server architecture that can populate form fields with user data. The new data-driven approach eliminates the complexity of backend state management while providing a better user experience.
 
 For questions or clarification on any aspect of this integration, please refer to the frontend codebase or contact the frontend development team.

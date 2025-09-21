@@ -276,6 +276,20 @@ function closeAllSections() {
   if (postalForm) postalForm.classList.remove("show");
   if (personalForm) personalForm.classList.remove("show");
 
+  // Reset all section states (remove editing classes)
+  const allSections = document.querySelectorAll("[data-chk-editable-section]");
+  allSections.forEach((section) => {
+    section.classList.remove("editing");
+
+    // Remove editing class from section headers
+    const regularHeader = section.querySelector(
+      "[data-chk-contact-header], [data-chk-delivery-header], [data-chk-payment-header]"
+    );
+    if (regularHeader) {
+      regularHeader.classList.remove("editing");
+    }
+  });
+
   // Reset current editing section
   setCurrentEditingSection(null);
 }
