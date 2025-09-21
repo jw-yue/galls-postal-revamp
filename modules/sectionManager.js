@@ -8,6 +8,11 @@ function getCurrentEditingSection() {
   return currentEditingSection;
 }
 
+// Setter for current editing section (for test utilities)
+function setCurrentEditingSection(section) {
+  currentEditingSection = section;
+}
+
 // Data-driven initialization function
 function initializeFromFormData() {
   console.log("Initializing from form data...");
@@ -219,11 +224,9 @@ function setupSectionsFromData(formData, sectionToEdit) {
   // Update delivery section
   if (formData.delivery.isComplete()) {
     showDeliverySummary(formData.delivery);
-    updateEditButtonText("delivery", true); // Show "Edit"
     SectionManager.manageHeaders("delivery", "show-normal");
   } else {
     showDeliveryEmpty();
-    updateEditButtonText("delivery", false); // Show "Add"
     SectionManager.manageHeaders("delivery", "hide-blue");
   }
 
@@ -274,7 +277,7 @@ function closeAllSections() {
   if (personalForm) personalForm.classList.remove("show");
 
   // Reset current editing section
-  currentEditingSection = null;
+  setCurrentEditingSection(null);
 }
 
 // Show contact summary with data
@@ -514,7 +517,7 @@ function startEditing(sectionType) {
     completeEditing(currentEditingSection);
   }
 
-  currentEditingSection = sectionType;
+  setCurrentEditingSection(sectionType);
 
   // Use unified header management
   SectionManager.manageHeaders(sectionType, "show-blue");
@@ -558,7 +561,7 @@ function completeEditing(sectionType) {
     SectionManager.hideSectionForm(sectionType);
   }
 
-  currentEditingSection = null;
+  setCurrentEditingSection(null);
 
   // Smart automatic progression flow - determine next incomplete section
   setTimeout(() => {
@@ -590,45 +593,6 @@ function completeEditing(sectionType) {
       }
     }
   }, 300);
-}
-
-// Function to determine the next incomplete section
-function getNextIncompleteSection() {
-  // Check contact completion
-  const contactDisplay = document.querySelector(
-    '[data-chk-display-content="contact"]'
-  );
-  const contactEmail = contactDisplay
-    ?.querySelector("[data-chk-contact-email]")
-    ?.textContent?.trim();
-  const isContactComplete = contactEmail;
-
-  // Check delivery completion
-  const deliveryDisplay = document.querySelector(
-    '[data-chk-display-content="delivery"]'
-  );
-  const deliveryAddress = deliveryDisplay?.querySelector(
-    "[data-chk-delivery-address]"
-  );
-  const isDeliveryComplete =
-    deliveryAddress &&
-    deliveryAddress.style.display !== "none" &&
-    deliveryAddress.textContent?.trim() &&
-    !deliveryAddress.textContent.includes("Add your delivery address");
-
-  console.log("Section completion status:", {
-    isContactComplete,
-    isDeliveryComplete,
-  });
-
-  // Return the first incomplete section
-  if (!isContactComplete) {
-    return "contact";
-  } else if (!isDeliveryComplete) {
-    return "delivery";
-  } else {
-    return "payment";
-  }
 }
 
 // Generic function to update edit button text based on content
@@ -686,84 +650,17 @@ function updateContactDisplay(sectionType) {
 }
 
 function updateDeliveryDisplay(sectionType) {
-  console.log("updateDeliveryDisplay called with:", sectionType);
   if (sectionType !== "delivery") return;
 
-  const editForm = document.querySelector(
-    `[data-chk-edit-form="${sectionType}"]`
-  );
   const displayContent = document.querySelector(
     `[data-chk-display-content="${sectionType}"]`
   );
 
-  console.log("Edit form found:", editForm);
-  console.log("Display content found:", displayContent);
+  if (!displayContent) return;
 
-  if (!editForm || !displayContent) return;
-
-  // Get form values using more robust selectors
-  const inputFields = editForm.querySelectorAll('input[type="text"]');
-  const stateSelect = editForm.querySelector("select");
-
-  console.log("Input fields found:", inputFields.length);
-  console.log("State select found:", stateSelect);
-
-  if (inputFields.length < 5 || !stateSelect) return;
-
-  // Map inputs by their order in the form
-  const nameInput = inputFields[0]; // Full Name
-  const streetInput = inputFields[1]; // Street Address
-  const aptInput = inputFields[2]; // Apartment/Suite
-  const cityInput = inputFields[3]; // City
-  const zipInput = inputFields[4]; // ZIP Code
-
-  const name = nameInput.value.trim();
-  const street = streetInput.value.trim();
-  const apt = aptInput.value.trim();
-  const city = cityInput.value.trim();
-  const state = stateSelect.value;
-  const zip = zipInput.value.trim();
-
-  console.log("Form values:", { name, street, apt, city, state, zip });
-
-  // Build address display text - show partial information as it's filled
-  let addressText = "";
-  let hasAnyContent = name || street || apt || city || state || zip;
-
-  if (hasAnyContent) {
-    if (name) {
-      addressText += name + "<br />";
-    }
-    if (street) {
-      addressText += street + "<br />";
-    }
-    if (apt) {
-      addressText += apt + "<br />";
-    }
-
-    // Build city/state/zip line if any of them exist
-    let locationLine = "";
-    if (city) {
-      locationLine += city;
-    }
-    if (state) {
-      locationLine += (city ? ", " : "") + state;
-    }
-    if (zip) {
-      locationLine += (city || state ? " " : "") + zip;
-    }
-
-    if (locationLine) {
-      addressText += locationLine + "<br />";
-    }
-
-    // Always add country if we have any address content
-    if (addressText) {
-      addressText += "United States";
-    }
-  }
-
-  console.log("Address text built:", addressText);
+  // Use existing getDeliveryData function to check completeness
+  const deliveryData = getDeliveryData();
+  const hasDeliveryContent = deliveryData.isComplete();
 
   // Handle display content update
   const addressElement = displayContent.querySelector(
@@ -773,10 +670,15 @@ function updateDeliveryDisplay(sectionType) {
     "[data-chk-delivery-empty]"
   );
 
-  console.log("Address element found:", addressElement);
-  console.log("Empty description found:", emptyDescription);
+  if (hasDeliveryContent) {
+    // Build address display text using the delivery data
+    const addressText = `
+      ${deliveryData.name}<br/>
+      ${deliveryData.address}<br/>
+      ${deliveryData.city}, ${deliveryData.state} ${deliveryData.zip}<br/>
+      United States
+    `;
 
-  if (addressText) {
     // Hide empty description and show/update address
     if (emptyDescription) {
       emptyDescription.style.display = "none";
@@ -785,7 +687,6 @@ function updateDeliveryDisplay(sectionType) {
     if (addressElement) {
       addressElement.innerHTML = addressText;
       addressElement.style.display = "block";
-      console.log("Address display updated successfully");
     } else {
       // Create address element if it doesn't exist
       const newAddressElement = document.createElement("p");
@@ -793,11 +694,7 @@ function updateDeliveryDisplay(sectionType) {
       newAddressElement.setAttribute("data-chk-delivery-address", "");
       newAddressElement.innerHTML = addressText;
       displayContent.appendChild(newAddressElement);
-      console.log("Address element created and added");
     }
-
-    // Update button text using generic function
-    updateEditButtonText("delivery", true);
   } else {
     // No content - show empty state
     if (addressElement) {
@@ -806,10 +703,10 @@ function updateDeliveryDisplay(sectionType) {
     if (emptyDescription) {
       emptyDescription.style.display = "block";
     }
-
-    // Update button text using generic function
-    updateEditButtonText("delivery", false);
   }
+
+  // Update button text using generic function
+  updateEditButtonText("delivery", hasDeliveryContent);
 }
 
 // Section wrapper functions for HTML event handlers
