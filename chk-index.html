@@ -113,7 +113,7 @@
     <!-- Main Layout -->
     <div class="p-chk-main__container">
       <!-- Main Content - Left-->
-      <div class="p-chk-main__content" data-chk-state="payment">
+      <div class="p-chk-main__content">
         <!-- Contact -->
         <section data-chk-editable-section="contact">
           <div
@@ -170,9 +170,9 @@
               </button>
             </div>
 
-            <!-- Contact Summary View -->
+            <!-- Contact Summary View (Hidden by default) -->
             <div
-              class="p-chk-contact-card__content"
+              class="p-chk-contact-card__content hidden"
               data-chk-display-content="contact"
             >
               <!-- Contact - Empty State -->
@@ -181,14 +181,12 @@
               </p>
 
               <!-- Contact - Populated State -->
-              <p class="p-chk-contact-card__email" data-chk-contact-email>
-                example@test.com
-              </p>
+              <p class="p-chk-contact-card__email" data-chk-contact-email></p>
             </div>
 
-            <!-- Contact Edit Form -->
+            <!-- Contact Edit Form (Shown by default) -->
             <div
-              class="collapse"
+              class="collapse show"
               id="contactEditForm"
               data-chk-edit-form="contact"
             >
@@ -199,7 +197,6 @@
                     <input
                       type="email"
                       class="p-chk-form__input-text"
-                      value="example@test.com"
                       placeholder="Enter email"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('CONTACT', this);"
@@ -263,9 +260,9 @@
               </button>
             </div>
 
-            <!-- Delivery Summary View-->
+            <!-- Delivery Summary View (Hidden by default) -->
             <div
-              class="p-chk-address-card__content"
+              class="p-chk-address-card__content hidden"
               data-chk-display-content="delivery"
             >
               <!-- Delivery - Empty State -->
@@ -274,15 +271,15 @@
               </p>
 
               <!-- Delivery - Populated State -->
-              <p class="p-chk-address-card__address" data-chk-delivery-address>
-                John Doe<br />123 Main Street<br />Apt 4B<br />New York, NY
-                10001<br />United States
-              </p>
+              <p
+                class="p-chk-address-card__address"
+                data-chk-delivery-address
+              ></p>
             </div>
 
-            <!-- Delivery Edit Form (Initially Hidden) -->
+            <!-- Delivery Edit Form (Shown by default) -->
             <div
-              class="collapse"
+              class="collapse show"
               id="deliveryEditForm"
               data-chk-edit-form="delivery"
             >
@@ -293,7 +290,6 @@
                     <input
                       type="text"
                       class="p-chk-form__input-text"
-                      value="John Doe"
                       placeholder="Enter full name"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
@@ -308,7 +304,6 @@
                     <input
                       type="text"
                       class="p-chk-form__input-text"
-                      value="123 Main Street"
                       placeholder="Enter street address"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
@@ -323,7 +318,6 @@
                     <input
                       type="text"
                       class="p-chk-form__input-text"
-                      value="Apt 4B"
                       placeholder="Apartment, suite, etc. (optional)"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
@@ -339,7 +333,6 @@
                       <input
                         type="text"
                         class="p-chk-form__input-text"
-                        value="New York"
                         placeholder="Enter city"
                         onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                         onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
@@ -374,7 +367,6 @@
                       <input
                         type="text"
                         class="p-chk-form__input-text"
-                        value="10001"
                         placeholder="ZIP"
                         onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                         onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
@@ -390,7 +382,6 @@
                     <input
                       type="tel"
                       class="p-chk-form__input-text"
-                      value="(000) 000-0000"
                       placeholder="(000) 000-0000"
                       onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
                       onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('DELIVERY', this);"
@@ -606,8 +597,9 @@
           onclick="GallsCheckout.handlePaymentCardClick(event)"
         >
           <div
-            class="p-chk-payment-header active"
+            class="p-chk-payment-header"
             data-chk-section-header="payment"
+            style="display: none"
           >
             <h1 class="p-chk-payment-header__title">Payment</h1>
           </div>
@@ -846,13 +838,16 @@
                           aria-expanded="false"
                           aria-controls="chkCCAFormSection"
                         />
-                        <label
-                          class="form-check-label p-chk-cca__label"
-                          for="chkCCACheckbox"
-                        >
-                          Use your
-                          <span class="bold-text">CCA Allowance Voucher</span>
-                        </label>
+                        <div class="d-flex flex-column gap-2">
+                          <label
+                            class="form-check-label p-chk-cca__label"
+                            for="chkCCACheckbox"
+                          >
+                            Use your
+                            <span class="bold-text">CCA Allowance Voucher</span>
+                            <p class="d-none mb-0">CCA Voucher Uploaded</p>
+                          </label>
+                        </div>
                       </div>
                     </div>
 
@@ -1096,7 +1091,17 @@
                     data-chk-element="postal-card-container"
                   >
                     <div class="p-chk-user-card__header">
-                      <div class="p-chk-user-card__title">Add Postal Card</div>
+                      <div class="d-flex flex-column gap-1">
+                        <div
+                          class="p-chk-user-card__title"
+                          data-chk-postal-title
+                        >
+                          Add Postal Card
+                        </div>
+                        <p class="d-none mb-0" data-chk-postal-complete>
+                          Postal Card Complete
+                        </p>
+                      </div>
                       <button
                         class="p-chk-card__toggle-button"
                         id="chkPostalToggleButton"
@@ -1137,7 +1142,7 @@
                     </div>
 
                     <div
-                      class="p-chk-user-card__collapsible-content collapse"
+                      class="p-chk-user-card__collapsible-content"
                       id="chkPostalFormSection"
                     >
                       <div class="p-chk-user-card__content">
@@ -1276,8 +1281,16 @@
                   <!-- 3. Personal Card Form -->
                   <div class="p-chk-user-card__container">
                     <div class="p-chk-user-card__header">
-                      <div class="p-chk-user-card__title">
-                        Add Personal Debit/Credit Card
+                      <div class="d-flex flex-column gap-1">
+                        <div
+                          class="p-chk-user-card__title"
+                          data-chk-personal-title
+                        >
+                          Add Personal Debit/Credit Card
+                        </div>
+                        <p class="d-none mb-0" data-chk-personal-complete>
+                          Personal Card Complete
+                        </p>
                       </div>
                       <button
                         class="p-chk-card__toggle-button"

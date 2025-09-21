@@ -1,7 +1,7 @@
 // Main checkout script module
 import { initializePaymentForms } from "./modules/formUtil.js";
 import {
-  initializeSectionManager,
+  initializeFromFormData,
   handleEditButtonClick,
   handleCompleteButtonClick,
   handlePaymentCardClick,
@@ -15,7 +15,7 @@ import {
 
 window.GallsCheckout = {
   // Initialization Functions
-  initializeSectionManager: initializeSectionManager,
+  initializeFromFormData: initializeFromFormData,
   initializePaymentForms: initializePaymentForms,
   handleCCAForm: initializeCCAForm,
 
@@ -33,8 +33,8 @@ window.GallsCheckout = {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize section manager (includes state, buttons, and event handlers)
-  window.GallsCheckout.initializeSectionManager();
+  // Initialize sections based on form data
+  window.GallsCheckout.initializeFromFormData();
 
   // Initialize payment forms
   window.GallsCheckout.initializePaymentForms();

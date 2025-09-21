@@ -1,14 +1,15 @@
 <!-- =============================================================================
-     TEST STATES PANEL - DEVELOPMENT ONLY
+     TEST STATES PANEL - DEVELOPMENT ONLY (Updated for Data-Driven Flow)
      ============================================================================= 
-     This component provides UI controls for testing different checkout states.
+     This component provides UI controls for testing the new data-driven checkout
+     initialization using initializeFromFormData() instead of data-chk-state.
      Should NOT be included in production builds.
 -->
 
 <!-- Test States Control Panel -->
 <div class="p-chk-test-states" id="testStatesPanel">
   <div class="p-chk-test-states__header">
-    <h4>Test States</h4>
+    <h4>Data-Driven Tests</h4>
     <button
       type="button"
       class="p-chk-test-states__toggle"
@@ -21,52 +22,50 @@
 
   <div class="p-chk-test-states__content">
     <div class="p-chk-test-states__section">
-      <h5>State Testing</h5>
+      <h5>Data-Driven Testing</h5>
       <button
         type="button"
         class="p-chk-test-btn"
-        onclick="changeState('contact')"
+        onclick="testDataDrivenInit()"
+        title="Test initialization with current form data"
       >
-        Contact State
+        Test Current Data
       </button>
       <button
         type="button"
         class="p-chk-test-btn"
-        onclick="changeState('delivery')"
+        onclick="clearAllFormData()"
+        title="Clear all form fields to test empty state"
       >
-        Delivery State
-      </button>
-      <button
-        type="button"
-        class="p-chk-test-btn"
-        onclick="changeState('payment')"
-      >
-        Payment State
+        Clear All Data
       </button>
     </div>
 
     <div class="p-chk-test-states__section">
-      <h5>Mock Data Testing</h5>
+      <h5>Mock Data Scenarios</h5>
       <button
         type="button"
         class="p-chk-test-btn p-chk-test-btn--secondary"
         onclick="changeStateWithMockData('contact')"
+        title="New user - no data, contact form should open"
       >
-        Fresh Contact
+        Scenario 1: New User
       </button>
       <button
         type="button"
         class="p-chk-test-btn p-chk-test-btn--secondary"
         onclick="changeStateWithMockData('delivery')"
+        title="Contact filled - delivery form should open"
       >
-        Contact Filled
+        Scenario 2: Contact Done
       </button>
       <button
         type="button"
         class="p-chk-test-btn p-chk-test-btn--secondary"
         onclick="changeStateWithMockData('payment')"
+        title="Both contact & delivery filled - payment should be highlighted"
       >
-        All Filled
+        Scenario 3: Ready for Payment
       </button>
     </div>
   </div>

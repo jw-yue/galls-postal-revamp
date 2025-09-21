@@ -94,28 +94,27 @@ function initializeCVVMasks() {
   });
 }
 
-// Arrow direction toggle for toggle buttons (Bootstrap collapse specific)
+// Arrow direction toggle for toggle buttons (Bootstrap collapse)
 function setupToggleButtonRotation() {
-  const toggleButtons = [
-    { button: "chkPostalToggleButton", form: "chkPostalFormSection" },
-    { button: "chkPersonalToggleButton", form: "chkPersonalFormSection" },
+  const forms = [
+    { btnId: "chkPostalToggleButton", formId: "chkPostalFormSection" },
+    { btnId: "chkPersonalToggleButton", formId: "chkPersonalFormSection" },
   ];
 
-  toggleButtons.forEach(({ button, form }) => {
-    const toggleBtn = document.getElementById(button);
-    const formSection = document.getElementById(form);
+  forms.forEach(({ btnId, formId }) => {
+    const btn = document.getElementById(btnId);
+    const form = document.getElementById(formId);
+    const path = btn?.querySelector("svg path");
 
-    if (toggleBtn && formSection) {
-      const path = toggleBtn.querySelector("svg path");
-      if (path) {
-        formSection.addEventListener("show.bs.collapse", () => {
-          path.setAttribute("d", "M3.5 8.75L7 5.25L10.5 8.75"); // Down arrow
-        });
+    if (btn && form && path) {
+      // Handle Bootstrap collapse events
+      form.addEventListener("show.bs.collapse", () => {
+        path.setAttribute("d", "M3.5 8.75L7 5.25L10.5 8.75"); // Down arrow
+      });
 
-        formSection.addEventListener("hide.bs.collapse", () => {
-          path.setAttribute("d", "M3.5 5.25L7 8.75L10.5 5.25"); // Up arrow
-        });
-      }
+      form.addEventListener("hide.bs.collapse", () => {
+        path.setAttribute("d", "M3.5 5.25L7 8.75L10.5 5.25"); // Up arrow
+      });
     }
   });
 }

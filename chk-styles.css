@@ -1069,7 +1069,6 @@ body {
   font-weight: 700;
   font-size: 16px;
   line-height: 19px;
-  text-align: center;
 }
 
 .p-chk-user-card__toggle-icon {
@@ -1332,7 +1331,6 @@ body {
 
 .p-chk-cca__label .bold-text {
   font-weight: 700;
-  margin-left: 5px;
 }
 
 /* CCA Card Styles with Smooth Animation */

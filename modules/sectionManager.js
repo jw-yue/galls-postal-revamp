@@ -8,126 +8,352 @@ function getCurrentEditingSection() {
   return currentEditingSection;
 }
 
-// State-driven initialization function
-function initializeFromState() {
-  const mainContent = document.querySelector("[data-chk-state]");
-  const state = mainContent ? mainContent.getAttribute("data-chk-state") : null;
+// Data-driven initialization function
+function initializeFromFormData() {
+  console.log("Initializing from form data...");
 
-  console.log("Initializing from state:", state);
+  // Collect form data from all sections
+  const formData = {
+    contact: getContactData(),
+    delivery: getDeliveryData(),
+    payment: getPaymentData(),
+  };
 
-  if (!state) return;
+  console.log("Form data:", formData);
 
-  // Set up UI based on the state
-  switch (state) {
-    case "contact":
-      // Contact form should be open, other sections hidden/disabled (new user)
-      console.log("Setting up contact state - new user");
-      setTimeout(() => {
-        startEditing("contact");
-        // Restore payment section border radius when not in payment state
-        SectionManager.manageBorderRadius("payment", "restore");
-        // Show delivery Add button for new user (no delivery content yet)
-        updateEditButtonText("delivery", false);
-        // Ensure delivery shows empty state
-        const deliveryDisplayContent = document.querySelector(
-          '[data-chk-display-content="delivery"]'
-        );
-        const deliveryAddressElement = deliveryDisplayContent?.querySelector(
-          "[data-chk-delivery-address]"
-        );
-        const deliveryEmptyDescription = deliveryDisplayContent?.querySelector(
-          "[data-chk-delivery-empty]"
-        );
-        if (deliveryAddressElement && deliveryEmptyDescription) {
-          deliveryAddressElement.style.display = "none";
-          deliveryEmptyDescription.style.display = "block";
-        }
+  // Determine which section needs editing based on completeness
+  const sectionToEdit = determineEditingSection(formData);
+  console.log("Section to edit:", sectionToEdit);
 
-        // Ensure contact shows empty state
-        const contactDisplayContent = document.querySelector(
-          '[data-chk-display-content="contact"]'
-        );
-        const contactEmailElement = contactDisplayContent?.querySelector(
-          "[data-chk-contact-email]"
-        );
-        const contactEmptyDescription = contactDisplayContent?.querySelector(
-          "[data-chk-contact-empty]"
-        );
-        if (contactEmailElement && contactEmptyDescription) {
-          contactEmailElement.style.display = "none";
-          contactEmptyDescription.style.display = "block";
-        }
-      }, 100);
-      break;
+  // Set up UI based on form data completeness
+  setupSectionsFromData(formData, sectionToEdit);
+}
 
-    case "delivery":
-      // Contact completed, delivery form open
-      console.log("Setting up delivery state");
-      setTimeout(() => {
-        startEditing("delivery");
-        // Restore payment section border radius when not in payment state
-        SectionManager.manageBorderRadius("payment", "restore");
+// Extract contact form data
+function getContactData() {
+  const emailInput = document.querySelector(
+    '#contactEditForm input[type="email"]'
+  );
+  return {
+    email: emailInput?.value?.trim() || "",
+    isComplete: function () {
+      return this.email.length > 0;
+    },
+  };
+}
 
-        // Ensure contact shows completed email (not empty state)
-        const contactDisplayContent = document.querySelector(
-          '[data-chk-display-content="contact"]'
-        );
-        const contactEmailElement = contactDisplayContent?.querySelector(
-          "[data-chk-contact-email]"
-        );
-        const contactEmptyDescription = contactDisplayContent?.querySelector(
-          "[data-chk-contact-empty]"
-        );
-        if (contactEmailElement && contactEmptyDescription) {
-          contactEmailElement.style.display = "block";
-          contactEmptyDescription.style.display = "none";
-        }
-      }, 100);
-      break;
+// Extract delivery form data
+function getDeliveryData() {
+  const nameInput = document.querySelector(
+    '#deliveryEditForm input[placeholder*="full name"], #deliveryEditForm input[placeholder*="Full Name"]'
+  );
+  const addressInput = document.querySelector(
+    '#deliveryEditForm input[placeholder*="street"], #deliveryEditForm input[placeholder*="Street"]'
+  );
+  const cityInput = document.querySelector(
+    '#deliveryEditForm input[placeholder*="city"], #deliveryEditForm input[placeholder*="City"]'
+  );
+  const stateSelect = document.querySelector("#deliveryEditForm select");
+  const zipInput = document.querySelector(
+    '#deliveryEditForm input[placeholder*="ZIP"], #deliveryEditForm input[placeholder*="zip"]'
+  );
 
-    case "payment":
-      // Both contact and delivery completed, payment highlighted
-      console.log("Setting up payment state");
-      setTimeout(() => {
-        SectionManager.manageHeaders("payment", "show-blue");
-        SectionManager.manageBorderRadius("payment", "remove-top");
+  return {
+    name: nameInput?.value?.trim() || "",
+    address: addressInput?.value?.trim() || "",
+    city: cityInput?.value?.trim() || "",
+    state: stateSelect?.value || "",
+    zip: zipInput?.value?.trim() || "",
+    isComplete: function () {
+      return (
+        this.name.length > 0 &&
+        this.address.length > 0 &&
+        this.city.length > 0 &&
+        this.state.length > 0 &&
+        this.zip.length > 0
+      );
+    },
+  };
+}
 
-        // Ensure contact shows completed email (not empty state)
-        const contactDisplayContent = document.querySelector(
-          '[data-chk-display-content="contact"]'
-        );
-        const contactEmailElement = contactDisplayContent?.querySelector(
-          "[data-chk-contact-email]"
-        );
-        const contactEmptyDescription = contactDisplayContent?.querySelector(
-          "[data-chk-contact-empty]"
-        );
-        if (contactEmailElement && contactEmptyDescription) {
-          contactEmailElement.style.display = "block";
-          contactEmptyDescription.style.display = "none";
-        }
+// Extract payment form data (comprehensive check)
+function getPaymentData() {
+  // Check postal card form completeness
+  const postalCardNumber =
+    document.querySelector("#chkPostalCardNumber")?.value?.trim() || "";
+  const postalExpiry =
+    document.querySelector("#chkPostalCardExpiry")?.value?.trim() || "";
+  const postalCvv =
+    document.querySelector("#chkPostalCardCVV")?.value?.trim() || "";
+  const postalNameOnCard =
+    document.querySelector("#chkPostalCardName")?.value?.trim() || "";
 
-        // Ensure delivery shows completed address (not empty state)
-        const deliveryDisplayContent = document.querySelector(
-          '[data-chk-display-content="delivery"]'
-        );
-        const deliveryAddressElement = deliveryDisplayContent?.querySelector(
-          "[data-chk-delivery-address]"
-        );
-        const deliveryEmptyDescription = deliveryDisplayContent?.querySelector(
-          "[data-chk-delivery-empty]"
-        );
-        if (deliveryAddressElement && deliveryEmptyDescription) {
-          deliveryAddressElement.style.display = "block";
-          deliveryEmptyDescription.style.display = "none";
-        }
-      }, 100);
-      break;
+  // Check personal debit/credit card form completeness
+  const personalCardNumber =
+    document.querySelector("#chkPersonalCardNumber")?.value?.trim() || "";
+  const personalExpiry =
+    document.querySelector("#chkPersonalCardExpiry")?.value?.trim() || "";
+  const personalCvv =
+    document.querySelector("#chkPersonalCardCVV")?.value?.trim() || "";
+  const personalNameOnCard =
+    document.querySelector("#chkPersonalCardName")?.value?.trim() || "";
 
-    default:
-      // Default state - no specific initialization needed
-      console.log("No specific state initialization needed");
-      break;
+  // Determine if each payment method is completely filled
+  const isPostalCardComplete =
+    postalCardNumber.length > 0 &&
+    postalExpiry.length > 0 &&
+    postalCvv.length > 0 &&
+    postalNameOnCard.length > 0;
+
+  const isPersonalCardComplete =
+    personalCardNumber.length > 0 &&
+    personalExpiry.length > 0 &&
+    personalCvv.length > 0 &&
+    personalNameOnCard.length > 0;
+
+  return {
+    hasPostalCard: postalCardNumber.length > 0, // Any postal card data
+    hasPersonalCard: personalCardNumber.length > 0, // Any personal card data
+    isPostalCardComplete: isPostalCardComplete, // All postal card fields filled
+    isPersonalCardComplete: isPersonalCardComplete, // All personal card fields filled
+    isComplete: function () {
+      return isPostalCardComplete || isPersonalCardComplete; // At least one payment method completely filled
+    },
+  };
+}
+
+// Manage payment form display based on editing state and data
+function managePaymentForms(isEditingPayment, paymentData) {
+  const postalForm = document.querySelector("#chkPostalFormSection");
+  const personalForm = document.querySelector("#chkPersonalFormSection");
+  const postalTitle = document.querySelector("[data-chk-postal-title]");
+  const postalComplete = document.querySelector("[data-chk-postal-complete]");
+  const personalTitle = document.querySelector("[data-chk-personal-title]");
+  const personalComplete = document.querySelector(
+    "[data-chk-personal-complete]"
+  );
+
+  if (isEditingPayment) {
+    // When editing payment section, show postal form if incomplete, or show complete message if fully filled
+    if (paymentData.isPostalCardComplete) {
+      // Card is completely filled - show complete message, hide form
+      if (postalForm) postalForm.classList.remove("show");
+      if (postalTitle) postalTitle.style.display = "none";
+      if (postalComplete) postalComplete.classList.remove("d-none");
+    } else {
+      // Card is incomplete - show form for editing
+      if (postalForm) postalForm.classList.add("show");
+      if (postalTitle) postalTitle.style.display = "block";
+      if (postalComplete) postalComplete.classList.add("d-none");
+    }
+
+    // Similar logic for personal card
+    if (paymentData.isPersonalCardComplete) {
+      // Personal card is completely filled - show complete message, hide form
+      if (personalForm) personalForm.classList.remove("show");
+      if (personalTitle) personalTitle.style.display = "none";
+      if (personalComplete) personalComplete.classList.remove("d-none");
+    } else {
+      // Personal card is incomplete - show form for editing
+      if (personalForm) personalForm.classList.add("show");
+      if (personalTitle) personalTitle.style.display = "block";
+      if (personalComplete) personalComplete.classList.add("d-none");
+    }
+  } else {
+    // When not editing payment section, close all payment forms
+    if (postalForm) postalForm.classList.remove("show");
+    if (personalForm) personalForm.classList.remove("show");
+
+    // Show appropriate title/complete state based on full completion
+    if (paymentData.isPostalCardComplete) {
+      if (postalTitle) postalTitle.style.display = "none";
+      if (postalComplete) postalComplete.classList.remove("d-none");
+    } else {
+      if (postalTitle) postalTitle.style.display = "block";
+      if (postalComplete) postalComplete.classList.add("d-none");
+    }
+
+    if (paymentData.isPersonalCardComplete) {
+      if (personalTitle) personalTitle.style.display = "none";
+      if (personalComplete) personalComplete.classList.remove("d-none");
+    } else {
+      if (personalTitle) personalTitle.style.display = "block";
+      if (personalComplete) personalComplete.classList.add("d-none");
+    }
+  }
+}
+
+// Determine which section should be in edit mode
+function determineEditingSection(formData) {
+  // Check sections in order: contact -> delivery -> payment
+  if (!formData.contact.isComplete()) {
+    return "contact";
+  } else if (!formData.delivery.isComplete()) {
+    return "delivery";
+  } else if (!formData.payment.isComplete()) {
+    return "payment";
+  } else {
+    return null; // All sections complete
+  }
+}
+
+// Set up sections based on form data
+function setupSectionsFromData(formData, sectionToEdit) {
+  console.log("Setting up sections from data:", sectionToEdit);
+
+  // First, ensure all sections are in their closed/summary state
+  closeAllSections();
+
+  // Get payment data for form management
+  const paymentData = getPaymentData();
+
+  // Update contact section
+  if (formData.contact.isComplete()) {
+    showContactSummary(formData.contact);
+    SectionManager.manageHeaders("contact", "show-normal");
+  } else {
+    showContactEmpty();
+    SectionManager.manageHeaders("contact", "hide-blue");
+  }
+
+  // Update delivery section
+  if (formData.delivery.isComplete()) {
+    showDeliverySummary(formData.delivery);
+    updateEditButtonText("delivery", true); // Show "Edit"
+    SectionManager.manageHeaders("delivery", "show-normal");
+  } else {
+    showDeliveryEmpty();
+    updateEditButtonText("delivery", false); // Show "Add"
+    SectionManager.manageHeaders("delivery", "hide-blue");
+  }
+
+  // Manage payment forms based on editing state
+  const isEditingPayment = sectionToEdit === "payment";
+  managePaymentForms(isEditingPayment, formData.payment);
+
+  // Reset payment section header (will be set based on editing state)
+  SectionManager.manageHeaders("payment", "hide-blue");
+  SectionManager.manageBorderRadius("contact", "restore");
+  SectionManager.manageBorderRadius("delivery", "restore");
+  SectionManager.manageBorderRadius("payment", "restore");
+
+  // Start editing the appropriate section
+  if (sectionToEdit) {
+    setTimeout(() => {
+      startEditing(sectionToEdit);
+    }, 100);
+  }
+}
+
+// Close all section forms and show summaries
+function closeAllSections() {
+  // Close contact form, show summary
+  const contactForm = document.querySelector("#contactEditForm");
+  const contactDisplay = document.querySelector(
+    '[data-chk-display-content="contact"]'
+  );
+  if (contactForm && contactDisplay) {
+    contactForm.classList.remove("show");
+    contactDisplay.classList.remove("hidden");
+  }
+
+  // Close delivery form, show summary
+  const deliveryForm = document.querySelector("#deliveryEditForm");
+  const deliveryDisplay = document.querySelector(
+    '[data-chk-display-content="delivery"]'
+  );
+  if (deliveryForm && deliveryDisplay) {
+    deliveryForm.classList.remove("show");
+    deliveryDisplay.classList.remove("hidden");
+  }
+
+  // Close payment forms
+  const postalForm = document.querySelector("#chkPostalFormSection");
+  const personalForm = document.querySelector("#chkPersonalFormSection");
+  if (postalForm) postalForm.classList.remove("show");
+  if (personalForm) personalForm.classList.remove("show");
+
+  // Reset current editing section
+  currentEditingSection = null;
+}
+
+// Show contact summary with data
+function showContactSummary(contactData) {
+  const displayContent = document.querySelector(
+    '[data-chk-display-content="contact"]'
+  );
+  const emailElement = displayContent?.querySelector(
+    "[data-chk-contact-email]"
+  );
+  const emptyElement = displayContent?.querySelector(
+    "[data-chk-contact-empty]"
+  );
+
+  if (emailElement && emptyElement) {
+    emailElement.textContent = contactData.email;
+    emailElement.style.display = "block";
+    emptyElement.style.display = "none";
+  }
+}
+
+// Show contact empty state
+function showContactEmpty() {
+  const displayContent = document.querySelector(
+    '[data-chk-display-content="contact"]'
+  );
+  const emailElement = displayContent?.querySelector(
+    "[data-chk-contact-email]"
+  );
+  const emptyElement = displayContent?.querySelector(
+    "[data-chk-contact-empty]"
+  );
+
+  if (emailElement && emptyElement) {
+    emailElement.style.display = "none";
+    emptyElement.style.display = "block";
+  }
+}
+
+// Show delivery summary with data
+function showDeliverySummary(deliveryData) {
+  const displayContent = document.querySelector(
+    '[data-chk-display-content="delivery"]'
+  );
+  const addressElement = displayContent?.querySelector(
+    "[data-chk-delivery-address]"
+  );
+  const emptyElement = displayContent?.querySelector(
+    "[data-chk-delivery-empty]"
+  );
+
+  if (addressElement && emptyElement) {
+    // Format address display
+    addressElement.innerHTML = `
+      ${deliveryData.name}<br/>
+      ${deliveryData.address}<br/>
+      ${deliveryData.city}, ${deliveryData.state} ${deliveryData.zip}<br/>
+      United States
+    `;
+    addressElement.style.display = "block";
+    emptyElement.style.display = "none";
+  }
+}
+
+// Show delivery empty state
+function showDeliveryEmpty() {
+  const displayContent = document.querySelector(
+    '[data-chk-display-content="delivery"]'
+  );
+  const addressElement = displayContent?.querySelector(
+    "[data-chk-delivery-address]"
+  );
+  const emptyElement = displayContent?.querySelector(
+    "[data-chk-delivery-empty]"
+  );
+
+  if (addressElement && emptyElement) {
+    addressElement.style.display = "none";
+    emptyElement.style.display = "block";
   }
 }
 
@@ -215,6 +441,12 @@ const SectionManager = {
         // Show payment card header when editing other sections (restore if hidden)
         paymentCardHeader.style.display = "block";
       }
+    } else if (action === "show-normal") {
+      // Show header without blue styling (for completed sections)
+      if (sectionHeader) {
+        sectionHeader.classList.remove("active");
+        sectionHeader.style.display = "block";
+      }
     } else if (action === "hide-blue") {
       // Hide blue header
       if (sectionHeader) {
@@ -276,113 +508,6 @@ const SectionManager = {
   },
 };
 
-// Initialize button states and forms based on content
-function initializeButtonStates() {
-  // Check contact section state
-  const contactSection = document.querySelector(
-    '[data-chk-editable-section="contact"]'
-  );
-  const contactEditButton = document.getElementById("contactEditButton");
-  const contactDisplayContent = document.querySelector(
-    '[data-chk-display-content="contact"]'
-  );
-  const contactForm = document.querySelector('[data-chk-edit-form="contact"]');
-
-  if (contactSection && contactEditButton) {
-    // Check if contact has content by looking for filled display content
-    const contactEmail = contactDisplayContent?.querySelector(
-      "[data-chk-contact-email]"
-    );
-    const hasContactContent = contactEmail && contactEmail.textContent.trim();
-
-    if (hasContactContent) {
-      // Content exists - show Edit button
-      updateEditButtonText("contact", true);
-    } else {
-      // No content - check if form is expanded (new user scenario)
-      if (contactForm && contactForm.classList.contains("show")) {
-        // Form is open for new user - hide button
-        const contactEditButton = document.getElementById("contactEditButton");
-        if (contactEditButton) {
-          contactEditButton.style.display = "none";
-        }
-        startEditing("contact"); // Start editing for new users
-      } else {
-        // Form closed, no content - show Add button
-        updateEditButtonText("contact", false);
-      }
-    }
-  }
-
-  // Check delivery section state
-  const deliverySection = document.querySelector(
-    '[data-chk-editable-section="delivery"]'
-  );
-  const deliveryEditButton = document.getElementById("deliveryEditButton");
-  const deliveryDisplayContent = document.querySelector(
-    '[data-chk-display-content="delivery"]'
-  );
-  const deliveryForm = document.querySelector(
-    '[data-chk-edit-form="delivery"]'
-  );
-
-  if (deliverySection && deliveryEditButton) {
-    // Check if delivery has content
-    const deliveryAddress = deliveryDisplayContent?.querySelector(
-      "[data-chk-delivery-address]"
-    );
-    const hasDeliveryContent =
-      deliveryAddress &&
-      deliveryAddress.textContent.trim() &&
-      !deliveryAddress.textContent.includes("Add your delivery address");
-
-    if (hasDeliveryContent) {
-      // Content exists - show Edit button
-      updateEditButtonText("delivery", true);
-    } else {
-      // No content - check if form is expanded (contact-filled scenario)
-      if (deliveryForm && deliveryForm.classList.contains("show")) {
-        // Form is open - hide button, user needs to complete first
-        const deliveryEditButton =
-          document.getElementById("deliveryEditButton");
-        if (deliveryEditButton) {
-          deliveryEditButton.style.display = "none";
-        }
-        startEditing("delivery"); // Start editing for contact-filled scenario
-      } else {
-        // Form closed, no content - show Add button
-        updateEditButtonText("delivery", false);
-      }
-    }
-  }
-
-  // Check if payment section should be highlighted (scenario 3)
-  const paymentSection = document.querySelector(
-    '[data-chk-editable-section="payment"]'
-  );
-  if (paymentSection) {
-    // If both contact and delivery have content, highlight payment
-    const contactHasContent = contactDisplayContent
-      ?.querySelector("[data-chk-contact-email]")
-      ?.textContent.trim();
-    const deliveryHasContent = deliveryDisplayContent
-      ?.querySelector("[data-chk-delivery-address]")
-      ?.textContent.trim();
-
-    if (
-      contactHasContent &&
-      deliveryHasContent &&
-      !deliveryHasContent.includes("Add your delivery address")
-    ) {
-      // Both sections complete - highlight payment (scenario 3)
-      setTimeout(() => {
-        SectionManager.manageHeaders("payment", "show-blue");
-        SectionManager.manageBorderRadius("payment", "remove-top");
-      }, 100);
-    }
-  }
-}
-
 function startEditing(sectionType) {
   // Clear any existing editing state
   if (currentEditingSection) {
@@ -438,49 +563,30 @@ function completeEditing(sectionType) {
   // Smart automatic progression flow - determine next incomplete section
   setTimeout(() => {
     if (!currentEditingSection) {
-      // Always show delivery edit button when contact is completed
-      if (sectionType === "contact") {
-        const deliveryEditButton =
-          document.getElementById("deliveryEditButton");
-        if (deliveryEditButton) {
-          deliveryEditButton.style.display = "block";
-        }
-      }
-
       // Check current application state to determine if we should auto-progress
-      const currentState = document
-        .querySelector("[data-chk-state]")
-        ?.getAttribute("data-chk-state");
-      const nextIncompleteSection = getNextIncompleteSection();
+      const formData = {
+        contact: getContactData(),
+        delivery: getDeliveryData(),
+        payment: getPaymentData(),
+      };
+      const nextIncompleteSection = determineEditingSection(formData);
 
       // Only auto-progress if:
       // 1. There is a next incomplete section
       // 2. We're not already past that section (i.e., user isn't going backwards to edit)
       const shouldAutoProgress =
         nextIncompleteSection &&
-        ((currentState === "contact" && nextIncompleteSection === "delivery") ||
-          (currentState === "delivery" &&
-            nextIncompleteSection === "payment") ||
-          (currentState === "contact" && nextIncompleteSection === "payment"));
+        ((sectionType === "contact" && nextIncompleteSection === "delivery") ||
+          (sectionType === "delivery" && nextIncompleteSection === "payment") ||
+          (sectionType === "contact" && nextIncompleteSection === "payment"));
 
       if (shouldAutoProgress) {
         console.log(
           "Auto-progressing to next incomplete section:",
           nextIncompleteSection
         );
-        if (nextIncompleteSection === "payment") {
-          // Highlight payment section
-          SectionManager.manageHeaders("payment", "show-blue");
-          SectionManager.manageBorderRadius("payment", "remove-top");
-        } else {
-          // Start editing the next incomplete section
-          startEditing(nextIncompleteSection);
-        }
-      } else if (nextIncompleteSection === "payment") {
-        // If all sections are complete, ensure payment is highlighted
-        console.log("All sections complete, highlighting payment");
-        SectionManager.manageHeaders("payment", "show-blue");
-        SectionManager.manageBorderRadius("payment", "remove-top");
+        // Start editing the next incomplete section
+        startEditing(nextIncompleteSection);
       }
     }
   }, 300);
@@ -706,12 +812,6 @@ function updateDeliveryDisplay(sectionType) {
   }
 }
 
-// Main initialization function that sets up everything
-function initializeSectionManager() {
-  initializeFromState();
-  initializeButtonStates();
-}
-
 // Section wrapper functions for HTML event handlers
 function handleEditButtonClick(sectionType) {
   startEditing(sectionType);
@@ -741,13 +841,13 @@ function handlePaymentCardClick(event) {
 }
 
 export {
-  initializeSectionManager,
+  initializeFromFormData,
   startEditing,
   completeEditing,
-  initializeFromState,
   getCurrentEditingSection,
   updateEditButtonText,
   handleEditButtonClick,
   handleCompleteButtonClick,
   handlePaymentCardClick,
+  closeAllSections,
 };
