@@ -605,7 +605,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 20px;
 }
 
 .p-chk-contact-edit__field {
@@ -736,8 +735,7 @@ body {
 .p-chk-address-edit__form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 20px;
+  gap: 12px;
 }
 
 .p-chk-address-edit__field {
@@ -1947,4 +1945,14 @@ body {
 .p-chk-form__input-error:focus {
   border: 1px solid #dc3545 !important;
   box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
+}
+
+.p-chk-billing-section__title {
+  color: #000;
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
 }

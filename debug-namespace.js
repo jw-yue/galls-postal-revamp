@@ -1,1 +1,0 @@
-console.log('GallsCheckout:', typeof window.GallsCheckout); console.log('handleCCAForm:', typeof GallsCheckout.handleCCAForm); console.log('handleCCACheckboxClick:', typeof GallsCheckout.handleCCAForm?.handleCCACheckboxClick);

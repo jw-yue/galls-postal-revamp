@@ -63,22 +63,32 @@ function getDeliveryData() {
     '#deliveryEditForm input[placeholder*="ZIP"], #deliveryEditForm input[placeholder*="zip"]'
   );
 
-  return {
+  const deliveryData = {
     name: nameInput?.value?.trim() || "",
     address: addressInput?.value?.trim() || "",
     city: cityInput?.value?.trim() || "",
     state: stateSelect?.value || "",
     zip: zipInput?.value?.trim() || "",
     isComplete: function () {
-      return (
+      const isComplete =
         this.name.length > 0 &&
         this.address.length > 0 &&
         this.city.length > 0 &&
         this.state.length > 0 &&
-        this.zip.length > 0
-      );
+        this.zip.length > 0;
+      console.log("Delivery data completeness check:", {
+        name: this.name,
+        address: this.address,
+        city: this.city,
+        state: this.state,
+        zip: this.zip,
+        isComplete: isComplete,
+      });
+      return isComplete;
     },
   };
+
+  return deliveryData;
 }
 
 // Extract payment form data (comprehensive check)
@@ -149,7 +159,7 @@ function getPaymentData() {
     },
     allFormsComplete: function () {
       return (
-        isPostalCardComplete && isPersonalCardComplete && isCCACardComplete
+        isPostalCardComplete || isPersonalCardComplete || isCCACardComplete
       ); // At least one payment method completely filled
     },
   };
@@ -218,15 +228,15 @@ function managePaymentForms(isEditingPayment, paymentData) {
 
 // Determine which section should be in edit mode
 function determineEditingSection(formData) {
-  // Check sections in order: contact -> delivery -> payment
+  // Always follow the progression: contact -> delivery -> payment
+  // regardless of completion status
   if (!formData.contact.isComplete()) {
     return "contact";
   } else if (!formData.delivery.isComplete()) {
     return "delivery";
-  } else if (!formData.payment.allFormsComplete()) {
-    return "payment";
   } else {
-    return null; // All sections complete
+    // If contact and delivery are complete, always go to payment
+    return "payment";
   }
 }
 
@@ -594,6 +604,18 @@ function startEditing(sectionType) {
 function completeEditing(sectionType) {
   console.log("completeEditing called with:", sectionType);
 
+  // Capture form data BEFORE any UI updates that might affect form state
+  const formDataBeforeUpdate = {
+    contact: getContactData(),
+    delivery: getDeliveryData(),
+    payment: getPaymentData(),
+  };
+  console.log("Form data captured before UI updates:", {
+    contact: formDataBeforeUpdate.contact.isComplete(),
+    delivery: formDataBeforeUpdate.delivery.isComplete(),
+    payment: formDataBeforeUpdate.payment.allFormsComplete(),
+  });
+
   // Use unified header management
   SectionManager.manageHeaders(sectionType, "hide-blue");
 
@@ -604,8 +626,11 @@ function completeEditing(sectionType) {
   SectionManager.manageBorderRadius(sectionType, "restore");
 
   // Update display content with form data for contact and delivery sections
-  if (sectionType === "contact" || sectionType === "delivery") {
+  if (sectionType === "contact") {
     updateContactDisplay(sectionType);
+    SectionManager.hideSectionForm(sectionType); // Hide edit form
+  } else if (sectionType === "delivery") {
+    updateDeliveryDisplay(sectionType);
     SectionManager.hideSectionForm(sectionType); // Hide edit form
   }
 
@@ -613,14 +638,23 @@ function completeEditing(sectionType) {
 
   // Smart automatic progression flow - determine next incomplete section
   setTimeout(() => {
+    console.log(
+      "Auto-progression timeout triggered, currentEditingSection:",
+      currentEditingSection
+    );
     if (!currentEditingSection) {
-      // Check current application state to determine if we should auto-progress
-      const formData = {
-        contact: getContactData(),
-        delivery: getDeliveryData(),
-        payment: getPaymentData(),
-      };
+      // Use the form data captured BEFORE UI updates
+      const formData = formDataBeforeUpdate;
+
+      console.log("Auto-progression check - Form data completeness:", {
+        contact: formData.contact.isComplete(),
+        delivery: formData.delivery.isComplete(),
+        paymentAllComplete: formData.payment.allFormsComplete(),
+        paymentData: formData.payment,
+      });
+
       const nextIncompleteSection = determineEditingSection(formData);
+      console.log("Next incomplete section determined:", nextIncompleteSection);
 
       // Only auto-progress if:
       // 1. There is a next incomplete section
@@ -631,6 +665,15 @@ function completeEditing(sectionType) {
           (sectionType === "delivery" && nextIncompleteSection === "payment") ||
           (sectionType === "contact" && nextIncompleteSection === "payment"));
 
+      console.log(
+        "Should auto-progress?",
+        shouldAutoProgress,
+        "from",
+        sectionType,
+        "to",
+        nextIncompleteSection
+      );
+
       if (shouldAutoProgress) {
         console.log(
           "Auto-progressing to next incomplete section:",
@@ -638,7 +681,24 @@ function completeEditing(sectionType) {
         );
         // Start editing the next incomplete section
         startEditing(nextIncompleteSection);
+      } else {
+        console.log("Not auto-progressing. Reasons:", {
+          hasNextSection: !!nextIncompleteSection,
+          validTransition:
+            nextIncompleteSection &&
+            ((sectionType === "contact" &&
+              nextIncompleteSection === "delivery") ||
+              (sectionType === "delivery" &&
+                nextIncompleteSection === "payment") ||
+              (sectionType === "contact" &&
+                nextIncompleteSection === "payment")),
+        });
       }
+    } else {
+      console.log(
+        "Not auto-progressing because currentEditingSection is:",
+        currentEditingSection
+      );
     }
   }, 300);
 }
