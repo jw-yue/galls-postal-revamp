@@ -729,212 +729,293 @@
                 <!-- Left Side: Product List -->
                 <div class="p-chk-payment-section__left">
                   <div class="p-chk-product__container">
-                    <div class="p-chk-product__item">
-                      <img
-                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
-                        alt="Mission Made Men's Long Sleeve Combat Shirt"
-                        class="p-chk-product__image"
-                      />
-                      <div class="p-chk-product__details">
-                        <h4 class="p-chk-product__title">
-                          <a
-                            href="/products/mission-made-mens-long-sleeve-combat-shirt"
-                            class="p-chk-product__title-link"
-                            >Mission Made Men's Long Sleeve Combat Shirt</a
-                          >
-                        </h4>
-                        <div class="p-chk-product__info">
-                          <span class="p-chk-product__attribute"
-                            >Color: Blue • Size: XL</span
-                          >
-                          <span class="p-chk-product__quantity">QTY: 1</span>
-                          <span class="p-chk-product__price"
-                            >Price: $34.99</span
-                          >
-                        </div>
-                        <div
-                          class="p-chk-product__badge p-chk-product__badge--postal"
-                        >
-                          <span class="p-chk-product__badge-text"
-                            >Postal Card Eligible</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="p-chk-product__item">
-                      <img
-                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
-                        alt="Mission Made Men's Long Sleeve Combat Shirt"
-                        class="p-chk-product__image"
-                      />
-                      <div class="p-chk-product__details">
-                        <h4 class="p-chk-product__title">
-                          <a
-                            href="/products/mission-made-mens-long-sleeve-combat-shirt-2"
-                            class="p-chk-product__title-link"
-                            >Mission Made Men's Long Sleeve Combat Shirt</a
-                          >
-                        </h4>
-                        <div class="p-chk-product__info">
-                          <span class="p-chk-product__attribute"
-                            >Color: Blue • Size: XL</span
-                          >
-                          <span class="p-chk-product__quantity">QTY: 1</span>
-                          <span class="p-chk-product__price"
-                            >Price: $34.99</span
-                          >
-                        </div>
-                        <div
-                          class="p-chk-product__badge p-chk-product__badge--postal"
-                        >
-                          <span class="p-chk-product__badge-text"
-                            >Postal Card Eligible</span
-                          >
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="p-chk-product__item">
-                      <img
-                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
-                        alt="Mission Made Men's Long Sleeve Combat Shirt"
-                        class="p-chk-product__image"
-                      />
-                      <div class="p-chk-product__details">
-                        <h4 class="p-chk-product__title">
-                          <a
-                            href="/products/mission-made-mens-long-sleeve-combat-shirt-3"
-                            class="p-chk-product__title-link"
-                            >Mission Made Men's Long Sleeve Combat Shirt</a
-                          >
-                        </h4>
-                        <div class="p-chk-product__info">
-                          <span class="p-chk-product__attribute"
-                            >Color: Blue • Size: XL</span
-                          >
-                          <span class="p-chk-product__quantity">QTY: 1</span>
-                          <span class="p-chk-product__price"
-                            >Price: $34.99</span
-                          >
-                        </div>
-                        <div
-                          class="p-chk-product__badge p-chk-product__badge--postal"
-                        >
-                          <span class="p-chk-product__badge-text"
-                            >Postal Card Eligible</span
-                          >
-                        </div>
-                        <div class="p-chk-product__postal-info">
-                          <div class="p-chk-product__postal-title">
-                            Partially covered by Postal Card
+                    <!-- Mobile Header with Collapse Toggle -->
+                    <div class="d-md-none p-chk-user-card__container">
+                      <div
+                        class="p-chk-products-mobile-summary d-flex justify-content-between align-items-center"
+                      >
+                        <div class="d-flex align-items-center gap-2">
+                          <div class="p-chk-product__mobile-images">
+                            <img
+                              src="https://placehold.co/24x24/333333/ffffff?text=1"
+                              alt="Product 1"
+                              class="p-chk-product__mobile-thumb"
+                            />
+                            <img
+                              src="https://placehold.co/24x24/333333/ffffff?text=2"
+                              alt="Product 2"
+                              class="p-chk-product__mobile-thumb"
+                            />
+                            <img
+                              src="https://placehold.co/24x24/333333/ffffff?text=3"
+                              alt="Product 3"
+                              class="p-chk-product__mobile-thumb"
+                            />
+                            <img
+                              src="https://placehold.co/24x24/333333/ffffff?text=4"
+                              alt="Product 4"
+                              class="p-chk-product__mobile-thumb"
+                            />
+                            <span class="p-chk-product__mobile-count">+5</span>
                           </div>
-                          <div class="p-chk-product__postal-breakdown">
-                            $30.02 applied to Postal Card – $4.97 will be
-                            charged to your personal card.
+                          <span class="p-chk-product__mobile-total"
+                            >Total: $104.97</span
+                          >
+                        </div>
+                        <button
+                          class="p-chk-card__toggle-button"
+                          id="mobileProductToggleButton"
+                          data-chk-element="mobile-product-toggle-button"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#mobileProductList"
+                          aria-expanded="false"
+                          aria-controls="mobileProductList"
+                          title="Toggle Product List"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="14"
+                            height="14"
+                            viewBox="0 0 14 14"
+                            fill="none"
+                          >
+                            <path
+                              d="M3.5 5.25L7 8.75L10.5 5.25"
+                              stroke="black"
+                              stroke-width="1.5"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <!-- Product List - Hidden on mobile by default, shown on desktop -->
+                    <div class="collapse d-md-block" id="mobileProductList">
+                      <div class="p-chk-product__container">
+                        <div class="p-chk-product__item">
+                          <img
+                            src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                            alt="Mission Made Men's Long Sleeve Combat Shirt"
+                            class="p-chk-product__image"
+                          />
+                          <div class="p-chk-product__details">
+                            <h4 class="p-chk-product__title">
+                              <a
+                                href="/products/mission-made-mens-long-sleeve-combat-shirt"
+                                class="p-chk-product__title-link"
+                                >Mission Made Men's Long Sleeve Combat Shirt</a
+                              >
+                            </h4>
+                            <div class="p-chk-product__info">
+                              <span class="p-chk-product__attribute"
+                                >Color: Blue • Size: XL</span
+                              >
+                              <span class="p-chk-product__quantity"
+                                >QTY: 1</span
+                              >
+                              <span class="p-chk-product__price"
+                                >Price: $34.99</span
+                              >
+                            </div>
+                            <div
+                              class="p-chk-product__badge p-chk-product__badge--postal"
+                            >
+                              <span class="p-chk-product__badge-text"
+                                >Postal Card Eligible</span
+                              >
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </div>
 
-                    <div class="p-chk-product__item">
-                      <img
-                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
-                        alt="Mission Made Men's Long Sleeve Combat Shirt"
-                        class="p-chk-product__image"
-                      />
-                      <div class="p-chk-product__details">
-                        <h4 class="p-chk-product__title">
-                          <a
-                            href="/products/mission-made-mens-long-sleeve-combat-shirt-4"
-                            class="p-chk-product__title-link"
-                            >Mission Made Men's Long Sleeve Combat Shirt</a
-                          >
-                        </h4>
-                        <div class="p-chk-product__info">
-                          <span class="p-chk-product__attribute"
-                            >Color: Blue • Size: XL</span
-                          >
-                          <span class="p-chk-product__quantity">QTY: 1</span>
-                          <span class="p-chk-product__price"
-                            >Price: $34.99</span
-                          >
+                        <div class="p-chk-product__item">
+                          <img
+                            src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                            alt="Mission Made Men's Long Sleeve Combat Shirt"
+                            class="p-chk-product__image"
+                          />
+                          <div class="p-chk-product__details">
+                            <h4 class="p-chk-product__title">
+                              <a
+                                href="/products/mission-made-mens-long-sleeve-combat-shirt-2"
+                                class="p-chk-product__title-link"
+                                >Mission Made Men's Long Sleeve Combat Shirt</a
+                              >
+                            </h4>
+                            <div class="p-chk-product__info">
+                              <span class="p-chk-product__attribute"
+                                >Color: Blue • Size: XL</span
+                              >
+                              <span class="p-chk-product__quantity"
+                                >QTY: 1</span
+                              >
+                              <span class="p-chk-product__price"
+                                >Price: $34.99</span
+                              >
+                            </div>
+                            <div
+                              class="p-chk-product__badge p-chk-product__badge--postal"
+                            >
+                              <span class="p-chk-product__badge-text"
+                                >Postal Card Eligible</span
+                              >
+                            </div>
+                          </div>
                         </div>
-                        <div
-                          class="p-chk-product__badge p-chk-product__badge--personal"
-                        >
-                          <span class="p-chk-product__badge-text"
-                            >Personal Card Only</span
-                          >
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="p-chk-product__item">
-                      <img
-                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
-                        alt="Mission Made Men's Long Sleeve Combat Shirt"
-                        class="p-chk-product__image"
-                      />
-                      <div class="p-chk-product__details">
-                        <h4 class="p-chk-product__title">
-                          <a
-                            href="/products/mission-made-mens-long-sleeve-combat-shirt-5"
-                            class="p-chk-product__title-link"
-                            >Mission Made Men's Long Sleeve Combat Shirt</a
-                          >
-                        </h4>
-                        <div class="p-chk-product__info">
-                          <span class="p-chk-product__attribute"
-                            >Color: Blue • Size: XL</span
-                          >
-                          <span class="p-chk-product__quantity">QTY: 1</span>
-                          <span class="p-chk-product__price"
-                            >Price: $34.99</span
-                          >
+                        <div class="p-chk-product__item">
+                          <img
+                            src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                            alt="Mission Made Men's Long Sleeve Combat Shirt"
+                            class="p-chk-product__image"
+                          />
+                          <div class="p-chk-product__details">
+                            <h4 class="p-chk-product__title">
+                              <a
+                                href="/products/mission-made-mens-long-sleeve-combat-shirt-3"
+                                class="p-chk-product__title-link"
+                                >Mission Made Men's Long Sleeve Combat Shirt</a
+                              >
+                            </h4>
+                            <div class="p-chk-product__info">
+                              <span class="p-chk-product__attribute"
+                                >Color: Blue • Size: XL</span
+                              >
+                              <span class="p-chk-product__quantity"
+                                >QTY: 1</span
+                              >
+                              <span class="p-chk-product__price"
+                                >Price: $34.99</span
+                              >
+                            </div>
+                            <div
+                              class="p-chk-product__badge p-chk-product__badge--postal"
+                            >
+                              <span class="p-chk-product__badge-text"
+                                >Postal Card Eligible</span
+                              >
+                            </div>
+                            <div class="p-chk-product__postal-info">
+                              <div class="p-chk-product__postal-title">
+                                Partially covered by Postal Card
+                              </div>
+                              <div class="p-chk-product__postal-breakdown">
+                                $30.02 applied to Postal Card – $4.97 will be
+                                charged to your personal card.
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div
-                          class="p-chk-product__badge p-chk-product__badge--personal"
-                        >
-                          <span class="p-chk-product__badge-text"
-                            >Personal Card Only</span
-                          >
-                        </div>
-                      </div>
-                    </div>
 
-                    <div class="p-chk-product__item">
-                      <img
-                        src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
-                        alt="Mission Made Men's Long Sleeve Combat Shirt"
-                        class="p-chk-product__image"
-                      />
-                      <div class="p-chk-product__details">
-                        <h4 class="p-chk-product__title">
-                          <a
-                            href="/products/mission-made-mens-long-sleeve-combat-shirt-6"
-                            class="p-chk-product__title-link"
-                            >Mission Made Men's Long Sleeve Combat Shirt</a
-                          >
-                        </h4>
-                        <div class="p-chk-product__info">
-                          <span class="p-chk-product__attribute"
-                            >Color: Blue • Size: XL</span
-                          >
-                          <span class="p-chk-product__quantity">QTY: 1</span>
-                          <span class="p-chk-product__price"
-                            >Price: $34.99</span
-                          >
+                        <div class="p-chk-product__item">
+                          <img
+                            src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                            alt="Mission Made Men's Long Sleeve Combat Shirt"
+                            class="p-chk-product__image"
+                          />
+                          <div class="p-chk-product__details">
+                            <h4 class="p-chk-product__title">
+                              <a
+                                href="/products/mission-made-mens-long-sleeve-combat-shirt-4"
+                                class="p-chk-product__title-link"
+                                >Mission Made Men's Long Sleeve Combat Shirt</a
+                              >
+                            </h4>
+                            <div class="p-chk-product__info">
+                              <span class="p-chk-product__attribute"
+                                >Color: Blue • Size: XL</span
+                              >
+                              <span class="p-chk-product__quantity"
+                                >QTY: 1</span
+                              >
+                              <span class="p-chk-product__price"
+                                >Price: $34.99</span
+                              >
+                            </div>
+                            <div
+                              class="p-chk-product__badge p-chk-product__badge--personal"
+                            >
+                              <span class="p-chk-product__badge-text"
+                                >Personal Card Only</span
+                              >
+                            </div>
+                          </div>
                         </div>
-                        <div
-                          class="p-chk-product__badge p-chk-product__badge--personal"
-                        >
-                          <span class="p-chk-product__badge-text"
-                            >Personal Card Only</span
-                          >
+
+                        <div class="p-chk-product__item">
+                          <img
+                            src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                            alt="Mission Made Men's Long Sleeve Combat Shirt"
+                            class="p-chk-product__image"
+                          />
+                          <div class="p-chk-product__details">
+                            <h4 class="p-chk-product__title">
+                              <a
+                                href="/products/mission-made-mens-long-sleeve-combat-shirt-5"
+                                class="p-chk-product__title-link"
+                                >Mission Made Men's Long Sleeve Combat Shirt</a
+                              >
+                            </h4>
+                            <div class="p-chk-product__info">
+                              <span class="p-chk-product__attribute"
+                                >Color: Blue • Size: XL</span
+                              >
+                              <span class="p-chk-product__quantity"
+                                >QTY: 1</span
+                              >
+                              <span class="p-chk-product__price"
+                                >Price: $34.99</span
+                              >
+                            </div>
+                            <div
+                              class="p-chk-product__badge p-chk-product__badge--personal"
+                            >
+                              <span class="p-chk-product__badge-text"
+                                >Personal Card Only</span
+                              >
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="p-chk-product__item">
+                          <img
+                            src="https://placehold.co/64x64/333333/ffffff?text=Shirt"
+                            alt="Mission Made Men's Long Sleeve Combat Shirt"
+                            class="p-chk-product__image"
+                          />
+                          <div class="p-chk-product__details">
+                            <h4 class="p-chk-product__title">
+                              <a
+                                href="/products/mission-made-mens-long-sleeve-combat-shirt-6"
+                                class="p-chk-product__title-link"
+                                >Mission Made Men's Long Sleeve Combat Shirt</a
+                              >
+                            </h4>
+                            <div class="p-chk-product__info">
+                              <span class="p-chk-product__attribute"
+                                >Color: Blue • Size: XL</span
+                              >
+                              <span class="p-chk-product__quantity"
+                                >QTY: 1</span
+                              >
+                              <span class="p-chk-product__price"
+                                >Price: $34.99</span
+                              >
+                            </div>
+                            <div
+                              class="p-chk-product__badge p-chk-product__badge--personal"
+                            >
+                              <span class="p-chk-product__badge-text"
+                                >Personal Card Only</span
+                              >
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <!-- Close collapse div -->
                   </div>
                 </div>
 

@@ -96,17 +96,17 @@ function initializeCVVMasks() {
 
 // Arrow direction toggle for toggle buttons (Bootstrap collapse)
 function setupToggleButtonRotation() {
-  const forms = [
-    { btnId: "chkPostalToggleButton", formId: "chkPostalFormSection" },
-    { btnId: "chkPersonalToggleButton", formId: "chkPersonalFormSection" },
-  ];
+  // Find all buttons with data-bs-toggle="collapse" that have SVG icons
+  const toggleButtons = document.querySelectorAll(
+    'button[data-bs-toggle="collapse"]'
+  );
 
-  forms.forEach(({ btnId, formId }) => {
-    const btn = document.getElementById(btnId);
-    const form = document.getElementById(formId);
-    const path = btn?.querySelector("svg path");
+  toggleButtons.forEach((btn) => {
+    const targetId = btn.getAttribute("data-bs-target")?.replace("#", "");
+    const form = targetId ? document.getElementById(targetId) : null;
+    const path = btn.querySelector("svg path");
 
-    if (btn && form && path) {
+    if (form && path) {
       // Handle Bootstrap collapse events
       form.addEventListener("show.bs.collapse", () => {
         path.setAttribute("d", "M3.5 8.75L7 5.25L10.5 8.75"); // Down arrow

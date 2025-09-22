@@ -1682,6 +1682,10 @@ body {
   border-radius: 12px;
 }
 
+.p-chk-products-mobile-summary {
+  padding: 20px;
+}
+
 .p-chk-product__header {
   display: flex;
   justify-content: space-between;
@@ -1915,6 +1919,10 @@ body {
     padding: 12px;
   }
 
+  .p-chk-products-mobile-summary {
+    padding: 12px;
+  }
+
   .p-chk-product__item {
     flex-direction: column;
     text-align: left;
@@ -1955,4 +1963,39 @@ body {
   font-weight: 700;
   line-height: normal;
   text-transform: capitalize;
+}
+
+/* Mobile Product Header Styles */
+
+.p-chk-product__mobile-images {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.p-chk-product__mobile-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #e3e3e3;
+}
+
+.p-chk-product__mobile-count {
+  background-color: #f5f5f5;
+  color: #666;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 12px;
+  margin-left: 4px;
+}
+
+.p-chk-product__mobile-total {
+  color: #002133;
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  margin-left: 12px;
 }
