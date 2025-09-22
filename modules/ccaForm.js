@@ -1,19 +1,30 @@
+// Import showBSAlertModal from formUtil
+import { showBSAlertModal } from "./formUtil.js";
+
 // API call to submit voucher - placeholder function
 function handleUploadVoucherButtonClick(event) {
   event.preventDefault();
 
-  const submitButton = document.querySelector(
-    '[data-chk-element="submit-button"]'
-  );
+  // Check if file has been selected
   const fileNameInput = document.querySelector(
     '[data-chk-element="file-name-input"]'
   );
-  // API call to send file to backend would go here
-  if (true) {
-    uploadVoucherButtonState("voucherUploadSuccess");
-  } else {
-    uploadVoucherButtonState("voucherUploadError");
+
+  if (
+    !fileNameInput ||
+    !fileNameInput.value ||
+    fileNameInput.value === "Name your file"
+  ) {
+    // No file selected - show alert modal
+    showBSAlertModal(
+      "File Upload Required",
+      "Please upload a file to continue."
+    );
+    return;
   }
+
+  // File is selected, proceed with upload
+  uploadVoucherButtonState("voucherUploadSuccess");
 }
 
 // Handle file selection dialog and update input field
@@ -51,9 +62,6 @@ function uploadVoucherButtonState(state) {
 
   switch (state) {
     case "enableVoucherUpload":
-      if (uploadVoucherButton) {
-        uploadVoucherButton.disabled = false;
-      }
       // Show remove button when file is selected
       toggleRemoveButton(true);
       break;
@@ -80,7 +88,6 @@ function uploadVoucherButtonState(state) {
         successMessage.style.display = "none";
       }
       if (uploadVoucherButton) {
-        uploadVoucherButton.disabled = true;
       }
       // Hide remove button on error
       toggleRemoveButton(false);
@@ -96,7 +103,6 @@ function uploadVoucherButtonState(state) {
       }
       if (uploadVoucherButton) {
         uploadVoucherButton.style.display = "block";
-        uploadVoucherButton.disabled = true;
       }
       // Hide remove button
       toggleRemoveButton(false);

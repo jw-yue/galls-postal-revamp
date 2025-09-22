@@ -110,6 +110,41 @@
       </button>
     </div>
 
+    <!-- Generic Alert Modal -->
+    <div
+      class="modal fade"
+      id="alertModal"
+      tabindex="-1"
+      aria-labelledby="alertModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="alertModalLabel">Alert</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <p id="alertModalMessage">Alert message goes here.</p>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              OK
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Main Layout -->
     <div class="p-chk-main__container">
       <!-- Main Content - Left-->
@@ -749,7 +784,7 @@
                 <div class="p-chk-payment-section__left">
                   <div class="p-chk-product__container">
                     <!-- Mobile Header with Collapse Toggle -->
-                    <div class="d-md-none p-chk-user-card__container">
+                    <div class="d-lg-none p-chk-user-card__container">
                       <div
                         class="p-chk-products-mobile-summary d-flex justify-content-between align-items-center"
                       >
@@ -812,7 +847,7 @@
                     </div>
 
                     <!-- Product List - Hidden on mobile by default, shown on desktop -->
-                    <div class="collapse d-md-block" id="mobileProductList">
+                    <div class="collapse d-lg-block" id="mobileProductList">
                       <div class="p-chk-product__container">
                         <div class="p-chk-product__item">
                           <img
@@ -1093,7 +1128,10 @@
                           your order
                         </div>
 
-                        <div class="p-chk-cca__form-container">
+                        <div
+                          class="p-chk-cca__form-container show"
+                          id="ccaFormContainer"
+                        >
                           <div class="p-chk-user-card__form-fields">
                             <div class="p-chk-form__input-field">
                               <input
@@ -1120,7 +1158,6 @@
                             </div>
 
                             <div
-                              class="show"
                               id="chkCCAVoucherUploadSection"
                               data-chk-cca-voucher-upload
                             >
@@ -1234,7 +1271,6 @@
                                     type="button"
                                     class="p-chk-cca__upload-voucher-button"
                                     data-chk-element="upload-button"
-                                    disabled
                                     onclick="GallsCheckout.handleCCAForm.handleUploadVoucherButtonClick(event)"
                                   >
                                     <span class="p-chk-cca__upload-voucher-text"
@@ -1276,39 +1312,37 @@
                                 </div>
                               </div>
                             </div>
-
-                            <div class="p-chk-cca__disclaimer-container">
-                              <div class="p-chk-cca__disclaimer-row">
-                                <div class="form-check">
-                                  <input
-                                    class="form-check-input"
-                                    type="checkbox"
-                                    id="chkDisclaimerCheckbox"
-                                    data-chk-element="disclaimer-checkbox"
-                                    data-bs-toggle="collapse"
-                                    data-bs-target="#chkCCAVoucherUploadSection"
-                                    aria-expanded="true"
-                                    aria-controls="chkCCAVoucherUploadSection"
-                                    onclick="GallsCheckout.handleCCAForm.handleDisclaimerCheckboxClick(this)"
-                                  />
-                                  <label
-                                    class="form-check-label p-chk-cca__disclaimer-label"
-                                    for="chkDisclaimerCheckbox"
-                                  >
-                                    I do not wish to upload my voucher at this
-                                    time. I acknowledge I am still required to
-                                    provide my voucher for verification before
-                                    my order will be processed
-                                  </label>
-                                </div>
-                              </div>
+                          </div>
+                        </div>
+                        <div class="p-chk-cca__disclaimer-container">
+                          <div class="p-chk-cca__disclaimer-row">
+                            <div class="form-check">
+                              <input
+                                class="form-check-input"
+                                type="checkbox"
+                                id="chkDisclaimerCheckbox"
+                                data-chk-element="disclaimer-checkbox"
+                                data-bs-toggle="collapse"
+                                data-bs-target="#ccaFormContainer"
+                                aria-expanded="true"
+                                aria-controls="chkCCAVoucherUploadSection"
+                                onclick="GallsCheckout.handleCCAForm.handleDisclaimerCheckboxClick(this)"
+                              />
+                              <label
+                                class="form-check-label p-chk-cca__disclaimer-label"
+                                for="chkDisclaimerCheckbox"
+                              >
+                                I do not wish to upload my voucher at this time.
+                                I acknowledge I am still required to provide my
+                                voucher for verification before my order will be
+                                processed
+                              </label>
                             </div>
                           </div>
                         </div>
 
                         <button
                           class="p-chk-primary-button"
-                          disabled
                           data-chk-element="submit-button"
                           onclick="GallsCheckout.handleCCAForm.handleSubmitButtonClick(event)"
                         >

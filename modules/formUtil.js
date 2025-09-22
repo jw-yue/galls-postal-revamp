@@ -3,6 +3,21 @@
  * Handles form UI validation, input masking, and interaction logic for payment forms
  */
 
+// Generic function to show alert modal
+function showBSAlertModal(title, message) {
+  const modal = document.getElementById("alertModal");
+  const modalTitle = document.getElementById("alertModalLabel");
+  const modalMessage = document.getElementById("alertModalMessage");
+
+  if (modal && modalTitle && modalMessage) {
+    modalTitle.textContent = title;
+    modalMessage.textContent = message;
+
+    const bootstrapModal = new bootstrap.Modal(modal);
+    bootstrapModal.show();
+  }
+}
+
 // Card number formatting using Inputmask library
 function initializeCardNumberMasks() {
   const cardInputs = document.querySelectorAll(
@@ -126,4 +141,4 @@ function initializePaymentForms() {
   setupToggleButtonRotation();
 }
 
-export { initializePaymentForms };
+export { initializePaymentForms, showBSAlertModal };
