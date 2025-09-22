@@ -770,7 +770,6 @@ body {
 .p-chk-address-edit__actions {
   display: flex;
   justify-content: flex-end;
-  padding-top: 8px;
 }
 
 /* Edit State Styles */
