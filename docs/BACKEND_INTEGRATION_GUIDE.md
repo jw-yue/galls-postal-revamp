@@ -12,7 +12,19 @@
 
 ---
 
-Note: ES6 modules can't be loaded from the folder protocol due to CORS restrictions. We need to serve the files over HTTP. To run local server with node, run npx http-server -p 8000
+Note: ES6 modules can't be loaded from the folder protocol due to CORS restrictions. We need to serve the files over HTTP.
+
+**To run local server, use one of these options:**
+
+```bash
+# Option 1: Python (recommended if Node.js is blocked)
+python -m http.server 8000
+
+# Option 2: Node.js (if available)
+npx http-server -p 8000
+```
+
+Then open your browser to: http://localhost:8000/chk-index.html
 
 ## High-Level Architecture
 
