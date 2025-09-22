@@ -5,9 +5,9 @@
 
 // Generic function to show alert modal
 function showBSAlertModal(title, message) {
-  const modal = document.getElementById("alertModal");
-  const modalTitle = document.getElementById("alertModalLabel");
-  const modalMessage = document.getElementById("alertModalMessage");
+  const modal = document.getElementById("BSModal");
+  const modalTitle = document.getElementById("BSModalLabel");
+  const modalMessage = document.getElementById("BSModalMessage");
 
   if (modal && modalTitle && modalMessage) {
     modalTitle.textContent = title;
