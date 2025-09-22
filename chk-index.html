@@ -474,7 +474,10 @@
                       id="useShippingAsBilling"
                       class="p-chk-address-edit__checkbox"
                       checked
-                      onchange="toggleBillingAddress(this)"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#billingAddressSection"
+                      aria-expanded="false"
+                      aria-controls="billingAddressSection"
                     />
                     <label
                       for="useShippingAsBilling"
@@ -487,189 +490,193 @@
 
                 <!-- Billing Address Section -->
                 <div
-                  class="p-chk-address-edit__form"
+                  class="collapse"
                   id="billingAddressSection"
-                  style="display: none"
+                  data-chk-billing-address-section
                 >
-                  <h3 class="p-chk-billing-section__title mb-0">
-                    Billing Address
-                  </h3>
+                  <div class="p-chk-address-edit__form">
+                    <h3 class="p-chk-billing-section__title mb-0">
+                      Billing Address
+                    </h3>
 
-                  <!-- Country Dropdown -->
-                  <div
-                    class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
-                  >
-                    <label class="p-chk-address-edit__label visually-hidden"
-                      >Country</label
-                    >
-                    <div class="p-chk-form__input-field">
-                      <select
-                        class="p-chk-form__select"
-                        id="billingCountry"
-                        title="Country"
-                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                      >
-                        <option value="" selected>Select Country</option>
-                        <option value="US">United States</option>
-                        <option value="CA">Canada</option>
-                        <option value="MX">Mexico</option>
-                        <!-- Add more countries as needed -->
-                      </select>
-                    </div>
-                  </div>
-
-                  <!-- Name Fields Row -->
-                  <div class="p-chk-address-edit__row">
-                    <div
-                      class="p-chk-address-edit__field p-chk-address-edit__field--half"
-                    >
-                      <div class="p-chk-address-edit__field">
-                        <label class="p-chk-address-edit__label visually-hidden"
-                          >First Name</label
-                        >
-                        <div class="p-chk-form__input-field">
-                          <input
-                            type="text"
-                            class="p-chk-form__input-text"
-                            id="billingFirstName"
-                            placeholder="First Name"
-                            onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                            onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    <div
-                      class="p-chk-address-edit__field p-chk-address-edit__field--half"
-                    >
-                      <div class="p-chk-address-edit__field">
-                        <label class="p-chk-address-edit__label visually-hidden"
-                          >Last Name</label
-                        >
-                        <div class="p-chk-form__input-field">
-                          <input
-                            type="text"
-                            class="p-chk-form__input-text"
-                            id="billingLastName"
-                            placeholder="Last Name"
-                            onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                            onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Address Field -->
-                  <div class="p-chk-address-edit__field">
-                    <label class="p-chk-address-edit__label visually-hidden"
-                      >Street Address</label
-                    >
-                    <div class="p-chk-form__input-field">
-                      <input
-                        type="text"
-                        class="p-chk-form__input-text"
-                        id="billingAddress"
-                        placeholder="Address"
-                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                        onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                      />
-                    </div>
-                  </div>
-
-                  <!-- Apartment Field -->
-                  <div class="p-chk-address-edit__field">
-                    <label class="p-chk-address-edit__label visually-hidden"
-                      >Apartment / Suite</label
-                    >
-                    <div class="p-chk-form__input-field">
-                      <input
-                        type="text"
-                        class="p-chk-form__input-text"
-                        id="billingApartment"
-                        placeholder="Apartment, suite, etc. (Optional)"
-                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                        onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                      />
-                    </div>
-                  </div>
-
-                  <!-- City, State, Zip Row -->
-                  <div class="p-chk-address-edit__row">
-                    <div
-                      class="p-chk-address-edit__field p-chk-address-edit__field--half"
-                    >
-                      <label class="p-chk-address-edit__label visually-hidden"
-                        >City</label
-                      >
-                      <div class="p-chk-form__input-field">
-                        <input
-                          type="text"
-                          class="p-chk-form__input-text"
-                          id="billingCity"
-                          placeholder="City"
-                          onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                          onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                        />
-                      </div>
-                    </div>
+                    <!-- Country Dropdown -->
                     <div
                       class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
                     >
                       <label class="p-chk-address-edit__label visually-hidden"
-                        >State</label
+                        >Country</label
                       >
                       <div class="p-chk-form__input-field">
                         <select
                           class="p-chk-form__select"
-                          id="billingState"
-                          title="State"
+                          id="billingCountry"
+                          title="Country"
                           onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
                         >
-                          <option value="" selected>State</option>
-                          <option value="NY">NY</option>
-                          <option value="CA">CA</option>
-                          <option value="TX">TX</option>
-                          <option value="FL">FL</option>
-                          <!-- Add more states as needed -->
+                          <option value="" selected>Select Country</option>
+                          <option value="US">United States</option>
+                          <option value="CA">Canada</option>
+                          <option value="MX">Mexico</option>
+                          <!-- Add more countries as needed -->
                         </select>
                       </div>
                     </div>
-                    <div
-                      class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
-                    >
+
+                    <!-- Name Fields Row -->
+                    <div class="p-chk-address-edit__row">
+                      <div
+                        class="p-chk-address-edit__field p-chk-address-edit__field--half"
+                      >
+                        <div class="p-chk-address-edit__field">
+                          <label
+                            class="p-chk-address-edit__label visually-hidden"
+                            >First Name</label
+                          >
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              id="billingFirstName"
+                              placeholder="First Name"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="p-chk-address-edit__field p-chk-address-edit__field--half"
+                      >
+                        <div class="p-chk-address-edit__field">
+                          <label
+                            class="p-chk-address-edit__label visually-hidden"
+                            >Last Name</label
+                          >
+                          <div class="p-chk-form__input-field">
+                            <input
+                              type="text"
+                              class="p-chk-form__input-text"
+                              id="billingLastName"
+                              placeholder="Last Name"
+                              onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                              onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Address Field -->
+                    <div class="p-chk-address-edit__field">
                       <label class="p-chk-address-edit__label visually-hidden"
-                        >ZIP Code</label
+                        >Street Address</label
                       >
                       <div class="p-chk-form__input-field">
                         <input
                           type="text"
                           class="p-chk-form__input-text"
-                          id="billingZip"
-                          placeholder="Zip code"
+                          id="billingAddress"
+                          placeholder="Address"
                           onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
                           onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
                         />
                       </div>
                     </div>
-                  </div>
 
-                  <!-- Phone Number Field -->
-                  <div class="p-chk-address-edit__field">
-                    <label class="p-chk-address-edit__label visually-hidden"
-                      >Phone Number</label
-                    >
-                    <div class="p-chk-form__input-field">
-                      <input
-                        type="tel"
-                        class="p-chk-form__input-text"
-                        id="billingPhone"
-                        name="billing-phone"
-                        autocomplete="billing tel"
-                        placeholder="(000) 000-0000"
-                        onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                        onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
-                      />
+                    <!-- Apartment Field -->
+                    <div class="p-chk-address-edit__field">
+                      <label class="p-chk-address-edit__label visually-hidden"
+                        >Apartment / Suite</label
+                      >
+                      <div class="p-chk-form__input-field">
+                        <input
+                          type="text"
+                          class="p-chk-form__input-text"
+                          id="billingApartment"
+                          placeholder="Apartment, suite, etc. (Optional)"
+                          onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                          onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                        />
+                      </div>
+                    </div>
+
+                    <!-- City, State, Zip Row -->
+                    <div class="p-chk-address-edit__row">
+                      <div
+                        class="p-chk-address-edit__field p-chk-address-edit__field--half"
+                      >
+                        <label class="p-chk-address-edit__label visually-hidden"
+                          >City</label
+                        >
+                        <div class="p-chk-form__input-field">
+                          <input
+                            type="text"
+                            class="p-chk-form__input-text"
+                            id="billingCity"
+                            placeholder="City"
+                            onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                            onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                          />
+                        </div>
+                      </div>
+                      <div
+                        class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                      >
+                        <label class="p-chk-address-edit__label visually-hidden"
+                          >State</label
+                        >
+                        <div class="p-chk-form__input-field">
+                          <select
+                            class="p-chk-form__select"
+                            id="billingState"
+                            title="State"
+                            onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                          >
+                            <option value="" selected>State</option>
+                            <option value="NY">NY</option>
+                            <option value="CA">CA</option>
+                            <option value="TX">TX</option>
+                            <option value="FL">FL</option>
+                            <!-- Add more states as needed -->
+                          </select>
+                        </div>
+                      </div>
+                      <div
+                        class="p-chk-address-edit__field p-chk-address-edit__field--quarter"
+                      >
+                        <label class="p-chk-address-edit__label visually-hidden"
+                          >ZIP Code</label
+                        >
+                        <div class="p-chk-form__input-field">
+                          <input
+                            type="text"
+                            class="p-chk-form__input-text"
+                            id="billingZip"
+                            placeholder="Zip code"
+                            onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                            onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Phone Number Field -->
+                    <div class="p-chk-address-edit__field">
+                      <label class="p-chk-address-edit__label visually-hidden"
+                        >Phone Number</label
+                      >
+                      <div class="p-chk-form__input-field">
+                        <input
+                          type="tel"
+                          class="p-chk-form__input-text"
+                          id="billingPhone"
+                          name="billing-phone"
+                          autocomplete="billing tel"
+                          placeholder="(000) 000-0000"
+                          onchange="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                          onkeyup="if (!window.__cfRLUnblockHandlers) return false; saveCheckoutForm('BILLING', this);"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
